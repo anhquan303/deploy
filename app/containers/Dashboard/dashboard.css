@@ -1,0 +1,60 @@
+.total {
+    background: #fff;
+    padding: 20px;
+    border-radius: 50px;
+    margin-top: 1rem;
+    box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
+    transition: 0.5s;
+}
+
+
+
+.total:hover {
+    box-shadow: none;
+}
+
+.total span {
+    background: #ff7782;
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+.middle {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+h3 {
+    margin: 1rem 0 0.6rem;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.progress {
+    position: relative;
+    border-radius: 50%;
+}
+
+.left {
+    right: 20px;
+}
+
+circle {
+    fill: none;
+    stroke: #7380ec;
+    stroke-width: 14;
+    stroke-linecap: round;
+    transform: translate(5px, 5px);
+    stroke-dasharray: 110;
+    stroke-dashoffset: 92;
+}
+
+.text-muted {
+    font-weight: 700;
+    font-size: 25px;
+    color: #ababab;
+}

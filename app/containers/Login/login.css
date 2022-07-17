@@ -1,0 +1,117 @@
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('../../images/dhfpt.png');
+    background-size: cover;
+}
+
+.container {
+    position: relative;
+    width: 350px;
+    min-height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    box-shadow: 25px 25px 75px rgba(0, 0, 0, 0.25),
+        10px 10px 70px rgba(0, 0, 0, 0.25),
+        inset 5px 5px 10px rgba(225, 225, 255, 0.2),
+        inset 5px 5px 20px rgba(0, 0, 0, 0.75),
+        inset -5px -5px 15px rgba(0, 0, 0, 0.75);
+    border-radius: 30px;
+}
+
+.container h3 {
+    font-weight: 600;
+    font-size: 2em;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: #20D167;
+}
+
+.top {
+    background: white;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    margin-top: 1.4rem;
+}
+
+.logo {
+    display: flex;
+    gap: 0.8rem;
+    margin: 0 auto;
+}
+
+.logo img {
+    width: 6rem;
+    height: 5rem;
+}
+
+.logo h2 span {
+    color: #ff9900;
+}
+
+.btnSubmit {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #ff9900;
+    margin-top: 10px;
+
+}
+
+.btnRegister {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #ff9900;
+    margin-top: 10px;
+
+}
+
+.forget {
+    margin-top: 10px;
+    /* text-transform: uppercase; */
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+.label {
+    /* color: ; */
+    text-transform: uppercase;
+}
+
+.remember {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    display: flex;
+}
+
+.account {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.google {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.inputField {
+    text-align: "center";
+}
+
+.aBackHome {
+    text-decoration: none;
+}
+
+.backHome{
+    text-align: center;
+}
