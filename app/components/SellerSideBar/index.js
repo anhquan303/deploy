@@ -27,7 +27,7 @@ import { AppBar, IconButton, Toolbar, Drawer, Box } from '@mui/material';
 import { makeStyles, Container, Typography } from '@material-ui/core';
 import { fontWeight } from '@mui/system';
 import DashboardHeader from '../DashboardHeader';
-import { getUser, removeUserSession } from '../../utils/common';
+import { getStore, getUser, removeUserSession } from '../../utils/common';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -193,8 +193,8 @@ function SellerSideBar(props) {
           </IconButton>
           {/* {path == "/myStore" ? <DashboardHeader text="MY STORE" user={user} /> :
             path == "/managerProduct" || path == "/managerProduct/:addProduct" ? <DashboardHeader text="MY STORE" user={user} /> : path == "/managerProduct/:id" ? <DashboardHeader text="PRODUCT" user={user} /> : null} */}
-
-          {user != null && user.authorities[0].authority == 'USER' && path != "/" ? <DashboardHeader text="MY STORE" user={user} /> : null}
+          <DashboardHeader text="MY STORE" user={user} />
+          {/* {user != null && user.authorities[0].authority == 'USER' && path != "/" ? <DashboardHeader text="MY STORE" user={user} /> : null} */}
         </Toolbar>
       </AppBar>
       <Box

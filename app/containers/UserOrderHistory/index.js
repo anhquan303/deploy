@@ -24,6 +24,7 @@ import SearchBar from "material-ui-search-bar";
 import { NavLink, useHistory } from 'react-router-dom';
 import { getUser } from '../../utils/common';
 import { getOrderById } from './actions';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -84,13 +85,12 @@ export function UserOrderHistory(props) {
     dispatch(getOrderById(data));
   }, []);
 
-  console.log(props.userOrderHistory.orderList)
-
-  const handleComment = (id) => {
+  const handleComment = (item, store) => {
     const location = {
-      pathname: `/user/rating-comment/${id}`,
+      pathname: `/user/rating-comment/${item.food.id}`,
       state: {
-        id: id
+        fid: item.food.id,
+        sid: store.store.id
       }
     }
     history.push(location);
@@ -105,6 +105,7 @@ export function UserOrderHistory(props) {
     }
     history.push(location);
   }
+
   return (
     <>
       <div>
@@ -122,166 +123,6 @@ export function UserOrderHistory(props) {
           />
         </Grid>
 
-        {/* <div style={{ border: "1px solid #000", padding: "10px", margin: "10px 0" }}>
-          <Grid container spacing={0} style={{ padding: "10px" }}>
-            <Grid item xs={12} md={6} sm={12}>
-              <span style={{ marginRight: " 10px", fontWeight: "400", fontSize: "20px" }}>tên quán</span>
-              <Button className={classes.btn} variant="outlined">
-                Xem Store
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={6} sm={12} className={classes.center} style={{ color: "#20D167", fontWeight: "400", fontSize: "20px" }}>
-              Giao hàng thành công
-            </Grid>
-          </Grid>
-          <hr />
-          <Grid container spacing={0} style={{ padding: "10px" }}>
-            <Grid item xs={12} md={6} sm={12}>
-              <Grid container spacing={0} style={{ padding: "10px" }}>
-                <Grid item xs={12} md={2} sm={12}>
-                  <Avatar variant="square" src="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg" />
-                </Grid>
-                <Grid item xs={12} md={10} sm={12}>
-                  Bún Bò Huế <br />
-                  x2
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} md={6} sm={12} className={classes.center}>
-              40.000 VND
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={0} style={{ padding: "10px" }}>
-            <Grid item xs={12} md={6} sm={12}>
-              <Grid container spacing={0} style={{ padding: "10px" }}>
-                <Grid item xs={12} md={2} sm={12}>
-                  <Avatar variant="square" src="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg" />
-                </Grid>
-                <Grid item xs={12} md={10} sm={12}>
-                  Quẩy <br />
-                  x10
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} md={6} sm={12} className={classes.center}>
-              5.000 VND
-            </Grid>
-          </Grid>
-          <hr />
-
-          <Grid container spacing={0} style={{ padding: "10px" }}>
-            <Grid item xs={12} md={6} sm={12}>
-<<<<<<< HEAD
-              <Button className={classes.btn} variant="outlined">
-=======
-              <Button href="/user/rating-comment" className={classes.btn} variant="outlined">
-<<<<<<< HEAD
-=======
-=======
-<<<<<<< HEAD
-              <Button href="/user/rating-comment" className={classes.btn} variant="outlined">
-=======
-              <Button className={classes.btn} variant="outlined">
->>>>>>> 9100c548fd50412b1f823084f920fd720a567507
->>>>>>> 04040614131f1b13abcf7837b797b27b1973a199
->>>>>>> d60df2167e17f1f49835fbe4bddf8b0af336a37e
->>>>>>> 9061faf1d04b278c8dd0e0cd4fe879b56cdc1dea
-                Đánh giá
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={6} sm={12} className={classes.center}>
-              Tổng số tiền: 130.000 VND
-            </Grid>
-          </Grid>
-<<<<<<< HEAD
-        </div>
-
-        <div style={{ border: "1px solid #000", padding: "10px", margin: "10px 0" }}>
-=======
-        </div> */}
-
-        {/* <div style={{ border: "1px solid #000", padding: "10px", margin: "10px 0" }}>
-<<<<<<< HEAD
-=======
-=======
-<<<<<<< HEAD
-        </div> */}
-
-        {/* <div style={{ border: "1px solid #000", padding: "10px", margin: "10px 0" }}>
-=======
-        </div>
-
-        <div style={{ border: "1px solid #000", padding: "10px", margin: "10px 0" }}>
->>>>>>> 9100c548fd50412b1f823084f920fd720a567507
->>>>>>> 04040614131f1b13abcf7837b797b27b1973a199
->>>>>>> d60df2167e17f1f49835fbe4bddf8b0af336a37e
->>>>>>> 9061faf1d04b278c8dd0e0cd4fe879b56cdc1dea
-          <Grid container spacing={0} style={{ padding: "10px" }}>
-            <Grid item xs={12} md={6} sm={12}>
-              <span style={{ marginRight: " 10px", fontWeight: "400", fontSize: "20px" }}>tên quán</span>
-              <Button className={classes.btn} variant="outlined">
-                Xem Store
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={6} sm={12} className={classes.center} style={{ color: "#FE0000", fontWeight: "400", fontSize: "20px" }}>
-              Đã hủy
-            </Grid>
-          </Grid>
-          <hr />
-
-          <NavLink to="/user/order-history/asd" className={classes.link}>
-            <Grid container spacing={0} style={{ padding: "10px" }}>
-              <Grid item xs={12} md={6} sm={12}>
-                <Grid container spacing={0} style={{ padding: "10px" }}>
-                  <Grid item xs={12} md={2} sm={12}>
-                    <Avatar variant="square" src="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg" />
-                  </Grid>
-                  <Grid item xs={12} md={10} sm={12}>
-                    Bún Bò Huế <br />
-                    x2
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Grid item xs={12} md={6} sm={12} className={classes.center}>
-                40.000 VND
-              </Grid>
-            </Grid>
-          </NavLink>
-
-          <Grid container spacing={0} style={{ padding: "10px" }}>
-            <Grid item xs={12} md={6} sm={12}>
-              <Grid container spacing={0} style={{ padding: "10px" }}>
-                <Grid item xs={12} md={2} sm={12}>
-                  <Avatar variant="square" src="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg" />
-                </Grid>
-                <Grid item xs={12} md={10} sm={12}>
-                  Quẩy <br />
-                  x10
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} md={6} sm={12} className={classes.center}>
-              5.000 VND
-            </Grid>
-          </Grid>
-          <hr />
-
-          <Grid container spacing={0} style={{ padding: "10px" }}>
-            <Grid item xs={12} md={6} sm={12} style={{ color: "#FE0000" }}>
-              Bạn đã hủy đơn hàng
-            </Grid>
-            <Grid item xs={12} md={6} sm={12} className={classes.center}>
-              Tổng số tiền: 130.000 VND
-            </Grid>
-          </Grid>
-<<<<<<< HEAD
-        </div>
-=======
-        </div> */}
-
-
         {props.userOrderHistory.orderList.map((item, index) =>
           <div key={index} style={{ border: "1px solid #000", padding: "10px", margin: "10px 0" }} >
             <Grid container spacing={0} style={{ padding: "10px" }}>
@@ -291,7 +132,10 @@ export function UserOrderHistory(props) {
                   Xem Store
                 </Button>
               </Grid>
-              <Grid item xs={12} md={6} sm={12} className={classes.center} style={{ color: "#20D167", fontWeight: "400", fontSize: "20px" }}>
+              <Grid item xs={12} md={2} sm={12} className={classes.center} style={{justifyContent: "center"}}>
+                {moment(item.createdAt).format('DD/MM/YYYY')}
+              </Grid>
+              <Grid item xs={12} md={4} sm={12} className={classes.center} style={{ color: "#20D167", fontWeight: "400", fontSize: "20px" }}>
                 {item.status}
               </Grid>
             </Grid>
@@ -309,7 +153,7 @@ export function UserOrderHistory(props) {
                         x{item1.quantity}
                       </Grid>
                       <Grid item xs={12} md={12} sm={12}>
-                        <Button onClick={() => handleComment(item1.food.id)} className={classes.btn} variant="outlined">
+                        <Button onClick={() => handleComment(item1, item)} className={classes.btn} variant="outlined">
                           Đánh giá
                         </Button>
                       </Grid>

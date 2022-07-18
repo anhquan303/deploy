@@ -21,9 +21,10 @@ import messages from './messages';
 
 import BackGround from '../../images/dhfpt.png';
 import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
-import { Grid, Box, FormGroup, TextField, FormControlLabel, Checkbox } from '@mui/material';
-import { signUp } from './actions';
+import { Grid, Box, FormGroup, TextField, FormControlLabel, Checkbox, Stack, CircularProgress, Fade, LinearProgress } from '@mui/material';
+import { reset, signUp } from './actions';
 import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { makeStyles, Container, Typography, Button } from '@material-ui/core';
 import {
   loadCaptchaEnginge,
@@ -182,7 +183,7 @@ export function UserRegister(props) {
         location: formValues.address,
       }
       dispatch(signUp(data))
-      setOpen(true);
+
     }
 
   }, [formErrors]);
@@ -194,8 +195,16 @@ export function UserRegister(props) {
 
   //redirect to login page
   useEffect(() => {
-    if (props.userRegister.message.includes('SUCCESS')) {
-      props.history.push("/login");
+    if (props.userRegister.message != "") {
+      setOpen(true);
+      if (props.userRegister.message.includes('SUCCESS')) {
+        setTimeout(() => {
+          props.history.push("/login");
+        }, 2000);
+      }
+      setTimeout(() => {
+        dispatch(reset())
+      }, 2000);
     }
   }, [props.userRegister.message]);
 
@@ -204,8 +213,22 @@ export function UserRegister(props) {
   }, []);
 
 
+  const Alert = React.forwardRef(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleCloseAlert = (event) => {
+    setOpen(false);
+  };
+
+  console.log(props.userRegister.loading)
+
   return (
     <div className={classes.body}>
+
       <div className={classes.container}>
         <form className="">
           <div className={classes.top}>
@@ -215,6 +238,27 @@ export function UserRegister(props) {
             </div>
           </div>
           <h3 className={classes.registerTag}>Đăng ký</h3>
+
+          {props.userRegister.loading && props.userRegister.loading == true ?
+            <div style={{ margin: "10px 0" }}>
+              <LinearProgress />
+            </div>
+            : null
+          }
+
+          {/* <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Box sx={{ height: 40 }}>
+              <Fade
+                in={loading}
+                style={{
+                  transitionDelay: loading ? '800ms' : '0ms',
+                }}
+                unmountOnExit
+              >
+
+              </Fade>
+            </Box>
+          </Box> */}
           <div>
             <Grid container spacing={2}>
               <Grid item sm={3} xs={12}>
@@ -433,15 +477,22 @@ export function UserRegister(props) {
             ĐĂNG KÝ
           </Button>
         </form>
-        <Snackbar
+        {/* <Snackbar
           anchorOrigin={{ vertical, horizontal }}
           open={open}
           onClose={handleCloseToast}
           message={props.userRegister.message}
           autoHideDuration={5000}
-        />
+        /> */}
+        <Snackbar open={open} autoHideDuration={2000} anchorOrigin={{ vertical, horizontal }} onClose={handleCloseAlert}>
+          <Alert severity="success" onClose={handleCloseAlert} sx={{ width: '100%' }}>
+            {props.userRegister.message}
+          </Alert>
+        </Snackbar>
+
+
       </div>
-    </div>
+    </div >
   );
 }
 

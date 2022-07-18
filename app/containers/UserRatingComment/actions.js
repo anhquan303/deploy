@@ -77,5 +77,27 @@ export function userRatingFoodFailed(payload) {
   };
 }
 
+export function getFoodById(payload) {
+  return {
+    type: types.GET_FOOD_BY_ID,
+    payload
+  };
+}
+
+export function getFoodByIdSuccess(payload) {
+  return {
+    type: types.GET_FOOD_BY_ID_SUCCESS,
+    payload
+  };
+}
+
+export function getFoodByIdFailed(payload) {
+  return {
+    type: types.GET_FOOD_BY_ID_FAILED,
+    payload
+  };
+}
+
+
 
 

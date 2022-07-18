@@ -155,7 +155,7 @@ export function Headerr(props) {
         <Grid container spacing={2}>
           <Grid item xs={3} md={3}>
             <div style={{ width: "60px", height: "60px", margin: "0 auto" }}>
-              <img src={Logo} alt="logo" style={{ width: "100%", height: "100%", borderRadius: "20px" }} />
+              <img src={Logo} alt="logo" style={{ width: "100%", height: "100%", borderRadius: "20px" }} onClick={() => history.push("/")} />
             </div>
 
           </Grid>
