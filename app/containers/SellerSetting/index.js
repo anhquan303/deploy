@@ -19,12 +19,13 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import {
-  Box, TextField, TextareaAutosize, FormGroup, FormControl, MenuItem, InputLabel, FormControlLabel, Checkbox, Grid
+  Box, TextField, TextareaAutosize, FormGroup, FormControl, MenuItem, InputLabel, FormControlLabel, Checkbox, Grid, CardContent, Avatar
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { getStore } from '../../utils/common';
+import { getStore, getUser } from '../../utils/common';
 import { getListWards, getStoreById } from './actions';
+import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 
 const useStyles = makeStyles((theme) => ({
   upload: {
@@ -73,7 +74,15 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "san-serif",
     fontSize: "30px",
     fontWeight: "700"
-  }
+  },
+  input: {
+    display: "none"
+  },
+  center: {
+    flexWrap: "wrap",
+    alignContent: "center",
+    display: "flex"
+  },
 
 }));
 
@@ -87,6 +96,7 @@ export function SellerSetting(props) {
   const [avatar, setAvatar] = useState();
   const [isInCampus, setIsInCampus] = useState(false);
   const [ward, setWard] = useState("");
+  const user = getUser();
 
   const initialValues = {
     name: "", owner_name: "", phone: "", email: "", open_time: "",
@@ -97,11 +107,19 @@ export function SellerSetting(props) {
   const [formErrors, setFormErrors] = useState({});
   const store = getStore();
 
-  const handleImageSelect = (e) => {
-    const file = e.target.files;
-    setAvatar(file[0]);
-    setImageSrc(URL.createObjectURL(e.target.files[0]));
+
+  const handleUploadClick = (e) => {
+    const file = e.target.files[0];
+    // file.preview = URL.createObjectURL(file)
+    setAvatar(URL.createObjectURL(file));
   };
+
+  useEffect(() => {
+    return () => {
+      URL.revokeObjectURL(avatar);
+    }
+  }, [avatar])
+
 
   useEffect(() => {
     const data = {
@@ -127,7 +145,7 @@ export function SellerSetting(props) {
       setWard(props.sellerSetting.user.otherLocation.village);
       formValues.town = props.sellerSetting.user.otherLocation.name;
       //const str = props.sellerSetting.user.location.split(",");
-      setImageSrc(props.sellerSetting.user.storeImage.avatar);
+      setAvatar(props.sellerSetting.user.storeImage.avatar);
     }
   }, [props.sellerSetting.user])
 
@@ -142,7 +160,7 @@ export function SellerSetting(props) {
     setWard(e.target.value);
   };
 
-  console.log(props.sellerSetting.user)
+  console.log(avatar)
 
 
   return (
@@ -150,7 +168,34 @@ export function SellerSetting(props) {
       <div style={{ textAlign: "center" }}>
         <p className={classes.font}>Thay đổi thông tin cửa hàng</p>
         <div className={classes.inside}>
+
           <Grid container spacing={0} >
+
+            <Grid item sm={12} xs={12} md={12} >
+              <div className={classes.center} style={{ justifyContent: "center" }}>
+                <CardContent>
+                  <Grid container >
+                    <input
+                      accept="image/*"
+                      className={classes.input}
+                      id="contained-button-file"
+                      multiple
+                      type="file"
+                      onChange={handleUploadClick}
+                    />
+                    <label htmlFor="contained-button-file">
+                      {user ? <Avatar sx={{ width: 150, height: 150 }} component="span" src={avatar ? avatar : null}>
+                        <AddPhotoAlternateIcon />
+                      </Avatar> :
+                        <Avatar src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" />
+                      }
+
+                    </label>
+                  </Grid>
+                </CardContent>
+              </div>
+            </Grid>
+
             <Grid item sm={12} xs={12} md={12} className={classes.marginBot}>
               <Box
                 component="form"
@@ -436,37 +481,6 @@ export function SellerSetting(props) {
               </Box>
             </Grid>
 
-
-            <Grid item sm={12} xs={12} md={12} >
-
-              {/* <DropzoneArea
-                  dropzoneText="Ảnh đại diện của quán"
-                  onChange={() => handleChangeFile(file)}
-                /> */}
-              <span >Avatar</span>
-              <ImageUpload
-                handleImageSelect={handleImageSelect}
-                imageSrc={imageSrc}
-                setImageSrc={setImageSrc}
-                deleteIcon={
-                  <div
-                    style={{
-                      backgroundColor: "red",
-                      padding: "10px"
-                    }}
-                  >
-                    Delete
-                  </div>
-                }
-                style={{
-                  width: "100%",
-                  height: 200,
-                  background: '#D9D9D9',
-                  margin: "0"
-                }}
-              />
-
-            </Grid>
 
             <Grid container spacing={1} style={{ marginBottom: "15px" }}>
               <Grid item sm={6} xs={12} >

@@ -89,13 +89,13 @@ export function SellerHomePage() {
     <>
       <div>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={3} className={classes.center}>
+          <Grid item xs={12} md={4} className={classes.center}>
             {user ? <Avatar alt="avatar store" src={Avatar1} sx={{ width: 56, height: 56 }} /> :
               <Avatar src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" />
             }
           </Grid>
-          <Grid item xs={12} md={9}>
-            <p >{user.firstname} {user.lastname}</p>
+          <Grid item xs={12} md={8} className={classes.center}>
+            <p className={classes.font}>{user.firstname} {user.lastname}</p>
           </Grid>
         </Grid>
         <hr />

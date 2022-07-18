@@ -23,7 +23,8 @@ import { makeStyles, Button } from '@material-ui/core';
 import SendIcon from '@mui/icons-material/Send';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { getUser } from '../../utils/common';
-import { userAddCommentFood, userRatingFood } from './actions';
+import { getFoodById, userAddCommentFood, userRatingFood } from './actions';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -65,6 +66,7 @@ export function UserRatingComment(props) {
   const [star, setStar] = useState(0);
   const [comment, setComment] = useState("");
   const user = getUser();
+  const history = useHistory();
 
   const handleSubmit = () => {
     const data = {
@@ -82,13 +84,20 @@ export function UserRatingComment(props) {
     dispatch(userRatingFood(data1));
   }
 
-  console.log(props.location.state.id);
+  useEffect(() => {
+    const data = {
+      sid: props.location.state.sid,
+      fid: props.location.state.fid
+    }
+    dispatch(getFoodById(data));
+  }, []);
+
 
   return (
     <div>
       <Grid container spacing={0} >
         <Grid item xs={4} md={4} sm={4}>
-          <Button className={classes.btn} variant="outlined">
+          <Button className={classes.btn} variant="outlined" onClick={() => history.goBack()}>
             Trở về
           </Button>
         </Grid>
@@ -100,14 +109,8 @@ export function UserRatingComment(props) {
 
       <div style={{ border: "1px solid #000", padding: "10px", margin: "10px 0" }}>
         <Grid container spacing={0} style={{ padding: "10px" }}>
-          <Grid item xs={12} md={6} sm={12}>
-            <span style={{ marginRight: " 10px", fontWeight: "400", fontSize: "20px" }}>tên quán</span>
-            <Button className={classes.btn} variant="outlined">
-              Xem Store
-            </Button>
-          </Grid>
-          <Grid item xs={12} md={6} sm={12} className={classes.center} style={{ color: "#20D167", fontWeight: "400", fontSize: "20px" }}>
-            Giao hàng thành công
+          <Grid item xs={12} md={12} sm={12} style={{ textAlign: "center" }}>
+            <span style={{ marginRight: " 10px", fontWeight: "400", fontSize: "20px" }}>{props.userRatingComment.food.foodStore ? props.userRatingComment.food.foodStore.name : null}</span>
           </Grid>
         </Grid>
         <hr />
@@ -117,38 +120,13 @@ export function UserRatingComment(props) {
               <Grid item xs={12} md={2} sm={12}>
                 <Avatar variant="square" src="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg" />
               </Grid>
-              <Grid item xs={12} md={10} sm={12}>
-                Bún Bò Huế <br />
-                x2
+              <Grid item xs={12} md={10} sm={12} className={classes.center} style={{ justifyContent: "left" }}>
+                {props.userRatingComment.food ? props.userRatingComment.food.name : null} <br />
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12} md={6} sm={12} className={classes.center}>
-            40.000 VND
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={0} style={{ padding: "10px" }}>
-          <Grid item xs={12} md={6} sm={12}>
-            <Grid container spacing={0} style={{ padding: "10px" }}>
-              <Grid item xs={12} md={2} sm={12}>
-                <Avatar variant="square" src="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg" />
-              </Grid>
-              <Grid item xs={12} md={10} sm={12}>
-                Quẩy <br />
-                x10
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} md={6} sm={12} className={classes.center}>
-            5.000 VND
-          </Grid>
-        </Grid>
-        <hr />
-
-        <Grid container spacing={0} style={{ padding: "10px" }}>
-          <Grid item xs={12} md={12} sm={12} className={classes.center}>
-            Tổng số tiền: 130.000 VND
+          {props.userRatingComment.food ? props.userRatingComment.food.price : null} VND
           </Grid>
         </Grid>
       </div>

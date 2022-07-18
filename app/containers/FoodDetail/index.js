@@ -247,7 +247,7 @@ export function FoodDetail(props) {
             <Grid item xs={12} md={8}>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={4}>
-                  Sản phẩm <span>12</span>
+                  Món ăn <span>12</span>
                 </Grid>
                 <Grid item xs={12} md={4}>
                   Đánh giá <span>12</span>
