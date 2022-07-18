@@ -1,5 +1,6 @@
 import axios from "axios";
-const baseApiUrl = 'http://localhost:3990/';
+//const baseApiUrl = 'http://localhost:3990/';
+const baseApiUrl = 'https://ofo-backend-project.herokuapp.com/';
 // const baseApiUrl = 'https://reqres.in//';
 
 const baseInstance = axios.create({
