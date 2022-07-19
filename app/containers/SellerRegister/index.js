@@ -21,7 +21,7 @@ import messages from './messages';
 import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
 import {
   Box, TextField, Tab, MenuItem, Tabs,
-  TextareaAutosize, FormGroup, FormControl, InputLabel, FormControlLabel, Checkbox
+  TextareaAutosize, FormGroup, FormControl, InputLabel, FormControlLabel, Checkbox, LinearProgress
 } from '@mui/material';
 import { makeStyles, Container, Typography, Grid, Button } from '@material-ui/core';
 import BackGround from '../../images/dhfpt.png';
@@ -275,7 +275,7 @@ export function SellerRegister(props) {
   const validate = (values) => {
     const errors = {};
     const regexPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
-    const regexEmail = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+    const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
     if (!values.name) {
       errors.name = "name is required!";
     }
@@ -362,7 +362,7 @@ export function SellerRegister(props) {
         location: `[other_location]|${formValues.village}|${type}|${formValues.district}`
       }
       dispatch(sellerSignUp(data));
-      
+
     }
   }, [formErrors]);
 
@@ -410,6 +410,14 @@ export function SellerRegister(props) {
             </div>
           </div>
           <h3 className={classes.registerTag}>Đăng Ký Đối Tác</h3>
+
+          {props.sellerRegister.loading && props.sellerRegister.loading == true ?
+            <div style={{ margin: "10px 0" }}>
+              <LinearProgress />
+            </div>
+            : null
+          }
+
           <div style={{ display: "flex", textAlign: "center" }}>
             <Tabs style={{ margin: "0 auto" }} value={value} onChange={handleChangeTab} textColor="primary" indicatorColor="primary" centered>
               <Tab label="1. Thông tin quán - cơ bản" />
