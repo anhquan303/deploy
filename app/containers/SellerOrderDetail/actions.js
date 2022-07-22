@@ -16,73 +16,69 @@ export function defaultAction() {
 export function getOrderDetailById(payload) {
   return {
     type: types.GET_ORDER_DETAIL_BY_ID,
-    payload
+    payload,
   };
 }
 
 export function getOrderDetailByIdSuccess(payload) {
   return {
     type: types.GET_ORDER_DETAIL_BY_ID_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function getOrderDetailByIdFailed(payload) {
   return {
     type: types.GET_ORDER_DETAIL_BY_ID_FAILED,
-    payload
+    payload,
   };
 }
 
 export function changeStatusToOrder(payload) {
   return {
     type: types.CHANGE_STATUS_TO_ORDER,
-    payload
+    payload,
   };
 }
 
 export function changeStatusToOrderSuccess(payload) {
   return {
     type: types.CHANGE_STATUS_TO_ORDER_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function changeStatusToOrderFailed(payload) {
   return {
     type: types.CHANGE_STATUS_TO_ORDER_FAILED,
-    payload
+    payload,
   };
 }
 
 export function reset(payload) {
   return {
     type: types.RESET,
-    payload
+    payload,
   };
 }
 
 export function changeStatusToPaid(payload) {
   return {
     type: types.CHANGE_STATUS_TO_PAID,
-    payload
+    payload,
   };
 }
 
 export function changeStatusToPaidSuccess(payload) {
   return {
     type: types.CHANGE_STATUS_TO_PAID_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function changeStatusToPaidFailed(payload) {
   return {
     type: types.CHANGE_STATUS_TO_PAID_FAILED,
-    payload
+    payload,
   };
 }
-
-
-
-

@@ -12,7 +12,8 @@ export const initialState = {
   message: "",
   listAddress: [],
   listWard: [],
-  location: undefined
+  location: undefined,
+  locationUser: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -89,6 +90,17 @@ const userAddressReducer = (state = initialState, action) =>
         draft.message = action.payload;
         break;
       case types.DELETE_LOCATION_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_LOCATION_BY_USER_ID:
+        draft.loading = true;
+        break;
+      case types.GET_LOCATION_BY_USER_ID_SUCCESS:
+        draft.loading = false;
+        draft.locationUser = action.payload;
+        break;
+      case types.GET_LOCATION_BY_USER_ID_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

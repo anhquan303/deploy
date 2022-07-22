@@ -6,10 +6,10 @@ import * as types from './constants';
 export function* resetPassword({ payload }) {
   try {
     const res = yield call(apiPost, ['api/user/resetPassword'], payload);
-    if(res.status == 200){
+    if (res.status == 200) {
       yield put(resetPasswordSuccess(res.data.message));
-    }else{
-      yield put(resetPasswordFailed("Failed"));
+    } else {
+      yield put(resetPasswordFailed('Failed'));
     }
   } catch (error) {
     yield put(resetPasswordFailed(error.message));

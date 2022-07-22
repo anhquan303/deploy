@@ -16,41 +16,41 @@ export function defaultAction() {
 export function getStoreById(payload) {
   return {
     type: types.GET_STORE_BY_ID,
-    payload
+    payload,
   };
 }
 
 export function getStoreByIdSuccess(payload) {
   return {
     type: types.GET_STORE_BY_ID_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function getStoreByIdFailed(payload) {
   return {
     type: types.GET_STORE_BY_ID_FAILED,
-    payload
+    payload,
   };
 }
 
 export function getListWards(payload) {
   return {
     type: types.GET_LIST_WARDS,
-    payload
+    payload,
   };
 }
 
 export function getListWardsSuccess(payload) {
   return {
     type: types.GET_LIST_WARDS_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function getListWardsFailed(payload) {
   return {
     type: types.GET_LIST_WARDS_FAILED,
-    payload
+    payload,
   };
 }

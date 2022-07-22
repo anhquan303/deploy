@@ -82,9 +82,9 @@ export function EmailVerifiedSuccess() {
   return (
     <div className={classes.body}>
       <div className={classes.center}>
-        <p className={classes.title}>Email has been verified</p>
+        <p className={classes.title}>Email đã được xác minh thành công</p>
         <CheckCircleRoundedIcon sx={{ fontSize: 126, color: "#fff" }} />
-        <p className={classes.text} style={{ margin: "15px 0" }}>You can now <a href="/login" className={classes.text} >login</a></p>
+        <p className={classes.text} style={{ margin: "15px 0" }}>Bạn đã có thể <a href="/login" className={classes.text} >đăng nhập</a></p>
         <p className={classes.text}>@NoNe</p>
       </div>
     </div>

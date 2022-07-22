@@ -68,10 +68,10 @@ export function DashboardStore(props) {
 
   const columns1 = [
     { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
-    { id: 'name', label: 'Name', minWidth: 100, align: 'center' },
+    { id: 'name', label: 'Tên quán ăn', minWidth: 100, align: 'center' },
     { id: 'email', label: 'Email', minWidth: 100, align: 'center' },
     { id: 'slogan', label: 'Slogan', minWidth: 100, align: 'center' },
-    { id: 'status', label: 'Status', minWidth: 100, align: 'center' },
+    { id: 'status', label: 'Trạng thái', minWidth: 100, align: 'center' },
     // {
     //   id: 'population',
     //   label: 'Population',

@@ -1,5 +1,9 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { cancelOrderFailed, getOrderDetailByIdFailed, getOrderDetailByIdSuccess } from './actions';
+import {
+  cancelOrderFailed,
+  getOrderDetailByIdFailed,
+  getOrderDetailByIdSuccess,
+} from './actions';
 import { apiFetchData, apiPost } from './api';
 import * as types from './constants';
 
@@ -9,7 +13,7 @@ export function* getOrderDetail({ payload }) {
     if (res.status == 200) {
       yield put(getOrderDetailByIdSuccess(res.data.data));
     } else {
-      yield put(getOrderDetailByIdFailed("FAILED"));
+      yield put(getOrderDetailByIdFailed('FAILED'));
     }
   } catch (error) {
     yield put(getOrderDetailByIdFailed(error.message));
@@ -19,7 +23,7 @@ export function* getOrderDetail({ payload }) {
 export function* cancelOrder({ payload }) {
   try {
     const res = yield call(apiPost, [`api/order/${payload.id}/cancel`]);
-    console.log(res)
+    console.log(res);
     // if (res.status == 200) {
     //   yield put(getOrderDetailByIdSuccess(res.data.data));
     // } else {

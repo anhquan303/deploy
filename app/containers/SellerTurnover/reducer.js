@@ -9,13 +9,13 @@ import * as types from './constants';
 
 export const initialState = {
   loading: false,
-  message: "",
-  saleData: []
+  message: '',
+  saleData: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const sellerTurnoverReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case DEFAULT_ACTION:
         break;

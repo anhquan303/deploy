@@ -16,52 +16,48 @@ export function defaultAction() {
 export function changePassword(payload) {
   return {
     type: types.CHANGE_PASSWORD,
-    payload
+    payload,
   };
 }
 
 export function changePasswordSuccess(payload) {
   return {
     type: types.CHANGE_PASSWORD_SUCCESS,
-    payload
+    payload,
   };
 }
-
 
 export function changePasswordFailed(payload) {
   return {
     type: types.CHANGE_PASSWORD_FAILED,
-    payload
+    payload,
   };
 }
-
 
 export function reset(payload) {
   return {
     type: types.RESET,
-    payload
+    payload,
   };
 }
 
 export function logout(payload) {
   return {
     type: types.LOG_OUT,
-    payload
+    payload,
   };
 }
 
 export function logoutSuccess(payload) {
   return {
     type: types.LOG_OUT_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function logoutFailed(payload) {
   return {
     type: types.LOG_OUT_FAILED,
-    payload
+    payload,
   };
 }
-
-

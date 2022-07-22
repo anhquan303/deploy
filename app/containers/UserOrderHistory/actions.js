@@ -16,20 +16,20 @@ export function defaultAction() {
 export function getOrderById(payload) {
   return {
     type: types.GET_ORDER_BY_USER_ID,
-    payload
+    payload,
   };
 }
 
 export function getOrderByIdSuccess(payload) {
   return {
     type: types.GET_ORDER_BY_USER_ID_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function getOrderByIdFailed(payload) {
   return {
     type: types.GET_ORDER_BY_USER_ID_FAILED,
-    payload
+    payload,
   };
 }

@@ -16,27 +16,27 @@ export function defaultAction() {
 export function login(payload) {
   return {
     type: types.LOGIN,
-    payload
+    payload,
   };
 }
 
 export function loginSuccess(payload) {
   return {
     type: types.LOGIN_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function loginFailed(payload) {
   return {
     type: types.LOGIN_FAILED,
-    payload
+    payload,
   };
 }
 
 export function reset(payload) {
   return {
     type: types.RESET,
-    payload
+    payload,
   };
 }

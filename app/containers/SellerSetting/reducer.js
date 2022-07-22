@@ -9,14 +9,14 @@ import * as types from './constants';
 
 export const initialState = {
   loading: false,
-  message: "",
+  message: '',
   user: undefined,
-  listWard: []
+  listWard: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const sellerSettingReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case DEFAULT_ACTION:
         break;

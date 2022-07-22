@@ -14,16 +14,25 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectSellerHomePage from './selectors';
-import reducer from './reducer';
-import saga from './saga';
-import messages from './messages';
 import {
-  Box, Grid, Container, Avatar, Typography, List, FormControlLabel, Radio, RadioGroup,
-  ListItemButton, ListItemIcon, ListItemText, Collapse, OutlinedInput, Select, MenuItem
+  Box,
+  Grid,
+  Container,
+  Avatar,
+  Typography,
+  List,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+  OutlinedInput,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
-import Avatar1 from '../../images/quan.jpg';
 
 import PersonIcon from '@mui/icons-material/Person';
 import ArticleIcon from '@mui/icons-material/Article';
@@ -35,42 +44,54 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import SaveIcon from '@mui/icons-material/Save';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
-import { Headerr } from '../Headerr';
 import { NavLink } from 'react-router-dom';
+import { Headerr } from '../Headerr';
+import Avatar1 from '../../images/quan.jpg';
+import messages from './messages';
+import saga from './saga';
+import reducer from './reducer';
+import makeSelectSellerHomePage from './selectors';
 import { getUser } from '../../utils/common';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   btn: {
-    position: "relative",
-    width: "fit-content",
-    borderRadius: "10px",
-    backgroundColor: "#ff9900",
-    margin: "10px 5px",
-    "&:hover": {
-      backgroundColor: "#FFA500",
-      fontWeight: "bold",
-      color: "#000",
-      boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
-    }
+    position: 'relative',
+    width: 'fit-content',
+    borderRadius: '10px',
+    backgroundColor: '#ff9900',
+    margin: '10px 5px',
+    '&:hover': {
+      backgroundColor: '#FFA500',
+      fontWeight: 'bold',
+      color: '#000',
+      boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
+    },
   },
   center: {
-    flexWrap: "wrap",
-    alignContent: "center",
-    display: "flex"
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
   },
   font: {
-    fontFamily: "sans-serif",
-    margin: "0"
+    fontFamily: 'sans-serif',
+    margin: '0',
   },
   link: {
-    textDecoration: "none",
-    color: "#000",
-    alignItems: "center",
-    "&.active": {
-      color: "#FFAC30",
-    }
+    textDecoration: 'none',
+    color: '#000',
+    alignItems: 'center',
+    '&.active': {
+      color: '#FFAC30',
+    },
   },
-
+  avatar: {
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
+    [theme.breakpoints.down("sm")]:{
+      justifyContent: "center"
+    }
+  }
 }));
 
 export function SellerHomePage() {
@@ -89,17 +110,25 @@ export function SellerHomePage() {
     <>
       <div>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4} className={classes.center}>
-            {user ? <Avatar alt="avatar store" src={Avatar1} sx={{ width: 56, height: 56 }} /> :
+          <Grid item xs={12} md={4} className={classes.avatar}>
+            {user ? (
+              <Avatar
+                alt="avatar store"
+                src={Avatar1}
+                sx={{ width: 56, height: 56 }}
+              />
+            ) : (
               <Avatar src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" />
-            }
+            )}
           </Grid>
-          <Grid item xs={12} md={8} className={classes.center}>
-            <p className={classes.font}>{user.firstname} {user.lastname}</p>
+          <Grid item xs={12} md={8} className={classes.avatar}>
+            <p className={classes.font}>
+              {user.firstname} {user.lastname}
+            </p>
           </Grid>
         </Grid>
         <hr />
-        <div style={{ marginTop: "15px" }}>
+        <div style={{ marginTop: '15px' }}>
           <List
             sx={{ width: '100%', maxWidth: 360, bgcolor: '#FAFAFA' }}
             component="nav"
@@ -156,7 +185,7 @@ export function SellerHomePage() {
             </ListItemButton>
           </List>
         </div>
-      </div >
+      </div>
     </>
   );
 }

@@ -32,7 +32,7 @@ import { login, reset } from './actions';
 import { getToken, getUser, removeUserSession } from '../../utils/common';
 import Snackbar from '@mui/material/Snackbar';
 import BackGround from '../../images/dhfpt.png';
-import { Grid } from '@mui/material';
+import { Grid, LinearProgress } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
@@ -206,7 +206,7 @@ export function Login(props) {
   return (
     <div className={classes.body}>
       <div className={classes.container}>
-        <form>
+        <form >
           <div className={classes.top}>
             <div className={classes.topLogo}>
               <img src={Logo} alt="logo" className={classes.logo} />
@@ -214,6 +214,12 @@ export function Login(props) {
             </div>
           </div>
           <h3 className={classes.registerTag}>Đăng nhập</h3>
+
+          {props.login.loading && props.login.loading == true ? (
+            <div style={{ margin: '10px 0' }}>
+              <LinearProgress />
+            </div>
+          ) : null}
 
           <div>
             <Grid container spacing={2}>
@@ -268,67 +274,6 @@ export function Login(props) {
               </Grid>
             </Grid>
           </div>
-
-          {/* <div className="inputField" style={{ textAlign: "center", marginBottom: "10px" }}>
-            <div className="box">
-              <div className="icon">
-
-              </div>
-              <Box
-                component="form"
-                sx={{
-                  '& .MuiTextField-root': { m: 0, width: '100%' },
-                }}
-                noValidate
-                autoComplete="off"
-              >
-
-                <TextField
-                  error={formErrors.userName != null && formValues.userName.length == ""}
-                  id="outlined-textarea"
-                  label="Tài khoản"
-                  placeholder="Tài khoản"
-                  multiline
-                  name="userName"
-                  value={formValues.userName}
-                  // onChange={(e) => setUserName(e.target.value)}
-                  onChange={handleChange}
-                  helperText={formErrors.userName && formValues.userName.length == "" ? formErrors.userName : null}
-                />
-
-              </Box>
-            </div>
-          </div> */}
-
-          {/* <div className="inputField" style={{ textAlign: "center" }}>
-            <div className="box">
-              <div className="icon">
-
-              </div>
-              <Box
-                component="form"
-                sx={{
-                  '& .MuiTextField-root': { m: 0, width: '100%' },
-                }}
-                noValidate
-                autoComplete="off"
-              >
-                <TextField
-                  error={formErrors.password != null && formValues.password.length == ""}
-                  id="outlined-password-input"
-                  label="Mật khẩu"
-                  type="password"
-                  autoComplete="current-password"
-                  name="password"
-                  // value={password}
-                  // onChange={(e) => setPassword(e.target.value)}
-                  value={formValues.password}
-                  onChange={handleChange}
-                  helperText={formErrors.password && formValues.password.length == "" ? formErrors.password : null}
-                />
-              </Box>
-            </div>
-          </div> */}
 
           <div style={{ marginLeft: "40px" }}>
             <FormGroup>

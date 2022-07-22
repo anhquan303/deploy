@@ -26,93 +26,24 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { makeStyles, Container, Typography } from '@material-ui/core';
 
-import { getData } from './actions';
+import { getAllStore, getAllUser, getData } from './actions';
 import Avatar from '@mui/material/Avatar';
 import { getUser } from '../../utils/common';
 
 
 export function Dashboard(props) {
-  const { dispatch, userList } = props;
+  const { dispatch } = props;
   useInjectReducer({ key: 'dashboard', reducer });
   useInjectSaga({ key: 'dashboard', saga });
 
-  const action = false;
 
   useEffect(() => {
-    dispatch(getData());
+    dispatch(getAllStore());
+    dispatch(getAllUser());
   }, [])
 
-  const actione = [
-    {
-      id: "1",
-      name: "Quan ngon 24",
-      owner: "Long le",
-      totalOrder: "654",
-      status: "Approved",
-      contact: "132123132",
-    },
-    {
-      id: "1",
-      name: "Quan ",
-      owner: "Longe",
-      totalOrder: "64",
-      status: "Approed",
-      contact: "13213132",
-    },
-    {
-      id: "1",
-      name: "Quan non 24",
-      owner: "Longle",
-      totalOrder: "654",
-      status: "Approved",
-      contact: "132123132",
-    },
-    {
-      id: "1",
-      name: "Quan ngon 24",
-      owner: "Long le",
-      totalOrder: "654",
-      status: "Approved",
-      contact: "132123132",
-    },
-    {
-      id: "1",
-      name: "Quan ngon 24",
-      owner: "Long le",
-      totalOrder: "654",
-      status: "Approved",
-      contact: "132123132",
-    },
-    {
-      id: "1",
-      name: "Quan ngon 24",
-      owner: "Long le",
-      totalOrder: "654",
-      status: "Approved",
-      contact: "132123132",
-    }
-  ];
+  console.log(props.dashboard.userList);
 
-  // const header = ["Name", "Owner", "Total Orders", "Status", "Contact"];
-
-  const newList = actione.map((item) => {
-    return {
-      name: item.name,
-      owner: item.owner,
-      totalOrder: item.totalOrder,
-      status: item.status,
-      contact: item.contact
-    }
-  })
-
-  const columns = [
-    { title: "ID", field: "id" },
-    { title: "Name", field: "name" },
-    { title: "Owner", field: "owner" },
-    { title: "Total Orders", field: "totalOrder" },
-    { title: "Status", field: "status" },
-    { title: "Contact", field: "contact" },
-  ]
 
   const user = getUser();
   if (user) {
@@ -131,8 +62,8 @@ export function Dashboard(props) {
               <span style={{ background: "#0D31F0" }}><StoreIcon /></span>
               <div className="middle">
                 <div className="left">
-                  <h3>Total Stores</h3>
-                  <h1>230</h1>
+                  <h3>Tổng số quán ăn</h3>
+                  <h1>{props.dashboard.storeList.length}</h1>
                 </div>
                 {/* <div className="progress">
                   <svg>
@@ -141,7 +72,7 @@ export function Dashboard(props) {
                   <div className="number"><p>81%</p></div>
                 </div> */}
               </div>
-              <small className="text-muted">Last 24 hours</small>
+              <small className="text-muted">24h qua</small>
             </div>
           </Grid>
           <Grid item sm={4} xs={12}>
@@ -149,8 +80,8 @@ export function Dashboard(props) {
               <span style={{ background: "#ff9900" }}><PersonIcon /></span>
               <div className="middle">
                 <div className="left">
-                  <h3>Total Users</h3>
-                  <h1>230</h1>
+                  <h3>Tổng số người dùng</h3>
+                  <h1>{props.dashboard.userList.length}</h1>
                 </div>
                 {/* <div className="progress">
                   <svg>
@@ -159,7 +90,7 @@ export function Dashboard(props) {
                   <div className="number"><p>81%</p></div>
                 </div> */}
               </div>
-              <small className="text-muted">Last 24 hours</small>
+              <small className="text-muted">24h qua</small>
             </div>
           </Grid>
           <Grid item sm={4} xs={12}>
@@ -167,7 +98,7 @@ export function Dashboard(props) {
               <span style={{ background: "#20D167" }}><FastfoodIcon /></span>
               <div className="middle">
                 <div className="left">
-                  <h3>Total Foods</h3>
+                  <h3>Tổng số món ăn</h3>
                   <h1>230</h1>
                 </div>
                 {/* <div className="progress">
@@ -177,11 +108,11 @@ export function Dashboard(props) {
                   <div className="number"><p>81%</p></div>
                 </div> */}
               </div>
-              <small className="text-muted">Last 24 hours</small>
+              <small className="text-muted">24h qua</small>
             </div>
           </Grid>
           <Grid item sm={12} xs={12}>
-            <h3>Recent Action</h3>
+            <h3>Hoạt động</h3>
             {/* <CustomTable data={actione} itemPerPage={5} totalItem={actione.length} detailPage="dashboard" columns={columns} action={action} /> */}
           </Grid>
         </Grid>

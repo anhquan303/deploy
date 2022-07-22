@@ -16,49 +16,48 @@ export function defaultAction() {
 export function sellerSignUp(payload) {
   return {
     type: types.SELLER_SIGNUP,
-    payload
+    payload,
   };
 }
 
 export function sellerSignUpSuccess(payload) {
   return {
     type: types.SELLER_SIGNUP_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function sellerSignUpFailed(payload) {
   return {
     type: types.SELLER_SIGNUP_FAILED,
-    payload
+    payload,
   };
 }
 
 export function getListWards(payload) {
   return {
     type: types.GET_LIST_WARDS,
-    payload
+    payload,
   };
 }
 
 export function getListWardsSuccess(payload) {
   return {
     type: types.GET_LIST_WARDS_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function getListWardsFailed(payload) {
   return {
     type: types.GET_LIST_WARDS_FAILED,
-    payload
+    payload,
   };
 }
 
 export function reset(payload) {
   return {
     type: types.RESET,
-    payload
+    payload,
   };
 }
-

@@ -9,13 +9,13 @@ import * as types from './constants';
 
 export const initialState = {
   loading: false,
-  message: "",
-  user: undefined
+  message: '',
+  user: undefined,
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const userSettingReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case DEFAULT_ACTION:
         break;
@@ -43,7 +43,7 @@ const userSettingReducer = (state = initialState, action) =>
         break;
       case types.RESET:
         draft.loading = false;
-        draft.message = "";
+        draft.message = '';
         break;
     }
   });

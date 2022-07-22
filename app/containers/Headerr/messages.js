@@ -13,4 +13,33 @@ export default defineMessages({
     id: `${scope}.header`,
     defaultMessage: 'This is the Headerr container!',
   },
+  becomeSeller: {
+    id: `${scope}.becomeSeller`,
+    defaultMessage: 'Trở thành đối tác của No Nê',
+  },
+  myStore: {
+    id: `${scope}.myStore`,
+    defaultMessage: 'Cửa hàng của tôi',
+  },
+  login: {
+    id: `${scope}.login`,
+    defaultMessage: 'Đăng nhập',
+  },
+  signup: {
+    id: `${scope}.signup`,
+    defaultMessage: 'Đăng ký',
+  },
+  myAccount: {
+    id: `${scope}.myAccount`,
+    defaultMessage: 'Tài khoản của tôi',
+  },
+  logout: {
+    id: `${scope}.logout`,
+    defaultMessage: 'Đăng xuất',
+  },
+  search: {
+    id: `${scope}.search`,
+    defaultMessage: 'Bạn muốn ăn gì hôm nay?',
+  },
+  
 });

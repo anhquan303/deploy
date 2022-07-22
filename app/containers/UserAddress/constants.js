@@ -30,6 +30,10 @@ export const DELETE_LOCATION = 'app/UserAddress/DELETE_LOCATION';
 export const DELETE_LOCATION_SUCCESS = 'app/UserAddress/DELETE_LOCATION_SUCCESS';
 export const DELETE_LOCATION_FAILED = 'app/UserAddress/DELETE_LOCATION_FAILED';
 
+export const GET_LOCATION_BY_USER_ID = 'app/UserAddress/GET_LOCATION_BY_USER_ID';
+export const GET_LOCATION_BY_USER_ID_SUCCESS = 'app/UserAddress/GET_LOCATION_BY_USER_ID_SUCCESS';
+export const GET_LOCATION_BY_USER_ID_FAILED = 'app/UserAddress/GET_LOCATION_BY_USER_ID_FAILED';
+
 export const RESET = 'app/UserAddress/RESET';
 
 

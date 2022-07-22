@@ -9,7 +9,7 @@ export function* getOrderByStoreId({ payload }) {
     if (res.status == 200) {
       yield put(getOrderByStoreIdSuccess(res.data.data));
     } else {
-      yield put(getOrderByStoreIdFailed("FAILED"));
+      yield put(getOrderByStoreIdFailed('FAILED'));
     }
   } catch (error) {
     yield put(getOrderByStoreIdFailed(error.message));

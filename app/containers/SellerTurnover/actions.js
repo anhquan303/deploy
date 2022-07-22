@@ -16,21 +16,20 @@ export function defaultAction() {
 export function getDataForChart(payload) {
   return {
     type: types.GET_DATA_FOR_CHART,
-    payload
+    payload,
   };
 }
 
 export function getDataForChartSuccess(payload) {
   return {
     type: types.GET_DATA_FOR_CHART_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function getDataForChartFailed(payload) {
   return {
     type: types.GET_DATA_FOR_CHART_FAILED,
-    payload
+    payload,
   };
 }
-
