@@ -2,6 +2,8 @@ import { take, call, put, select, takeEvery } from 'redux-saga/effects';
 import {
   addLocationFailed, addLocationSuccess, deleteLocationFailed, deleteLocationSuccess, getAllLocationFailed,
   getAllLocationSuccess, getListWardsFailed, getListWardsSuccess, getLocationByIdFailed, getLocationByIdSuccess,
+  getLocationByUserIdFailed,
+  getLocationByUserIdSuccess,
   updateLocationFailed, updateLocationSuccess
 } from './actions';
 import { apiDelete, apiFetchData, apiGetListWards, apiPost } from './api';
@@ -88,6 +90,20 @@ export function* deleteLocation({ payload }) {
     yield put(deleteLocationFailed(error.message));
   }
 }
+
+export function* getLocationByUserId({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/location/getLocationByUserId/${payload.id}`]);
+    if (res.status == 200) {
+      yield put(getLocationByUserIdSuccess(res.data.data));
+    } else {
+      yield put(getLocationByUserIdFailed("FAILED"));
+    }
+  } catch (error) {
+    yield put(getLocationByUserIdFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* userAddressSaga() {
   // See example in containers/HomePage/saga.js
@@ -97,4 +113,5 @@ export default function* userAddressSaga() {
   yield takeEvery(types.GET_LOCATION_BY_ID, getLocationById);
   yield takeEvery(types.UPDATE_LOCATION, updateLocation);
   yield takeEvery(types.DELETE_LOCATION, deleteLocation);
+  yield takeEvery(types.GET_LOCATION_BY_USER_ID, getLocationByUserId);
 }

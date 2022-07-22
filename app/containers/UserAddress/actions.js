@@ -146,5 +146,27 @@ export function deleteLocationFailed(payload) {
   };
 }
 
+export function getLocationByUserId(payload) {
+  return {
+    type: types.GET_LOCATION_BY_USER_ID,
+    payload
+  };
+}
+
+export function getLocationByUserIdSuccess(payload) {
+  return {
+    type: types.GET_LOCATION_BY_USER_ID_SUCCESS,
+    payload
+  };
+}
+
+export function getLocationByUserIdFailed(payload) {
+  return {
+    type: types.GET_LOCATION_BY_USER_ID_FAILED,
+    payload
+  };
+}
+
+
 
 

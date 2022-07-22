@@ -16,49 +16,48 @@ export function defaultAction() {
 export function updateUser(payload) {
   return {
     type: types.UPDATE_USER,
-    payload
+    payload,
   };
 }
 
 export function updateUserSuccess(payload) {
   return {
     type: types.UPDATE_USER_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function updateUserFailed(payload) {
   return {
     type: types.UPDATE_USER_FAILED,
-    payload
+    payload,
   };
 }
 
 export function getUserById(payload) {
   return {
     type: types.GET_USER_BY_ID,
-    payload
+    payload,
   };
 }
 
 export function getUserByIdSuccess(payload) {
   return {
     type: types.GET_USER_BY_ID_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function getUserByIdFailed(payload) {
   return {
     type: types.GET_USER_BY_ID_FAILED,
-    payload
+    payload,
   };
 }
 
 export function reset(payload) {
   return {
     type: types.RESET,
-    payload
+    payload,
   };
 }
-

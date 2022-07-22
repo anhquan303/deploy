@@ -9,12 +9,12 @@ import * as types from './constants';
 
 export const initialState = {
   loading: false,
-  message: ""
+  message: '',
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const userChangePasswordReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case DEFAULT_ACTION:
         break;
@@ -31,7 +31,7 @@ const userChangePasswordReducer = (state = initialState, action) =>
         break;
       case types.RESET:
         draft.loading = false;
-        draft.message = "";
+        draft.message = '';
         break;
       case types.LOG_OUT:
         draft.loading = true;

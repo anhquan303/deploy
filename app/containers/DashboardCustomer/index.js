@@ -62,10 +62,10 @@ export function DashboardCustomer(props) {
 
   const columns1 = [
     { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
-    { id: 'username', label: 'User name', minWidth: 100, align: 'center' },
+    { id: 'username', label: 'Tên', minWidth: 100, align: 'center' },
     { id: 'email', label: 'Email', minWidth: 100, align: 'center' },
-    { id: 'phoneNumber', label: 'Phone', minWidth: 100, align: 'center' },
-    { id: 'status', label: 'Status', minWidth: 100, align: 'center' },
+    { id: 'phoneNumber', label: 'Số điện thoại', minWidth: 100, align: 'center' },
+    { id: 'status', label: 'Trạng thái', minWidth: 100, align: 'center' },
   ];
 
   useEffect(() => {
@@ -116,7 +116,7 @@ export function DashboardCustomer(props) {
           </Grid>
           <Grid item sm={12} xs={12} style={{ margin: " 10px 0" }}>
             <div className={classes.information_image}>
-              <h2>Total User: {props.dashboardCustomer.userList.length}</h2>
+              <h2>Tổng số người dùng: {props.dashboardCustomer.userList.length}</h2>
             </div>
           </Grid>
           <Grid item sm={12} xs={12}>

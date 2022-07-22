@@ -17,7 +17,7 @@ export function* getCart({ payload }) {
     if (res.status == 200) {
       yield put(getCartSuccess(res.data.data));
     } else {
-      yield put(getCartFailed("FAILED"));
+      yield put(getCartFailed('FAILED'));
     }
   } catch (error) {
     yield put(getCartFailed(error.message));

@@ -13,23 +13,45 @@ export function defaultAction() {
   };
 }
 
-export function getData(payload) {
+export function getAllStore(payload) {
   return {
-    type: types.GET_DATA,
+    type: types.GET_ALL_STORE,
     payload
   };
 }
 
-export function getDataSuccess(payload) {
+export function getAllStoreSuccess(payload) {
   return {
-    type: types.GET_DATA_SUCCESS,
+    type: types.GET_ALL_STORE_SUCCESS,
     payload
   };
 }
 
-export function getDataFailed(payload) {
+export function getAllStoreFailed(payload) {
   return {
-    type: types.GET_DATA_FAILED,
+    type: types.GET_ALL_STORE_FAILED,
     payload
   };
 }
+
+export function getAllUser(payload) {
+  return {
+    type: types.GET_ALL_USER,
+    payload
+  };
+}
+
+export function getAllUserSuccess(payload) {
+  return {
+    type: types.GET_ALL_USER_SUCCESS,
+    payload
+  };
+}
+
+export function getAllUserFailed(payload) {
+  return {
+    type: types.GET_ALL_USER_FAILED,
+    payload
+  };
+}
+

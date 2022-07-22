@@ -1,5 +1,10 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { getListWardsFailed, getListWardsSuccess, getStoreByIdFailed, getStoreByIdSuccess } from './actions';
+import {
+  getListWardsFailed,
+  getListWardsSuccess,
+  getStoreByIdFailed,
+  getStoreByIdSuccess,
+} from './actions';
 import { apiFetchData, apiGetListWards } from './api';
 import * as types from './constants';
 
@@ -9,7 +14,7 @@ export function* getStoreById({ payload }) {
     if (res.status == 200) {
       yield put(getStoreByIdSuccess(res.data));
     } else {
-      yield put(getStoreByIdFailed("FAILED"));
+      yield put(getStoreByIdFailed('FAILED'));
     }
   } catch (error) {
     yield put(getStoreByIdFailed(error.message));
@@ -22,7 +27,7 @@ export function* getListWards({ payload }) {
     if (res.status == 200) {
       yield put(getListWardsSuccess(res.data.wards));
     } else {
-      yield put(getListWardsFailed("FAILED"));
+      yield put(getListWardsFailed('FAILED'));
     }
   } catch (error) {
     yield put(getListWardsFailed(error.message));

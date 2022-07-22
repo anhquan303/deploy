@@ -14,76 +14,86 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import {
+  Box,
+  TextField,
+  TextareaAutosize,
+  FormGroup,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  FormControlLabel,
+  Checkbox,
+  Grid,
+  CardContent,
+  Avatar,
+} from '@mui/material';
+import { makeStyles, Button } from '@material-ui/core';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import makeSelectSellerSetting from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import {
-  Box, TextField, TextareaAutosize, FormGroup, FormControl, MenuItem, InputLabel, FormControlLabel, Checkbox, Grid, CardContent, Avatar
-} from '@mui/material';
-import { makeStyles, Button } from '@material-ui/core';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { getStore, getUser } from '../../utils/common';
 import { getListWards, getStoreById } from './actions';
-import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   upload: {
-    backgroundColor: "#D9D9D9",
-    padding: "20px",
-    borderRadius: "10px"
+    backgroundColor: '#D9D9D9',
+    padding: '20px',
+    borderRadius: '10px',
   },
   btn: {
-    position: "relative",
-    width: "100%",
-    borderRadius: "10px",
-    backgroundColor: "#ff9900",
-    marginTop: "10px",
-    "&:hover": {
-      backgroundColor: "#FFA500",
-      fontWeight: "bold",
-      color: "#000",
-      boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
-    }
+    position: 'relative',
+    width: '100%',
+    borderRadius: '10px',
+    backgroundColor: '#ff9900',
+    marginTop: '10px',
+    '&:hover': {
+      backgroundColor: '#FFA500',
+      fontWeight: 'bold',
+      color: '#000',
+      boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
+    },
   },
   inside: {
-    width: "30%",
-    margin: "0 auto",
-    [theme.breakpoints.down("lg")]: {
-      width: "35%",
+    width: '30%',
+    margin: '0 auto',
+    [theme.breakpoints.down('lg')]: {
+      width: '35%',
     },
-    [theme.breakpoints.down("md")]: {
-      width: "60%",
+    [theme.breakpoints.down('md')]: {
+      width: '60%',
     },
-    [theme.breakpoints.down("sm")]: {
-      width: "65%",
+    [theme.breakpoints.down('sm')]: {
+      width: '65%',
     },
-    [theme.breakpoints.down("xs")]: {
-      width: "100%",
-    }
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
   marginBot: {
-    marginBottom: "20px",
-    padding: "5px",
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: "5px",
-    }
+    marginBottom: '20px',
+    padding: '5px',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: '5px',
+    },
   },
   font: {
-    margin: "0",
-    fontFamily: "san-serif",
-    fontSize: "30px",
-    fontWeight: "700"
+    margin: '0',
+    fontFamily: 'san-serif',
+    fontSize: '30px',
+    fontWeight: '700',
   },
   input: {
-    display: "none"
+    display: 'none',
   },
   center: {
-    flexWrap: "wrap",
-    alignContent: "center",
-    display: "flex"
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
   },
-
 }));
 
 export function SellerSetting(props) {
@@ -95,36 +105,46 @@ export function SellerSetting(props) {
   const [imageSrc, setImageSrc] = useState();
   const [avatar, setAvatar] = useState();
   const [isInCampus, setIsInCampus] = useState(false);
-  const [ward, setWard] = useState("");
+  const [ward, setWard] = useState('');
   const user = getUser();
 
   const initialValues = {
-    name: "", owner_name: "", phone: "", email: "", open_time: "",
-    close_time: "", slogan: "", description: "", cover_image: "", avatar: "", location: "",
-    district: "", town: "", address: ""
+    name: '',
+    owner_name: '',
+    phone: '',
+    email: '',
+    open_time: '',
+    close_time: '',
+    slogan: '',
+    description: '',
+    cover_image: '',
+    avatar: '',
+    location: '',
+    district: '',
+    town: '',
+    address: '',
   };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const store = getStore();
 
-
-  const handleUploadClick = (e) => {
+  const handleUploadClick = e => {
     const file = e.target.files[0];
     // file.preview = URL.createObjectURL(file)
     setAvatar(URL.createObjectURL(file));
   };
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       URL.revokeObjectURL(avatar);
-    }
-  }, [avatar])
-
+    },
+    [avatar],
+  );
 
   useEffect(() => {
     const data = {
-      id: store
-    }
+      id: store,
+    };
     dispatch(getStoreById(data));
     dispatch(getListWards());
   }, []);
@@ -144,37 +164,37 @@ export function SellerSetting(props) {
       formValues.district = props.sellerSetting.user.otherLocation.town;
       setWard(props.sellerSetting.user.otherLocation.village);
       formValues.town = props.sellerSetting.user.otherLocation.name;
-      //const str = props.sellerSetting.user.location.split(",");
+      // const str = props.sellerSetting.user.location.split(",");
       setAvatar(props.sellerSetting.user.storeImage.avatar);
     }
-  }, [props.sellerSetting.user])
+  }, [props.sellerSetting.user]);
 
-  //set value for input
-  const handleChange = (e) => {
+  // set value for input
+  const handleChange = e => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-  }
+  };
 
-  //set ward for update
-  const handleChangeTypeUpdate = (e) => {
+  // set ward for update
+  const handleChangeTypeUpdate = e => {
     setWard(e.target.value);
   };
 
-  console.log(avatar)
-
+  console.log(avatar);
 
   return (
-    <div style={{ paddingRight: "15px" }}>
-      <div style={{ textAlign: "center" }}>
+    <div style={{ paddingRight: '15px' }}>
+      <div style={{ textAlign: 'center' }}>
         <p className={classes.font}>Thay đổi thông tin cửa hàng</p>
         <div className={classes.inside}>
-
-          <Grid container spacing={0} >
-
-            <Grid item sm={12} xs={12} md={12} >
-              <div className={classes.center} style={{ justifyContent: "center" }}>
+          <Grid container spacing={0}>
+            <Grid item sm={12} xs={12} md={12}>
+              <div
+                className={classes.center}
+                style={{ justifyContent: 'center' }}
+              >
                 <CardContent>
-                  <Grid container >
+                  <Grid container>
                     <input
                       accept="image/*"
                       className={classes.input}
@@ -184,12 +204,17 @@ export function SellerSetting(props) {
                       onChange={handleUploadClick}
                     />
                     <label htmlFor="contained-button-file">
-                      {user ? <Avatar sx={{ width: 150, height: 150 }} component="span" src={avatar ? avatar : null}>
-                        <AddPhotoAlternateIcon />
-                      </Avatar> :
+                      {user ? (
+                        <Avatar
+                          sx={{ width: 150, height: 150 }}
+                          component="span"
+                          src={avatar || null}
+                        >
+                          <AddPhotoAlternateIcon />
+                        </Avatar>
+                      ) : (
                         <Avatar src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" />
-                      }
-
+                      )}
                     </label>
                   </Grid>
                 </CardContent>
@@ -206,7 +231,9 @@ export function SellerSetting(props) {
                 autoComplete="off"
               >
                 <TextField
-                  error={formErrors.name != null && formValues.name.length == ""}
+                  error={
+                    formErrors.name != null && formValues.name.length == ''
+                  }
                   required
                   id="outlined-textarea"
                   label="Tên cửa hàng"
@@ -215,7 +242,11 @@ export function SellerSetting(props) {
                   name="name"
                   value={formValues.name}
                   onChange={handleChange}
-                  helperText={formErrors.name && formValues.name.length == "" ? formErrors.name : null}
+                  helperText={
+                    formErrors.name && formValues.name.length == ''
+                      ? formErrors.name
+                      : null
+                  }
                 />
               </Box>
             </Grid>
@@ -230,7 +261,9 @@ export function SellerSetting(props) {
                 autoComplete="off"
               >
                 <TextField
-                  error={formErrors.phone != null && formValues.phone.length == ""}
+                  error={
+                    formErrors.phone != null && formValues.phone.length == ''
+                  }
                   required
                   id="outlined-textarea"
                   label="Số điện thoại"
@@ -239,7 +272,11 @@ export function SellerSetting(props) {
                   name="phone"
                   value={formValues.phone}
                   onChange={handleChange}
-                  helperText={formErrors.phone && formValues.phone.length == "" ? formErrors.phone : null}
+                  helperText={
+                    formErrors.phone && formValues.phone.length == ''
+                      ? formErrors.phone
+                      : null
+                  }
                 />
               </Box>
             </Grid>
@@ -254,7 +291,9 @@ export function SellerSetting(props) {
                 autoComplete="off"
               >
                 <TextField
-                  error={formErrors.email != null && formValues.email.length == ""}
+                  error={
+                    formErrors.email != null && formValues.email.length == ''
+                  }
                   required
                   id="outlined-textarea"
                   label="Email"
@@ -263,7 +302,11 @@ export function SellerSetting(props) {
                   name="email"
                   value={formValues.email}
                   onChange={handleChange}
-                  helperText={formErrors.email && formValues.email.length == "" ? formErrors.email : null}
+                  helperText={
+                    formErrors.email && formValues.email.length == ''
+                      ? formErrors.email
+                      : null
+                  }
                 />
               </Box>
             </Grid>
@@ -278,16 +321,16 @@ export function SellerSetting(props) {
                 autoComplete="off"
               >
                 <TextField
-                  //error={formErrors.name != null && formValues.name.length == ""}
+                  // error={formErrors.name != null && formValues.name.length == ""}
                   required
                   id="outlined-textarea"
                   label="Thời gian mở cửa"
                   placeholder="Thời gian mở cửa"
                   multiline
                   name="name"
-                // value={formValues.name}
-                // onChange={handleChange}
-                // helperText={formErrors.name && formValues.name.length == "" ? formErrors.name : null}
+                  // value={formValues.name}
+                  // onChange={handleChange}
+                  // helperText={formErrors.name && formValues.name.length == "" ? formErrors.name : null}
                 />
               </Box>
             </Grid>
@@ -302,16 +345,16 @@ export function SellerSetting(props) {
                 autoComplete="off"
               >
                 <TextField
-                  //error={formErrors.name != null && formValues.name.length == ""}
+                  // error={formErrors.name != null && formValues.name.length == ""}
                   required
                   id="outlined-textarea"
                   label="Thời gian đóng cửa"
                   placeholder="Thời gian đóng cửa"
                   multiline
                   name="name"
-                // value={formValues.name}
-                // onChange={handleChange}
-                // helperText={formErrors.name && formValues.name.length == "" ? formErrors.name : null}
+                  // value={formValues.name}
+                  // onChange={handleChange}
+                  // helperText={formErrors.name && formValues.name.length == "" ? formErrors.name : null}
                 />
               </Box>
             </Grid>
@@ -326,7 +369,9 @@ export function SellerSetting(props) {
                 autoComplete="off"
               >
                 <TextField
-                  error={formErrors.slogan != null && formValues.slogan.length == ""}
+                  error={
+                    formErrors.slogan != null && formValues.slogan.length == ''
+                  }
                   required
                   id="outlined-textarea"
                   label="Slogan"
@@ -335,7 +380,11 @@ export function SellerSetting(props) {
                   name="name"
                   value={formValues.slogan}
                   onChange={handleChange}
-                  helperText={formErrors.slogan && formValues.slogan.length == "" ? formErrors.slogan : null}
+                  helperText={
+                    formErrors.slogan && formValues.slogan.length == ''
+                      ? formErrors.slogan
+                      : null
+                  }
                 />
               </Box>
             </Grid>
@@ -350,7 +399,10 @@ export function SellerSetting(props) {
                 autoComplete="off"
               >
                 <TextField
-                  error={formErrors.description != null && formValues.description.length == ""}
+                  error={
+                    formErrors.description != null &&
+                    formValues.description.length == ''
+                  }
                   required
                   id="outlined-textarea"
                   label="Mô tả"
@@ -359,7 +411,12 @@ export function SellerSetting(props) {
                   name="description"
                   value={formValues.description}
                   onChange={handleChange}
-                  helperText={formErrors.description && formValues.description.length == "" ? formErrors.description : null}
+                  helperText={
+                    formErrors.description &&
+                    formValues.description.length == ''
+                      ? formErrors.description
+                      : null
+                  }
                 />
               </Box>
             </Grid>
@@ -372,11 +429,18 @@ export function SellerSetting(props) {
                 }}
                 noValidate
                 autoComplete="off"
-
               >
-                <label style={{ textAlign: "center", width: "100%" }}>
-                  <FormGroup >
-                    <FormControlLabel control={<Checkbox checked={isInCampus} onChange={() => setAccept(!accept)} />} label="Dorm" />
+                <label style={{ textAlign: 'center', width: '100%' }}>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={isInCampus}
+                          onChange={() => setAccept(!accept)}
+                        />
+                      }
+                      label="Dorm"
+                    />
                   </FormGroup>
                 </label>
               </Box>
@@ -393,7 +457,10 @@ export function SellerSetting(props) {
               >
                 <TextField
                   disabled
-                  error={formErrors.district != null && formValues.district.length == ""}
+                  error={
+                    formErrors.district != null &&
+                    formValues.district.length == ''
+                  }
                   required
                   id="outlined-textarea"
                   label="Huyện"
@@ -402,7 +469,11 @@ export function SellerSetting(props) {
                   name="district"
                   value={formValues.district}
                   onChange={handleChange}
-                  helperText={formErrors.district && formValues.district.length == "" ? formErrors.district : null}
+                  helperText={
+                    formErrors.district && formValues.district.length == ''
+                      ? formErrors.district
+                      : null
+                  }
                 />
               </Box>
             </Grid>
@@ -425,9 +496,11 @@ export function SellerSetting(props) {
                     label="Xã"
                     onChange={handleChangeTypeUpdate}
                   >
-                    {props.sellerSetting.listWard.map((item, index) =>
-                      <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
-                    )}
+                    {props.sellerSetting.listWard.map((item, index) => (
+                      <MenuItem key={index} value={item.name}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Box>
@@ -443,7 +516,9 @@ export function SellerSetting(props) {
                 autoComplete="off"
               >
                 <TextField
-                  error={formErrors.town != null && formValues.town.length == ""}
+                  error={
+                    formErrors.town != null && formValues.town.length == ''
+                  }
                   required
                   id="outlined-textarea"
                   label="Thôn"
@@ -452,7 +527,11 @@ export function SellerSetting(props) {
                   name="name"
                   value={formValues.town}
                   onChange={handleChange}
-                  helperText={formErrors.town && formValues.town.length == "" ? formErrors.town : null}
+                  helperText={
+                    formErrors.town && formValues.town.length == ''
+                      ? formErrors.town
+                      : null
+                  }
                 />
               </Box>
             </Grid>
@@ -467,7 +546,10 @@ export function SellerSetting(props) {
                 autoComplete="off"
               >
                 <TextField
-                  error={formErrors.address != null && formValues.address.length == ""}
+                  error={
+                    formErrors.address != null &&
+                    formValues.address.length == ''
+                  }
                   required
                   id="outlined-textarea"
                   label="Địa chỉ"
@@ -476,30 +558,42 @@ export function SellerSetting(props) {
                   name="address"
                   value={formValues.address}
                   onChange={handleChange}
-                  helperText={formErrors.address && formValues.address.length == "" ? formErrors.address : null}
+                  helperText={
+                    formErrors.address && formValues.address.length == ''
+                      ? formErrors.address
+                      : null
+                  }
                 />
               </Box>
             </Grid>
 
-
-            <Grid container spacing={1} style={{ marginBottom: "15px" }}>
-              <Grid item sm={6} xs={12} >
-                <Button onClick={() => props.history.push("/my-store/manager-product")} className={classes.btn} variant="contained" component="span" >
+            <Grid container spacing={1} style={{ marginBottom: '15px' }}>
+              <Grid item sm={6} xs={12}>
+                <Button
+                  onClick={() =>
+                    props.history.push('/my-store/manager-product')
+                  }
+                  className={classes.btn}
+                  variant="contained"
+                  component="span"
+                >
                   Trở về
                 </Button>
               </Grid>
-              <Grid item sm={6} xs={12} >
-                <Button className={classes.btn} variant="contained" component="span" >
+              <Grid item sm={6} xs={12}>
+                <Button
+                  className={classes.btn}
+                  variant="contained"
+                  component="span"
+                >
                   Thay đổi
                 </Button>
               </Grid>
             </Grid>
-
-
           </Grid>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 

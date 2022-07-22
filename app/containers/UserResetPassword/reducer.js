@@ -7,15 +7,14 @@ import produce from 'immer';
 import { DEFAULT_ACTION } from './constants';
 import * as types from './constants';
 
-
 export const initialState = {
   loading: false,
-  message: ""
+  message: '',
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const userResetPasswordReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case DEFAULT_ACTION:
         break;
@@ -32,7 +31,7 @@ const userResetPasswordReducer = (state = initialState, action) =>
         break;
       case types.RESET:
         draft.loading = false;
-        draft.message = "";
+        draft.message = '';
         break;
     }
   });

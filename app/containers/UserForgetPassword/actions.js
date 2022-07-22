@@ -16,29 +16,27 @@ export function defaultAction() {
 export function forgetPassword(payload) {
   return {
     type: types.FORGET_PASSWORD,
-    payload
+    payload,
   };
 }
 
 export function forgetPasswordSuccess(payload) {
   return {
     type: types.FORGET_PASSWORD_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function forgetPasswordFailed(payload) {
   return {
     type: types.FORGET_PASSWORD_FAILED,
-    payload
+    payload,
   };
 }
 
 export function reset(payload) {
   return {
     type: types.RESET,
-    payload
+    payload,
   };
 }
-
-

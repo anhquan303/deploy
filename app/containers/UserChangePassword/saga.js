@@ -1,5 +1,10 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { changePasswordFailed, changePasswordSuccess, logoutFailed, logoutSuccess } from './actions';
+import {
+  changePasswordFailed,
+  changePasswordSuccess,
+  logoutFailed,
+  logoutSuccess,
+} from './actions';
 import { apiChangePass } from './api';
 import * as types from './constants';
 
@@ -8,13 +13,13 @@ export function* changePassword({ payload }) {
     const data = {
       currentPassword: payload.oldPassword,
       password: payload.newPassword,
-      confirmPassword: payload.verifyPassword
-    }
+      confirmPassword: payload.verifyPassword,
+    };
     const res = yield call(apiChangePass, ['api/user/changePassword'], data);
     if (res.status == 200) {
-      yield put(changePasswordSuccess(res.data.message))
+      yield put(changePasswordSuccess(res.data.message));
     } else {
-      yield put(changePasswordFailed("Failed"))
+      yield put(changePasswordFailed('Failed'));
     }
   } catch (error) {
     yield put(changePasswordFailed(error.message));
@@ -25,9 +30,9 @@ export function* logOut({ payload }) {
   try {
     const res = yield call(apiChangePass, ['auth/logout']);
     if (res.status == 200) {
-      //yield put(logoutSuccess("Success"));
+      // yield put(logoutSuccess("Success"));
     } else {
-      //yield put(logoutFailed("Failed"));
+      // yield put(logoutFailed("Failed"));
     }
   } catch (error) {
     yield put(logoutFailed(error.message));

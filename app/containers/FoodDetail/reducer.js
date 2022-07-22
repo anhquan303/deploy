@@ -9,15 +9,17 @@ import * as types from './constants';
 
 export const initialState = {
   loading: false,
-  message: "",
+  message: '',
   food: undefined,
   rating: 0,
-  listComment: []
+  listComment: [],
+  store: undefined
+  //listCart: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const foodDetailReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case DEFAULT_ACTION:
         break;
@@ -67,8 +69,19 @@ const foodDetailReducer = (state = initialState, action) =>
         break;
       case types.RESET:
         draft.loading = false;
-        draft.message = "";
+        draft.message = '';
         break;
+      // case types.GET_CART_BY_ID:
+      //   draft.loading = true;
+      //   break;
+      // case types.GET_CART_BY_ID_SUCCESS:
+      //   draft.loading = false;
+      //   draft.listCart = action.payload;
+      //   break;
+      // case types.GET_CART_BY_ID_FAILED:
+      //   draft.loading = false;
+      //   draft.message = action.payload;
+      //   break;
     }
   });
 

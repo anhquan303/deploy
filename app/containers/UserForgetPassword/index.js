@@ -14,78 +14,85 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectUserForgetPassword from './selectors';
-import reducer from './reducer';
-import saga from './saga';
-import messages from './messages';
-import { Grid, Box, FormGroup, TextField, FormControlLabel, Checkbox, Modal } from '@mui/material';
+import {
+  Grid,
+  Box,
+  FormGroup,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Modal,
+} from '@mui/material';
 import { makeStyles, Container, Typography, Button } from '@material-ui/core';
-import BackGround from '../../images/dhfpt.png';
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
   LoadCanvasTemplateNoReload,
-  validateCaptcha
-} from "react-simple-captcha";
-import { forgetPassword, reset } from './actions';
+  validateCaptcha,
+} from 'react-simple-captcha';
 import { useHistory } from 'react-router-dom';
+import makeSelectUserForgetPassword from './selectors';
+import reducer from './reducer';
+import saga from './saga';
+import messages from './messages';
+import BackGround from '../../images/dhfpt.png';
+import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
+import { forgetPassword, reset } from './actions';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   body: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "100vh",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
     backgroundImage: `url(${BackGround})`,
-    backgroundSize: "cover",
-
+    backgroundSize: 'cover',
   },
   container: {
-    position: "relative",
-    width: "fit-content",
-    height: "fit-content",
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: "40px 10px",
-    margin: "20px",
-    borderRadius: "30px"
+    position: 'relative',
+    width: 'fit-content',
+    height: 'fit-content',
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: '40px 10px',
+    margin: '20px',
+    borderRadius: '30px',
   },
   logo: {
-    width: "6rem",
-    height: "5rem",
+    width: '6rem',
+    height: '5rem',
   },
   top: {
-    display: "flex",
-    margin: "0 auto",
-    textAlign: "center"
+    display: 'flex',
+    margin: '0 auto',
+    textAlign: 'center',
   },
   registerTag: {
-    fontWeight: "600",
-    fontSize: "2em",
-    width: "100%",
-    textAlign: "center",
-    textTransform: "uppercase",
-    color: "#20d167",
+    fontWeight: '600',
+    fontSize: '2em',
+    width: '100%',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    color: '#20d167',
   },
   btnSubmit: {
-    position: "relative",
-    width: "fit-content",
-    borderRadius: "10px",
-    backgroundColor: "#ff9900",
-    marginTop: "10px",
-    "&:hover": {
-      backgroundColor: "orange",
-      fontWeight: "bold",
-      color: "#000",
-    }
+    position: 'relative',
+    width: 'fit-content',
+    borderRadius: '10px',
+    backgroundColor: '#ff9900',
+    marginTop: '10px',
+    '&:hover': {
+      backgroundColor: 'orange',
+      fontWeight: 'bold',
+      color: '#000',
+    },
   },
   topLogo: {
-    margin: "0 auto",
-    display: "flex",
-    marginBottom: "20px"
+    margin: '0 auto',
+    display: 'flex',
+    marginBottom: '20px',
   },
   modal: {
     position: 'absolute',
@@ -96,24 +103,23 @@ const useStyles = makeStyles((theme) => ({
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
-    backgroundColor: "#fff",
-    textAlign: "center",
-    borderRadius: "20px"
+    backgroundColor: '#fff',
+    textAlign: 'center',
+    borderRadius: '20px',
   },
   btnAccept: {
-    position: "relative",
-    width: "100%",
-    borderRadius: "10px",
-    backgroundColor: "#ff9900",
-    margin: "10px 0",
-    "&:hover": {
-      backgroundColor: "#FFA500",
-      fontWeight: "bold",
-      color: "#000",
-      boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
-    }
-  }
-
+    position: 'relative',
+    width: '100%',
+    borderRadius: '10px',
+    backgroundColor: '#ff9900',
+    margin: '10px 0',
+    '&:hover': {
+      backgroundColor: '#FFA500',
+      fontWeight: 'bold',
+      color: '#000',
+      boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
+    },
+  },
 }));
 
 export function UserForgetPassword(props) {
@@ -122,57 +128,57 @@ export function UserForgetPassword(props) {
   useInjectSaga({ key: 'userForgetPassword', saga });
 
   const classes = useStyles();
-  const initialValues = { email: "", captcha: "" };
+  const initialValues = { email: '', captcha: '' };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [open, setOpen] = useState(false);
   const history = useHistory();
 
-  //set value for input
-  const handleChange = (e) => {
+  // set value for input
+  const handleChange = e => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-  }
+  };
 
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
 
-  const validate = (values) => {
+  const validate = values => {
     const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
     const errors = {};
     if (!values.email) {
-      errors.email = "required!";
+      errors.email = 'required!';
     }
     if (regexEmail.test(values.email) == false) {
-      errors.email1 = "ex: abc@smt.com";
+      errors.email1 = 'ex: abc@smt.com';
     }
     if (!values.captcha) {
-      errors.captcha = "captcha is required!";
+      errors.captcha = 'captcha is required!';
     }
     if (validateCaptcha(values.captcha) == false) {
-      errors.captcha1 = "captcha does not match!";
+      errors.captcha1 = 'captcha does not match!';
     }
 
     return errors;
-  }
+  };
 
-  //check validate
-  const handlesubmit = (e) => {
+  // check validate
+  const handlesubmit = e => {
     e.preventDefault();
     setFormErrors(validate(formValues));
     setIsSubmit(true);
-  }
+  };
 
-  //submit
+  // submit
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       const data = {
         email: formValues.email,
-      }
+      };
       dispatch(forgetPassword(data));
-      //setOpen(true);
+      // setOpen(true);
     }
   }, [formErrors]);
 
@@ -180,14 +186,13 @@ export function UserForgetPassword(props) {
     dispatch(reset());
     setOpen(false);
     history.push('/reset-password');
-  }
+  };
 
   useEffect(() => {
-    if (props.userForgetPassword.message != "") {
+    if (props.userForgetPassword.message != '') {
       setOpen(true);
     }
   }, [props.userForgetPassword.message]);
-
 
   return (
     <div className={classes.body}>
@@ -196,13 +201,15 @@ export function UserForgetPassword(props) {
           <div className={classes.top}>
             <div className={classes.topLogo}>
               <img src={Logo} alt="logo" className={classes.logo} />
-              <h2>No <span>Nê</span></h2>
+              <h2>
+                No <span>Nê</span>
+              </h2>
             </div>
           </div>
           <h3 className={classes.registerTag}>Quên Mật Khẩu</h3>
           <div>
-            <Grid container spacing={2} style={{ textAlign: "center" }}>
-              <Grid item sm={12} xs={12} style={{ margin: "5px 0" }}>
+            <Grid container spacing={2} style={{ textAlign: 'center' }}>
+              <Grid item sm={12} xs={12} style={{ margin: '5px 0' }}>
                 <Box
                   component="form"
                   sx={{
@@ -219,13 +226,23 @@ export function UserForgetPassword(props) {
                     name="email"
                     value={formValues.email}
                     onChange={handleChange}
-                    helperText={formErrors.email && formValues.email.length == "" ? formErrors.email : formErrors.email1 ? formErrors.email1 : null}
-                    error={formErrors.email != null && formValues.email.length == "" ? true : formErrors.email1 != null ? true : false}
+                    helperText={
+                      formErrors.email && formValues.email.length == ''
+                        ? formErrors.email
+                        : formErrors.email1
+                          ? formErrors.email1
+                          : null
+                    }
+                    error={
+                      formErrors.email != null && formValues.email.length == ''
+                        ? true
+                        : formErrors.email1 != null
+                    }
                   />
                 </Box>
               </Grid>
 
-              <Grid item sm={12} xs={12} style={{ textAlign: "center" }}>
+              <Grid item sm={12} xs={12} style={{ textAlign: 'center' }}>
                 <LoadCanvasTemplate />
               </Grid>
               <Grid item sm={12} xs={12}>
@@ -237,7 +254,6 @@ export function UserForgetPassword(props) {
                   noValidate
                   autoComplete="off"
                 >
-
                   <TextField
                     id="outlined-textarea7"
                     label="Captcha"
@@ -246,16 +262,32 @@ export function UserForgetPassword(props) {
                     name="captcha"
                     onChange={handleChange}
                     value={formValues.captcha}
-                    helperText={formErrors.captcha && formValues.captcha.length == "" ? formErrors.captcha : formErrors.captcha1 ? formErrors.captcha1 : null}
-                    error={formErrors.captcha != null && formValues.captcha.length == "" ? true : formErrors.captcha1 != null ? true : false}
+                    helperText={
+                      formErrors.captcha && formValues.captcha.length == ''
+                        ? formErrors.captcha
+                        : formErrors.captcha1
+                          ? formErrors.captcha1
+                          : null
+                    }
+                    error={
+                      formErrors.captcha != null &&
+                      formValues.captcha.length == ''
+                        ? true
+                        : formErrors.captcha1 != null
+                    }
                   />
                 </Box>
               </Grid>
             </Grid>
-
           </div>
-          <div style={{ textAlign: "center" }}>
-            <Button type="submit" className={classes.btnSubmit} variant="contained" component="span" onClick={handlesubmit}>
+          <div style={{ textAlign: 'center' }}>
+            <Button
+              type="submit"
+              className={classes.btnSubmit}
+              variant="contained"
+              component="span"
+              onClick={handlesubmit}
+            >
               GỬI
             </Button>
           </div>
@@ -268,12 +300,22 @@ export function UserForgetPassword(props) {
         >
           <Box className={classes.modal}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              <CheckCircleIcon style={{ width: "20%", height: "20%", color: "#32C670" }} />
+              <CheckCircleIcon
+                style={{ width: '20%', height: '20%', color: '#32C670' }}
+              />
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <p style={{ fontFamily: "sans-serif", fontSize: "40px" }}>{props.userForgetPassword.message}</p>
+              <p style={{ fontFamily: 'sans-serif', fontSize: '40px' }}>
+                {props.userForgetPassword.message}
+              </p>
             </Typography>
-            <Button className={classes.btnAccept} style={{ width: "50%" }} variant="contained" component="span" onClick={closeModal}>
+            <Button
+              className={classes.btnAccept}
+              style={{ width: '50%' }}
+              variant="contained"
+              component="span"
+              onClick={closeModal}
+            >
               XÁC NHẬN
             </Button>
           </Box>

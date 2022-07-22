@@ -5,11 +5,11 @@ import * as types from './constants';
 
 export function* getListOrderByUserId({ payload }) {
   try {
-    const res = yield call(apiFetchData, [`api/order?userId=${payload.id}`])
-    if (res.status == 200) { 
-      yield put(getOrderByIdSuccess(res.data.data))
-    }else{
-      yield put(getOrderByIdFailed("FAILED"));
+    const res = yield call(apiFetchData, [`api/order?userId=${payload.id}`]);
+    if (res.status == 200) {
+      yield put(getOrderByIdSuccess(res.data.data));
+    } else {
+      yield put(getOrderByIdFailed('FAILED'));
     }
   } catch (error) {
     yield put(getOrderByIdFailed(error.message));

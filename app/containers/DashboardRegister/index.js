@@ -58,10 +58,10 @@ export function DashboardRegister(props) {
 
   const columns1 = [
     { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
-    { id: 'name', label: 'Store Name', minWidth: 100, align: 'center' },
-    { id: 'owner_name', label: 'Owner', minWidth: 100, align: 'center' },
-    { id: 'phone', label: 'Phone', minWidth: 100, align: 'center' },
-    { id: 'status', label: 'Status', minWidth: 100, align: 'center' },
+    { id: 'name', label: 'Tên quán ăn', minWidth: 100, align: 'center' },
+    { id: 'owner_name', label: 'Chủ sở hữu', minWidth: 100, align: 'center' },
+    { id: 'phone', label: 'Số điện thoại', minWidth: 100, align: 'center' },
+    { id: 'status', label: 'Trạng thái', minWidth: 100, align: 'center' },
   ];
 
   function createData(id, stt, name, owner_name, phone, status) {
@@ -90,7 +90,7 @@ export function DashboardRegister(props) {
         <Grid container spacing={0}>
           <Grid item sm={12} xs={12}>
             <div className={classes.information_image}>
-              <h2>New Register: {props.dashboardRegister.registerList.length}</h2>
+              <h2>Số quán ăn chờ xác nhận: {props.dashboardRegister.registerList.length}</h2>
             </div>
           </Grid>
           <Grid item sm={12} xs={12}>

@@ -44,7 +44,7 @@ export function getCart(payload) {
 export function getCartSuccess(payload) {
   return {
     type: types.GET_CART_SUCCESS,
-    payload,
+    payload
   };
 }
 
@@ -55,3 +55,9 @@ export function getCartFailed(payload) {
   };
 }
 
+export function reset(payload) {
+  return {
+    type: types.RESET,
+    payload,
+  };
+}

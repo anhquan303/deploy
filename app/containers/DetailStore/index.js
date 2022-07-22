@@ -344,7 +344,7 @@ export function DetailStore(props) {
 
                         <div className={classes.verify}>
                           <Button variant="contained" component="span" className={classes.btnChangeStatus} onClick={handleClick}>
-                            Change Status
+                            Đổi trạng thái
                           </Button>
                         </div>
                         <Menu
@@ -356,8 +356,8 @@ export function DetailStore(props) {
                             'aria-labelledby': 'basic-button',
                           }}
                         >
-                          <MenuItem onClick={approveStore}>Approve</MenuItem>
-                          <MenuItem onClick={declineStore}>Decline</MenuItem>
+                          <MenuItem onClick={approveStore}>Phê duyệt</MenuItem>
+                          <MenuItem onClick={declineStore}>Từ chối</MenuItem>
                         </Menu>
                       </Grid>
                     </Grid>
@@ -368,19 +368,19 @@ export function DetailStore(props) {
           </Box>
 
           <Box sx={{ flexGrow: 1 }}>
-            <h1>Information</h1>
+            <h1>Thông tin</h1>
             <div className={classes.information_second}>
               <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>
                   <div style={{ textAlign: "center" }}>
-                    <span><h2>Owner: {props.detailStore.store.otherLocation.owner_name}</h2></span>
-                    <span><h2>Register at: 04/08/2022</h2></span>
+                    <span><h2>Chủ sở hữu: {props.detailStore.store.otherLocation.owner_name}</h2></span>
+                    <span><h2>Đăng ký ngày: 04/08/2022</h2></span>
                   </div>
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <div style={{ textAlign: "center" }}>
-                    <span><h2>Cell Phone: {props.detailStore.store.user.phoneNumber}</h2></span>
-                    <span><h2>Approved at: 04/08/2022</h2></span>
+                    <span><h2>Số điện thoại: {props.detailStore.store.user.phoneNumber}</h2></span>
+                    <span><h2>Phê duyệt ngày: 04/08/2022</h2></span>
                   </div>
                 </Grid>
               </Grid>
@@ -390,7 +390,7 @@ export function DetailStore(props) {
           <div style={{ marginTop: "20px" }}>
             <Grid container spacing={2}>
               <Grid item md={3} sm={4} xs={12}>
-                <span><h2>Order</h2></span>
+                <span><h2>Đơn hàng</h2></span>
               </Grid>
               <Grid item md={9} sm={8} xs={12}  >
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -406,7 +406,7 @@ export function DetailStore(props) {
                         autoComplete="off"
                       >
                         <DatePicker
-                          label="From"
+                          label="Từ ngày"
                           value={value}
                           onChange={(newValue) => {
                             setValue(newValue);
@@ -425,7 +425,7 @@ export function DetailStore(props) {
                         autoComplete="off"
                       >
                         <DatePicker
-                          label="To"
+                          label="đến ngày"
                           value={value}
                           onChange={(newValue) => {
                             setValue(newValue);
@@ -436,7 +436,7 @@ export function DetailStore(props) {
                     </Grid>
                     <Grid item md={4} sm={6} xs={12}>
                       <Button className={classes.btnSearch} variant="contained" component="span" >
-                        Search
+                        Tìm kiếm
                       </Button>
                     </Grid>
                   </Grid>

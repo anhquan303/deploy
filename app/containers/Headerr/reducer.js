@@ -9,13 +9,13 @@ import * as types from './constants';
 
 export const initialState = {
   loading: false,
-  message: "",
-  cart: []
+  message: '',
+  cart: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const headerrReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case DEFAULT_ACTION:
         break;
@@ -40,6 +40,10 @@ const headerrReducer = (state = initialState, action) =>
       case types.GET_CART_FAILED:
         draft.loading = false;
         draft.message = action.payload;
+        break;
+      case types.RESET:
+        draft.loading = false;
+        draft.message = "";
         break;
     }
   });

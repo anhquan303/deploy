@@ -16,44 +16,41 @@ export function defaultAction() {
 export function getOrderDetailById(payload) {
   return {
     type: types.GET_ORDER_DETAIL_BY_ID,
-    payload
+    payload,
   };
 }
 
 export function getOrderDetailByIdSuccess(payload) {
   return {
     type: types.GET_ORDER_DETAIL_BY_ID_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function getOrderDetailByIdFailed(payload) {
   return {
     type: types.GET_ORDER_DETAIL_BY_ID_FAILED,
-    payload
+    payload,
   };
 }
 
 export function cancelOrder(payload) {
   return {
     type: types.CANCEL_ORDER,
-    payload
+    payload,
   };
 }
 
 export function cancelOrderSuccess(payload) {
   return {
     type: types.CANCEL_ORDER_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function cancelOrderFailed(payload) {
   return {
     type: types.CANCEL_ORDER_FAILED,
-    payload
+    payload,
   };
 }
-
-
-

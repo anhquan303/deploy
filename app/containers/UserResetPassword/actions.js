@@ -16,27 +16,27 @@ export function defaultAction() {
 export function resetPassword(payload) {
   return {
     type: types.RESET_PASSWORD,
-    payload
+    payload,
   };
 }
 
 export function resetPasswordSuccess(payload) {
   return {
     type: types.RESET_PASSWORD_SUCCESS,
-    payload
+    payload,
   };
 }
 
 export function resetPasswordFailed(payload) {
   return {
     type: types.RESET_PASSWORD_FAILED,
-    payload
+    payload,
   };
 }
 
 export function reset(payload) {
   return {
     type: types.RESET,
-    payload
+    payload,
   };
 }

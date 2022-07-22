@@ -9,13 +9,13 @@ import * as types from './constants';
 
 export const initialState = {
   loading: false,
-  message: "",
-  orderList: []
+  message: '',
+  orderList: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const userOrderHistoryReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case DEFAULT_ACTION:
         break;

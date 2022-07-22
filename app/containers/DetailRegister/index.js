@@ -299,7 +299,7 @@ export function DetailRegister(props) {
 
                       <div className={classes.verify}>
                         <Button variant="contained" component="span" className={classes.btnChangeStatus} onClick={handleClick}>
-                          Change Status
+                          Đổi trạng thái
                         </Button>
                       </div>
                       <Menu
@@ -311,8 +311,8 @@ export function DetailRegister(props) {
                           'aria-labelledby': 'basic-button',
                         }}
                       >
-                        <MenuItem onClick={approveStore}>Approve</MenuItem>
-                        <MenuItem onClick={declineStore}>Decline</MenuItem>
+                        <MenuItem onClick={approveStore}>Phê duyệt</MenuItem>
+                        <MenuItem onClick={declineStore}>Từ chối</MenuItem>
                       </Menu>
 
                     </Grid>
@@ -327,12 +327,12 @@ export function DetailRegister(props) {
               <Grid container spacing={3} >
                 <Grid item md={4} sm={4} xs={12}>
                   <div style={{ textAlign: "center" }}>
-                    <p className={classes.detailText}>Owner: {props.detailRegister.register.owner_name}</p>
-                    <p className={classes.detailText}>Register ar: 04/08/2022</p>
-                    <p className={classes.detailText}>Cell Phone: {props.detailRegister.register.user.phoneNumber}</p>
+                    <p className={classes.detailText}>Chủ sở hữu: {props.detailRegister.register.owner_name}</p>
+                    <p className={classes.detailText}>Đăng kí ngày: 04/08/2022</p>
+                    <p className={classes.detailText}>Số điện thoại: {props.detailRegister.register.user.phoneNumber}</p>
                     <p className={classes.detailText}>Email: {props.detailRegister.register.user.email}</p>
-                    <p className={classes.detailText}>Open Time: {props.detailRegister.register.open_time}</p>
-                    <p className={classes.detailText}>Close Time: {props.detailRegister.register.close_time}</p>
+                    <p className={classes.detailText}>Thời gian mở cửa: {props.detailRegister.register.open_time}</p>
+                    <p className={classes.detailText}>Thời gian đóng cửa: {props.detailRegister.register.close_time}</p>
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <p className={classes.titleText}>Menu</p>

@@ -9,13 +9,13 @@ import * as types from './constants';
 
 export const initialState = {
   loading: false,
-  message: "",
-  food: []
+  message: '',
+  food: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const userRatingCommentReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case DEFAULT_ACTION:
         break;
