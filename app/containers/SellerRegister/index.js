@@ -26,6 +26,7 @@ import {
   InputLabel,
   FormControlLabel,
   Checkbox,
+  LinearProgress
 } from '@mui/material';
 import {
   makeStyles,
@@ -257,7 +258,6 @@ export function SellerRegister(props) {
 
   const handleChangeEndTime = newValue => {
     setEndTime(moment(newValue, 'HH:mm:ss').format('hh:mm:ss'));
-    // console.log(moment(newValue, "HH:mm").format("hh:mm"))
   };
 
   // set value for input
@@ -370,9 +370,8 @@ export function SellerRegister(props) {
         },
         isInCampus: false,
         owner_name: formValues.owner_name,
-        location: `[other_location]|${formValues.village}|${type}|${
-          formValues.district
-        }`,
+        location: `[other_location]|${formValues.village}|${type}|${formValues.district
+          }`,
       };
       dispatch(sellerSignUp(data));
     }
@@ -422,6 +421,13 @@ export function SellerRegister(props) {
             </div>
           </div>
           <h3 className={classes.registerTag}>Đăng Ký Đối Tác</h3>
+
+          {props.sellerRegister.loading && props.sellerRegister.loading == true ? (
+            <div style={{ margin: '10px 0' }}>
+              <LinearProgress />
+            </div>
+          ) : null}
+
           <div style={{ display: 'flex', textAlign: 'center' }}>
             <Tabs
               style={{ margin: '0 auto' }}
@@ -499,7 +505,7 @@ export function SellerRegister(props) {
                         }
                         error={
                           formErrors.email != null &&
-                          formValues.email.length == ''
+                            formValues.email.length == ''
                             ? true
                             : formErrors.email1 != null
                         }
@@ -527,7 +533,7 @@ export function SellerRegister(props) {
                       onChange={handleChange}
                       helperText={
                         formErrors.phone != null &&
-                        formValues.phone.length == ''
+                          formValues.phone.length == ''
                           ? formErrors.phone
                           : formErrors.phone1 != null
                             ? formErrors.phone1
@@ -535,7 +541,7 @@ export function SellerRegister(props) {
                       }
                       error={
                         formErrors.phone != null &&
-                        formValues.phone.length == ''
+                          formValues.phone.length == ''
                           ? true
                           : formErrors.phone1 != null
                       }
@@ -667,89 +673,9 @@ export function SellerRegister(props) {
             </>
           ) : // page 2
             value == 1 ? (
-            <>
-              <div style={{ textAlign: 'center' }}>
-                <Grid item sm={12} xs={12}>
-                  <Box
-                    component="form"
-                    sx={{
-                      '& .MuiTextField-root': { m: 1, width: '100%' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                  >
-                    <TextField
-                      required
-                      id="outlined-textarea"
-                      label="Tên đầy đủ của người đại diện"
-                      placeholder="Tên đầy đủ của người đại diện"
-                      multiline
-                      value={user.username}
-                      disabled
-                    />
-                  </Box>
-                </Grid>
-                <Grid item sm={12} xs={12}>
-                  <Box
-                    component="form"
-                    sx={{
-                      '& .MuiTextField-root': { m: 1, width: '100%' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                  >
-                    <TextField
-                      disabled
-                      required
-                      id="outlined-textarea"
-                      label="Email"
-                      placeholder="Email"
-                      multiline
-                      // name="email1"
-                      value={user.email}
-                    />
-                  </Box>
-                </Grid>
-                <Grid item sm={12} xs={12}>
-                  <Box
-                    component="form"
-                    sx={{
-                      '& .MuiTextField-root': { m: 1, width: '100%' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                  >
-                    <TextField
-                      required
-                      value={user.phone}
-                      id="outlined-textarea"
-                      label="Số điện thoại"
-                      placeholder="Số điện thoại"
-                      disabled
-                    />
-                  </Box>
-                </Grid>
-                <Grid item sm={12} xs={12}>
-                  <Box
-                    component="form"
-                    sx={{
-                      '& .MuiTextField-root': { m: 1, width: '100%' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                  >
-                    <TextField
-                      disabled
-                      id="outlined-textarea"
-                      label="Số nhà và đường phố"
-                      placeholder="Số nhà và đường phố"
-                      multiline
-                      name="address1"
-                    />
-                  </Box>
-                </Grid>
-                <Grid container spacing={2}>
-                  <Grid item sm={6} xs={12}>
+              <>
+                <div style={{ textAlign: 'center' }}>
+                  <Grid item sm={12} xs={12}>
                     <Box
                       component="form"
                       sx={{
@@ -758,20 +684,18 @@ export function SellerRegister(props) {
                       noValidate
                       autoComplete="off"
                     >
-                      <div>
-                        <p>Ảnh chụp mặt trước CCCD *</p>
-                      </div>
-                      <div className={classes.upload}>
-                        <input
-                          type="file"
-                          name="identity_card_front"
-                          placeholder="upload an image"
-                          onChange={handleUploadFile}
-                        />
-                      </div>
+                      <TextField
+                        required
+                        id="outlined-textarea"
+                        label="Tên đầy đủ của người đại diện"
+                        placeholder="Tên đầy đủ của người đại diện"
+                        multiline
+                        value={user.username}
+                        disabled
+                      />
                     </Box>
                   </Grid>
-                  <Grid item sm={6} xs={12}>
+                  <Grid item sm={12} xs={12}>
                     <Box
                       component="form"
                       sx={{
@@ -780,24 +704,19 @@ export function SellerRegister(props) {
                       noValidate
                       autoComplete="off"
                     >
-                      <div>
-                        <p>Ảnh chụp mặt sau CCCD *</p>
-                      </div>
-                      <div className={classes.upload}>
-                        <input
-                          type="file"
-                          name="identity_card_back"
-                          placeholder="upload an image"
-                          onChange={handleUploadFile1}
-                        />
-                      </div>
+                      <TextField
+                        disabled
+                        required
+                        id="outlined-textarea"
+                        label="Email"
+                        placeholder="Email"
+                        multiline
+                        // name="email1"
+                        value={user.email}
+                      />
                     </Box>
                   </Grid>
-                </Grid>
-              </div>
-              <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                <Grid container spacing={2}>
-                  <Grid item sm={6} xs={12}>
+                  <Grid item sm={12} xs={12}>
                     <Box
                       component="form"
                       sx={{
@@ -806,55 +725,142 @@ export function SellerRegister(props) {
                       noValidate
                       autoComplete="off"
                     >
-                      <Button
-                        style={{ width: '50%' }}
-                        className={classes.btnBack}
-                        variant="contained"
-                        component="span"
-                        onClick={() => setValue(0)}
+                      <TextField
+                        required
+                        value={user.phone}
+                        id="outlined-textarea"
+                        label="Số điện thoại"
+                        placeholder="Số điện thoại"
+                        disabled
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item sm={12} xs={12}>
+                    <Box
+                      component="form"
+                      sx={{
+                        '& .MuiTextField-root': { m: 1, width: '100%' },
+                      }}
+                      noValidate
+                      autoComplete="off"
+                    >
+                      <TextField
+                        disabled
+                        id="outlined-textarea"
+                        label="Số nhà và đường phố"
+                        placeholder="Số nhà và đường phố"
+                        multiline
+                        name="address1"
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item sm={6} xs={12}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
                       >
-                        Quay lại
-                      </Button>
-                    </Box>
-                  </Grid>
-                  <Grid item sm={6} xs={12}>
-                    <Box
-                      component="form"
-                      sx={{
-                        '& .MuiTextField-root': { m: 1, width: '100%' },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <Button
-                        style={{ width: '50%' }}
-                        className={classes.btnSubmit}
-                        variant="contained"
-                        component="span"
-                        onClick={SecondSubmit}
+                        <div>
+                          <p>Ảnh chụp mặt trước CCCD *</p>
+                        </div>
+                        <div className={classes.upload}>
+                          <input
+                            type="file"
+                            name="identity_card_front"
+                            placeholder="upload an image"
+                            onChange={handleUploadFile}
+                          />
+                        </div>
+                      </Box>
+                    </Grid>
+                    <Grid item sm={6} xs={12}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
                       >
-                        Lưu và tiếp tục
-                      </Button>
-                    </Box>
+                        <div>
+                          <p>Ảnh chụp mặt sau CCCD *</p>
+                        </div>
+                        <div className={classes.upload}>
+                          <input
+                            type="file"
+                            name="identity_card_back"
+                            placeholder="upload an image"
+                            onChange={handleUploadFile1}
+                          />
+                        </div>
+                      </Box>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </div>
-            </>
+                </div>
+                <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                  <Grid container spacing={2}>
+                    <Grid item sm={6} xs={12}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        <Button
+                          style={{ width: '50%' }}
+                          className={classes.btnBack}
+                          variant="contained"
+                          component="span"
+                          onClick={() => setValue(0)}
+                        >
+                          Quay lại
+                        </Button>
+                      </Box>
+                    </Grid>
+                    <Grid item sm={6} xs={12}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        <Button
+                          style={{ width: '50%' }}
+                          className={classes.btnSubmit}
+                          variant="contained"
+                          component="span"
+                          onClick={SecondSubmit}
+                        >
+                          Lưu và tiếp tục
+                        </Button>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </div>
+              </>
             ) : (
-            // page 3
-            <>
-              <div style={{ textAlign: 'center' }}>
-                <Grid container spacing={2}>
-                  <Grid item sm={6} xs={12}>
-                    <Box
-                      component="form"
-                      sx={{
-                        '& .MuiTextField-root': { m: 0, width: '100%' },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+              // page 3
+              <>
+                <div style={{ textAlign: 'center' }}>
+                  <Grid container spacing={2}>
+                    <Grid item sm={6} xs={12}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 0, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <TimePicker
                             label="Thời gian mở cửa"
                             value={startTime}
@@ -862,25 +868,25 @@ export function SellerRegister(props) {
                             renderInput={(params) => <TextField {...params} />}
                           />
                         </LocalizationProvider> */}
-                      <p style={{ fontFamily: 'san-serif', fontSize: '20px' }}>
-                        Thời gian mở cửa
-                      </p>
-                      <TimePicker
-                        onChange={handleChangeStartTime}
-                        value={startTime}
-                      />
-                    </Box>
-                  </Grid>
-                  <Grid item sm={6} xs={12}>
-                    <Box
-                      component="form"
-                      sx={{
-                        '& .MuiTextField-root': { m: 0, width: '100%' },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <p style={{ fontFamily: 'san-serif', fontSize: '20px' }}>
+                          Thời gian mở cửa
+                        </p>
+                        <TimePicker
+                          onChange={handleChangeStartTime}
+                          value={startTime}
+                        />
+                      </Box>
+                    </Grid>
+                    <Grid item sm={6} xs={12}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 0, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <TimePicker
                             label="Thời gian đóng cửa"
                             value={endTime}
@@ -888,42 +894,113 @@ export function SellerRegister(props) {
                             renderInput={(params) => <TextField {...params} />}
                           />
                         </LocalizationProvider> */}
-                      <p style={{ fontFamily: 'san-serif', fontSize: '20px' }}>
-                        Thời gian đóng cửa
-                      </p>
-                      <TimePicker
-                        onChange={handleChangeEndTime}
-                        value={endTime}
-                      />
-                    </Box>
+                        <p style={{ fontFamily: 'san-serif', fontSize: '20px' }}>
+                          Thời gian đóng cửa
+                        </p>
+                        <TimePicker
+                          onChange={handleChangeEndTime}
+                          value={endTime}
+                        />
+                      </Box>
+                    </Grid>
                   </Grid>
-                </Grid>
-                <div style={{ marginTop: '20px' }}>
-                  <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
-                    <Box
-                      component="form"
-                      sx={{
-                        '& .MuiTextField-root': { m: 1, width: '100%' },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <TextareaAutosize
-                        aria-label="Miêu tả về quán"
-                        minRows={3}
-                        placeholder="Miêu tả về quán"
-                        style={{ width: '100%' }}
-                        name="description"
-                        value={formValues.description}
-                        onChange={handleChange}
-                      />
-                    </Box>
-                  </Grid>
-                </div>
+                  <div style={{ marginTop: '20px' }}>
+                    <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        <TextareaAutosize
+                          aria-label="Miêu tả về quán"
+                          minRows={3}
+                          placeholder="Miêu tả về quán"
+                          style={{ width: '100%' }}
+                          name="description"
+                          value={formValues.description}
+                          onChange={handleChange}
+                        />
+                      </Box>
+                    </Grid>
+                  </div>
 
-                <div>
-                  <Grid container spacing={3}>
-                    <Grid item sm={4} xs={12}>
+                  <div>
+                    <Grid container spacing={3}>
+                      <Grid item sm={4} xs={12}>
+                        <Box
+                          component="form"
+                          sx={{
+                            '& .MuiTextField-root': { m: 1, width: '100%' },
+                          }}
+                          noValidate
+                          autoComplete="off"
+                        >
+                          <div>
+                            <p>Ảnh đại diện quán *</p>
+                          </div>
+                          <div className={classes.upload}>
+                            <input
+                              type="file"
+                              name="front"
+                              placeholder="upload an image"
+                              onChange={handleUploadAvatar}
+                            />
+                          </div>
+                        </Box>
+                      </Grid>
+                      <Grid item sm={4} xs={12}>
+                        <Box
+                          component="form"
+                          sx={{
+                            '& .MuiTextField-root': { m: 1, width: '100%' },
+                          }}
+                          noValidate
+                          autoComplete="off"
+                        >
+                          <div>
+                            <p>Chứng nhận thực phẩm sạch *</p>
+                          </div>
+                          <div className={classes.upload}>
+                            <input
+                              type="file"
+                              name="back"
+                              placeholder="upload an image"
+                              onChange={handleUploadCerti}
+                            />
+                          </div>
+                        </Box>
+                      </Grid>
+                      <Grid item sm={4} xs={12}>
+                        <Box
+                          component="form"
+                          sx={{
+                            '& .MuiTextField-root': { m: 1, width: '100%' },
+                          }}
+                          noValidate
+                          autoComplete="off"
+                        >
+                          <div>
+                            <p>Menu *</p>
+                          </div>
+                          <div className={classes.upload}>
+                            <input
+                              type="file"
+                              name="menu"
+                              placeholder="upload an image"
+                              onChange={handleUploadMenu}
+                            />
+                          </div>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                  <Grid container spacing={2}>
+                    <Grid item sm={12} xs={12}>
                       <Box
                         component="form"
                         sx={{
@@ -932,20 +1009,19 @@ export function SellerRegister(props) {
                         noValidate
                         autoComplete="off"
                       >
-                        <div>
-                          <p>Ảnh đại diện quán *</p>
-                        </div>
-                        <div className={classes.upload}>
-                          <input
-                            type="file"
-                            name="front"
-                            placeholder="upload an image"
-                            onChange={handleUploadAvatar}
-                          />
-                        </div>
+                        <label style={{ textAlign: 'center', width: '100%' }}>
+                          <FormGroup style={{ margin: '0 auto', width: '65%' }}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox onChange={() => setAccept(!accept)} />
+                              }
+                              label="Tôi đồng ý với điều khoản dịch vụ và chính sách bảo mật"
+                            />
+                          </FormGroup>
+                        </label>
                       </Box>
                     </Grid>
-                    <Grid item sm={4} xs={12}>
+                    <Grid item sm={12} xs={12}>
                       <Box
                         component="form"
                         sx={{
@@ -954,92 +1030,22 @@ export function SellerRegister(props) {
                         noValidate
                         autoComplete="off"
                       >
-                        <div>
-                          <p>Chứng nhận thực phẩm sạch *</p>
-                        </div>
-                        <div className={classes.upload}>
-                          <input
-                            type="file"
-                            name="back"
-                            placeholder="upload an image"
-                            onChange={handleUploadCerti}
-                          />
-                        </div>
-                      </Box>
-                    </Grid>
-                    <Grid item sm={4} xs={12}>
-                      <Box
-                        component="form"
-                        sx={{
-                          '& .MuiTextField-root': { m: 1, width: '100%' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                      >
-                        <div>
-                          <p>Menu *</p>
-                        </div>
-                        <div className={classes.upload}>
-                          <input
-                            type="file"
-                            name="menu"
-                            placeholder="upload an image"
-                            onChange={handleUploadMenu}
-                          />
-                        </div>
+                        <Button
+                          type="submit"
+                          disabled={accept == false}
+                          className={classes.btnSubmit}
+                          style={{ width: '50%' }}
+                          variant="contained"
+                          component="span"
+                          onClick={SubmitAll}
+                        >
+                          ĐĂNG KÝ
+                        </Button>
                       </Box>
                     </Grid>
                   </Grid>
                 </div>
-              </div>
-              <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                <Grid container spacing={2}>
-                  <Grid item sm={12} xs={12}>
-                    <Box
-                      component="form"
-                      sx={{
-                        '& .MuiTextField-root': { m: 1, width: '100%' },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <label style={{ textAlign: 'center', width: '100%' }}>
-                        <FormGroup style={{ margin: '0 auto', width: '65%' }}>
-                          <FormControlLabel
-                            control={
-                              <Checkbox onChange={() => setAccept(!accept)} />
-                            }
-                            label="Tôi đồng ý với điều khoản dịch vụ và chính sách bảo mật"
-                          />
-                        </FormGroup>
-                      </label>
-                    </Box>
-                  </Grid>
-                  <Grid item sm={12} xs={12}>
-                    <Box
-                      component="form"
-                      sx={{
-                        '& .MuiTextField-root': { m: 1, width: '100%' },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <Button
-                        type="submit"
-                        disabled={accept == false}
-                        className={classes.btnSubmit}
-                        style={{ width: '50%' }}
-                        variant="contained"
-                        component="span"
-                        onClick={SubmitAll}
-                      >
-                        ĐĂNG KÝ
-                      </Button>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </div>
-            </>
+              </>
             )}
         </form>
         <Modal

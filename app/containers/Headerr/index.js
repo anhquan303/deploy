@@ -110,6 +110,22 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
   },
+  zero: {
+    [theme.breakpoints.down("sm")]: {
+      order: "1"
+    },
+  },
+  one: {
+    margin: "0 auto",
+    [theme.breakpoints.down("sm")]: {
+      order: "0",
+    },
+  },
+  two: {
+    [theme.breakpoints.down("sm")]: {
+      order: "2"
+    },
+  },
 }));
 
 export function Headerr(props) {
@@ -124,7 +140,6 @@ export function Headerr(props) {
   const [check, setCheck] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-  // console.log(props)
   const handleLogout = () => {
     dispatch(logOut());
     removeUserSession();
@@ -171,13 +186,11 @@ export function Headerr(props) {
     setAnchorElUser(null);
   };
 
-  // console.log(props.headerr)
-
   return (
     <div style={{ backgroundColor: '#FF9900', marginBottom: "1rem" }}>
       <Container fixed style={{ padding: '10px' }}>
-        <Grid container spacing={3}>
-          <Grid item xs>
+        <Grid container spacing={0}>
+          <Grid item xs={12} sm={12} md={3} className={classes.zero}>
             <div style={{ textAlign: 'center' }}>
               {(user && user.authorities[0].authority == 'USER') ||
                 user == null ? (
@@ -201,12 +214,13 @@ export function Headerr(props) {
             </div>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6} sm={12} className={classes.one}>
             <p className={classes.title}>
               No <span style={{ color: '#1168EB' }}>Nê</span>
             </p>
           </Grid>
-          <Grid item xs>
+
+          <Grid item xs={12} md={3} sm={12} className={classes.two}>
             <div style={{ textAlign: 'center' }}>
               {/* <LocaleToggle /> */}
               {user == null ? (
@@ -216,26 +230,6 @@ export function Headerr(props) {
                 </>
               ) : (
                 <>
-                  {/* <div className={classes.avatar}>
-                    <img
-                      src={Avatar1}
-                      alt="logo"
-                      style={{
-                        width: '30px',
-                        height: '30px',
-                        borderRadius: '50px',
-                      }}
-                    />
-                    <span className={classes.userName}>
-                      {user.firstname} {user.lastname}
-                    </span>
-                    <div className={classes.action}>
-                      <Button href="/user/setting"><FormattedMessage {...messages.myAccount} /></Button>
-                      <br />
-                      <Button onClick={handleLogout}><FormattedMessage {...messages.logout} /></Button>
-                      <br />
-                    </div>
-                  </div> */}
                   <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

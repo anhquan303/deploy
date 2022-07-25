@@ -26,9 +26,10 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { makeStyles, Container, Typography } from '@material-ui/core';
 
-import { getAllStore, getAllUser, getData } from './actions';
+import { getAllFood, getAllStore, getAllUser, getData } from './actions';
 import Avatar from '@mui/material/Avatar';
 import { getUser } from '../../utils/common';
+import { Line } from 'react-chartjs-2';
 
 
 export function Dashboard(props) {
@@ -40,10 +41,8 @@ export function Dashboard(props) {
   useEffect(() => {
     dispatch(getAllStore());
     dispatch(getAllUser());
+    dispatch(getAllFood());
   }, [])
-
-  console.log(props.dashboard.userList);
-
 
   const user = getUser();
   if (user) {
@@ -99,7 +98,7 @@ export function Dashboard(props) {
               <div className="middle">
                 <div className="left">
                   <h3>Tổng số món ăn</h3>
-                  <h1>230</h1>
+                  <h1>{props.dashboard.foodList.length}</h1>
                 </div>
                 {/* <div className="progress">
                   <svg>
@@ -113,7 +112,33 @@ export function Dashboard(props) {
           </Grid>
           <Grid item sm={12} xs={12}>
             <h3>Hoạt động</h3>
-            {/* <CustomTable data={actione} itemPerPage={5} totalItem={actione.length} detailPage="dashboard" columns={columns} action={action} /> */}
+            <Line
+              data={{
+                labels: ["12/07/2022", "13/07/2022", "14/07/2022"],
+                datasets: [
+                  {
+                    data: ["400000", "150000", "1000000"],
+                    label: "Quán ăn",
+                    borderColor: "#FFAC30",
+                    fill: true
+                  },
+                  {
+                    data: ["17", "10", "40"],
+                    label: "Người dùng",
+                    borderColor: "#1168EB",
+                    backgroundColor: "rgba(255, 0, 0, 0.5)",
+                    fill: true
+                  },
+                  {
+                    data: ["50000", "30000", "100000"],
+                    label: "Món ăn",
+                    borderColor: "#FE0000",
+                    backgroundColor: "rgba(255, 0, 0, 0.5)",
+                    fill: true
+                  }
+                ]
+              }}
+            />
           </Grid>
         </Grid>
 

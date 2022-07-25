@@ -45,9 +45,9 @@ export function* sellerSignUp({ payload }) {
     formData.append('owner_name', payload.owner_name);
     formData.append('location', payload.location);
 
-    for (const pair of formData.entries()) {
-      console.log(`${pair[0]}, ${pair[1]}`);
-    }
+    // for (const pair of formData.entries()) {
+    //   console.log(`${pair[0]}, ${pair[1]}`);
+    // }
 
     // axios.post("http://localhost:3990/api/store/register", formData, {
     //   headers: {
@@ -93,7 +93,6 @@ export function* getListWards({ payload }) {
     //   .catch((error) => {
     //   });
     const res = yield call(apiFetchData, []);
-    console.log(res);
     if (res.status == 200) {
       yield put(getListWardsSuccess(res.data.wards));
     } else {

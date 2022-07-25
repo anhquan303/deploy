@@ -117,7 +117,6 @@ export function SellerTurnover(props) {
     dispatch(getDataForChart(data));
   }, [time]);
 
-  // console.log(props.sellerTurnover.saleData[props.sellerTurnover.saleData.length - 1].totalAmount)
   return (
     <div>
       <p className={classes.title} style={{ fontSize: '25px' }}>

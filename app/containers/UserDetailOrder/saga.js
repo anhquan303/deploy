@@ -23,7 +23,6 @@ export function* getOrderDetail({ payload }) {
 export function* cancelOrder({ payload }) {
   try {
     const res = yield call(apiPost, [`api/order/${payload.id}/cancel`]);
-    console.log(res);
     // if (res.status == 200) {
     //   yield put(getOrderDetailByIdSuccess(res.data.data));
     // } else {

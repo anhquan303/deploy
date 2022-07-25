@@ -11,7 +11,8 @@ export const initialState = {
   loading: false,
   message: "",
   store: undefined,
-  food: []
+  food: [],
+  storeRating: undefined
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -39,6 +40,17 @@ const storeProfileReducer = (state = initialState, action) =>
         draft.food = action.payload;
         break;
       case types.GET_FOOD_BY_STORE_ID_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_STORE_RATING:
+        draft.loading = true;
+        break;
+      case types.GET_STORE_RATING_SUCCESS:
+        draft.loading = false;
+        draft.storeRating = action.payload;
+        break;
+      case types.GET_STORE_RATING_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

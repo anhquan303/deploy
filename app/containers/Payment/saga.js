@@ -1,6 +1,11 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { createOrderFailed, createOrderSuccess, getListLocationByUserIdFailed, getListLocationByUserIdSuccess } from './actions';
-import { apiFetchData, apiPost } from './api';
+import {
+  addLocationFailed,
+  addLocationSuccess,
+  createOrderFailed, createOrderSuccess, getListLocationByUserIdFailed,
+  getListLocationByUserIdSuccess, getListWardsFailed, getListWardsSuccess
+} from './actions';
+import { apiFetchData, apiGetListWards, apiPost } from './api';
 import * as types from './constants';
 
 export function* createOrder({ payload }) {
@@ -28,9 +33,37 @@ export function* getListLocationByUserId({ payload }) {
     yield put(getListLocationByUserIdFailed(error.message));
   }
 }
+
+export function* getListWard({ payload }) {
+  try {
+    const res = yield call(apiGetListWards, []);
+    if (res.status == 200) {
+      yield put(getListWardsSuccess(res.data.wards))
+    } else {
+      yield put(getListWardsFailed("FAILED"))
+    }
+  } catch (error) {
+    yield put(getListWardsFailed(error.message));
+  }
+}
+
+export function* addLocation({ payload }) {
+  try {
+    const res = yield call(apiPost, [`api/location/insert/location`], payload);
+    if (res.status == 200) {
+      yield put(addLocationSuccess("Thêm địa chỉ thành công"))
+    } else {
+      yield put(addLocationFailed("Thêm địa chỉ thất bại"))
+    }
+  } catch (error) {
+    yield put(addLocationFailed(error.message));
+  }
+}
 // Individual exports for testing
 export default function* paymentSaga() {
   // See example in containers/HomePage/saga.js
   yield takeEvery(types.CREATE_ORDER, createOrder);
+  yield takeEvery(types.GET_LIST_WARDS, getListWard);
   yield takeEvery(types.GET_LIST_LOCATION_BY_USER_ID, getListLocationByUserId);
+  yield takeEvery(types.ADD_LOCATION, addLocation);
 }

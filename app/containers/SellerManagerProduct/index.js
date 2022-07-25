@@ -144,8 +144,6 @@ export function SellerManagerProduct(props) {
     setPriceTo('');
   };
 
-  console.log(props.sellerManagerProduct.foodList);
-
   return (
     <div style={{ paddingRight: '15px' }}>
       <div>

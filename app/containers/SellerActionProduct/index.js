@@ -206,8 +206,6 @@ export function SellerActionProduct(props) {
     setChecked(event.target.checked);
   };
 
-  //console.log(checked)
-
   useEffect(() => {
     if (checked == true) {
       const data = {

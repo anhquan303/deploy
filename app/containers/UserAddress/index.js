@@ -181,8 +181,6 @@ export function UserAddress(props) {
     setOpenAlert(false);
   };
 
-  // console.log(props.userAddress.message)
-
   useEffect(() => {
     if (props.userAddress.message != '') {
       const data = {
@@ -204,7 +202,7 @@ export function UserAddress(props) {
 
   // set data for update
   useEffect(() => {
-    if (props.userAddress.location != undefined) {
+    if (props.userAddress.location != undefined && props.userAddress.location != null) {
       formValues.addressUpdate = props.userAddress.location.name;
       const str = props.userAddress.location.village.split(',');
       formValues.townUpdate = str[0];
@@ -274,7 +272,7 @@ export function UserAddress(props) {
       </Grid>
 
       <hr />
-      {props.userAddress.locationUser.map((item, index) => (
+      {props.userAddress.locationUser != null ? props.userAddress.locationUser.map((item, index) => (
         <div key={index}>
           <Grid container spacing={0}>
             <Grid item xs={12} md={8} className={classes.center}>
@@ -403,7 +401,7 @@ export function UserAddress(props) {
           </Grid>
           <hr />
         </div>
-      ))}
+      )) : null}
 
       <Modal
         open={open}

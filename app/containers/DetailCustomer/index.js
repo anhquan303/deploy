@@ -159,7 +159,6 @@ export function DetailCustomer(props) {
     }
   }, [props.detailCustomer.message]);
 
-  console.log(props.detailCustomer.user)
   return (
     <div style={{ padding: "15px" }}>
       {props.detailCustomer.user ?

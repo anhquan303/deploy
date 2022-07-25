@@ -177,7 +177,6 @@ export function SellerOrderDetail(props) {
       if (props.sellerOrderDetail.message == 'SUCCESS') {
         setCheck(true);
       }
-      console.log(props.sellerOrderDetail.message);
       setOpenAlert(true);
       setTimeout(() => {
         dispatch(reset());

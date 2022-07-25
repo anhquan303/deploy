@@ -6,7 +6,6 @@ import * as types from './constants';
 export function* forgetPassword({ payload }) {
   try {
     const res = yield call(apiPost, ['api/user/forgotPassword'], payload);
-    console.log(res);
     if (res.status == 200) {
       yield put(forgetPasswordSuccess(res.data.message));
     } else {

@@ -55,3 +55,25 @@ export function getAllUserFailed(payload) {
   };
 }
 
+export function getAllFood(payload) {
+  return {
+    type: types.GET_ALL_FOOD,
+    payload
+  };
+}
+
+export function getAllFoodSuccess(payload) {
+  return {
+    type: types.GET_ALL_FOOD_SUCCESS,
+    payload
+  };
+}
+
+export function getAllFoodFailed(payload) {
+  return {
+    type: types.GET_ALL_FOOD_FAILED,
+    payload
+  };
+}
+
+

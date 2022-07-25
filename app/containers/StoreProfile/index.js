@@ -18,10 +18,10 @@ import makeSelectStoreProfile from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Headerr } from '../Headerr';
+import Headerr from '../Headerr';
 import {
-  Box, Grid, IconButton, Container, Avatar, Rating,
-  List, ListItemButton, ListItemText, TextField, Tabs, Tab
+  Box, Grid, IconButton, Container, Avatar, Rating, Card, CardMedia, Typography, CardContent,
+  List, ListItemButton, ListItemText, TextField, Tabs, Tab, Chip
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
@@ -29,8 +29,11 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { CardItem } from '../CardItem';
-import { getFoodByStoreId, getStoreById } from './actions';
+import { getFoodByStoreId, getStoreById, getStoreRating } from './actions';
 import { Link } from 'react-router-dom';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+
+let HEIGHT = window.screen.height;
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -61,6 +64,41 @@ const useStyles = makeStyles(theme => ({
     height: 'fit-content',
     width: '100%',
   },
+  root: {
+    height: 450,
+    [theme.breakpoints.down("sm")]: {
+      height: 450,
+    }
+  },
+  media: {
+    height: HEIGHT / 3
+  },
+  profileImage: {
+    position: "relative",
+    top: "-120px",
+    // left: "50px",
+    justifyContent: "center",
+    // width: "60px",
+    height: "fit-content",
+    border: "5px solid white",
+    margin: "20px"
+  },
+  profileInfoContainer: {
+    position: "relative",
+    top: "-100px",
+    margin: "auto"
+  },
+  userName: {
+    fontWeight: "bold",
+    marginBottom: 0
+  },
+  userTag: {
+    marginTop: 0
+  },
+  contentContainer: {
+    position: "relative",
+    top: "-90px"
+  }
 }));
 
 
@@ -87,92 +125,55 @@ export function StoreProfile(props) {
     }
     dispatch(getStoreById(data));
     dispatch(getFoodByStoreId(data));
+    dispatch(getStoreRating(data));
   }, []);
-
-  console.log(props.storeProfile.food)
 
   return (
     <div>
       <Headerr />
+
       <Container fixed>
-        {/* <Helmet>
-          <title>StoreProfile</title>
-          <meta name="description" content="Description of StoreProfile" />
-        </Helmet>
-        <FormattedMessage {...messages.header} /> */}
-        <Grid container spacing={0}>
-          <Grid item xs={12} sm={12} md={6} style={{ padding: "10px" }}>
-            <div style={{ border: "1px solid #000", padding: "10px" }}>
-              <Grid container spacing={0}>
-                <Grid item xs={12} sm={12} md={4} className={classes.center}>
-                  <Avatar
-                    alt="store avatar"
-                    src={props.storeProfile.store ? props.storeProfile.store.storeImage.avatar : null}
-                    sx={{ width: 100, height: 100 }}
+        <Card className={classes.root}>
+          <CardMedia className={classes.media} image="https://www.wikihow.com/images/thumb/a/a8/Cover-Food-in-the-Microwave-Step-1.jpg/v4-460px-Cover-Food-in-the-Microwave-Step-1.jpg.webp" title="Cover" />
+          <div className={classes.profileImage} style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", backgroundColor: "#fff", borderRadius: "10px" }}>
+            <Grid container spacing={0} >
+              <Grid item lg={1} md={2} sm={3}>
+                <div style={{ padding: "5px" }}>
+                  <Box
+                    component="img"
+                    sx={{
+                      height: 71,
+                      width: 90,
+                      maxHeight: { xs: 71, md: 71 },
+                      maxWidth: { xs: 90, md: 90 },
+                      borderRadius: "10px"
+                    }}
+                    alt="avatar store"
+                    src={props.storeProfile.store ? props.storeProfile.store.storeImage.avatar : "https://www.blexar.com/avatar.png"}
                   />
-                </Grid>
-                <Grid item xs={12} sm={12} md={8}>
-                  <p style={{ fontFamily: "san-serif", margin: "0", fontWeight: "500", fontSize: "30px" }}>{props.storeProfile.store ? props.storeProfile.store.name : null}</p>
-                  <Button
-                    className={classes.btn}
-                    variant="outlined"
-                  // startIcon={<ThumbUpIcon />}
-                  >
-                    Yêu thích
-                  </Button>
-                </Grid>
-              </Grid>
-
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} style={{ padding: "10px" }} className={classes.center}>
-            <div style={{ padding: "10px" }} >
-              <Grid container spacing={0} style={{ height: "100%" }}>
-
-                <Grid item xs={12} sm={12} md={6} style={{ margin: "5px 0" }}>
-                  <Grid container spacing={0}>
-                    <Grid item xs={12} sm={12} md={12} >
-                      <Grid container direction="row" alignItems="center">
-                        <RestaurantMenuIcon /> <span style={{ marginLeft: "10px" }}>Món ăn: 12</span>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} >
-
-                      <Grid container direction="row" alignItems="center">
-                        <EmojiEmotionsIcon />
-                        <span style={{ marginLeft: "10px" }}> Đánh giá:</span>
-                        <Rating
-                          name="half-rating-read"
-                          value={5}
-                          precision={0.5}
-                          readOnly
-                          className={classes.center}
-                        />
-                        <span style={{ marginLeft: "10px" }}></span>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={6} style={{ margin: "5px 0" }}>
-                  <Grid container spacing={0}>
-                    <Grid item xs={12} sm={12} md={12} >
-                      <Grid container direction="row" alignItems="center">
-                        <ThumbUpIcon /> <span style={{ marginLeft: "10px" }}>Lượt yêu thích: 12</span>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} >
-                      <Grid container direction="row" alignItems="center">
-                        <VerifiedIcon /> <span style={{ marginLeft: "10px" }}>Tham gia: 12/06/2021</span>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
+                </div>
 
               </Grid>
-            </div>
-          </Grid>
-        </Grid>
+              <Grid item lg={11} md={10} sm={11}>
+                <p style={{ fontFamily: "circular std book,sans-serif", margin: "0", fontWeight: "700", fontSize: "30px" }}>{props.storeProfile.store ? props.storeProfile.store.name : null}</p>
+                <Chip icon={<AccessTimeIcon />} label={`Thời gian mở cửa: ${props.storeProfile.store ? props.storeProfile.store.open_time : null} - ${props.storeProfile.store ? props.storeProfile.store.close_time : null}`} variant="outlined" />
+                <p style={{ fontFamily: "circular std book,sans-serif", margin: "10px 0 ", fontWeight: "400", fontSize: "13px", color: "#858796", textAlign: "left" }}>{props.storeProfile.store ? props.storeProfile.store.description : null}</p>
+                <div style={{ display: "flex", margin: "10px 0 " }}>
+                  <div>
+                    <Rating
+                      name="half-rating-read"
+                      value={props.storeProfile.storeRating == null ? 0 : props.storeProfile.storeRating}
+                      precision={0.5}
+                      readOnly
+                      className={classes.center}
+                    />
+                  </div>
+                  <div style={{ margin: "3px" }}> 5 - 243 Ratings</div>
+                </div>
+              </Grid>
+            </Grid>
+          </div>
+        </Card>
         <hr />
         <div style={{ display: 'flex', textAlign: 'center' }}>
           <Tabs value={value} onChange={handleChangeTab} aria-label="disabled tabs example" style={{ margin: '0 auto' }}>
@@ -252,6 +253,9 @@ export function StoreProfile(props) {
           </Grid>
         </div>
       </Container>
+
+
+
     </div >
   );
 }

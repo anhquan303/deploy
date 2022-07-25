@@ -31,3 +31,5 @@ export const GET_FOOD_BY_ID_SUCCESS =
   'app/UserRatingComment/GET_FOOD_BY_ID_SUCCESS';
 export const GET_FOOD_BY_ID_FAILED =
   'app/UserRatingComment/GET_FOOD_BY_ID_FAILED';
+
+export const RESET = 'app/UserRatingComment/RESET';
