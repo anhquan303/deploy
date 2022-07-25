@@ -14,14 +14,15 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Box, Grid, MobileStepper, Container, Modal, Typography } from '@mui/material';
+import { Box, Grid, MobileStepper, Container, Modal,
+   Typography, TextField, FormControl, InputLabel, Select, MenuItem  } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import makeSelectPayment from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import Headerr from '../Headerr';
-import { createOrder, getListLocationByUserId, reset } from './actions';
+import { addLocation, createOrder, getListLocationByUserId, getListWards, reset } from './actions';
 import { getUser } from '../../utils/common';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -144,8 +145,17 @@ export function Payment(props) {
   let result = 0;
   const history = useHistory();
   const [openModal, setOpenModal] = useState(false);
+  const [openModalAddAddress, setOpenModalAddAddress] = useState(false);
   const [nameAddress, setNameAddress] = useState();
   const [address, setAddress] = useState();
+  const initialValues = {
+    address: '',
+    district: 'Thạch Thất',
+    town: '',
+  };
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [type, setType] = useState('');
 
   const singleVal = Array.from(props.location.state.item.map(item => {
     return (item.food.price * item.quantity)
@@ -182,15 +192,18 @@ export function Payment(props) {
 
   useEffect(() => {
     setOpenAlert(false);
-    dispatch(reset());
+    dispatch(getListWards());
+
     const data = {
       id: user.id
     }
     dispatch(getListLocationByUserId(data));
+
+    dispatch(reset());
   }, []);
 
   useEffect(() => {
-    if (props.payment.message.includes("thành công")) {
+    if (props.payment.message.includes("Đặt hàng thành công")) {
       setOpenAlert(true);
       setTimeout(() => dispatch(reset()), 6000);
       setTimeout(() => history.push("/user/order-history"), 2000);
@@ -205,13 +218,17 @@ export function Payment(props) {
     setOpenAlert(false);
   };
 
-  console.log(props.payment.listLocation)
-
   useEffect(() => {
     if (props.payment.listLocation) {
-      setNameAddress(props.payment.listLocation[0].name);
-      setAddress(props.payment.listLocation[0].village);
+      if (props.payment.listLocation.length != 0 && props.payment.listLocation != null) {
+        setNameAddress(props.payment.listLocation[0].name);
+        setAddress(props.payment.listLocation[0].village);
+      } else {
+        setNameAddress("");
+        setAddress("");
+      }
     }
+
   }, [props.payment.listLocation])
 
   const handleChangeLocation = (name, village) => {
@@ -220,6 +237,27 @@ export function Payment(props) {
     setOpenModal(false);
   }
 
+  // set value for input
+  const handleChange = e => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  // set ward
+  const handleChangeType = e => {
+    setType(e.target.value);
+  };
+
+  //add address
+  const closeModalAddress = () => {
+    const data = {
+      name: formValues.address,
+      village: `${formValues.town}, ${type}, ${formValues.district}`,
+    };
+    dispatch(addLocation(data));
+    setOpenModalAddAddress(false);
+  }
 
   return (
     <div>
@@ -248,51 +286,69 @@ export function Payment(props) {
                 Địa chỉ nhận hàng
               </p>
             </Grid>
-            <Grid container spacing={0}>
-              <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
-                <span className={classes.infor_text}>{user.firstname} {user.lastname}</span>
+            {props.payment.listLocation != null ?
+              <Grid container spacing={0}>
+                <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
+                  <span className={classes.infor_text}>{user.firstname} {user.lastname}</span>
+                </Grid>
+                <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
+                  <span className={classes.infor_text}>{user.phone}</span>
+                </Grid>
+                <Grid item sm={12} xs={12} md={12} lg={6} className={classes.center}>
+                  <span
+                    className={classes.infor_text}
+                    style={{ fontWeight: '300' }}
+                  >
+                    {nameAddress}, {address}
+                  </span>
+                </Grid>
+                <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
+                  <Button
+                    variant="contained"
+                    component="span"
+                    className={classes.btnSubmit}
+                    onClick={() => setOpenModal(true)}
+                  >
+                    thay đổi
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
-                <span className={classes.infor_text}>{user.phone}</span>
+              :
+              <Grid container spacing={0}>
+                <Grid item sm={12} xs={12} md={12} lg={10} className={classes.center}>
+                  Chưa có địa chỉ
+                </Grid>
+                <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
+                  <Button
+                    variant="contained"
+                    component="span"
+                    className={classes.btnSubmit}
+                    onClick={() => setOpenModalAddAddress(true)}
+                  >
+                    thêm địa chỉ
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item sm={12} xs={12} md={12} lg={6} className={classes.center}>
-                <span
-                  className={classes.infor_text}
-                  style={{ fontWeight: '300' }}
-                >
-                  {nameAddress}, {address}
-                </span>
-              </Grid>
-              <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
-                <Button
-                  variant="contained"
-                  component="span"
-                  className={classes.btnSubmit}
-                  onClick={() => setOpenModal(true)}
-                >
-                  thay đổi
-                </Button>
-              </Grid>
-            </Grid>
+            }
           </Grid>
         </div>
 
         <div className={classes.information}>
           <Grid container spacing={0}>
-            <Grid item sm={6} xs={6} md={6}>
+            <Grid item sm={6} xs={12} md={6}>
               <span className={classes.infor_text}>Món ăn</span>
             </Grid>
-            <Grid item sm={2} xs={2} md={2} style={{ textAlign: 'center' }}>
+            <Grid item sm={2} xs={4} md={2} style={{ textAlign: 'center' }}>
               <span className={classes.infor_text} style={{ color: '#C1BBC1' }}>
                 Đơn giá
               </span>
             </Grid>
-            <Grid item sm={2} xs={2} md={2} style={{ textAlign: 'center' }}>
+            <Grid item sm={2} xs={4} md={2} style={{ textAlign: 'center' }}>
               <span className={classes.infor_text} style={{ color: '#C1BBC1' }}>
                 Số lượng
               </span>
             </Grid>
-            <Grid item sm={2} xs={2} md={2} style={{ textAlign: 'center' }}>
+            <Grid item sm={2} xs={4} md={2} style={{ textAlign: 'center' }}>
               <span className={classes.infor_text} style={{ color: '#C1BBC1' }}>
                 Thành tiền
               </span>
@@ -307,16 +363,16 @@ export function Payment(props) {
                   <span className={classes.infor_text}>{item.food.foodStore.name}</span>
                 </Grid>
                 <Grid container spacing={0}>
-                  <Grid item sm={6} xs={6} md={6}>
+                  <Grid item sm={6} xs={12} md={6}>
                     <span className={classes.infor_text} style={{ fontSize: "20px" }}>{item.food.name}</span>
                   </Grid>
-                  <Grid item sm={2} xs={2} md={2} style={{ textAlign: "center" }}>
+                  <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
                     <span className={classes.infor_text} style={{ fontSize: "20px" }}>{dollarUSLocale.format(item.food.price)} VND</span>
                   </Grid>
-                  <Grid item sm={2} xs={2} md={2} style={{ textAlign: "center" }}>
+                  <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
                     <span className={classes.infor_text} style={{ fontSize: "20px" }}>{item.quantity}</span>
                   </Grid>
-                  <Grid item sm={2} xs={2} md={2} style={{ textAlign: "center" }}>
+                  <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
                     <span className={classes.infor_text} style={{ fontSize: "20px" }}>{dollarUSLocale.format(parseInt(item.food.price) * parseInt(item.quantity))} VND</span>
                   </Grid>
                 </Grid>
@@ -404,6 +460,175 @@ export function Payment(props) {
         </div>
       </Container>
 
+
+      <Modal
+        open={openModalAddAddress}
+        onClose={() => setOpenModalAddAddress(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className={classes.modal}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            style={{ marginTop: '10px' }}
+          >
+            Thêm địa chỉ
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <Grid container spacing={0} style={{ padding: '20px' }}>
+              <Grid
+                item
+                sm={12}
+                xs={12}
+                style={{ width: '100%', margin: '10px 0' }}
+              >
+                <Box
+                  component="form"
+                  sx={{
+                    '& .MuiTextField-root': { m: 0, width: '100%' },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    disabled
+                    id="outlined-textarea"
+                    label="Huyện"
+                    placeholder="Huyện"
+                    multiline
+                    onChange={handleChange}
+                    name="district"
+                    value={formValues.district}
+                    helperText={
+                      formErrors.district && formValues.district.length == ''
+                        ? formErrors.district
+                        : null
+                    }
+                    error={
+                      formErrors.district != null &&
+                      formValues.district.length == ''
+                    }
+                  />
+                </Box>
+              </Grid>
+
+              <Grid
+                item
+                sm={12}
+                xs={12}
+                style={{ width: '100%', margin: '10px 0' }}
+              >
+                <div style={{ width: '100%' }}>
+                  <Box
+                    component="form"
+                    sx={{
+                      '& .MuiTextField-root': { m: 1, width: '100%' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">Xã</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={type}
+                        label="Xã"
+                        onChange={handleChangeType}
+                      >
+                        {props.payment.listWard.map((item, index) => (
+                          <MenuItem key={index} value={item.name}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </div>
+              </Grid>
+
+              <Grid
+                item
+                sm="auto"
+                xs="auto"
+                style={{ width: '100%', margin: '10px 0' }}
+              >
+                <Box
+                  component="form"
+                  sx={{
+                    '& .MuiTextField-root': { m: 0, width: '100%' },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-textarea"
+                    label="Thôn"
+                    placeholder="Thôn"
+                    multiline
+                    onChange={handleChange}
+                    name="town"
+                    value={formValues.town}
+                    helperText={
+                      formErrors.town && formValues.town.length == ''
+                        ? formErrors.town
+                        : null
+                    }
+                    error={formErrors.town != null && formValues.town == ''}
+                  />
+                </Box>
+              </Grid>
+
+              <Grid
+                item
+                sm="auto"
+                xs="auto"
+                style={{ width: '100%', margin: '10px 0' }}
+              >
+                <Box
+                  component="form"
+                  sx={{
+                    '& .MuiTextField-root': { m: 0, width: '100%' },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-textarea"
+                    label="Địa chỉ"
+                    placeholder="Địa chỉ"
+                    multiline
+                    onChange={handleChange}
+                    name="address"
+                    value={formValues.address}
+                    helperText={
+                      formErrors.address && formValues.address.length == ''
+                        ? formErrors.address
+                        : null
+                    }
+                    error={
+                      formErrors.address != null && formValues.address == ''
+                    }
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Typography>
+          <Button
+            className={classes.btn}
+            style={{ width: '50%' }}
+            variant="contained"
+            component="span"
+            onClick={closeModalAddress}
+          >
+            Thêm
+          </Button>
+        </Box>
+      </Modal>
+
+
       <Modal
         open={openModal}
         onClose={() => setOpenModal(false)}
@@ -420,7 +645,7 @@ export function Payment(props) {
             Thay đổi địa chỉ
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {props.payment.listLocation.map((item) => {
+            {props.payment.listLocation != null ? props.payment.listLocation.map((item) => {
               return (
                 <div key={item.id}>
                   <Grid container spacing={0}>
@@ -532,7 +757,7 @@ export function Payment(props) {
                   <hr />
                 </div>
               )
-            })}
+            }) : null}
 
           </Typography>
         </Box>

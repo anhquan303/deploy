@@ -1,5 +1,5 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { getFoodByStoreIdFailed, getFoodByStoreIdSuccess, getStoreByIdFailed, getStoreByIdSuccess } from './actions';
+import { getFoodByStoreIdFailed, getFoodByStoreIdSuccess, getStoreByIdFailed, getStoreByIdSuccess, getStoreRatingFailed, getStoreRatingSuccess } from './actions';
 import { apiFetchData } from './api';
 import * as types from './constants';
 
@@ -29,10 +29,24 @@ export function* getFoodByStoreId({ payload }) {
   }
 }
 
+export function* getStoreRating({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/store/getStoreRating?id=${payload.id}`]);
+    if (res.status == 200) {
+      yield put(getStoreRatingSuccess(res.data.avg_stars))
+    } else {
+      yield put(getStoreRatingFailed("FAILED"));
+    }
+  } catch (error) {
+    yield put(getStoreRatingFailed(error.message));
+  }
+}
+
 
 // Individual exports for testing
 export default function* storeProfileSaga() {
   // See example in containers/HomePage/saga.js
   yield takeEvery(types.GET_STORE_BY_ID, getStoreById);
   yield takeEvery(types.GET_FOOD_BY_STORE_ID, getFoodByStoreId);
+  yield takeEvery(types.GET_STORE_RATING, getStoreRating);
 }

@@ -18,4 +18,8 @@ export const GET_STORE_BY_ID = 'app/DetailStore/GET_STORE_BY_ID';
 export const GET_STORE_BY_ID_SUCCESS = 'app/DetailStore/GET_STORE_BY_ID_SUCCESS';
 export const GET_STORE_BY_ID_FAILED = 'app/DetailStore/GET_STORE_BY_ID_FAILED';
 
+export const GET_ORDER_BY_STORE_ID = 'app/DetailStore/GET_ORDER_BY_STORE_ID';
+export const GET_ORDER_BY_STORE_ID_SUCCESS = 'app/DetailStore/GET_ORDER_BY_STORE_ID_SUCCESS';
+export const GET_ORDER_BY_STORE_ID_FAILED = 'app/DetailStore/GET_ORDER_BY_STORE_ID_FAILED';
+
 export const RESET = 'app/DetailStore/RESET';

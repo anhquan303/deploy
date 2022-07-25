@@ -29,7 +29,8 @@ import { makeStyles, Grid, Button } from '@material-ui/core';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { approvedStore, declinedStore, getStoreById, reset } from './actions';
+import { approvedStore, declinedStore, getOrderByStoreId, getStoreById, reset } from './actions';
+import CustomTableResponsive from '../../components/CustomTableResponsive';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -253,6 +254,7 @@ export function DetailStore(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [data, setData] = useState(props.detailStore.listOrder);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -279,13 +281,12 @@ export function DetailStore(props) {
     dispatch(approvedStore(data));
   }
 
-
-
   useEffect(() => {
     const data = {
       id: props.location.state.id
     }
     dispatch(getStoreById(data));
+    dispatch(getOrderByStoreId(data));
   }, []);
 
 
@@ -300,6 +301,59 @@ export function DetailStore(props) {
     }
   }, [props.detailStore.message]);
 
+
+  useEffect(() => {
+    setData(props.detailStore.listOrder);
+  }, [props.detailStore.listOrder])
+
+  const columns1 = [
+    { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
+    { id: 'foodName', label: 'Tên món ăn', minWidth: 100, align: 'center' },
+    { id: 'price', label: 'Giá', minWidth: 100, align: 'center' },
+    { id: 'quantity', label: 'Số lượng', minWidth: 100, align: 'center' },
+    { id: 'totalPrice', label: 'Tổng tiền', minWidth: 100, align: 'center' },
+  ]
+
+  function createData(id, stt, foodName, price, quantity, totalPrice) {
+    //const density = population / size;
+    return { id, stt, foodName, price, quantity, totalPrice };
+  }
+
+  const [rows, setRows] = useState([]);
+
+  const list = [] 
+
+  data.map(item => item.orderItem_foods.map((item1, index) => {
+    list.push(
+      {
+        id: item.id,
+        foodName: item1.food.name,
+        price: item1.price,
+        quantity: item1.quantity,
+        totalPrice: parseInt(item1.price) * parseInt(item1.quantity)
+      }
+    )
+  }
+  ))
+
+
+  useEffect(() => {
+    if (data) {
+      // setRows(data.map((item, index) => 
+      //   createData(item.id, index + 1, item.orderItem_foods[0].food.name, item.orderItem_foods[0].food.price, item.orderItem_foods[0].quantity, item.total_price)
+      // ))
+
+      // setRows(data.map(item =>
+      //   item.orderItem_foods.map(item1 => createData(item1.quantity, item1.quantity, item1.quantity, item1.quantity, item1.quantity, item1.quantity)),
+      // ))
+
+
+      setRows(list.map((item, index) =>
+        createData(item.id, index + 1, item.foodName, item.price, item.quantity, item.totalPrice)
+      ))
+
+    }
+  }, [data])
 
   return (
     <div style={{ paddingRight: "15px" }}>
@@ -335,7 +389,7 @@ export function DetailStore(props) {
                       <Grid item md={5} sm={8} xs={12} className={classes.two}>
 
                         <div className={classes.approved}>
-                          {props.detailStore.status == "approved" ? <p>{props.detailStore.store.status}</p> : <p style={{ color: "#FE0000" }}>{props.detailStore.store.status}</p>}
+                          {props.detailStore.store.status.includes("approved") ? <p style={{ color: "#20D167" }}>{props.detailStore.store.status}</p> : <p style={{ color: "#FE0000" }}>{props.detailStore.store.status}</p>}
 
                         </div>
 
@@ -373,7 +427,7 @@ export function DetailStore(props) {
               <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>
                   <div style={{ textAlign: "center" }}>
-                    <span><h2>Chủ sở hữu: {props.detailStore.store.otherLocation.owner_name}</h2></span>
+                    <span><h2>Chủ sở hữu: {props.detailStore.store.owner_name}</h2></span>
                     <span><h2>Đăng ký ngày: 04/08/2022</h2></span>
                   </div>
                 </Grid>
@@ -442,6 +496,9 @@ export function DetailStore(props) {
                   </Grid>
                 </LocalizationProvider>
 
+              </Grid>
+              <Grid item md={12} sm={12} xs={12}>
+                <CustomTableResponsive columns={columns1} data={data} detailPage="store" rows={rows} />
               </Grid>
             </Grid>
           </div>

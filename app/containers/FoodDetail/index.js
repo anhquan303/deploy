@@ -54,6 +54,7 @@ import saga from './saga';
 import reducer from './reducer';
 import makeSelectFoodDetail from './selectors';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -124,6 +125,7 @@ export function FoodDetail(props) {
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
   const history = useHistory();
+  let dollarUSLocale = Intl.NumberFormat('en-US');
 
   const incrementQuantity = () => {
     setQuantity(quantity + 1);
@@ -280,7 +282,7 @@ export function FoodDetail(props) {
             </div>
             <p style={{ fontFamily: 'sans-serif', margin: '5px 0' }}>
               Giá bán{' '}
-              {props.foodDetail.food ? props.foodDetail.food.price : null} VND
+              {props.foodDetail.food ? dollarUSLocale.format(props.foodDetail.food.price) : null} VND
             </p>
             <div>
               <Grid container spacing={2}>
@@ -329,7 +331,7 @@ export function FoodDetail(props) {
                 <Grid item xs={10} md={10}>
                   <p style={{ margin: '0' }}>
                     {props.foodDetail.food
-                      ? props.foodDetail.food.foodStore.name
+                      ? <span style={{ cursor: "pointer", color: "#000" }} onClick={() => toStoreProfile(props.foodDetail.food.foodStore.id)}>{props.foodDetail.food.foodStore.name}</span>
                       : null}
                   </p>
                   <Button
@@ -473,7 +475,7 @@ export function FoodDetail(props) {
                   Đánh giá và bình luận
                 </p>
 
-                {props.foodDetail.listComment.map((item, index) => (
+                {props.foodDetail.listComment.slice(0).reverse().map((item, index) => (
                   <Grid container spacing={0} key={index}>
                     <Grid
                       item
@@ -510,7 +512,7 @@ export function FoodDetail(props) {
                           fontSize: '13px',
                         }}
                       >
-                        {item.create_at}
+                        {moment(item.create_at).format('DD/MM/YYYY')}
                       </p>
                     </Grid>
                   </Grid>

@@ -54,3 +54,24 @@ export function getFoodByStoreIdFailed(payload) {
     payload
   };
 }
+
+export function getStoreRating(payload) {
+  return {
+    type: types.GET_STORE_RATING,
+    payload
+  };
+}
+
+export function getStoreRatingSuccess(payload) {
+  return {
+    type: types.GET_STORE_RATING_SUCCESS,
+    payload
+  };
+}
+
+export function getStoreRatingFailed(payload) {
+  return {
+    type: types.GET_STORE_RATING_FAILED,
+    payload
+  };
+}

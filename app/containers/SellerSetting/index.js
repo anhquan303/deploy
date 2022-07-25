@@ -180,8 +180,6 @@ export function SellerSetting(props) {
     setWard(e.target.value);
   };
 
-  console.log(avatar);
-
   return (
     <div style={{ paddingRight: '15px' }}>
       <div style={{ textAlign: 'center' }}>

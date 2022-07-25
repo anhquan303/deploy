@@ -26,7 +26,6 @@ export function* getOrderDetailById({ payload }) {
 export function* changeStatusToOrder({ payload }) {
   try {
     const res = yield call(apiSearchProduct, [`api/order/${payload.id}/order`]);
-    console.log(res);
     if (res.status == 200) {
       yield put(changeStatusToOrderSuccess('SUCCESS'));
     } else {
@@ -40,7 +39,6 @@ export function* changeStatusToOrder({ payload }) {
 export function* changeStatusToPaid({ payload }) {
   try {
     const res = yield call(apiSearchProduct, [`api/order/${payload.id}/paid`]);
-    console.log(res);
     if (res.status == 200) {
       yield put(changeStatusToPaidSuccess('SUCCESS'));
     } else {

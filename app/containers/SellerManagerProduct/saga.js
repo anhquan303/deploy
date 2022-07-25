@@ -7,7 +7,6 @@ export function* fetchListFood({ payload }) {
   try {
 
     const res = yield call(apiFetchData, [`api/store/${payload.id}/foods`]);
-    console.log(res)
     if (res.status == 200) {
       yield put(fetchListFoodSuccess(res.data.data));
     } else {
@@ -31,7 +30,6 @@ export function* searchFood({ payload }) {
     //   call += `endPrice=${payload.endPrice}&`;
     // }
 
-    // console.log(call)
 
     var url = `api/store/${payload.id}/foods`;
     if (payload.name != "" && payload.startPrice == "" && payload.endPrice == "") {
@@ -57,7 +55,6 @@ export function* searchFood({ payload }) {
     }
 
     const res = yield call(apiFetchData, [`${url}`]);
-    console.log(res)
     if (res.status == 200) {
       yield put(searchFoodSuccess(res.data.data));
     } else {

@@ -105,6 +105,16 @@ export function UserOrderHistory(props) {
     history.push(location);
   };
 
+  const toStoreProfile = (id) => {
+    const location = {
+      pathname: `/store-profile`,
+      state: {
+        id: id
+      },
+    };
+    history.push(location);
+  }
+
   return (
     <>
       <div>
@@ -150,11 +160,12 @@ export function UserOrderHistory(props) {
                     fontSize: '20px',
                   }}
                 >
-                  {item.store.name}
+                  <span style={{ cursor: "pointer", color: "#000" }} onClick={() => toStoreProfile(item.store.id)}>{item.store.name}</span>
+
                 </span>
-                <Button className={classes.btn} variant="outlined">
+                {/* <Button className={classes.btn} variant="outlined">
                   Xem Store
-                </Button>
+                </Button> */}
               </Grid>
               <Grid
                 item
@@ -214,7 +225,7 @@ export function UserOrderHistory(props) {
                     </Grid>
                   </Grid>
                   <Grid item xs={12} md={6} sm={12} className={classes.center}>
-                  {dollarUSLocale.format(item1.food.price)} VND
+                    {dollarUSLocale.format(item1.food.price)} VND
                   </Grid>
                 </Grid>
                 <hr />

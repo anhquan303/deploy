@@ -61,3 +61,45 @@ export function getListLocationByUserIdFailed(payload) {
     payload
   };
 }
+
+export function getListWards(payload) {
+  return {
+    type: types.GET_LIST_WARDS,
+    payload
+  };
+}
+
+export function getListWardsSuccess(payload) {
+  return {
+    type: types.GET_LIST_WARDS_SUCCESS,
+    payload
+  };
+}
+
+export function getListWardsFailed(payload) {
+  return {
+    type: types.GET_LIST_WARDS_FAILED,
+    payload
+  };
+}
+
+export function addLocation(payload) {
+  return {
+    type: types.ADD_LOCATION,
+    payload
+  };
+}
+
+export function addLocationSuccess(payload) {
+  return {
+    type: types.ADD_LOCATION_SUCCESS,
+    payload
+  };
+}
+
+export function addLocationFailed(payload) {
+  return {
+    type: types.ADD_LOCATION_FAILED,
+    payload
+  };
+}

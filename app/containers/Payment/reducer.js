@@ -10,7 +10,8 @@ import * as types from './constants';
 export const initialState = {
   loading: false,
   message: "",
-  listLocation: []
+  listLocation: [],
+  listWard: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -44,6 +45,29 @@ const paymentReducer = (state = initialState, action) =>
       case types.RESET:
         draft.loading = false;
         draft.message = "";
+        break;
+      case types.GET_LIST_WARDS:
+        draft.loading = true;
+        break;
+      case types.GET_LIST_WARDS_SUCCESS:
+        draft.loading = false;
+        draft.listWard = action.payload;
+        break;
+      case types.GET_LIST_WARDS_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.ADD_LOCATION:
+        draft.loading = true;
+        break;
+      case types.ADD_LOCATION_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.ADD_LOCATION_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
     }
   });
 

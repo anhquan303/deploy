@@ -78,8 +78,6 @@ export function SellerAddProduct(props) {
   const classes = useStyles();
   const store = getStore();
 
-  console.log(props);
-
   const [type, setType] = useState('');
   const [storeId, setStoreId] = useState(store);
   const initialValues = { name: '', price: '', description: '', image: '' };

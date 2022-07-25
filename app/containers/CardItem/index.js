@@ -44,7 +44,7 @@ export function CardItem({ foodName, storeName, address, img }) {
 
   return (
     <div>
-      <Card sx={{ maxWidth: 200 }} className={classes.card}>
+      {/* <Card sx={{ maxWidth: 200 }} className={classes.card}>
         <CardMedia
           component="img"
           height="150"
@@ -53,10 +53,6 @@ export function CardItem({ foodName, storeName, address, img }) {
           alt="anh mon an"
         />
         <CardContent>
-          {/* <Typography gutterBottom variant="h11" component="div">
-                   <span style={{ color: "#5890FF" }}><CheckCircleIcon /></span>
-                   <span style={{ overflow: "hidden", textOverflow: "ellipsis", width: "20px" }}>Quán ngon - Cơm suất</span>
-                 </Typography> */}
           <div
             style={{
               whiteSpace: 'nowrap',
@@ -85,11 +81,37 @@ export function CardItem({ foodName, storeName, address, img }) {
         </CardContent>
         <hr />
         <CardActions>
-          {/* <Button size="small">Share</Button>
-                 <Button size="small">Learn More</Button> */}
           <Typography style={{ margin: '0 auto' }}>Quán ăn</Typography>
         </CardActions>
+      </Card> */}
+
+
+      <Card sx={{ maxWidth: 345 }}>
+        <CardMedia
+          component="img"
+          height="140"
+          image="https://images.squarespace-cdn.com/content/v1/53883795e4b016c956b8d243/1551438228969-H0FPV1FO3W5B0QL328AS/chup-anh-thuc-an-1.jpg"
+          alt="anh mon an"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {foodName}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {storeName}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {address.name} - {address.village} - {address.town}
+          </Typography>
+
+        </CardContent>
+        {/* <CardActions>
+          <Button size="small">Share</Button>
+          <Button size="small">Learn More</Button>
+        </CardActions> */}
       </Card>
+
+
     </div>
   );
 }

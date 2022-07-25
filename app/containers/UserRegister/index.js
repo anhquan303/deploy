@@ -233,8 +233,6 @@ export function UserRegister(props) {
     setOpen(false);
   };
 
-  console.log(props.userRegister.loading);
-
   return (
     <div className={classes.body}>
       <div className={classes.container}>

@@ -12,6 +12,7 @@ export const initialState = {
   loading: false,
   message: "",
   userList: [],
+  foodList: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -39,6 +40,17 @@ const dashboardReducer = (state = initialState, action) =>
         draft.userList = action.payload;
         break;
       case types.GET_ALL_USER_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_ALL_FOOD:
+        draft.loading = true;
+        break;
+      case types.GET_ALL_FOOD_SUCCESS:
+        draft.loading = false;
+        draft.foodList = action.payload;
+        break;
+      case types.GET_ALL_FOOD_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

@@ -57,14 +57,13 @@ export function DashboardStore(props) {
     requestSearch(searched);
   };
 
-  const columns = [
-    { title: "ID", field: "id" },
-    { title: "Name", field: "name" },
-    { title: "Owner", field: "user.username" },
-    { title: "Slogan", field: "slogan" },
-    { title: "Status", field: "status" },
-  ]
-  console.log(props.dashboardStore.listStore)
+  // const columns = [
+  //   { title: "ID", field: "id" },
+  //   { title: "Name", field: "name" },
+  //   { title: "Owner", field: "user.username" },
+  //   { title: "Slogan", field: "slogan" },
+  //   { title: "Status", field: "status" },
+  // ]
 
   const columns1 = [
     { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },

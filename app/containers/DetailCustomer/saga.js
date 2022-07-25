@@ -20,7 +20,6 @@ export function* getUserById({ payload }) {
 export function* declinedUser({ payload }) {
   try {
     const res = yield call(apiPost, ['api/user/status'], payload);
-    console.log(res)
     if (res.status == 200) {
       yield put(declinedUserSuccess("DECLINED SUCCESS"));
     } else {
@@ -34,7 +33,6 @@ export function* declinedUser({ payload }) {
 export function* approveUser({ payload }) {
   try {
     const res = yield call(apiPost, ['api/user/status'], payload);
-    console.log(res)
     if (res.status == 200) {
       yield put(declinedUserSuccess("APPROVED SUCCESS"));
     } else {

@@ -163,7 +163,7 @@ export function UserHomePage(props) {
       <Headerr />
       <Container fixed>
         <Box sx={{ maxWidth: '100%', flexGrow: 1, margin: '10px 0' }}>
-          
+
         </Box>
 
         <div style={{ textAlign: 'center' }}>
@@ -226,14 +226,7 @@ export function UserHomePage(props) {
 
         <Grid container spacing={2} style={{ marignTop: '10px' }}>
           {props.userHomePage.foodList.map((item, index) => (
-            <Grid
-              item
-              sm={4}
-              xs={6}
-              md={2}
-              key={index}
-              style={{ width: '100%' }}
-            >
+            <Grid item sm={4} xs={6} md={3} key={index} style={{ width: '100%' }}>
               <Link
                 to={{ pathname: `/food/${item.id}`, state: { item } }}
                 style={{ textDecoration: 'none' }}

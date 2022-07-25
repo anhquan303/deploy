@@ -32,7 +32,9 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { getUser } from '../../utils/common';
-import { getFoodById, userAddCommentFood, userRatingFood } from './actions';
+import { getFoodById, reset, userAddCommentFood, userRatingFood } from './actions';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -73,22 +75,44 @@ export function UserRatingComment(props) {
   const [comment, setComment] = useState('');
   const user = getUser();
   const history = useHistory();
+  let dollarUSLocale = Intl.NumberFormat('en-US');
+  const [openAlert, setOpenAlert] = useState(false);
+  const [vertical, setVertical] = useState('top');
+  const [horizontal, setHorizontal] = useState('right');
+
 
   const handleSubmit = () => {
     const data = {
-      food_id: props.location.state.id,
+      food_id: props.location.state.fid,
       user_id: user.id,
       description: comment,
     };
     dispatch(userAddCommentFood(data));
 
     const data1 = {
-      food_id: props.location.state.id,
+      food_id: props.location.state.fid,
       user_id: user.id,
-      star,
+      star: star
     };
     dispatch(userRatingFood(data1));
   };
+
+
+  useEffect(() => {
+    if (props.userRatingComment.message != "") {
+      setOpenAlert(true);
+      setTimeout(() => dispatch(reset()), 6000);
+      const location = {
+        pathname: `/food/${props.location.state.fid}`,
+        state: {
+          item: props.userRatingComment.food
+        },
+      };
+
+      setTimeout(() => history.push(location), 2000);
+
+    }
+  }, [props.userRatingComment.message]);
 
   useEffect(() => {
     const data = {
@@ -97,6 +121,14 @@ export function UserRatingComment(props) {
     };
     dispatch(getFoodById(data));
   }, []);
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleCloseAlert = event => {
+    setOpenAlert(false);
+  };
 
   return (
     <div>
@@ -170,7 +202,7 @@ export function UserRatingComment(props) {
           </Grid>
           <Grid item xs={12} md={6} sm={12} className={classes.center}>
             {props.userRatingComment.food
-              ? props.userRatingComment.food.price
+              ? dollarUSLocale.format(props.userRatingComment.food.price)
               : null}{' '}
             VND
           </Grid>
@@ -207,6 +239,21 @@ export function UserRatingComment(props) {
           </Box>
         </div>
       </div>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical, horizontal }}
+        onClose={handleCloseAlert}
+      >
+        {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
+        <Alert
+          severity="success"
+          onClose={handleCloseAlert}
+          sx={{ width: '100%' }}
+        >
+          {props.userRatingComment.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
