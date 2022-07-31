@@ -55,6 +55,28 @@ const sellerOrderDetailReducer = (state = initialState, action) =>
         draft.loading = false;
         draft.message = action.payload;
         break;
+      case types.CHANGE_STATUS_TO_DELIVERY:
+        draft.loading = true;
+        break;
+      case types.CHANGE_STATUS_TO_DELIVERY_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.CHANGE_STATUS_TO_DELIVERY_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.CHANGE_STATUS_TO_DELIVERED:
+        draft.loading = true;
+        break;
+      case types.CHANGE_STATUS_TO_DELIVERED_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.CHANGE_STATUS_TO_DELIVERED_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
     }
   });
 

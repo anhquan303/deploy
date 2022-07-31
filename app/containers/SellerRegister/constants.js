@@ -11,8 +11,11 @@ export const SELLER_SIGNUP_SUCCESS = 'app/SellerRegister/SELLER_SIGNUP_SUCCESS';
 export const SELLER_SIGNUP_FAILED = 'app/SellerRegister/SELLER_SIGNUP_FAILED';
 
 export const GET_LIST_WARDS = 'app/SellerRegister/GET_LIST_WARDS';
-export const GET_LIST_WARDS_SUCCESS =
-  'app/SellerRegister/GET_LIST_WARDS_SUCCESS';
+export const GET_LIST_WARDS_SUCCESS ='app/SellerRegister/GET_LIST_WARDS_SUCCESS';
 export const GET_LIST_WARDS_FAILED = 'app/SellerRegister/GET_LIST_WARDS_FAILED';
+
+export const GET_LIST_BANK = 'app/SellerRegister/GET_LIST_BANK';
+export const GET_LIST_BANK_SUCCESS ='app/SellerRegister/GET_LIST_BANK_SUCCESS';
+export const GET_LIST_BANK_FAILED = 'app/SellerRegister/GET_LIST_BANK_FAILED';
 
 export const RESET = 'app/SellerRegister/RESET';

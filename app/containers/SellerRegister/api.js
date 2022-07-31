@@ -20,6 +20,15 @@ export const apiFetchData = (data) => {
     });
 }
 
+export const apiGetListBank = (data) => {
+    return new Promise((resolve, reject) => {
+        return axios
+            .get("https://api.vietqr.io/v2/banks")
+            .then((res) => resolve(res))
+            .catch((err) => reject(err));
+    });
+}
+
 export const uploadImage = (data, payload) => {
     return new Promise((resolve, reject) => {
         return apiBase1

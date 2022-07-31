@@ -154,11 +154,19 @@ export function Headerr(props) {
     }
   };
 
-  const requestSearch = searchedVal => {
+  const requestSearch = (searchedVal) => {
     // const filteredRows = props.dashboardStore.listStore.filter((row) => {
     //   return row.name.toLowerCase().includes(searchedVal.toLowerCase());
     // });
     // setData(filteredRows);
+    console.log(searchedVal)
+    const location = {
+      pathname: `/`,
+      state: {
+        search: searchedVal
+      },
+    };
+    history.push(location);
   };
 
   const cancelSearch = () => {
@@ -185,6 +193,18 @@ export function Headerr(props) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const singleVal = Array.from(props.headerr.cart.map(item =>
+    item.cartFoodResponses.map(nestItem => {
+      return (nestItem.food.length);
+    })
+  ));
+
+  let result = 0;
+
+  for (var i = 0; i < singleVal.length; i++) {
+    result += parseInt(singleVal[i].length);
+  }
 
   return (
     <div style={{ backgroundColor: '#FF9900', marginBottom: "1rem" }}>
@@ -289,7 +309,7 @@ export function Headerr(props) {
           </Grid>
           <Grid item xs={3} md={3}>
             <div style={{ textAlign: 'center', marginTop: '15px' }}>
-              <Badge badgeContent={props.headerr ? props.headerr.cart.length : 0} color="primary" onClick={() => history.push("/cart")}>
+              <Badge badgeContent={result} color="primary" onClick={() => history.push("/cart")}>
                 <AddShoppingCartIcon color="action" />
               </Badge>
             </div>

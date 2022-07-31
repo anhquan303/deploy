@@ -104,6 +104,27 @@ export function reset(payload) {
   };
 }
 
+export function getFoodByStoreId(payload){
+  return {
+    type: types.GET_FOOD_BY_STORE_ID,
+    payload,
+  };
+}
+
+export function getFoodByStoreIdSuccess(payload){
+  return {
+    type: types.GET_FOOD_BY_STORE_ID_SUCCESS,
+    payload,
+  };
+}
+
+export function getFoodByStoreIdFailed(payload){
+  return {
+    type: types.GET_FOOD_BY_STORE_ID_FAILED,
+    payload,
+  };
+}
+
 // export function getCart(payload) {
 //   return {
 //     type: types.GET_CART_BY_ID,

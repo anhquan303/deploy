@@ -1,5 +1,9 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
 import {
+  changeStatusToDeliveredFailed,
+  changeStatusToDeliveredSuccess,
+  changeStatusToDeliveryFailed,
+  changeStatusToDeliverySuccess,
   changeStatusToOrderFailed,
   changeStatusToOrderSuccess,
   changeStatusToPaidFailed,
@@ -49,10 +53,38 @@ export function* changeStatusToPaid({ payload }) {
   }
 }
 
+export function* changeStatusToDelivery({ payload }) {
+  try {
+    const res = yield call(apiSearchProduct, [`api/order/${payload.id}/delivery`]);
+    if (res.status == 200) {
+      yield put(changeStatusToDeliverySuccess('SUCCESS'));
+    } else {
+      yield put(changeStatusToDeliveryFailed('FAILED'));
+    }
+  } catch (error) {
+    yield put(changeStatusToDeliveryFailed(error.message));
+  }
+}
+
+export function* changeStatusToDelivered({ payload }) {
+  try {
+    const res = yield call(apiSearchProduct, [`api/order/${payload.id}/delivered`]);
+    if (res.status == 200) {
+      yield put(changeStatusToDeliveredSuccess('SUCCESS'));
+    } else {
+      yield put(changeStatusToDeliveredFailed('FAILED'));
+    }
+  } catch (error) {
+    yield put(changeStatusToDeliveredFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* sellerOrderDetailSaga() {
   // See example in containers/HomePage/saga.js
   yield takeEvery(types.GET_ORDER_DETAIL_BY_ID, getOrderDetailById);
   yield takeEvery(types.CHANGE_STATUS_TO_ORDER, changeStatusToOrder);
   yield takeEvery(types.CHANGE_STATUS_TO_PAID, changeStatusToPaid);
+  yield takeEvery(types.CHANGE_STATUS_TO_DELIVERY, changeStatusToDelivery);
+  yield takeEvery(types.CHANGE_STATUS_TO_DELIVERED, changeStatusToDelivered);
 }

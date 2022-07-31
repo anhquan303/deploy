@@ -42,6 +42,7 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import {
   addToCart,
   getFoodById,
+  getFoodByStoreId,
   getListCommentFoodById,
   getRatingFoodById,
   reset,
@@ -178,7 +179,6 @@ export function FoodDetail(props) {
       };
       dispatch(addToCart(data));
     }
-
   };
 
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -211,6 +211,17 @@ export function FoodDetail(props) {
     history.push(location);
   }
 
+  console.log(props.foodDetail.listFood)
+
+  useEffect(() => {
+    if (props.foodDetail.food != undefined) {
+      const data = {
+        id: props.foodDetail.food.foodStore.id
+      }
+      dispatch(getFoodByStoreId(data));
+    }
+  }, [props.foodDetail.food]);
+
   return (
     <div>
       <Headerr />
@@ -237,15 +248,16 @@ export function FoodDetail(props) {
               {props.location.state.item.foodStore.dormLocation == null
                 ? <span>
                   {props.location.state.item.foodStore.otherLocation.name} - {props.location.state.item.foodStore.otherLocation.village} - {props.location.state.item.foodStore.otherLocation.town}</span>
-                : props.location.state.item.foodStore.dormLocation}{' '}
+                : <span>{props.location.state.item.foodStore.dormLocation.dormName} - {props.location.state.item.foodStore.dormLocation.room_number} </span>}
               - Hòa Lạc
             </p>
+            {/* // <props.location.state.item.foodStore.dormLocation}{' '}> */}
             <div>
               {/* <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
               <span>|</span><span style={{ margin: "5px 5px" }}>999+ đánh giá</span>
               <span>|</span><span style={{ margin: "0 5px" }}>999+ đã bán</span> */}
               <Grid container spacing={0}>
-                <Grid item xs={4} md={3}>
+                <Grid item xs={5} sm={3} md={4} lg={3}>
                   <Rating
                     name="half-rating-read"
                     value={star}
@@ -253,16 +265,17 @@ export function FoodDetail(props) {
                     readOnly
                   />
                 </Grid>
-                <Grid item xs={4} md={3}>
+
+                <Grid item xs={5} sm={3} md={4} lg={3}>
                   <span>|</span>
                   <span style={{ margin: '5px 5px' }}>
                     {props.foodDetail.listComment.length} đánh giá
                   </span>
                 </Grid>
-                <Grid item xs={4} md={3}>
+                {/* <Grid item xs={4} md={3}>
                   <span>|</span>
                   <span style={{ margin: '0 5px' }}>999+ đã bán</span>
-                </Grid>
+                </Grid> */}
               </Grid>
             </div>
             <div style={{ margin: '10px 0' }}>
@@ -321,14 +334,14 @@ export function FoodDetail(props) {
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
               <Grid container spacing={2}>
-                <Grid item xs={2} md={2} className={classes.center}>
+                <Grid item xs={2} md={3} lg={2} className={classes.center}>
                   <Avatar
                     alt="avatar store"
                     src={Avatar1}
                     sx={{ width: 56, height: 56 }}
                   />
                 </Grid>
-                <Grid item xs={10} md={10}>
+                <Grid item xs={10} md={9} lg={10}>
                   <p style={{ margin: '0' }}>
                     {props.foodDetail.food
                       ? <span style={{ cursor: "pointer", color: "#000" }} onClick={() => toStoreProfile(props.foodDetail.food.foodStore.id)}>{props.foodDetail.food.foodStore.name}</span>
@@ -428,7 +441,45 @@ export function FoodDetail(props) {
                 >
                   Món mới
                 </p>
-                <Grid container spacing={0}>
+
+                {props.foodDetail.listFood ? props.foodDetail.listFood.map((item) => {
+                  return (
+                    <Grid key={item.id} container spacing={0} style={{ margin: "5px 0" }}>
+                      <Grid item sm={2} xs={12} md={2} className={classes.center}>
+                        <Avatar
+                          variant="rounded"
+                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTN7rHMcnK0E9YocmOktrVKzdzeCgWg3oP04bIfqScZykQbYDs8m1e_qcnzzWNMLIG1ZZY&usqp=CAU"
+                        />
+                      </Grid>
+                      <Grid item sm={7} xs={6} md={6} className={classes.center}>
+                        <p style={{ margin: '0', fontFamily: 'sans-serif' }}>
+                          {item.name}
+                        </p>
+                        {/* <p style={{ margin: '0', fontFamily: 'sans-serif' }}>
+                            Đã bán: 999+ lần |{' '}
+                            <span>
+                              <ThumbUpIcon />
+                            </span>{' '}
+                            100+
+                          </p> */}
+                      </Grid>
+                      <Grid item xs={6} md={4} sm={3} className={classes.center}>
+                        <span
+                          className={classes.center}
+                          style={{ color: '#1168EB', fontWeight: 'bold' }}
+                        >
+                          {dollarUSLocale.format(item.price)} VND{' '}
+                        </span>
+                        <IconButton style={{ color: '#FF9900' }}>
+                          <AddBoxIcon />
+                        </IconButton>
+                      </Grid>
+
+                    </Grid>
+                  )
+                }) : null}
+
+                {/* <Grid container spacing={0}>
                   <Grid item sm={2} xs={12} md={2} className={classes.center}>
                     <Avatar
                       variant="rounded"
@@ -458,7 +509,7 @@ export function FoodDetail(props) {
                       <AddBoxIcon />
                     </IconButton>
                   </Grid>
-                </Grid>
+                </Grid> */}
               </div>
             </Grid>
             <Grid item xs={12} md={3} style={{ padding: '10px' }}>

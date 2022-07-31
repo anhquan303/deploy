@@ -82,3 +82,45 @@ export function changeStatusToPaidFailed(payload) {
     payload,
   };
 }
+
+export function changeStatusToDelivery(payload) {
+  return {
+    type: types.CHANGE_STATUS_TO_DELIVERY,
+    payload,
+  };
+}
+
+export function changeStatusToDeliverySuccess(payload) {
+  return {
+    type: types.CHANGE_STATUS_TO_DELIVERY_SUCCESS,
+    payload,
+  };
+}
+
+export function changeStatusToDeliveryFailed(payload) {
+  return {
+    type: types.CHANGE_STATUS_TO_DELIVERY_FAILED,
+    payload,
+  };
+}
+
+export function changeStatusToDelivered(payload) {
+  return {
+    type: types.CHANGE_STATUS_TO_DELIVERED,
+    payload,
+  };
+}
+
+export function changeStatusToDeliveredSuccess(payload) {
+  return {
+    type: types.CHANGE_STATUS_TO_DELIVERED_SUCCESS,
+    payload,
+  };
+}
+
+export function changeStatusToDeliveredFailed(payload) {
+  return {
+    type: types.CHANGE_STATUS_TO_DELIVERED_FAILED,
+    payload,
+  };
+}

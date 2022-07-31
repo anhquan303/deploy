@@ -4,6 +4,8 @@ import {
   addToCartSuccess,
   getFoodByIdFailed,
   getFoodByIdSuccess,
+  getFoodByStoreIdFailed,
+  getFoodByStoreIdSuccess,
   getListCommentFoodByIdFailed,
   getListCommentFoodByIdSuccess,
   getRatingFoodByIdFailed,
@@ -14,9 +16,7 @@ import * as types from './constants';
 
 export function* getFoodById({ payload }) {
   try {
-    const res = yield call(apiFetchData, [
-      `api/store/0/foods/${payload.id}/detail`,
-    ]);
+    const res = yield call(apiFetchData, [`api/store/0/foods/${payload.id}/detail`]);
     if (res.status == 200) {
       yield put(getFoodByIdSuccess(res.data.data));
     } else {
@@ -29,9 +29,7 @@ export function* getFoodById({ payload }) {
 
 export function* getRatingFoodById({ payload }) {
   try {
-    const res = yield call(apiFetchData, [
-      `api/store/food/getFoodRating?id=${payload.id}`,
-    ]);
+    const res = yield call(apiFetchData, [`api/store/food/getFoodRating?id=${payload.id}`]);
     if (res.status == 200) {
       yield put(getRatingFoodByIdSuccess(res.data.avg_stars));
     } else {
@@ -44,9 +42,7 @@ export function* getRatingFoodById({ payload }) {
 
 export function* getListCommentFoodById({ payload }) {
   try {
-    const res = yield call(apiFetchData, [
-      `api/store/food/getUsersComments?id=${payload.id}`,
-    ]);
+    const res = yield call(apiFetchData, [`api/store/food/getUsersComments?id=${payload.id}`]);
     if (res.status == 200) {
       yield put(getListCommentFoodByIdSuccess(res.data));
     } else {
@@ -59,9 +55,7 @@ export function* getListCommentFoodById({ payload }) {
 
 export function* addToCart({ payload }) {
   try {
-    const res = yield call(apiPost, [
-      `api/cart/${payload.uid}/add/${payload.fid}`,
-    ]);
+    const res = yield call(apiPost, [`api/cart/${payload.uid}/add/${payload.fid}`]);
     if (res.status == 200) {
       yield put(addToCartSuccess('ADD SUCCESS'));
     } else {
@@ -72,11 +66,25 @@ export function* addToCart({ payload }) {
   }
 }
 
+export function* getListFoodByStoreId({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/store/${payload.id}/foods`]);
+    if (res.status == 200) {
+      yield put(getFoodByStoreIdSuccess(res.data.data));
+    } else {
+      yield put(getFoodByStoreIdFailed('Failed'));
+    }
+  } catch (error) {
+    yield put(getFoodByStoreIdFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* foodDetailSaga() {
   // See example in containers/HomePage/saga.js
   yield takeEvery(types.GET_FOOD_BY_ID, getFoodById);
   yield takeEvery(types.GET_RATING_FOOD_BY_ID, getRatingFoodById);
   yield takeEvery(types.GET_LIST_COMMENT_FOOD_BY_ID, getListCommentFoodById);
+  yield takeEvery(types.GET_FOOD_BY_STORE_ID, getListFoodByStoreId);
   yield takeEvery(types.ADD_TO_CART, addToCart);
 }

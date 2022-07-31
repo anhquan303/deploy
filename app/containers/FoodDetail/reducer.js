@@ -13,7 +13,8 @@ export const initialState = {
   food: undefined,
   rating: 0,
   listComment: [],
-  store: undefined
+  store: undefined,
+  listFood: []
   //listCart: []
 };
 
@@ -70,6 +71,17 @@ const foodDetailReducer = (state = initialState, action) =>
       case types.RESET:
         draft.loading = false;
         draft.message = '';
+        break;
+      case types.GET_FOOD_BY_STORE_ID:
+        draft.loading = true;
+        break;
+      case types.GET_FOOD_BY_STORE_ID_SUCCESS:
+        draft.loading = false;
+        draft.listFood = action.payload;
+        break;
+      case types.GET_FOOD_BY_STORE_ID_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
         break;
       // case types.GET_CART_BY_ID:
       //   draft.loading = true;

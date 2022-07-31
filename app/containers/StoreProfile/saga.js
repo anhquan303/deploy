@@ -1,6 +1,6 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { getFoodByStoreIdFailed, getFoodByStoreIdSuccess, getStoreByIdFailed, getStoreByIdSuccess, getStoreRatingFailed, getStoreRatingSuccess } from './actions';
-import { apiFetchData } from './api';
+import { addVoucherByUserIdFailed, getFoodByStoreIdFailed, getFoodByStoreIdSuccess, getStoreByIdFailed, getStoreByIdSuccess, getStoreRatingFailed, getStoreRatingSuccess, getVoucherByStoreIdFailed, getVoucherByStoreIdSuccess } from './actions';
+import { apiFetchData, apiPost } from './api';
 import * as types from './constants';
 
 export function* getStoreById({ payload }) {
@@ -18,7 +18,7 @@ export function* getStoreById({ payload }) {
 
 export function* getFoodByStoreId({ payload }) {
   try {
-    const res = yield call(apiFetchData, [`api/store/0/foods?storeId=${payload.id}`]);
+    const res = yield call(apiFetchData, [`api/store/${payload.id}/foods`]);
     if (res.status == 200) {
       yield put(getFoodByStoreIdSuccess(res.data.data))
     } else {
@@ -42,6 +42,33 @@ export function* getStoreRating({ payload }) {
   }
 }
 
+export function* getVoucherByStoreId({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/voucher?storeId=${payload.id}`]);
+    if (res.status == 200) {
+      yield put(getVoucherByStoreIdSuccess(res.data.data))
+    } else {
+      yield put(getVoucherByStoreIdFailed("FAILED"));
+    }
+  } catch (error) {
+    yield put(getVoucherByStoreIdFailed(error.message));
+  }
+}
+
+export function* addVoucherByUserId({ payload }) {
+  try {
+    const res = yield call(apiPost, [`api/voucher/${payload.vid}/userGet/${payload.uid}`]);
+    console.log(res)
+    // if (res.status == 200) {
+    //   yield put(getVoucherByStoreIdSuccess(res.data.data))
+    // } else {
+    //   yield put(getVoucherByStoreIdFailed("FAILED"));
+    // }
+  } catch (error) {
+    yield put(addVoucherByUserIdFailed(error.message));
+  }
+}
+
 
 // Individual exports for testing
 export default function* storeProfileSaga() {
@@ -49,4 +76,6 @@ export default function* storeProfileSaga() {
   yield takeEvery(types.GET_STORE_BY_ID, getStoreById);
   yield takeEvery(types.GET_FOOD_BY_STORE_ID, getFoodByStoreId);
   yield takeEvery(types.GET_STORE_RATING, getStoreRating);
+  yield takeEvery(types.GET_VOUCHER_BY_STORE_ID, getVoucherByStoreId);
+  yield takeEvery(types.ADD_VOUCHER_BY_USER_ID, addVoucherByUserId);
 }

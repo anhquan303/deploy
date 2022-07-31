@@ -14,19 +14,22 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Box, Grid, MobileStepper, Container, Modal,
-   Typography, TextField, FormControl, InputLabel, Select, MenuItem  } from '@mui/material';
+import {
+  Box, Grid, MobileStepper, Container, Modal,
+  Typography, TextField, FormControl, InputLabel, Select, MenuItem
+} from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import makeSelectPayment from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import Headerr from '../Headerr';
-import { addLocation, createOrder, getListLocationByUserId, getListWards, reset } from './actions';
+import { addLocation, createOrder, createQR, getListLocationByUserId, getListOrderByUserId, getListWards, reset } from './actions';
 import { getUser } from '../../utils/common';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useHistory } from 'react-router-dom';
+import { id } from 'date-fns/locale';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -156,6 +159,9 @@ export function Payment(props) {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [type, setType] = useState('');
+  const [locationId, setLocationId] = useState();
+  const [paymentType, setPaymentType] = useState('');
+  const [orderId, setOrderId] = useState('');
 
   const singleVal = Array.from(props.location.state.item.map(item => {
     return (item.food.price * item.quantity)
@@ -167,27 +173,56 @@ export function Payment(props) {
   }
 
   const handlePayment = () => {
-    const data = {
-      uid: user.id,
-      data: {
-        orderCreateRequests:
-          props.location.state.item.map((item) => {
-            return (
-              {
-                storeId: item.food.foodStore.id,
-                orderFood: [
+    if (paymentType != "") {
+      if (paymentType == "transfer") {
+        const data = {
+          uid: user.id,
+          data: {
+            orderCreateRequests:
+              props.location.state.item.map((item) => {
+                return (
                   {
-                    foodId: item.food.id,
-                    quantity: item.quantity
+                    storeId: item.food.foodStore.id,
+                    orderFood: [
+                      {
+                        foodId: item.food.id,
+                        quantity: item.quantity
+                      }
+                    ],
+                    voucherId: null,
+                    locationId: locationId
                   }
-                ],
-                voucherId: null
-              }
-            )
-          })
+                )
+              })
+          }
+        }
+        dispatch(createOrder(data));
+      } else {
+        const data = {
+          uid: user.id,
+          data: {
+            orderCreateRequests:
+              props.location.state.item.map((item) => {
+                return (
+                  {
+                    storeId: item.food.foodStore.id,
+                    orderFood: [
+                      {
+                        foodId: item.food.id,
+                        quantity: item.quantity
+                      }
+                    ],
+                    voucherId: null,
+                    locationId: locationId
+                  }
+                )
+              })
+          }
+        }
+        dispatch(createOrder(data));
       }
     }
-    dispatch(createOrder(data));
+
   }
 
   useEffect(() => {
@@ -204,11 +239,50 @@ export function Payment(props) {
 
   useEffect(() => {
     if (props.payment.message.includes("Đặt hàng thành công")) {
-      setOpenAlert(true);
-      setTimeout(() => dispatch(reset()), 6000);
-      setTimeout(() => history.push("/user/order-history"), 2000);
+      console.log(paymentType)
+      if (paymentType == "transfer") {
+        const data = {
+          id: user.id
+        }
+        dispatch(getListOrderByUserId(data));
+      } else {
+        setOpenAlert(true);
+        setTimeout(() => dispatch(reset()), 6000);
+        setTimeout(() => history.push("/user/order-history"), 2000);
+      }
     }
   }, [props.payment.message])
+
+
+  //get id of order
+  useEffect(() => {
+    if (props.payment.listOrder && paymentType == "transfer") {
+      if (props.payment.listOrder.length != 0) {
+        setOrderId(props.payment.listOrder[props.payment.listOrder.length - 1].id);
+      }
+    }
+  }, [props.payment.listOrder]);
+
+  //create qr code for order
+  useEffect(() => {
+    if (orderId != '') {
+      const data = {
+        order_id: orderId
+      }
+      dispatch(createQR(data));
+    }
+  }, [orderId])
+
+  //qr code
+  useEffect(() => {
+    if (props.payment.qrcode != "") {
+
+      // setOpenAlert(true);
+      // setTimeout(() => dispatch(reset()), 6000);
+      // setTimeout(() => history.push("/user/order-history"), 2000);
+      //window.open(props.payment.qrcode, '_blank', 'noopener,noreferrer');
+    }
+  }, [props.payment.qrcode]);
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -223,6 +297,7 @@ export function Payment(props) {
       if (props.payment.listLocation.length != 0 && props.payment.listLocation != null) {
         setNameAddress(props.payment.listLocation[0].name);
         setAddress(props.payment.listLocation[0].village);
+        setLocationId(props.payment.listLocation[0].id);
       } else {
         setNameAddress("");
         setAddress("");
@@ -231,9 +306,10 @@ export function Payment(props) {
 
   }, [props.payment.listLocation])
 
-  const handleChangeLocation = (name, village) => {
+  const handleChangeLocation = (name, village, id) => {
     setNameAddress(name);
     setAddress(village);
+    setLocationId(id);
     setOpenModal(false);
   }
 
@@ -247,6 +323,11 @@ export function Payment(props) {
   // set ward
   const handleChangeType = e => {
     setType(e.target.value);
+  };
+
+  // set payment type
+  const handleChangePaymentType = e => {
+    setPaymentType(e.target.value);
   };
 
   //add address
@@ -404,39 +485,44 @@ export function Payment(props) {
                 </div>
               )
             }))} */}
-
-
-
-
           </div>
 
           <div>
             <Grid container spacing={0}>
-              <Grid item sm={12} xs={12} md={3} className={classes.center}>
+              <Grid item sm={12} xs={12} md={4} className={classes.center}>
                 <p className={classes.infor_text}>
                   Phương thức thanh toán
                 </p>
               </Grid>
-              <Grid item sm={12} xs={12} md={3} className={classes.payment}>
-                <Button
-                  variant="contained"
-                  component="span"
-                  className={classes.btn}
-                >
-                  Tài khoản ngân hàng
-                </Button>
-              </Grid>
-              <Grid item sm={12} xs={12} md={4} className={classes.payment}>
-                <Button
-                  variant="contained"
-                  component="span"
-                  className={classes.btn}
-                >
-                  Thanh toán khi nhận hàng
-                </Button>
+              <Grid item sm={12} xs={12} md={5}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Lựa chọn phương thức thanh toán
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={paymentType}
+                    label="Phương thức thanh toán"
+                    onChange={handleChangePaymentType}
+                  >
+                    <MenuItem value="transfer">
+                      Chuyển khoản
+                    </MenuItem>
+                    <MenuItem value="cash">
+                      Thanh toán khi nhận hàng
+                    </MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
             <hr />
+          </div>
+
+          <div style={{ margin: "0 auto" }}>
+            {props.payment.qrcode != "" ?
+              <img src={props.payment.qrcode != "" ? props.payment.qrcode : null} />
+              : null}
           </div>
 
           <div>
@@ -747,7 +833,7 @@ export function Payment(props) {
                     >
                       <div>
                         <p style={{ textAlign: 'right' }}>
-                          <Button className={classes.btn} variant="outlined" onClick={() => handleChangeLocation(item.name, item.village)}>
+                          <Button className={classes.btn} variant="outlined" onClick={() => handleChangeLocation(item.name, item.village, item.id)}>
                             Chọn
                           </Button>
                         </p>

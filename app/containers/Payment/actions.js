@@ -103,3 +103,45 @@ export function addLocationFailed(payload) {
     payload
   };
 }
+
+export function createQR(payload) {
+  return {
+    type: types.CREATE_QR,
+    payload
+  };
+}
+
+export function createQRSuccess(payload) {
+  return {
+    type: types.CREATE_QR_SUCCESS,
+    payload
+  };
+}
+
+export function createQRFailed(payload) {
+  return {
+    type: types.CREATE_QR_FAILED,
+    payload
+  };
+}
+
+export function getListOrderByUserId(payload) {
+  return {
+    type: types.GET_LIST_ORDER_BY_USER_ID,
+    payload
+  };
+}
+
+export function getListOrderByUserIdSuccess(payload) {
+  return {
+    type: types.GET_LIST_ORDER_BY_USER_ID_SUCCESS,
+    payload
+  };
+}
+
+export function getListOrderByUserIdFailed(payload) {
+  return {
+    type: types.GET_LIST_ORDER_BY_USER_ID_FAILED,
+    payload
+  };
+}

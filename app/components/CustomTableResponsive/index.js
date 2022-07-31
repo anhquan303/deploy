@@ -8,31 +8,36 @@ import React, { memo, useEffect, useState, detailPage, rows } from 'react';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import {
-  Paper, Table, TableBody, TableCell, TableContainer,
-  TableHead, TablePagination, TableRow
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
 } from '@mui/material';
 
-
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 import { useHistory } from 'react-router-dom';
+import messages from './messages';
 
 function CustomTableResponsive({ columns, data, detailPage, rows }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
   const history = useHistory();
 
-  const handleClick = (id) => {
+  const handleClick = id => {
     const location = {
       pathname: `/${detailPage}/${id}`,
       state: {
-        id: id
-      }
-    }
-    history.push(location)
-  }
-
+        id,
+      },
+    };
+    history.push(location);
+  };
 
   // function createData(id, stt, name, email, slogan, status) {
   //   //const density = population / size;
@@ -48,32 +53,30 @@ function CustomTableResponsive({ columns, data, detailPage, rows }) {
   //   }
   // }, [data])
 
-
-
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = event => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: "20px" }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: '20px' }}>
       <TableContainer sx={{ maxHeight: 600 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns.map(column => (
                 <TableCell
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
-                  <span style={{fontWeight: "700", fontSize: "20px"}}>{column.label}</span>
+                  <span style={{ fontWeight: '700', fontSize: '20px' }}>
+                    {column.label}
+                  </span>
                 </TableCell>
               ))}
             </TableRow>
@@ -82,22 +85,23 @@ function CustomTableResponsive({ columns, data, detailPage, rows }) {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align} style={{ width: column.minWidth }} onClick={() => handleClick(row.id)}>
-                          {column.format
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+              .map((row, index) => (
+                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                  {columns.map(column => {
+                    const value = row[column.id];
+                    return (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ width: column.minWidth }}
+                        onClick={() => handleClick(row.id)}
+                      >
+                        {column.format ? column.format(value) : value}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={6} />

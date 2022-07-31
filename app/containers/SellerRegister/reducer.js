@@ -11,6 +11,7 @@ export const initialState = {
   loading: false,
   message: '',
   listWard: [],
+  listBank: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -38,6 +39,17 @@ const sellerRegisterReducer = (state = initialState, action) =>
         draft.listWard = action.payload;
         break;
       case types.GET_LIST_WARDS_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_LIST_BANK:
+        draft.loading = true;
+        break;
+      case types.GET_LIST_BANK_SUCCESS:
+        draft.loading = false;
+        draft.listBank = action.payload;
+        break;
+      case types.GET_LIST_BANK_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;
