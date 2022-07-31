@@ -42,6 +42,8 @@ export function CardItem({ foodName, storeName, address, img }) {
   useInjectSaga({ key: 'cardItem', saga });
   const classes = useStyles();
 
+  console.log(address)
+
   return (
     <div>
       {/* <Card sx={{ maxWidth: 200 }} className={classes.card}>
@@ -94,14 +96,28 @@ export function CardItem({ foodName, storeName, address, img }) {
           alt="anh mon an"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h5" component="div" style={{
+            whiteSpace: 'nowrap',
+            width: '100%',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}>
             {foodName}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {storeName}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {address.name} - {address.village} - {address.town}
+          <Typography variant="body2" color="text.secondary" style={{
+            whiteSpace: 'nowrap',
+            width: '100%',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}>
+            {/* {address.name} - {address.village} - {address.town} */}
+            {address && address.name != null ? <span>{address.name} - {address.village} - {address.town}</span> :
+              <span> {address.dormName} - {address.room_number}</span>
+            }
+
           </Typography>
 
         </CardContent>

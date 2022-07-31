@@ -152,20 +152,20 @@ export function UserHomePage(props) {
 
   // get list food
   useEffect(() => {
+
     const data = {
       sid: store,
+      search: props.location.state ? props.location.state.search : ""
     };
     dispatch(fetchListFood(data));
-  }, []);
+
+  }, [props.location.state]);
+
 
   return (
     <>
       <Headerr />
       <Container fixed>
-        <Box sx={{ maxWidth: '100%', flexGrow: 1, margin: '10px 0' }}>
-
-        </Box>
-
         <div style={{ textAlign: 'center' }}>
           <Button
             className={classes.btn}

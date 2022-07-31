@@ -11,7 +11,9 @@ export const initialState = {
   loading: false,
   message: "",
   listLocation: [],
-  listWard: []
+  listWard: [],
+  qrcode: "",
+  listOrder: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -45,6 +47,7 @@ const paymentReducer = (state = initialState, action) =>
       case types.RESET:
         draft.loading = false;
         draft.message = "";
+        draft.qrcode = "";
         break;
       case types.GET_LIST_WARDS:
         draft.loading = true;
@@ -65,6 +68,28 @@ const paymentReducer = (state = initialState, action) =>
         draft.message = action.payload;
         break;
       case types.ADD_LOCATION_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.CREATE_QR:
+        draft.loading = true;
+        break;
+      case types.CREATE_QR_SUCCESS:
+        draft.loading = false;
+        draft.qrcode = action.payload;
+        break;
+      case types.CREATE_QR_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_LIST_ORDER_BY_USER_ID:
+        draft.loading = true;
+        break;
+      case types.GET_LIST_ORDER_BY_USER_ID_SUCCESS:
+        draft.loading = false;
+        draft.listOrder = action.payload;
+        break;
+      case types.GET_LIST_ORDER_BY_USER_ID_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

@@ -55,7 +55,14 @@ import Cart from '../Cart';
 import GlobalStyle from '../../global-styles';
 import SideBar from '../../components/SideBar';
 import SellerSideBar from '../../components/SellerSideBar';
+import Detailreport from '../../containers/DetailReport';
 import StoreProfile from '../../containers/StoreProfile';
+import SellerVoucher from '../../containers/SellerVoucher';
+import UserVoucher from '../../containers/UserVoucher';
+import UserReport from '../../containers/UserReport';
+import UserDetailReport from '../../containers/UserDetailReport';
+import SellerReport from '../../containers/SellerReport';
+import SellerDetailReport from '../../containers/SellerDetailReport';
 import { getUser } from '../../utils/common';
 import Headerr from '../Headerr';
 
@@ -145,6 +152,7 @@ export default function App() {
                   <Route path="/register/:id" component={DetailRegister} />
                   <Route exact path="/customer" component={DashboardCustomer} />
                   <Route exact path="/report" component={DashboardReport} />
+                  <Route path="/report/:id" component={Detailreport} />
                   <Route path="/customer/:id" component={DetailCustomer} />
                   <Route exact path="/store" component={DashboardStore} />
                   <Route path="/store/:id" component={DetailStore} />
@@ -198,12 +206,12 @@ export default function App() {
                       path="/my-store/manager-product/:id"
                       component={SellerActionProduct}
                     />
-                    <Route
-                      path="/my-store/manager-order/:id"
-                      component={SellerOrderDetail}
-                    />
+                    <Route path="/my-store/manager-order/:id" component={SellerOrderDetail} />
                     <Route path="/my-store/turnover" component={SellerTurnover} />
                     <Route path="/my-store/setting" component={SellerSetting} />
+                    <Route path="/my-store/voucher" component={SellerVoucher} />
+                    <Route exact path="/my-store/report" component={SellerReport} />
+                    <Route path="/my-store/report/:id" component={SellerDetailReport} />
                     {/* <Route path="/sellerRegister" component={SellerRegister} /> */}
                     <Route path="" component={NotFoundPage} />
                   </Switch>
@@ -224,34 +232,17 @@ export default function App() {
                     <SellerHomePage />
                   </Grid>
 
-                  <Grid
-                    item
-                    sm={12}
-                    xs={12}
-                    md={9}
-                    style={{ padding: '10px', backgroundColor: '#fff' }}
-                  >
+                  <Grid item sm={12} xs={12} md={9} style={{ padding: '10px', backgroundColor: '#fff' }}>
                     <Switch>
                       <Route path="/user/setting" component={UserSetting} />
-                      <Route
-                        exact
-                        path="/user/order-history"
-                        component={UserOrderHistory}
-                      />
-                      <Route
-                        exact
-                        path="/user/order-history/:id"
-                        component={UserDetailOrder}
-                      />
-                      <Route
-                        path="/user/change-password"
-                        component={UserChangePassword}
-                      />
+                      <Route exact path="/user/order-history" component={UserOrderHistory} />
+                      <Route exact path="/user/order-history/:id" component={UserDetailOrder} />
+                      <Route path="/user/change-password" component={UserChangePassword} />
                       <Route path="/user/address" component={UserAddress} />
-                      <Route
-                        path="/user/rating-comment/:id"
-                        component={UserRatingComment}
-                      />
+                      <Route path="/user/rating-comment/:id" component={UserRatingComment} />
+                      <Route path="/user/voucher" component={UserVoucher} />
+                      <Route exact path="/user/report" component={UserReport} />
+                      <Route path="/user/detail-report/:id" component={UserDetailReport} />
                       <Route path="" component={NotFoundPage} />
                     </Switch>
                   </Grid>

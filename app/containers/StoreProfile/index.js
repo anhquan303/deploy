@@ -21,7 +21,7 @@ import messages from './messages';
 import Headerr from '../Headerr';
 import {
   Box, Grid, IconButton, Container, Avatar, Rating, Card, CardMedia, Typography, CardContent,
-  List, ListItemButton, ListItemText, TextField, Tabs, Tab, Chip
+  List, ListItemButton, ListItemText, TextField, Tabs, Tab, Chip, Modal
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
@@ -29,9 +29,11 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { CardItem } from '../CardItem';
-import { getFoodByStoreId, getStoreById, getStoreRating } from './actions';
+import { addVoucherByUserId, getFoodByStoreId, getStoreById, getStoreRating, getVoucherByStoreId } from './actions';
 import { Link } from 'react-router-dom';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { getUser } from '../../utils/common';
 
 let HEIGHT = window.screen.height;
 
@@ -65,23 +67,32 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   root: {
-    height: 450,
-    [theme.breakpoints.down("sm")]: {
-      height: 450,
-    }
+    height: "510px",
+    // [theme.breakpoints.down("sm")]: {
+    //   height: "525px",
+    // },
+    // [theme.breakpoints.between("xs", "sm")]: {
+    //   height: "525px",
+    // },
+    // [theme.breakpoints.down("md")]: {
+    //   height: "500px",
+    // }
   },
   media: {
     height: HEIGHT / 3
   },
   profileImage: {
     position: "relative",
-    top: "-120px",
+    top: "-125px",
     // left: "50px",
     justifyContent: "center",
     // width: "60px",
     height: "fit-content",
     border: "5px solid white",
-    margin: "20px"
+    margin: "20px",
+    [theme.breakpoints.down("xs")]: {
+      top: "-181px",
+    },
   },
   profileInfoContainer: {
     position: "relative",
@@ -98,7 +109,79 @@ const useStyles = makeStyles(theme => ({
   contentContainer: {
     position: "relative",
     top: "-90px"
-  }
+  },
+  couponCard: {
+    background: "linear-gradient(135deg, #FF9900, #F5BB64)",
+    color: "#fff",
+    textAlign: "center",
+    padding: "40px 40px",
+    borderRadius: "15px",
+    boxShadow: "0 10px 10px 0 rgba(0, 0, 0, 0.15)",
+    position: "relative"
+  },
+  imgCoupon: {
+    width: "100px",
+    borderRadius: "8px",
+    marginBottom: "10px"
+  },
+  couponRow: {
+    display: "flex",
+    alignItems: "center",
+    margin: "20px auto",
+    width: "fit-content"
+  },
+  couponCode: {
+    border: "1px dashed #fff",
+    padding: "10px 20px",
+    borderRight: "0"
+  },
+  couponBtn: {
+    border: "1px solid #fff",
+    background: "#fff",
+    padding: "10px 20px",
+    cursor: "pointer",
+    color: "#7158fe"
+  },
+  circle1: {
+    background: "#f0fff3",
+    width: "50px",
+    height: "50px",
+    borderRadius: "50%",
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    left: "-25px"
+  },
+  circle2: {
+    background: "#f0fff3",
+    width: "50px",
+    height: "50px",
+    borderRadius: "50%",
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    right: "-25px"
+  },
+  modal: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 650,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    backgroundColor: '#fff',
+    textAlign: 'center',
+    borderRadius: '20px',
+    padding: '10px',
+    [theme.breakpoints.down("sm")]: {
+      width: 250,
+    },
+    [theme.breakpoints.down("md")]: {
+      width: 500,
+    },
+  },
 }));
 
 
@@ -110,6 +193,9 @@ export function StoreProfile(props) {
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [value, setValue] = useState(0);
+  const [copied, setCopied] = useState(false);
+  let dollarUSLocale = Intl.NumberFormat('en-US');
+  const user = getUser();
 
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
@@ -126,15 +212,28 @@ export function StoreProfile(props) {
     dispatch(getStoreById(data));
     dispatch(getFoodByStoreId(data));
     dispatch(getStoreRating(data));
+    dispatch(getVoucherByStoreId(data));
   }, []);
 
+  console.log(props.location.state.id)
+
+  const handleSaveVoucher = (vid) => {
+    console.log(vid)
+    const data = {
+      uid: user.id,
+      vid: vid
+    }
+    dispatch(addVoucherByUserId(data));
+  }
+
+  console.log(props.storeProfile.store)
   return (
     <div>
       <Headerr />
 
       <Container fixed>
         <Card className={classes.root}>
-          <CardMedia className={classes.media} image="https://www.wikihow.com/images/thumb/a/a8/Cover-Food-in-the-Microwave-Step-1.jpg/v4-460px-Cover-Food-in-the-Microwave-Step-1.jpg.webp" title="Cover" />
+          <CardMedia className={classes.media} image={props.storeProfile.store ? props.storeProfile.store.storeImage.cover_image : null} title="Cover" />
           <div className={classes.profileImage} style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", backgroundColor: "#fff", borderRadius: "10px" }}>
             <Grid container spacing={0} >
               <Grid item lg={1} md={2} sm={3}>
@@ -154,7 +253,7 @@ export function StoreProfile(props) {
                 </div>
 
               </Grid>
-              <Grid item lg={11} md={10} sm={11}>
+              <Grid item lg={11} md={10} sm={9}>
                 <p style={{ fontFamily: "circular std book,sans-serif", margin: "0", fontWeight: "700", fontSize: "30px" }}>{props.storeProfile.store ? props.storeProfile.store.name : null}</p>
                 <Chip icon={<AccessTimeIcon />} label={`Thời gian mở cửa: ${props.storeProfile.store ? props.storeProfile.store.open_time : null} - ${props.storeProfile.store ? props.storeProfile.store.close_time : null}`} variant="outlined" />
                 <p style={{ fontFamily: "circular std book,sans-serif", margin: "10px 0 ", fontWeight: "400", fontSize: "13px", color: "#858796", textAlign: "left" }}>{props.storeProfile.store ? props.storeProfile.store.description : null}</p>
@@ -170,11 +269,20 @@ export function StoreProfile(props) {
                   </div>
                   <div style={{ margin: "3px" }}> 5 - 243 Ratings</div>
                 </div>
+                <div>
+                  <Button className={classes.btn} variant="outlined" onClick={() => history.goBack()}>
+                    Yêu thích
+                  </Button>
+                  <Button className={classes.btn} variant="outlined" onClick={() => history.goBack()}>
+                    Báo cáo
+                  </Button>
+                </div>
               </Grid>
+
             </Grid>
           </div>
         </Card>
-        <hr />
+
         <div style={{ display: 'flex', textAlign: 'center' }}>
           <Tabs value={value} onChange={handleChangeTab} aria-label="disabled tabs example" style={{ margin: '0 auto' }}>
             <Tab label="Tất cả sản phẩm" />
@@ -182,79 +290,108 @@ export function StoreProfile(props) {
           </Tabs>
         </div>
 
-        <div>
-          <Grid container spacing={0}>
-            <Grid item xs={12} sm={12} md={3} style={{ padding: '10px' }}>
-              <List
-                component="nav"
-                aria-label="secondary mailbox folder"
-                className={classes.foodType}
-              >
-                <ListItemButton
-                  selected={selectedIndex === 2}
-                  onClick={event => handleListItemClick(event, 2)}
+        {value == 0 ?
+          <div>
+            <Grid container spacing={0}>
+              <Grid item xs={12} sm={12} md={3} style={{ padding: '10px' }}>
+                <List
+                  component="nav"
+                  aria-label="secondary mailbox folder"
+                  className={classes.foodType}
                 >
-                  <ListItemText primary="Bán chạy" />
-                </ListItemButton>
-                <ListItemButton
-                  selected={selectedIndex === 3}
-                  onClick={event => handleListItemClick(event, 2)}
-                >
-                  <ListItemText primary="Món mới" />
-                </ListItemButton>
-                <ListItemButton
-                  selected={selectedIndex === 4}
-                  onClick={event => handleListItemClick(event, 3)}
-                >
-                  <ListItemText primary="Cơm suất" />
-                </ListItemButton>
-                <ListItemButton
-                  selected={selectedIndex === 5}
-                  onClick={event => handleListItemClick(event, 4)}
-                >
-                  <ListItemText primary="Phở" />
-                </ListItemButton>
-                <ListItemButton
-                  selected={selectedIndex === 6}
-                  onClick={event => handleListItemClick(event, 5)}
-                >
-                  <ListItemText primary="Bún" />
-                </ListItemButton>
-                <ListItemButton
-                  selected={selectedIndex === 7}
-                  onClick={event => handleListItemClick(event, 6)}
-                >
-                  <ListItemText primary="Đồ ăn vặt" />
-                </ListItemButton>
-              </List>
-            </Grid>
-            <Grid item xs={12} sm={12} md={9} style={{ padding: '10px' }}>
-              <Grid container spacing={0}>
-                {props.storeProfile.food.map((item) => {
-                  return (
-                    <Grid item xs={12} sm={12} md={3} key={item.id} style={{ padding: '0 10px' }}>
-                      <Link
-                        to={{ pathname: `/food/${item.id}`, state: { item } }}
-                        style={{ textDecoration: 'none' }}
-                      >
-                        <CardItem
-                          foodName={item.name}
-                          storeName={item.foodStore.name}
-                          address="address"
-                          img={item.image}
-                        />
-                      </Link>
-                    </Grid>
-                  )
-                })}
+                  <ListItemButton
+                    selected={selectedIndex === 2}
+                    onClick={event => handleListItemClick(event, 2)}
+                  >
+                    <ListItemText primary="Bán chạy" />
+                  </ListItemButton>
+                  <ListItemButton
+                    selected={selectedIndex === 3}
+                    onClick={event => handleListItemClick(event, 2)}
+                  >
+                    <ListItemText primary="Món mới" />
+                  </ListItemButton>
+                  <ListItemButton
+                    selected={selectedIndex === 4}
+                    onClick={event => handleListItemClick(event, 3)}
+                  >
+                    <ListItemText primary="Cơm suất" />
+                  </ListItemButton>
+                  <ListItemButton
+                    selected={selectedIndex === 5}
+                    onClick={event => handleListItemClick(event, 4)}
+                  >
+                    <ListItemText primary="Phở" />
+                  </ListItemButton>
+                  <ListItemButton
+                    selected={selectedIndex === 6}
+                    onClick={event => handleListItemClick(event, 5)}
+                  >
+                    <ListItemText primary="Bún" />
+                  </ListItemButton>
+                  <ListItemButton
+                    selected={selectedIndex === 7}
+                    onClick={event => handleListItemClick(event, 6)}
+                  >
+                    <ListItemText primary="Đồ ăn vặt" />
+                  </ListItemButton>
+                </List>
               </Grid>
+              <Grid item xs={12} sm={12} md={9} style={{ padding: '10px' }}>
+                <Grid container spacing={0}>
+                  {props.storeProfile.food.map((item) => {
+                    return (
+                      <Grid item xs={12} sm={12} md={3} key={item.id} style={{ padding: '0 10px' }}>
+                        <Link
+                          to={{ pathname: `/food/${item.id}`, state: { item } }}
+                          style={{ textDecoration: 'none' }}
+                        >
+                          <CardItem
+                            foodName={item.name}
+                            storeName={item.foodStore.name}
+                            address="address"
+                            img={item.image}
+                          />
+                        </Link>
+                      </Grid>
+                    )
+                  })}
+                </Grid>
+
+              </Grid>
+            </Grid>
+          </div>
+          :
+          <div>
+            <Grid container spacing={0}>
+              {props.storeProfile.listVoucher && props.storeProfile.listVoucher.length != 0 ? props.storeProfile.listVoucher.map((item) => {
+                return (
+                  <Grid key={item.id} item xs={12} sm={12} md={4} style={{ padding: '10px' }}>
+                    <div className={classes.couponCard}>
+                      <img className={classes.imgCoupon} src="https://www.mssdefence.com/wp-content/uploads/2016/11/Discount-Action-Mss-Defence.png" />
+                      <h3 style={{ fontSize: "20px", fontWeight: "400" }}>{item.name}</h3>
+                      <div className={classes.couponRow}>
+                        <span className={classes.couponCode}>{item.code}</span>
+                        {/* <span className={classes.couponBtn}><CopyToClipBoard text="STEALDEAL20"> LƯU MÃ</CopyToClipBoard></span> */}
+                        <CopyToClipboard text={item.code}
+                          onCopy={() => setCopied(true)}>
+                          <span className={classes.couponBtn} onClick={() => handleSaveVoucher(item.id)}>LƯU MÃ</span>
+                        </CopyToClipboard>
+                      </div>
+                      <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
+                      {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
+                      {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
+                      <div className={classes.circle1}></div>
+                      <div className={classes.circle2}></div>
+                    </div>
+                  </Grid>
+                )
+              }) : <span style={{ margin: "0 auto" }}>Store chưa có voucher</span>}
 
             </Grid>
-          </Grid>
-        </div>
+          </div>
+        }
       </Container>
-
-
 
     </div >
   );

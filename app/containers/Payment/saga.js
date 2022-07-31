@@ -2,8 +2,8 @@ import { take, call, put, select, takeEvery } from 'redux-saga/effects';
 import {
   addLocationFailed,
   addLocationSuccess,
-  createOrderFailed, createOrderSuccess, getListLocationByUserIdFailed,
-  getListLocationByUserIdSuccess, getListWardsFailed, getListWardsSuccess
+  createOrderFailed, createOrderSuccess, createQRFailed, createQRSuccess, getListLocationByUserIdFailed,
+  getListLocationByUserIdSuccess, getListOrderByUserIdFailed, getListOrderByUserIdSuccess, getListWardsFailed, getListWardsSuccess
 } from './actions';
 import { apiFetchData, apiGetListWards, apiPost } from './api';
 import * as types from './constants';
@@ -34,6 +34,7 @@ export function* getListLocationByUserId({ payload }) {
   }
 }
 
+
 export function* getListWard({ payload }) {
   try {
     const res = yield call(apiGetListWards, []);
@@ -59,6 +60,35 @@ export function* addLocation({ payload }) {
     yield put(addLocationFailed(error.message));
   }
 }
+
+export function* createQR({ payload }) {
+  try {
+    const res = yield call(apiPost, [`api/payment/createPayment`], payload);
+    console.log(res)
+    if (res.status == 200) {
+      yield put(createQRSuccess(res.data.qr_code));
+    } else {
+      yield put(createQRFailed("Không thể tạo mã QR"))
+    }
+  } catch (error) {
+    yield put(createQRFailed(error.message));
+  }
+}
+
+export function* getListOrderByUserId({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/order?userId=${payload.id}`]);
+    if (res.status == 200) {
+      yield put(getListOrderByUserIdSuccess(res.data.data));
+    } else {
+      yield put(getListOrderByUserIdFailed("FAILED"));
+    }
+  } catch (error) {
+    yield put(getListOrderByUserIdFailed(error.message));
+  }
+}
+
+
 // Individual exports for testing
 export default function* paymentSaga() {
   // See example in containers/HomePage/saga.js
@@ -66,4 +96,6 @@ export default function* paymentSaga() {
   yield takeEvery(types.GET_LIST_WARDS, getListWard);
   yield takeEvery(types.GET_LIST_LOCATION_BY_USER_ID, getListLocationByUserId);
   yield takeEvery(types.ADD_LOCATION, addLocation);
+  yield takeEvery(types.CREATE_QR, createQR);
+  yield takeEvery(types.GET_LIST_ORDER_BY_USER_ID, getListOrderByUserId);
 }

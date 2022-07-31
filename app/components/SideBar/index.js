@@ -145,37 +145,37 @@ function SideBar(props) {
       <NavLink to="/dashboard" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <DashboardRoundedIcon className={classes.icon} />
-          <Typography className={classes.text}>Dashboard</Typography>
+          <Typography className={classes.text}>Tổng quan</Typography>
         </div>
       </NavLink>
       <NavLink to="/customer" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <PersonIcon className={classes.icon} />
-          <Typography className={classes.text}>Customer</Typography>
+          <Typography className={classes.text}>Quản lý người dùng</Typography>
         </div>
       </NavLink>
       <NavLink to="/account" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <AccountBoxIcon className={classes.icon} />
-          <Typography className={classes.text}>Account</Typography>
+          <Typography className={classes.text}>Quản lý tài khoản</Typography>
         </div>
       </NavLink>
       <NavLink to="/store" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <StoreIcon className={classes.icon} />
-          <Typography className={classes.text}>Store</Typography>
+          <Typography className={classes.text}>Quản lý quán ăn</Typography>
         </div>
       </NavLink >
       <NavLink to="/order" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <LocalGroceryStoreIcon className={classes.icon} />
-          <Typography className={classes.text}>Order</Typography>
+          <Typography className={classes.text}>Quản lý đặt hàng</Typography>
         </div>
       </NavLink>
       <NavLink to="/report" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <ReportProblemIcon className={classes.icon} />
-          <Typography className={classes.text}>Report</Typography>
+          <Typography className={classes.text}>Báo cáo</Typography>
         </div>
       </NavLink>
       <NavLink to="/register" className={classes.link} onClick={handleDrawerToggle}>
@@ -184,19 +184,19 @@ function SideBar(props) {
           {/* <Badge badgeContent={99} className={classes.icon}>
             <FastfoodIcon />
           </Badge> */}
-          <Typography className={classes.text}>Register</Typography>
+          <Typography className={classes.text}>Quản lý đăng ký</Typography>
         </div>
       </NavLink>
-      <NavLink to="/setting" className={classes.link} onClick={handleDrawerToggle}>
+      {/* <NavLink to="/setting" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <SettingsIcon className={classes.icon} />
           <Typography className={classes.text}>Setting</Typography>
         </div>
-      </NavLink>
+      </NavLink> */}
       <NavLink to="/login" className={classes.link} onClick={handleLogout}>
         <div className={classes.item}>
           <LogoutIcon className={classes.icon} />
-          <Typography className={classes.text}>Log out</Typography>
+          <Typography className={classes.text}>Đăng xuất</Typography>
         </div>
       </NavLink>
     </Container >

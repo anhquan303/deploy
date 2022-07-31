@@ -14,13 +14,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import {
-  FormControlLabel,
-  Container,
-  Checkbox,
-  IconButton,
-  Avatar,
-} from '@mui/material';
+import { FormControlLabel, Container, Checkbox, IconButton, Avatar, } from '@mui/material';
 import { makeStyles, Grid, Button } from '@material-ui/core';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -29,24 +23,17 @@ import { id } from 'date-fns/locale';
 import makeSelectCart from './selectors';
 import reducer from './reducer';
 import messages from './messages';
-import Headerr from '../Headerr';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { getUser } from '../../utils/common';
-import {
-  addQuantityFood,
-  deleteAllCart,
-  deleteQuantityFood,
-  getOrderCart,
-  reset,
-  subQuantityFood,
-} from './actions';
+import { addQuantityFood, deleteAllCart, deleteQuantityFood, getOrderCart, reset, subQuantityFood } from './actions';
 import saga from './saga';
 import { useLocation } from 'react-router-dom';
+import Headerr from '../Headerr';
 
 const useStyles = makeStyles(theme => ({
   bigGrid: {
-    margin: '20px',
+    margin: '20px 0',
     backgroundColor: '#FFF',
     boxShadow:
       'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px',
@@ -90,7 +77,7 @@ const useStyles = makeStyles(theme => ({
   },
   quantityButton: {
     display: 'flex',
-    justifyContent: 'right',
+    justifyContent: 'center',
     marginLeft: 'auto',
   },
 }));
@@ -117,6 +104,7 @@ export function Cart(props) {
   const newList = [];
 
   useEffect(() => {
+    //dispatch(reset());
     const data = {
       uid: user.id,
     };
@@ -127,12 +115,12 @@ export function Cart(props) {
   useEffect(() => {
     if (props.cart.message != '') {
       if (props.cart.message == 'SUCCESS') {
-        setOpenAlert(true);
+        //setOpenAlert(true);
         const data = {
           uid: user.id,
         };
         dispatch(getOrderCart(data));
-        setTimeout(() => dispatch(reset()), 6000);
+        setTimeout(() => dispatch(reset()), 1000);
       }
       if (props.cart.message.includes("thành công")) {
         setOpenAlert(true);
@@ -264,8 +252,8 @@ export function Cart(props) {
     <div>
       <Headerr />
       <Container fixed>
-        <Grid container spacing={0} className={classes.bigGrid}>
-          <Grid item md={4} sm={3} xs={3} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
+        <Grid container spacing={0} className={classes.bigGrid} >
+          <Grid item md={4} sm={12} xs={12} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
             <Checkbox
               name="selectAll"
               type="checkbox"
@@ -280,16 +268,16 @@ export function Cart(props) {
               <span className={classes.text} ><FormattedMessage {...messages.food} /></span>
             </div>
           </Grid>
-          <Grid item md={2} sm={3} xs={3} className={classes.smallGrid}>
+          <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
             <span className={classes.text}>Đơn Giá</span>
           </Grid>
-          <Grid item md={2} sm={2} xs={2} className={classes.smallGrid}>
+          <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
             <span className={classes.text}>Số lượng</span>
           </Grid>
-          <Grid item md={2} sm={2} xs={2} className={classes.smallGrid}>
+          <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
             <span className={classes.text}>Số Tiền</span>
           </Grid>
-          <Grid item md={2} sm={2} xs={2} className={classes.smallGrid}>
+          <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
             <span className={classes.text}>Thao Tác</span>
           </Grid>
         </Grid>
@@ -309,13 +297,10 @@ export function Cart(props) {
                 {/* Item */}
                 {item.cartFoodResponses.map((item1, index) => (
                   <div style={{ width: '100%' }} key={index}>
-                    <Grid item md={12} sm={12} xs={12} className={classes.itemCard}>
-                      <Grid item md={4} sm={4} xs={3} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
+                    <Grid container spacing={0} style={{ padding: "10px", height: "fit-content" }}>
+                      <Grid item md={4} sm={12} xs={12} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
                         <Checkbox
                           type="checkbox"
-                          // value={item}
-                          // onChange={handleChange}
-                          // checked={checkedList.includes(item1)}
                           id={item1}
                           onClick={e => handleClick(e, item1)}
                           checked={checkedList.includes(item1)}
@@ -328,12 +313,12 @@ export function Cart(props) {
                           }} className={classes.text}>{item1.food.name}</span>
                         </div>
                       </Grid>
-                      <Grid item md={2} sm={2} xs={3} className={classes.smallGrid} style={{ paddingLeft: '5px' }} >
+                      <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}  >
                         <span className={classes.text}>
                           {item1.food.price}
                         </span>
                       </Grid>
-                      <Grid item md={2} sm={2} xs={2} className={classes.smallGrid} style={{ paddingLeft: '20px' }}>
+                      <Grid item md={2} sm={3} xs={6} className={classes.smallGrid} >
                         <IconButton
                           style={{ color: '#FF9900' }}
                           onClick={() => subQuantity(item1.food.id)}
@@ -350,13 +335,13 @@ export function Cart(props) {
                           <AddBoxIcon />
                         </IconButton>
                       </Grid>
-                      <Grid item md={2} sm={2} xs={2} className={classes.smallGrid} style={{ paddingLeft: '48px' }}>
+                      <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
                         <span className={classes.text}>
                           {parseInt(item1.quantity) *
                             parseInt(item1.food.price)}
                         </span>
                       </Grid>
-                      <Grid item md={2} sm={2} xs={2} className={classes.quantityButton} style={{ paddingRight: '20px' }}>
+                      <Grid item md={2} sm={3} xs={6} className={classes.quantityButton} >
                         <Button
                           variant=""
                           onClick={() => deleteFood(item1.food.id)}
@@ -374,26 +359,19 @@ export function Cart(props) {
           : null}
 
         <Grid container spacing={0} className={classes.bigGrid}>
-          <Grid
-            item
-            md={3}
-            sm={3}
-            xs={3}
-            className={classes.smallGrid}
-            style={{ justifyContent: 'left' }}
-          >
+          <Grid item md={3} sm={3} xs={6} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
             <Checkbox />
             <div className={classes.smallGrid}>
               <span className={classes.text}>Chọn Tất Cả</span>
             </div>
           </Grid>
-          <Grid item md={3} sm={3} xs={3} className={classes.smallGrid}>
+          <Grid item md={3} sm={3} xs={6} className={classes.smallGrid}>
             <span className={classes.text} onClick={handleDeleteAll}>Xoá Tất Cả</span>
           </Grid>
-          <Grid item md={3} sm={2} xs={2} className={classes.smallGrid}>
+          <Grid item md={3} sm={2} xs={12} className={classes.smallGrid}>
             <span className={classes.text}>Tổng thanh toán ( Sản phẩm):</span>
           </Grid>
-          <Grid item md={3} sm={3} xs={3} className={classes.smallGrid} fixed >
+          <Grid item md={3} sm={3} xs={12} className={classes.smallGrid} fixed >
             <Button onClick={() => handlePayment()} variant="contained">Mua Hàng</Button>
           </Grid>
         </Grid>

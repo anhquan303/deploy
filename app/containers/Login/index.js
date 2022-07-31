@@ -140,7 +140,7 @@ export function Login(props) {
         password: formValues.password
       }
       dispatch(login(data));
-      setOpen(true);
+      //setOpen(true);
     }
 
   }, [formErrors])
@@ -179,10 +179,10 @@ export function Login(props) {
     return errors;
   }
 
-  //close toast
-  const handleCloseToast = () => {
-    setOpen(false);
-  }
+  // //close toast
+  // const handleCloseToast = () => {
+  //   setOpen(false);
+  // }
 
   const Alert = React.forwardRef(function Alert(
     props,
@@ -198,11 +198,18 @@ export function Login(props) {
 
   useEffect(() => {
     if (props.login.message != "") {
-      setOpen(true);
+
       setTimeout(() => dispatch(reset()), 1000);
+      setOpen(true);
     }
 
   }, [props.login.message]);
+
+
+  useEffect(() => {
+    setOpen(false);
+    dispatch(reset());
+  }, []);
   return (
     <div className={classes.body}>
       <div className={classes.container}>

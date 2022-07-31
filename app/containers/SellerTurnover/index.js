@@ -98,6 +98,7 @@ export function SellerTurnover(props) {
   useInjectReducer({ key: 'sellerTurnover', reducer });
   useInjectSaga({ key: 'sellerTurnover', saga });
   const classes = useStyles();
+  let dollarUSLocale = Intl.NumberFormat('en-US');
 
   const [fromDay, setFromDay] = useState(new Date());
   const [toDay, setToDay] = useState(new Date());
@@ -130,9 +131,10 @@ export function SellerTurnover(props) {
                 <p className={classes.title}>Doanh số</p>
                 <p className={classes.title}>
                   {props.sellerTurnover.saleData.length != 0
-                    ? props.sellerTurnover.saleData[
+                    ? dollarUSLocale.format(props.sellerTurnover.saleData[
                       props.sellerTurnover.saleData.length - 1
-                    ].totalAmount
+                    ].totalAmount)
+
                     : null}{' '}
                   VND
                 </p>
@@ -221,9 +223,9 @@ export function SellerTurnover(props) {
                 <p className={classes.title}>Doanh số trên mỗi đơn hàng</p>
                 <p className={classes.title}>
                   {props.sellerTurnover.saleData.length != 0
-                    ? props.sellerTurnover.saleData[
+                    ? dollarUSLocale.format( props.sellerTurnover.saleData[
                       props.sellerTurnover.saleData.length - 1
-                    ].salesPerOrder
+                    ].salesPerOrder)
                     : null}{' '}
                   VND
                 </p>

@@ -22,6 +22,7 @@ import {
   FormControlLabel,
   Checkbox,
   Modal,
+  LinearProgress
 } from '@mui/material';
 import { makeStyles, Container, Typography, Button } from '@material-ui/core';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -205,6 +206,14 @@ export function UserResetPassword(props) {
             </div>
           </div>
           <h3 className={classes.registerTag}>Quên Mật Khẩu</h3>
+
+          {props.userResetPassword.loading && props.userResetPassword.loading == true ? (
+            <div style={{ margin: '10px 0' }}>
+              <LinearProgress />
+            </div>
+          ) : null}
+
+
           <div>
             <Grid container spacing={2} style={{ textAlign: 'center' }}>
               <Grid item sm={12} xs={12} style={{ margin: '5px 0' }}>
@@ -230,7 +239,7 @@ export function UserResetPassword(props) {
                     onChange={handleChange}
                     helperText={
                       formErrors.newPassword &&
-                      formValues.newPassword.length == ''
+                        formValues.newPassword.length == ''
                         ? formErrors.newPassword
                         : null
                     }
@@ -260,7 +269,7 @@ export function UserResetPassword(props) {
                     onChange={handleChange}
                     helperText={
                       formErrors.verifyPassword &&
-                      formValues.verifyPassword.length == ''
+                        formValues.verifyPassword.length == ''
                         ? formErrors.verifyPassword
                         : formErrors.verifyPassword1
                           ? formErrors.verifyPassword1
@@ -268,7 +277,7 @@ export function UserResetPassword(props) {
                     }
                     error={
                       formErrors.verifyPassword != null &&
-                      formValues.verifyPassword.length == ''
+                        formValues.verifyPassword.length == ''
                         ? true
                         : formErrors.verifyPassword1 != null
                     }

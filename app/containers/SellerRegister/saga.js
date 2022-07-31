@@ -1,12 +1,14 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 import {
+  getListBankFailed,
+  getListBankSuccess,
   getListWardsFailed,
   getListWardsSuccess,
   sellerSignUpFailed,
   sellerSignUpSuccess,
 } from './actions';
-import { apiFetchData, apiSignup, uploadImage } from './api';
+import { apiFetchData, apiGetListBank, apiSignup, uploadImage } from './api';
 import * as types from './constants';
 
 const token = sessionStorage.getItem('token');
@@ -44,6 +46,8 @@ export function* sellerSignUp({ payload }) {
     formData.append('isInCampus', payload.isInCampus);
     formData.append('owner_name', payload.owner_name);
     formData.append('location', payload.location);
+    formData.append('bin', payload.bin);
+    formData.append('account_number', payload.account_number)
 
     // for (const pair of formData.entries()) {
     //   console.log(`${pair[0]}, ${pair[1]}`);
@@ -103,9 +107,29 @@ export function* getListWards({ payload }) {
   }
 }
 
+export function* getListBank({ payload }) {
+  try {
+    // axios.get("https://provinces.open-api.vn/api/d/276?depth=2")
+    //   .then((response) => {
+    //     console.log(response.data.wards);
+    //   })
+    //   .catch((error) => {
+    //   });
+    const res = yield call(apiGetListBank, []);
+    if (res.status == 200) {
+      yield put(getListBankSuccess(res.data.data));
+    } else {
+      yield put(getListBankFailed('Failed'));
+    }
+  } catch (error) {
+    yield put(getListBankFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* sellerRegisterSaga() {
   // See example in containers/HomePage/saga.js
   yield takeEvery(types.SELLER_SIGNUP, sellerSignUp);
   yield takeEvery(types.GET_LIST_WARDS, getListWards);
+  yield takeEvery(types.GET_LIST_BANK, getListBank);
 }

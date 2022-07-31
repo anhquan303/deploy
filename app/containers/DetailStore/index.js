@@ -321,7 +321,7 @@ export function DetailStore(props) {
 
   const [rows, setRows] = useState([]);
 
-  const list = [] 
+  const list = []
 
   data.map(item => item.orderItem_foods.map((item1, index) => {
     list.push(
@@ -375,7 +375,18 @@ export function DetailStore(props) {
 
                         <div className={classes.intro}>
                           <p className={classes.text}>{props.detailStore.store.name}</p>
-                          <p className={classes.text}>{props.detailStore.store.otherLocation.name}, {props.detailStore.store.otherLocation.village}, {props.detailStore.store.otherLocation.town}</p>
+                          <p className={classes.text}>{props.detailStore.store.otherLocation != null ?
+                            <>
+                              <span>{props.detailStore.store.otherLocation.name}, </span>
+                              <span>{props.detailStore.store.otherLocation.village}, </span>
+                              <span>{props.detailStore.store.otherLocation.town}</span>
+                            </>
+                            :
+                            <>
+                              <span>{props.detailStore.store.dormLocation.dormName}</span>
+                              <span>{props.detailStore.store.dormLocation.room_number}</span>
+                            </>}
+                          </p>
                           <p className={classes.text}>{props.detailStore.store.phone}</p>
                         </div>
 
@@ -428,13 +439,11 @@ export function DetailStore(props) {
                 <Grid item sm={6} xs={12}>
                   <div style={{ textAlign: "center" }}>
                     <span><h2>Chủ sở hữu: {props.detailStore.store.owner_name}</h2></span>
-                    <span><h2>Đăng ký ngày: 04/08/2022</h2></span>
                   </div>
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <div style={{ textAlign: "center" }}>
                     <span><h2>Số điện thoại: {props.detailStore.store.user.phoneNumber}</h2></span>
-                    <span><h2>Phê duyệt ngày: 04/08/2022</h2></span>
                   </div>
                 </Grid>
               </Grid>

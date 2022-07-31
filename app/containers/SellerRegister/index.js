@@ -15,28 +15,12 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import {
-  Box,
-  TextField,
-  Tab,
-  MenuItem,
-  Tabs,
-  TextareaAutosize,
-  FormGroup,
-  FormControl,
-  InputLabel,
-  FormControlLabel,
-  Checkbox,
-  LinearProgress
+  Box, TextField, Tab, MenuItem, Tabs,
+  TextareaAutosize, FormGroup, FormControl, InputLabel, FormControlLabel, Checkbox, LinearProgress
 } from '@mui/material';
-import {
-  makeStyles,
-  Container,
-  Typography,
-  Grid,
-  Button,
-} from '@material-ui/core';
+import { makeStyles, Container, Typography, Grid, Button, } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
-import TimePicker from 'react-time-picker';
+// import TimePicker from 'react-time-picker';
 import moment from 'moment';
 import Modal from '@mui/material/Modal';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -47,11 +31,11 @@ import saga from './saga';
 import messages from './messages';
 import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
 import BackGround from '../../images/dhfpt.png';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { getUser } from '../../utils/common';
-import { getListWards, reset, sellerSignUp } from './actions';
+import { getListBank, getListWards, reset, sellerSignUp } from './actions';
 
 const useStyles = makeStyles(theme => ({
   body: {
@@ -170,25 +154,17 @@ export function SellerRegister(props) {
   const [menu, setMenu] = useState('');
   const [certificate, setCertificate] = useState('');
   const [avatar, setAvatar] = useState('');
+  const [coverImage, setCoverImage] = useState('');
   const [value, setValue] = useState(0);
-  const [startTime, setStartTime] = useState(moment().format('hh:mm:ss'));
-  const [endTime, setEndTime] = useState(moment().format('hh:mm:ss'));
+  const [startTime, setStartTime] = useState(new Date(null, null, null));
+  // moment().format('hh:mm:ss')
+  const [endTime, setEndTime] = useState(new Date(null, null, null));
   const urlPromoRef = createRef();
+  const [isInCampus, setIsInCampus] = useState(false);
 
   const initialValues = {
-    name: '',
-    description: '',
-    slogan: '',
-    avatar: '',
-    images: [],
-    email: user.email,
-    phone: user.phone,
-    isInCampus: '',
-    owner_name: user.username,
-    village: '',
-    town: '',
-    district: 'Thạch Thất',
-    menu: '',
+    name: '', description: '', slogan: '', avatar: '', images: [], email: user.email, phone: user.phone, isInCampus: '',
+    owner_name: user.username, village: '', town: '', district: 'Thạch Thất', menu: '', bankAccount: '', dorm: '', room: ''
   };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
@@ -199,6 +175,7 @@ export function SellerRegister(props) {
   const [open, setOpen] = useState(false);
   const [next, setNext] = useState(false);
   const [type, setType] = useState('');
+  const [bank, setBank] = useState('');
   const classes = useStyles();
 
   const handleChangeTab = (event, newValue) => {
@@ -234,6 +211,15 @@ export function SellerRegister(props) {
     setAvatar(file[0]);
   };
 
+  // anh bia cua quan an
+  const handleUploadCoverImage = async e => {
+    const file = e.target.files;
+    const data = new FormData();
+    data.append(file, file[0]);
+    // setAvatar("/C/Users/anhqu/OneDrive/Desktop/" + file[0].name)
+    setCoverImage(file[0]);
+  };
+
   // chung nhan thuc pham sach
   const handleUploadCerti = async e => {
     const file = e.target.files;
@@ -253,11 +239,17 @@ export function SellerRegister(props) {
   };
 
   const handleChangeStartTime = newValue => {
-    setStartTime(moment(newValue, 'HH:mm:ss').format('hh:mm:ss'));
+    //setStartTime(moment(newValue, 'HH:mm:ss').format('hh:mm:ss'));
+    setStartTime(newValue)
+
+
   };
 
+  console.log(moment(startTime).format('HH:mm:ss'))
+
   const handleChangeEndTime = newValue => {
-    setEndTime(moment(newValue, 'HH:mm:ss').format('hh:mm:ss'));
+    //setEndTime(moment(newValue, 'HH:mm:ss').format('hh:mm:ss'));
+    setEndTime(newValue)
   };
 
   // set value for input
@@ -280,7 +272,7 @@ export function SellerRegister(props) {
   // save for second tab
   const SecondSubmit = e => {
     e.preventDefault();
-    setFormErrors(validate2());
+    setFormErrors(validate2(formValues));
     setNext(true);
   };
 
@@ -304,17 +296,20 @@ export function SellerRegister(props) {
     if (regexEmail.test(values.email) == false) {
       errors.email1 = 'ex: abc@gmail.com';
     }
-    // if (!values.slogan) {
-    //   errors.slogan = "slogan is required!";
-    // }
-    if (!values.village) {
-      errors.village = 'village is required!';
-    }
-    // if (!values.town) {
-    //   errors.town = "town is required!";
-    // }
-    if (!values.district) {
-      errors.district = 'address is required!';
+    if (isInCampus == false) {
+      if (!values.village) {
+        errors.village = 'village is required!';
+      }
+      if (!values.district) {
+        errors.district = 'address is required!';
+      }
+    } else {
+      if (!values.dorm) {
+        errors.dorm = 'dorm is required!';
+      }
+      if (!values.room) {
+        errors.room = 'room is required!';
+      }
     }
     return errors;
   };
@@ -327,6 +322,9 @@ export function SellerRegister(props) {
     }
     if (!identityCardFront) {
       errors.identity_card_front = 'identity_card_front is required!';
+    }
+    if (!values.bankAccount) {
+      errors.bankAccount = 'bank account is required!';
     }
     return errors;
   };
@@ -356,11 +354,12 @@ export function SellerRegister(props) {
         slogan: 'ok',
         phone: formValues.phone,
         email: formValues.email,
-        open_time: startTime,
-        close_time: endTime,
+        open_time: moment(startTime).format('HH:mm:ss'),
+        close_time: moment(endTime).format('HH:mm:ss'),
         menu,
         image: {
-          avatar,
+          avatar: avatar,
+          cover_image: coverImage,
           images: ['path1', 'path2', 'path3'],
         },
         certificate: {
@@ -368,10 +367,11 @@ export function SellerRegister(props) {
           identity_card_front: identityCardFront,
           food_quality_certificate: certificate,
         },
-        isInCampus: false,
+        isInCampus: isInCampus,
         owner_name: formValues.owner_name,
-        location: `[other_location]|${formValues.village}|${type}|${formValues.district
-          }`,
+        location: isInCampus == false ? `[other_location]|${formValues.village}|${type}|${formValues.district}` : `[dorm_location]|${formValues.dorm}|${formValues.room}`,
+        bin: bank,
+        account_number: formValues.bankAccount,
       };
       dispatch(sellerSignUp(data));
     }
@@ -381,7 +381,7 @@ export function SellerRegister(props) {
   const SubmitAll = e => {
     e.preventDefault();
     setFormErrors(validate(formValues));
-    setFormErrors(validate2());
+    setFormErrors(validate2(formValues));
     setFormErrors(validate3(formValues));
     setIsSubmit(true);
   };
@@ -392,9 +392,10 @@ export function SellerRegister(props) {
     props.history.push('/');
   };
 
-  // get list wards
+  // get list wards and bank
   useEffect(() => {
     dispatch(getListWards());
+    dispatch(getListBank());
   }, []);
 
   // set ward
@@ -402,11 +403,19 @@ export function SellerRegister(props) {
     setType(e.target.value);
   };
 
+
+  // set bank
+  const handleChangeBank = e => {
+    setBank(e.target.value);
+  };
+
+  console.log(bank)
   useEffect(() => {
     if (props.sellerRegister.message != '') {
       setOpen(true);
     }
   }, [props.sellerRegister.message]);
+
 
   return (
     <div className={classes.body}>
@@ -435,7 +444,9 @@ export function SellerRegister(props) {
               onChange={handleChangeTab}
               textColor="primary"
               indicatorColor="primary"
-              centered
+              scrollButtons
+              allowScrollButtonsMobile
+              variant="scrollable"
             >
               <Tab label="1. Thông tin quán - cơ bản" />
               <Tab label="2. Thông tin người đại diện" />
@@ -513,6 +524,8 @@ export function SellerRegister(props) {
                     </Box>
                   </Grid>
                 </Grid>
+
+
                 <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
                   <Box
                     component="form"
@@ -548,7 +561,9 @@ export function SellerRegister(props) {
                     />
                   </Box>
                 </Grid>
-                <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
+
+                {/* check Dorm */}
+                <Grid item sm={12} xs={12} md={12}>
                   <Box
                     component="form"
                     sx={{
@@ -557,49 +572,25 @@ export function SellerRegister(props) {
                     noValidate
                     autoComplete="off"
                   >
-                    <TextField
-                      disabled
-                      id="outlined-textarea"
-                      label="Huyện"
-                      placeholder="Huyện"
-                      multiline
-                      onChange={handleChange}
-                      name="district"
-                      value={formValues.district}
-                      helperText={
-                        formErrors.district && formValues.district.length == ''
-                          ? formErrors.district
-                          : null
-                      }
-                      error={
-                        formErrors.district != null &&
-                        formValues.district.length == ''
-                      }
-                    />
+                    <label style={{ textAlign: 'center', width: '100%' }}>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={isInCampus}
+                              onChange={() => setIsInCampus(!isInCampus)}
+                            />
+                          }
+                          label="Dorm"
+                        />
+                      </FormGroup>
+                    </label>
                   </Box>
                 </Grid>
-                <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
-                  {/* <Box
-                    component="form"
-                    sx={{
-                      '& .MuiTextField-root': { m: 1, width: '100%' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                  >
-                    <TextField
-                      id="outlined-textarea"
-                      label="Xã"
-                      placeholder="Xã"
-                      multiline
-                      onChange={handleChange}
-                      name="town"
-                      value={formValues.town}
-                      helperText={formErrors.town && formValues.town.length == "" ? formErrors.town : null}
-                      error={formErrors.town != null && formValues.town.length == ""}
-                    />
-                  </Box> */}
-                  <div style={{ marginLeft: '8px', width: '100%' }}>
+
+                {/* location */}
+                {isInCampus == false ? <>
+                  <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
                     <Box
                       component="form"
                       sx={{
@@ -608,56 +599,150 @@ export function SellerRegister(props) {
                       noValidate
                       autoComplete="off"
                     >
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                          Xã
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={type}
-                          label="Xã"
-                          onChange={handleChangeType}
-                        >
-                          {props.sellerRegister.listWard.map((item, index) => (
-                            <MenuItem key={index} value={item.name}>
-                              {item.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                      <TextField
+                        disabled
+                        id="outlined-textarea"
+                        label="Huyện"
+                        placeholder="Huyện"
+                        multiline
+                        onChange={handleChange}
+                        name="district"
+                        value={formValues.district}
+                        helperText={
+                          formErrors.district && formValues.district.length == ''
+                            ? formErrors.district
+                            : null
+                        }
+                        error={
+                          formErrors.district != null &&
+                          formValues.district.length == ''
+                        }
+                      />
                     </Box>
-                  </div>
-                </Grid>
-                <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
-                  <Box
-                    component="form"
-                    sx={{
-                      '& .MuiTextField-root': { m: 1, width: '100%' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                  >
-                    <TextField
-                      id="outlined-textarea"
-                      label="Thôn"
-                      placeholder="Thôn"
-                      multiline
-                      onChange={handleChange}
-                      name="village"
-                      value={formValues.village}
-                      helperText={
-                        formErrors.village && formValues.village.length == ''
-                          ? formErrors.village
-                          : null
-                      }
-                      error={
-                        formErrors.village != null &&
-                        formValues.village.length == ''
-                      }
-                    />
-                  </Box>
-                </Grid>
+                  </Grid>
+                  <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
+                    <div style={{ marginLeft: '8px', width: '100%' }}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Xã
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={type}
+                            label="Xã"
+                            onChange={handleChangeType}
+                          >
+                            {props.sellerRegister.listWard.map((item, index) => (
+                              <MenuItem key={index} value={item.name}>
+                                {item.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Box>
+                    </div>
+                  </Grid>
+                  <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
+                    <Box
+                      component="form"
+                      sx={{
+                        '& .MuiTextField-root': { m: 1, width: '100%' },
+                      }}
+                      noValidate
+                      autoComplete="off"
+                    >
+                      <TextField
+                        id="outlined-textarea"
+                        label="Thôn"
+                        placeholder="Thôn"
+                        multiline
+                        onChange={handleChange}
+                        name="village"
+                        value={formValues.village}
+                        helperText={
+                          formErrors.village && formValues.village.length == ''
+                            ? formErrors.village
+                            : null
+                        }
+                        error={
+                          formErrors.village != null &&
+                          formValues.village.length == ''
+                        }
+                      />
+                    </Box>
+                  </Grid>
+                </>
+                  :
+                  <>
+                    <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        <TextField
+                          id="outlined-textarea"
+                          label="Dorm"
+                          placeholder="Dorm"
+                          multiline
+                          onChange={handleChange}
+                          name="dorm"
+                          value={formValues.dorm}
+                          helperText={
+                            formErrors.dorm && formValues.dorm.length == ''
+                              ? formErrors.dorm
+                              : null
+                          }
+                          error={
+                            formErrors.dorm != null &&
+                            formValues.dorm.length == ''
+                          }
+                        />
+                      </Box>
+                    </Grid>
+                    <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        <TextField
+                          id="outlined-textarea"
+                          label="Phòng"
+                          placeholder="Phòng"
+                          multiline
+                          onChange={handleChange}
+                          name="room"
+                          value={formValues.room}
+                          helperText={
+                            formErrors.room && formValues.room.length == ''
+                              ? formErrors.room
+                              : null
+                          }
+                          error={
+                            formErrors.room != null &&
+                            formValues.room.length == ''
+                          }
+                        />
+                      </Box>
+                    </Grid>
+                  </>
+                }
               </div>
               <div style={{ textAlign: 'center', marginTop: '20px' }}>
                 <Button
@@ -751,9 +836,71 @@ export function SellerRegister(props) {
                         placeholder="Số nhà và đường phố"
                         multiline
                         name="address1"
+                        value=""
                       />
                     </Box>
                   </Grid>
+
+                  {/* Tài khoản ngân hàng */}
+                  <Grid container spacing={0}>
+                    <Grid item sm={12} xs={12}>
+                      <span>Tài khoản ngân hàng</span>
+                    </Grid>
+                    <Grid item sm={12} xs={12}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        <TextField
+                          id="outlined-textarea"
+                          label="Số tài khoản"
+                          placeholder="Số tài khoản"
+                          multiline
+                          onChange={handleChange}
+                          name="bankAccount"
+                          value={formValues.bankAccount}
+                          helperText={formErrors.bankAccount && formValues.bankAccount.length == '' ? formErrors.bankAccount : null}
+                          error={formErrors.bankAccount != null && formValues.bankAccount.length == ''}
+                        />
+                      </Box>
+                    </Grid>
+                    <div style={{ marginLeft: '8px', width: '100%' }}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Ngân hàng
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={bank}
+                            label="Ngân hàng"
+                            onChange={handleChangeBank}
+                          >
+                            {props.sellerRegister.listBank.map((item) => (
+                              <MenuItem key={item.id} value={item.bin}>
+                                <img src={item.logo} style={{ width: "90px", height: "50px" }} />
+                                {item.shortName} - {item.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Box>
+                    </div>
+                  </Grid>
+
+
                   <Grid container spacing={2}>
                     <Grid item sm={6} xs={12}>
                       <Box
@@ -860,21 +1007,21 @@ export function SellerRegister(props) {
                         noValidate
                         autoComplete="off"
                       >
-                        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <TimePicker
                             label="Thời gian mở cửa"
                             value={startTime}
                             onChange={handleChangeStartTime}
                             renderInput={(params) => <TextField {...params} />}
                           />
-                        </LocalizationProvider> */}
-                        <p style={{ fontFamily: 'san-serif', fontSize: '20px' }}>
+                        </LocalizationProvider>
+                        {/* <p style={{ fontFamily: 'san-serif', fontSize: '20px' }}>
                           Thời gian mở cửa
                         </p>
                         <TimePicker
                           onChange={handleChangeStartTime}
                           value={startTime}
-                        />
+                        /> */}
                       </Box>
                     </Grid>
                     <Grid item sm={6} xs={12}>
@@ -886,21 +1033,21 @@ export function SellerRegister(props) {
                         noValidate
                         autoComplete="off"
                       >
-                        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <TimePicker
                             label="Thời gian đóng cửa"
                             value={endTime}
                             onChange={handleChangeEndTime}
                             renderInput={(params) => <TextField {...params} />}
                           />
-                        </LocalizationProvider> */}
-                        <p style={{ fontFamily: 'san-serif', fontSize: '20px' }}>
+                        </LocalizationProvider>
+                        {/* <p style={{ fontFamily: 'san-serif', fontSize: '20px' }}>
                           Thời gian đóng cửa
                         </p>
                         <TimePicker
                           onChange={handleChangeEndTime}
                           value={endTime}
-                        />
+                        /> */}
                       </Box>
                     </Grid>
                   </Grid>
@@ -929,7 +1076,7 @@ export function SellerRegister(props) {
 
                   <div>
                     <Grid container spacing={3}>
-                      <Grid item sm={4} xs={12}>
+                      <Grid item sm={6} xs={12}>
                         <Box
                           component="form"
                           sx={{
@@ -951,7 +1098,29 @@ export function SellerRegister(props) {
                           </div>
                         </Box>
                       </Grid>
-                      <Grid item sm={4} xs={12}>
+                      <Grid item sm={6} xs={12}>
+                        <Box
+                          component="form"
+                          sx={{
+                            '& .MuiTextField-root': { m: 1, width: '100%' },
+                          }}
+                          noValidate
+                          autoComplete="off"
+                        >
+                          <div>
+                            <p>Ảnh bìa quán *</p>
+                          </div>
+                          <div className={classes.upload}>
+                            <input
+                              type="file"
+                              name="front"
+                              placeholder="upload an image"
+                              onChange={handleUploadCoverImage}
+                            />
+                          </div>
+                        </Box>
+                      </Grid>
+                      <Grid item sm={6} xs={12}>
                         <Box
                           component="form"
                           sx={{
@@ -973,7 +1142,7 @@ export function SellerRegister(props) {
                           </div>
                         </Box>
                       </Grid>
-                      <Grid item sm={4} xs={12}>
+                      <Grid item sm={6} xs={12}>
                         <Box
                           component="form"
                           sx={{

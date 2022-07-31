@@ -256,7 +256,7 @@ export function DetailRegister(props) {
     }
     dispatch(getRegisterById(data));
   }, []);
-
+  console.log(props.detailRegister.register)
   return (
     <div style={{ paddingRight: "15px" }}>
       {props.detailRegister.register ? <>
@@ -274,8 +274,19 @@ export function DetailRegister(props) {
                     <Grid item sm={8} xs={12} className={classes.one}>
 
                       <div className={classes.intro}>
-                        <p className={classes.text}>{props.detailRegister.register.name}</p>
-                        <p className={classes.text}>{props.detailRegister.register.otherLocation.name}, {props.detailRegister.register.otherLocation.village}, {props.detailRegister.register.otherLocation.town}</p>
+                        <p className={classes.text}>{props.detailRegister.register ? props.detailRegister.register.name : null}</p>
+                        <p className={classes.text}>{props.detailRegister.register.otherLocation != null ?
+                          <>
+                            <span>{props.detailRegister.register.otherLocation.name}, </span>
+                            <span>{props.detailRegister.register.otherLocation.village}, </span>
+                            <span>{props.detailRegister.register.otherLocation.town}</span>
+                          </>
+                          :
+                          <>
+                            <span>{props.detailRegister.register.dormLocation.dormName}</span>
+                            <span>{props.detailRegister.register.dormLocation.room_number}</span>
+                          </>}
+                        </p>
                         <p className={classes.text}>{props.detailRegister.register.phone}</p>
                       </div>
 
@@ -326,7 +337,6 @@ export function DetailRegister(props) {
                 <Grid item md={4} sm={4} xs={12}>
                   <div style={{ textAlign: "center" }}>
                     <p className={classes.detailText}>Chủ sở hữu: {props.detailRegister.register.owner_name}</p>
-                    <p className={classes.detailText}>Đăng kí ngày: 04/08/2022</p>
                     <p className={classes.detailText}>Số điện thoại: {props.detailRegister.register.user.phoneNumber}</p>
                     <p className={classes.detailText}>Email: {props.detailRegister.register.user.email}</p>
                     <p className={classes.detailText}>Thời gian mở cửa: {props.detailRegister.register.open_time}</p>

@@ -22,6 +22,7 @@ import {
   FormControlLabel,
   Checkbox,
   Modal,
+  LinearProgress
 } from '@mui/material';
 import { makeStyles, Container, Typography, Button } from '@material-ui/core';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -207,6 +208,14 @@ export function UserForgetPassword(props) {
             </div>
           </div>
           <h3 className={classes.registerTag}>Quên Mật Khẩu</h3>
+
+          {props.userForgetPassword.loading && props.userForgetPassword.loading == true ? (
+            <div style={{ margin: '10px 0' }}>
+              <LinearProgress />
+            </div>
+          ) : null}
+
+
           <div>
             <Grid container spacing={2} style={{ textAlign: 'center' }}>
               <Grid item sm={12} xs={12} style={{ margin: '5px 0' }}>
@@ -271,7 +280,7 @@ export function UserForgetPassword(props) {
                     }
                     error={
                       formErrors.captcha != null &&
-                      formValues.captcha.length == ''
+                        formValues.captcha.length == ''
                         ? true
                         : formErrors.captcha1 != null
                     }

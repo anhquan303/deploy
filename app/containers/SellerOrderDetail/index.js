@@ -40,6 +40,8 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import CustomTableResponsive from '../../components/CustomTableResponsive';
 import {
+  changeStatusToDelivered,
+  changeStatusToDelivery,
   changeStatusToOrder,
   changeStatusToPaid,
   getOrderDetailById,
@@ -113,16 +115,65 @@ export function SellerOrderDetail(props) {
   const [openAlert, setOpenAlert] = useState(false);
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
+  const [delivery, setDelivery] = useState(false);
+  const [delivered, setDelivered] = useState(false);
+  const [paid, setPaid] = useState(false);
+  let dollarUSLocale = Intl.NumberFormat('en-US');
 
   useEffect(() => {
     const data = {
       id: props.location.state.id,
     };
     dispatch(getOrderDetailById(data));
-    if (props.sellerOrderDetail.orderDetail.status == 'ORDER') {
-      setCheck(true);
+
+  }, [props.sellerOrderDetail.orderDetail.status]);
+
+  useEffect(() => {
+    if (props.sellerOrderDetail.message.includes("SUCCESS")) {
+      const data = {
+        id: props.location.state.id,
+      };
+      dispatch(getOrderDetailById(data));
+      dispatch(reset());
     }
-  }, []);
+  }, [props.sellerOrderDetail.message]);
+
+  console.log(props.sellerOrderDetail.orderDetail.status)
+
+  useEffect(() => {
+    if (props.sellerOrderDetail.orderDetail) {
+      if (props.sellerOrderDetail.orderDetail.status == 'NEW') {
+        setCheck(false);
+        setDelivered(false);
+        setDelivery(false);
+        setPaid(false);
+      }
+      if (props.sellerOrderDetail.orderDetail.status == 'ORDER') {
+        setCheck(true);
+        setDelivered(false);
+        setDelivery(false);
+        setPaid(false);
+      }
+      if (props.sellerOrderDetail.orderDetail.status == 'DELIVERY') {
+        setCheck(true);
+        setDelivered(false);
+        setDelivery(true);
+        setPaid(false);
+      }
+      if (props.sellerOrderDetail.orderDetail.status == 'DELIVERED') {
+        setCheck(true);
+        setDelivered(true);
+        setDelivery(true);
+        setPaid(false);
+      }
+      if (props.sellerOrderDetail.orderDetail.status == 'PAID') {
+        setCheck(true);
+        setDelivered(true);
+        setDelivery(true);
+        setPaid(true);
+      }
+    }
+  }, [props.sellerOrderDetail.orderDetail]);
 
   const columns1 = [
     { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
@@ -165,12 +216,26 @@ export function SellerOrderDetail(props) {
     dispatch(changeStatusToOrder(data));
   };
 
+  const changeStatusDelivery = () => {
+    const data = {
+      id: props.location.state.id,
+    };
+    dispatch(changeStatusToDelivery(data));
+  };
+
+  const changeStatusDelivered = () => {
+    const data = {
+      id: props.location.state.id,
+    };
+    dispatch(changeStatusToDelivered(data));
+  }
+
   const changeStatusPaid = () => {
     const data = {
       id: props.location.state.id,
     };
     dispatch(changeStatusToPaid(data));
-  };
+  }
 
   useEffect(() => {
     if (props.sellerOrderDetail.message != '') {
@@ -192,15 +257,25 @@ export function SellerOrderDetail(props) {
     setOpenAlert(false);
   };
 
+  console.log(props.sellerOrderDetail.orderDetail)
+
   return (
     <div style={{ padding: '10px' }}>
-      <p
-        className={classes.font}
-        style={{ fontSize: '35px', fontWeight: '700' }}
-      >
-        {' '}
-        Mã đơn hàng <span style={{ color: '#0000EE' }}>#132132</span>
-      </p>
+      <Grid container spacing={0}>
+        <Grid item xs={6} md={6} style={{ padding: '10px' }}>
+          <p
+            className={classes.font}
+            style={{ fontSize: '35px', fontWeight: '700' }}
+          >
+            {' '}
+            Mã đơn hàng <span style={{ color: '#0000EE' }}>#{props.sellerOrderDetail.orderDetail.code}</span>
+          </p>
+        </Grid>
+        <Grid item xs={6} md={6} className={classes.center} style={{ padding: '10px', justifyContent: "right" }}>
+          {props.sellerOrderDetail.orderDetail ? props.sellerOrderDetail.orderDetail.status : null}
+        </Grid>
+      </Grid>
+
       <Grid container spacing={0}>
         <Grid item xs={12} md={7} style={{ padding: '10px' }}>
           <div>
@@ -332,7 +407,7 @@ export function SellerOrderDetail(props) {
               <Grid item xs={12} md={6} style={{ padding: '10px' }}>
                 <p className={classes.text} style={{ textAlign: 'right' }}>
                   {props.sellerOrderDetail.orderDetail
-                    ? props.sellerOrderDetail.orderDetail.total_price
+                    ? dollarUSLocale.format(props.sellerOrderDetail.orderDetail.total_price)
                     : null}{' '}
                   VND
                 </p>
@@ -342,7 +417,7 @@ export function SellerOrderDetail(props) {
               </Grid>
               <Grid item xs={12} md={6} style={{ padding: '10px' }}>
                 <p className={classes.text} style={{ textAlign: 'right' }}>
-                  0 VND
+                  {dollarUSLocale.format(0)} VND
                 </p>
               </Grid>
               <Grid item xs={12} md={6} style={{ padding: '10px' }}>
@@ -350,7 +425,7 @@ export function SellerOrderDetail(props) {
               </Grid>
               <Grid item xs={12} md={6} style={{ padding: '10px' }}>
                 <p className={classes.text} style={{ textAlign: 'right' }}>
-                  Không
+                  {props.sellerOrderDetail.orderDetail && props.sellerOrderDetail.orderDetail.voucherId == null ? <span>Không</span> : <span>Có</span>}
                 </p>
               </Grid>
             </Grid>
@@ -367,7 +442,7 @@ export function SellerOrderDetail(props) {
               <Grid item xs={12} md={6} style={{ padding: '10px' }}>
                 <p className={classes.text} style={{ textAlign: 'right' }}>
                   {props.sellerOrderDetail.orderDetail
-                    ? props.sellerOrderDetail.orderDetail.total_price
+                    ? dollarUSLocale.format(props.sellerOrderDetail.orderDetail.total_price)
                     : null}{' '}
                   VND
                 </p>
@@ -387,51 +462,90 @@ export function SellerOrderDetail(props) {
             </p>
             <Grid container spacing={0}>
               <Grid item xs={12} md={6} style={{ padding: '10px' }}>
-                <p className={classes.text}>Dorm </p>
+                <p className={classes.text}>Tên </p>
               </Grid>
               <Grid item xs={12} md={6} style={{ padding: '10px' }}>
                 <p className={classes.text} style={{ textAlign: 'right' }}>
-                  A
+                  {props.sellerOrderDetail.orderDetail && props.sellerOrderDetail.orderDetail.location ? props.sellerOrderDetail.orderDetail.location.name : null}
                 </p>
               </Grid>
               <Grid item xs={12} md={6} style={{ padding: '10px' }}>
-                <p className={classes.text}>Phòng</p>
+                <p className={classes.text}>Địa chỉ</p>
               </Grid>
               <Grid item xs={12} md={6} style={{ padding: '10px' }}>
                 <p className={classes.text} style={{ textAlign: 'right' }}>
-                  A123R
+                  {props.sellerOrderDetail.orderDetail && props.sellerOrderDetail.orderDetail.location ? props.sellerOrderDetail.orderDetail.location.village : null}
                 </p>
               </Grid>
             </Grid>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <Button
+            {check == false && delivery == false && delivered == false && paid == false ? <Button
+              disabled={check == true}
               className={classes.btn}
               variant="outlined"
               startIcon={<DoneIcon />}
               onClick={changeStatus}
             >
               Xác nhận
-            </Button>
-            <Button
+            </Button> : null}
+
+            {check == true && delivery == false && delivered == false && paid == false ? <Button
               disabled={check == false}
               className={classes.btn}
               variant="outlined"
               startIcon={<DeliveryDiningRoundedIcon />}
-              onClick={changeStatusPaid}
+              onClick={changeStatusDelivery}
             >
+
+              {/* {props.sellerOrderDetail.orderDetail && props.sellerOrderDetail.orderDetail.status == "DELIVERY" ? <span>Đang Giao hàng</span>
+                : props.sellerOrderDetail.orderDetail && props.sellerOrderDetail.orderDetail.status == "DELIVERED" ? <span>Đã giao hàng</span>
+                  : <span>Giao hàng</span>} */}
               Giao hàng
-            </Button>
+            </Button> : null}
+
+            {delivery == true && check == true && delivered == false && paid == false ? <Button
+              disabled
+              className={classes.btn}
+              variant="outlined"
+              startIcon={<DeliveryDiningRoundedIcon />}
+              onClick={changeStatusDelivery}
+            >
+              Đang giao hàng
+            </Button> : null}
+
+            {delivery == true && check == true && delivered == false && paid == false ?
+              <Button
+                disabled={delivered == true}
+                className={classes.btn}
+                variant="outlined"
+                startIcon={<DeliveryDiningRoundedIcon />}
+                onClick={changeStatusDelivered}
+              >
+                Đã giao hàng
+              </Button> : null}
+
+            {delivered == true && paid == false && delivery == true && check == true ?
+              <Button
+                disabled={paid == true}
+                className={classes.btn}
+                variant="outlined"
+                startIcon={<DeliveryDiningRoundedIcon />}
+                onClick={changeStatusPaid}
+              >
+                Đã thanh toán
+              </Button> : null}
+
           </div>
         </Grid>
       </Grid>
-      <Snackbar
+      {/* <Snackbar
         open={openAlert}
         autoHideDuration={6000}
         anchorOrigin={{ vertical, horizontal }}
         onClose={handleCloseAlert}
       >
-        {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
+       
         <Alert
           severity="success"
           onClose={handleCloseAlert}
@@ -439,7 +553,7 @@ export function SellerOrderDetail(props) {
         >
           {props.sellerOrderDetail.message}
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
     </div>
   );
 }

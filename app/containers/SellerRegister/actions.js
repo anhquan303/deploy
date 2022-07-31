@@ -55,6 +55,27 @@ export function getListWardsFailed(payload) {
   };
 }
 
+export function getListBank(payload) {
+  return {
+    type: types.GET_LIST_BANK,
+    payload,
+  };
+}
+
+export function getListBankSuccess(payload) {
+  return {
+    type: types.GET_LIST_BANK_SUCCESS,
+    payload,
+  };
+}
+
+export function getListBankFailed(payload) {
+  return {
+    type: types.GET_LIST_BANK_FAILED,
+    payload,
+  };
+}
+
 export function reset(payload) {
   return {
     type: types.RESET,

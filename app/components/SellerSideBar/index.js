@@ -9,7 +9,6 @@ import React, { memo, useState } from 'react';
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import PersonIcon from '@mui/icons-material/Person';
@@ -21,102 +20,98 @@ import FastfoodIcon from '@mui/icons-material/Fastfood';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { AppBar, IconButton, Toolbar, Drawer, Box } from '@mui/material';
 import { makeStyles, Container, Typography } from '@material-ui/core';
 import { fontWeight } from '@mui/system';
+import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
+import messages from './messages';
 import DashboardHeader from '../DashboardHeader';
 import { getStore, getUser, removeUserSession } from '../../utils/common';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
-    height: "100vh",
+    height: '100vh',
     paddingTop: theme.spacing(5),
-    backgroundColor: "white",
-    textDecoration: "none",
-
+    backgroundColor: 'white',
+    textDecoration: 'none',
   },
   item: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
     marginBottom: theme.spacing(4),
     transition: '0.4s',
-    borderRadius: "10px",
-    padding: "10px 0",
+    borderRadius: '10px',
+    padding: '10px 0',
 
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       marginBottom: theme.spacing(3),
-      cursor: "pointer",
-      "&:hover": {
-        color: "#FF9900",
-        marginLeft: "20px",
-        backgroundColor: "#FFD18C"
+      cursor: 'pointer',
+      '&:hover': {
+        color: '#FF9900',
+        marginLeft: '20px',
+        backgroundColor: '#FFD18C',
       },
     },
-
   },
   topLogo: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
     marginBottom: theme.spacing(4),
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       marginBottom: theme.spacing(3),
-      cursor: "pointer"
+      cursor: 'pointer',
     },
   },
   textLogo: {
     fontWeight: 600,
     fontSize: 30,
-    [theme.breakpoints.down("sm")]: {
-      //display: "none"
-    }
+    [theme.breakpoints.down('sm')]: {
+      // display: "none"
+    },
   },
   text: {
-    fontWeight: "580",
-    [theme.breakpoints.down("sm")]: {
-      //display: "none"
-    }
+    fontWeight: '580',
+    [theme.breakpoints.down('sm')]: {
+      // display: "none"
+    },
   },
   logo: {
-    width: "5rem",
-    height: "4rem",
-    borderRadius: "10px",
-    [theme.breakpoints.down("sm")]: {
-      width: "4rem",
-      height: "4rem",
+    width: '5rem',
+    height: '4rem',
+    borderRadius: '10px',
+    [theme.breakpoints.down('sm')]: {
+      width: '4rem',
+      height: '4rem',
     },
-    [theme.breakpoints.up("sm")]: {
-      width: "4rem",
-      height: "4rem",
-    }
-
+    [theme.breakpoints.up('sm')]: {
+      width: '4rem',
+      height: '4rem',
+    },
   },
   link: {
-    textDecoration: "none",
-    color: "#7d8da1",
-    alignItems: "center",
-    "&.active": {
-      color: "#FFAC30"
-    }
+    textDecoration: 'none',
+    color: '#7d8da1',
+    alignItems: 'center',
+    '&.active': {
+      color: '#FFAC30',
+    },
   },
   icon: {
     marginLeft: theme.spacing(0),
     marginRight: theme.spacing(2),
-    fontSize: "1.6rem",
-    [theme.breakpoints.up("sm")]: {
-      fontSize: "40px"
-    }
+    fontSize: '1.6rem',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '40px',
+    },
   },
   span: {
-    color: "#FFAC30"
-  }
-
+    color: '#FFAC30',
+  },
 }));
 
-const drawerWidth = 245
-
+const drawerWidth = 245;
 
 function SellerSideBar(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -130,41 +125,73 @@ function SellerSideBar(props) {
 
   const drawer = (
     <Container className={classes.container}>
-      <div onClick={() => history.push("/")} className={classes.topLogo} >
+      <div onClick={() => history.push('/')} className={classes.topLogo}>
         <img src={Logo} alt="logo" className={classes.logo} />
-        <Typography className={classes.textLogo}>No <span className={classes.span}>Nê</span></Typography>
+        <Typography className={classes.textLogo}>
+          No <span className={classes.span}>Nê</span>
+        </Typography>
       </div>
-      <NavLink to="/my-store/manager-order" className={classes.link} onClick={handleDrawerToggle}>
+      <NavLink
+        to="/my-store/manager-order"
+        className={classes.link}
+        onClick={handleDrawerToggle}
+      >
         <div className={classes.item}>
           <DashboardRoundedIcon className={classes.icon} />
-          <Typography className={classes.text}>Manage Order</Typography>
+          <Typography className={classes.text}>Quản lý đơn hàng</Typography>
         </div>
       </NavLink>
-      <NavLink to="/my-store/manager-product" className={classes.link} onClick={handleDrawerToggle}>
+      <NavLink
+        to="/my-store/manager-product"
+        className={classes.link}
+        onClick={handleDrawerToggle}
+      >
         <div className={classes.item}>
           <PersonIcon className={classes.icon} />
-          <Typography className={classes.text}>Manage Product</Typography>
+          <Typography className={classes.text}>Quản lý món ăn</Typography>
         </div>
       </NavLink>
-      <NavLink to="/my-store/turnover" className={classes.link} onClick={handleDrawerToggle}>
+      <NavLink
+        to="/my-store/turnover"
+        className={classes.link}
+        onClick={handleDrawerToggle}
+      >
         <div className={classes.item}>
           <AccountBoxIcon className={classes.icon} />
-          <Typography className={classes.text}>Turnover</Typography>
+          <Typography className={classes.text}>Doanh thu</Typography>
         </div>
       </NavLink>
-      <NavLink to="/my-store/setting" className={classes.link} onClick={handleDrawerToggle}>
+      <NavLink
+        to="/my-store/setting"
+        className={classes.link}
+        onClick={handleDrawerToggle}
+      >
         <div className={classes.item}>
           <StoreIcon className={classes.icon} />
-          <Typography className={classes.text}>Store Setting</Typography>
-        </div>
-      </NavLink >
-      <NavLink to="/myReport" className={classes.link} onClick={handleDrawerToggle}>
-        <div className={classes.item}>
-          <LocalGroceryStoreIcon className={classes.icon} />
-          <Typography className={classes.text}>My Report</Typography>
+          <Typography className={classes.text}>Cài đặt</Typography>
         </div>
       </NavLink>
-    </Container >
+      <NavLink
+        to="/my-store/report"
+        className={classes.link}
+        onClick={handleDrawerToggle}
+      >
+        <div className={classes.item}>
+          <LocalGroceryStoreIcon className={classes.icon} />
+          <Typography className={classes.text}>Báo cáo</Typography>
+        </div>
+      </NavLink>
+      <NavLink
+        to="/my-store/voucher"
+        className={classes.link}
+        onClick={handleDrawerToggle}
+      >
+        <div className={classes.item}>
+          <ConfirmationNumberIcon className={classes.icon} />
+          <Typography className={classes.text}>Quản lý voucher</Typography>
+        </div>
+      </NavLink>
+    </Container>
   );
 
   const location = useLocation();
@@ -173,7 +200,8 @@ function SellerSideBar(props) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar style={{ backgroundColor: "#FFAC30" }}
+      <AppBar
+        style={{ backgroundColor: '#FFAC30' }}
         // position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
@@ -213,7 +241,10 @@ function SellerSideBar(props) {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -222,7 +253,10 @@ function SellerSideBar(props) {
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
           }}
           open
         >

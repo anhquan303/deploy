@@ -12,7 +12,8 @@ export const initialState = {
   message: "",
   store: undefined,
   food: [],
-  storeRating: undefined
+  storeRating: undefined,
+  listVoucher: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -51,6 +52,28 @@ const storeProfileReducer = (state = initialState, action) =>
         draft.storeRating = action.payload;
         break;
       case types.GET_STORE_RATING_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_VOUCHER_BY_STORE_ID:
+        draft.loading = true;
+        break;
+      case types.GET_VOUCHER_BY_STORE_ID_SUCCESS:
+        draft.loading = false;
+        draft.listVoucher = action.payload;
+        break;
+      case types.GET_VOUCHER_BY_STORE_ID_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.ADD_VOUCHER_BY_USER_ID:
+        draft.loading = true;
+        break;
+      case types.ADD_VOUCHER_BY_USER_ID_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.ADD_VOUCHER_BY_USER_ID_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

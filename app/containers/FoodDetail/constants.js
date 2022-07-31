@@ -22,6 +22,10 @@ export const ADD_TO_CART = 'app/FoodDetail/ADD_TO_CART';
 export const ADD_TO_CART_SUCCESS = 'app/FoodDetail/ADD_TO_CART_SUCCESS';
 export const ADD_TO_CART_FAILED = 'app/FoodDetail/ADD_TO_CART_FAILED';
 
+export const GET_FOOD_BY_STORE_ID = 'app/FoodDetail/GET_FOOD_BY_STORE_ID';
+export const GET_FOOD_BY_STORE_ID_SUCCESS = 'app/FoodDetail/GET_FOOD_BY_STORE_ID_SUCCESS';
+export const GET_FOOD_BY_STORE_ID_FAILED = 'app/FoodDetail/GET_FOOD_BY_STORE_ID_FAILED';
+
 // export const GET_CART_BY_ID = 'app/FoodDetail/GET_CART_BY_ID';
 // export const GET_CART_BY_ID_SUCCESS = 'app/FoodDetail/GET_CART_BY_ID_SUCCESS';
 // export const GET_CART_BY_ID_FAILED = 'app/FoodDetail/GET_CART_BY_ID_FAILED';

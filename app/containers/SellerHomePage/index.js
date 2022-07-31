@@ -38,6 +38,8 @@ import saga from './saga';
 import reducer from './reducer';
 import makeSelectSellerHomePage from './selectors';
 import { getUser } from '../../utils/common';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -182,12 +184,22 @@ export function SellerHomePage() {
               <ListItemText primary="Lịch sử mua hàng" />
             </ListItemButton>
           </NavLink>
-          <ListItemButton>
-            <ListItemIcon>
-              <ReceiptIcon />
-            </ListItemIcon>
-            <ListItemText primary="Voucher của tôi" />
-          </ListItemButton>
+          <NavLink to="/user/voucher" className={classes.link}>
+            <ListItemButton>
+              <ListItemIcon>
+                <ConfirmationNumberIcon />
+              </ListItemIcon>
+              <ListItemText primary="Voucher của tôi" />
+            </ListItemButton>
+          </NavLink>
+          <NavLink to="/user/report" className={classes.link}>
+            <ListItemButton>
+              <ListItemIcon>
+                <ReportProblemIcon />
+              </ListItemIcon>
+              <ListItemText primary="Báo cáo" />
+            </ListItemButton>
+          </NavLink>
         </List>
       </div>
     </div>
