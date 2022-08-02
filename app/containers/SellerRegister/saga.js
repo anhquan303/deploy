@@ -7,8 +7,10 @@ import {
   getListWardsSuccess,
   sellerSignUpFailed,
   sellerSignUpSuccess,
+  verifyBankAccountFailed,
+  verifyBankAccountSuccsess,
 } from './actions';
-import { apiFetchData, apiGetListBank, apiSignup, uploadImage } from './api';
+import { apiFetchData, apiGetListBank, apiSignup, apiVerifyBankAccount, uploadImage } from './api';
 import * as types from './constants';
 
 const token = sessionStorage.getItem('token');
@@ -109,12 +111,6 @@ export function* getListWards({ payload }) {
 
 export function* getListBank({ payload }) {
   try {
-    // axios.get("https://provinces.open-api.vn/api/d/276?depth=2")
-    //   .then((response) => {
-    //     console.log(response.data.wards);
-    //   })
-    //   .catch((error) => {
-    //   });
     const res = yield call(apiGetListBank, []);
     if (res.status == 200) {
       yield put(getListBankSuccess(res.data.data));
@@ -126,10 +122,24 @@ export function* getListBank({ payload }) {
   }
 }
 
+export function* verifyBankAccount({ payload }) {
+  try {
+    const res = yield call(apiVerifyBankAccount, [], payload);
+    if (res.status == 200) {
+      yield put(verifyBankAccountSuccsess(res.data.data.accountName));
+    } else {
+      yield put(verifyBankAccountFailed('Failed'));
+    }
+  } catch (error) {
+    yield put(verifyBankAccountFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* sellerRegisterSaga() {
   // See example in containers/HomePage/saga.js
   yield takeEvery(types.SELLER_SIGNUP, sellerSignUp);
   yield takeEvery(types.GET_LIST_WARDS, getListWards);
   yield takeEvery(types.GET_LIST_BANK, getListBank);
+  yield takeEvery(types.VERIFY_BANK_ACCOUNT, verifyBankAccount);
 }

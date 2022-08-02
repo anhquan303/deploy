@@ -27,4 +27,8 @@ export const DELETE_ALL_CART = 'app/Cart/DELETE_ALL_CART';
 export const DELETE_ALL_CART_SUCCESS = 'app/Cart/DELETE_ALL_CART_SUCCESS';
 export const DELETE_ALL_CART_FAILED = 'app/Cart/DELETE_ALL_CART_FAILED';
 
+export const GET_VOUCHER = 'app/Cart/GET_VOUCHER';
+export const GET_VOUCHER_SUCCESS = 'app/Cart/GET_VOUCHER_SUCCESS';
+export const GET_VOUCHER_FAILED = 'app/Cart/GET_VOUCHER_FAILED';
+
 export const RESET = 'app/Cart/RESET';

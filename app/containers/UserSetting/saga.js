@@ -5,12 +5,19 @@ import {
   updateUserFailed,
   updateUserSuccess,
 } from './actions';
-import { apiFetchData, apiSignup } from './api';
+import { apiFetchData, apiSignup, uploadImage } from './api';
 import * as types from './constants';
 
 export function* updateUser({ payload }) {
   try {
-    const res = yield call(apiSignup, ['api/user/update'], payload);
+    const formData = new FormData();
+    formData.append('firstname', payload.firstname);
+    formData.append('lastname', payload.lastname);
+    formData.append('gender', payload.gender);
+    formData.append('dateOfBirth', payload.dateOfBirth);
+    formData.append('avatarFile', payload.avatarFile);
+
+    const res = yield call(uploadImage, ['api/user/update'], formData);
     if (res.status == 200) {
       yield put(updateUserSuccess('UPDATE SUCCESS'));
     } else {

@@ -82,3 +82,25 @@ export function reset(payload) {
     payload,
   };
 }
+
+export function verifyBankAccount(payload) {
+  return {
+    type: types.VERIFY_BANK_ACCOUNT,
+    payload,
+  };
+}
+
+export function verifyBankAccountSuccsess(payload) {
+  return {
+    type: types.VERIFY_BANK_ACCOUNT_SUCCESS,
+    payload,
+  };
+}
+
+export function verifyBankAccountFailed(payload) {
+  return {
+    type: types.VERIFY_BANK_ACCOUNT_FAILED,
+    payload,
+  };
+}
+

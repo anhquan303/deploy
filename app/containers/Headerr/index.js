@@ -27,7 +27,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { getUser, removeUserSession } from '../../utils/common';
-import { getCart, logOut, reset } from './actions';
+import { getCart, getUserById, logOut, reset } from './actions';
 import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
 import Avatar1 from '../../images/quan.jpg';
 import StoreIcon from '@mui/icons-material/Store';
@@ -159,7 +159,7 @@ export function Headerr(props) {
     //   return row.name.toLowerCase().includes(searchedVal.toLowerCase());
     // });
     // setData(filteredRows);
-    console.log(searchedVal)
+    //console.log(searchedVal)
     const location = {
       pathname: `/`,
       state: {
@@ -182,6 +182,7 @@ export function Headerr(props) {
         id: user.id,
       };
       dispatch(getCart(data));
+      dispatch(getUserById(data));
     }
   }, []);
 
@@ -205,6 +206,7 @@ export function Headerr(props) {
   for (var i = 0; i < singleVal.length; i++) {
     result += parseInt(singleVal[i].length);
   }
+
 
   return (
     <div style={{ backgroundColor: '#FF9900', marginBottom: "1rem" }}>
@@ -253,7 +255,7 @@ export function Headerr(props) {
                   <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="avatar" src={Avatar1} />
+                        <Avatar alt="avatar" src={props.headerr.user != undefined ? props.headerr.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"} />
                       </IconButton>
                     </Tooltip>
                     <Menu

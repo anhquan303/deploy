@@ -197,7 +197,6 @@ export function SellerSetting(props) {
                       accept="image/*"
                       className={classes.input}
                       id="contained-button-file"
-                      multiple
                       type="file"
                       onChange={handleUploadClick}
                     />

@@ -12,6 +12,8 @@ import {
   deleteFoodFailed,
   deleteAllCartFailed,
   deleteAllCartSuccess,
+  getVoucherFailed,
+  getVoucherSuccess,
 } from './actions';
 
 export function* getCart({ payload }) {
@@ -85,6 +87,19 @@ export function* deleteAllCart({ payload }) {
   }
 }
 
+export function* getVoucher({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/voucher?userId=${payload.uid}`]);
+    if (res.status == 200) {
+      yield put(getVoucherSuccess(res.data.data));
+    } else {
+      yield put(getVoucherFailed("FAILED"));
+    }
+  } catch (error) {
+    yield put(getVoucherFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* cartSaga() {
   // See example in containers/HomePage/saga.js
@@ -93,4 +108,5 @@ export default function* cartSaga() {
   yield takeEvery(types.SUB_QUANTITY_FOOD, subQuantity);
   yield takeEvery(types.DELETE_FOOD, deleteFood);
   yield takeEvery(types.DELETE_ALL_CART, deleteAllCart);
+  yield takeEvery(types.GET_VOUCHER, getVoucher);
 }

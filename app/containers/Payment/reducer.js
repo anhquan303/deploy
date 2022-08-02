@@ -13,7 +13,8 @@ export const initialState = {
   listLocation: [],
   listWard: [],
   qrcode: "",
-  listOrder: []
+  listOrder: [],
+  listVoucher: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -90,6 +91,17 @@ const paymentReducer = (state = initialState, action) =>
         draft.listOrder = action.payload;
         break;
       case types.GET_LIST_ORDER_BY_USER_ID_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_LIST_VOUCHER:
+        draft.loading = true;
+        break;
+      case types.GET_LIST_VOUCHER_SUCCESS:
+        draft.loading = false;
+        draft.listVoucher = action.payload;
+        break;
+      case types.GET_LIST_VOUCHER_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

@@ -21,7 +21,7 @@ import messages from './messages';
 import Headerr from '../Headerr';
 import {
   Box, Grid, IconButton, Container, Avatar, Rating, Card, CardMedia, Typography, CardContent,
-  List, ListItemButton, ListItemText, TextField, Tabs, Tab, Chip, Modal
+  List, ListItemButton, ListItemText, TextField, Tabs, Tab, Chip, Modal, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
@@ -29,7 +29,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { CardItem } from '../CardItem';
-import { addVoucherByUserId, getFoodByStoreId, getStoreById, getStoreRating, getVoucherByStoreId } from './actions';
+import { addVoucherByUserId, getFoodByStoreId, getStoreById, getStoreRating, getVoucherByStoreId, reset, userAddReport } from './actions';
 import { Link } from 'react-router-dom';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -194,8 +194,73 @@ export function StoreProfile(props) {
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [value, setValue] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [open, setOpen] = useState(false);
   let dollarUSLocale = Intl.NumberFormat('en-US');
   const user = getUser();
+  const initialValues = { title: '', content: '' };
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  // set value for input
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+
+  const validate = values => {
+    const errors = {};
+    if (!values.title) {
+      errors.title = 'title is required!';
+    }
+    if (!values.content) {
+      errors.content = 'content is required!';
+    }
+    return errors;
+  };
+
+  // check validate
+  const handleAddReport = e => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmit(true);
+  };
+
+  // sendReport
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      const data = {
+        userId: user.id,
+        storeId: props.location.state.id,
+        title: formValues.title,
+        description: formValues.content,
+        image: "abc",
+        userToStore: true
+      };
+      dispatch(userAddReport(data));
+    }
+  }, [formErrors]);
+
+  useEffect(() => {
+    if (props.storeProfile.message != "") {
+      if (props.storeProfile.message.includes("thành công")) {
+        setOpen(false);
+        dispatch(reset());
+      }
+    }
+  }, [props.storeProfile.message])
+
+
 
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
@@ -215,10 +280,8 @@ export function StoreProfile(props) {
     dispatch(getVoucherByStoreId(data));
   }, []);
 
-  console.log(props.location.state.id)
 
   const handleSaveVoucher = (vid) => {
-    console.log(vid)
     const data = {
       uid: user.id,
       vid: vid
@@ -226,7 +289,6 @@ export function StoreProfile(props) {
     dispatch(addVoucherByUserId(data));
   }
 
-  console.log(props.storeProfile.store)
   return (
     <div>
       <Headerr />
@@ -273,7 +335,7 @@ export function StoreProfile(props) {
                   <Button className={classes.btn} variant="outlined" onClick={() => history.goBack()}>
                     Yêu thích
                   </Button>
-                  <Button className={classes.btn} variant="outlined" onClick={() => history.goBack()}>
+                  <Button className={classes.btn} variant="outlined" onClick={handleClickOpen}>
                     Báo cáo
                   </Button>
                 </div>
@@ -391,6 +453,46 @@ export function StoreProfile(props) {
             </Grid>
           </div>
         }
+
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Tạo báo cáo mới</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Chúng tôi sẽ tiếp nhận báo cáo và chỉnh sửa
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="title"
+              label="Tiêu đề"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={handleChange}
+              name="title"
+              helperText={formErrors.title && formValues.title.length == '' ? formErrors.title : null}
+              error={formErrors.title != null && formValues.title.length == ''}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="content"
+              label="Nội dung"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={handleChange}
+              name="content"
+              helperText={formErrors.content && formValues.content.length == '' ? formErrors.content : null}
+              error={formErrors.content != null && formValues.content.length == ''}
+            />
+            <input type="file" name="myImage" accept="image/png, image/gif, image/jpeg" />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Hủy Bỏ</Button>
+            <Button onClick={handleAddReport}>Gửi</Button>
+          </DialogActions>
+        </Dialog>
       </Container>
 
     </div >

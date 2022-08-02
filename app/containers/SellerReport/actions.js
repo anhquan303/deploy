@@ -34,3 +34,33 @@ export function getReportByStoreIdFailed(payload) {
   };
 }
 
+export function storeAddReport(payload) {
+  return {
+    type: types.STORE_ADD_REPORT,
+    payload
+  };
+}
+
+export function storeAddReportSuccess(payload) {
+  return {
+    type: types.STORE_ADD_REPORT_SUCCESS,
+    payload
+  };
+}
+
+export function storeAddReportFailed(payload) {
+  return {
+    type: types.STORE_ADD_REPORT_FAILED,
+    payload
+  };
+}
+
+export function reset(payload) {
+  return {
+    type: types.RESET,
+    payload
+  };
+}
+
+
+

@@ -19,7 +19,6 @@ export function* getListReportByUserId({ payload }) {
 export function* userAddReport({ payload }) {
   try {
     const res = yield call(apiPost, [`api/report`], payload);
-    console.log(res)
     if (res.status == 200) {
       yield put(userAddReportSuccess("Tạo report thành công"))
     } else {

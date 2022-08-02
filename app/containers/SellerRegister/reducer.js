@@ -11,7 +11,8 @@ export const initialState = {
   loading: false,
   message: '',
   listWard: [],
-  listBank: []
+  listBank: [],
+  bankAccountName: ""
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -56,6 +57,18 @@ const sellerRegisterReducer = (state = initialState, action) =>
       case types.RESET:
         draft.loading = false;
         draft.message = '';
+        draft.bankAccountName = "";
+        break;
+      case types.VERIFY_BANK_ACCOUNT:
+        draft.loading = true;
+        break;
+      case types.VERIFY_BANK_ACCOUNT_SUCCESS:
+        draft.loading = false;
+        draft.bankAccountName = action.payload;
+        break;
+      case types.VERIFY_BANK_ACCOUNT_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
         break;
     }
   });

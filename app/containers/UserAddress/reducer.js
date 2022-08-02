@@ -104,6 +104,17 @@ const userAddressReducer = (state = initialState, action) =>
         draft.loading = false;
         draft.message = action.payload;
         break;
+      case types.CHANGE_DEFAULT_LOCATION:
+        draft.loading = true;
+        break;
+      case types.CHANGE_DEFAULT_LOCATION_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.CHANGE_DEFAULT_LOCATION_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
     }
   });
 

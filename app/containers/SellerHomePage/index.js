@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -40,6 +40,7 @@ import makeSelectSellerHomePage from './selectors';
 import { getUser } from '../../utils/common';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import { getUserById } from './actions';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -97,7 +98,8 @@ const useStyles = makeStyles(theme => ({
 
 const drawerWidth = 260;
 
-export function SellerHomePage() {
+export function SellerHomePage(props) {
+  const { dispatch } = props;
   useInjectReducer({ key: 'sellerHomePage', reducer });
   useInjectSaga({ key: 'sellerHomePage', saga });
 
@@ -105,6 +107,13 @@ export function SellerHomePage() {
   const [open, setOpen] = useState(true);
   const user = getUser();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const data = {
+      id: user.id,
+    }
+    dispatch(getUserById(data));
+  }, []);
 
   const handleClick = () => {
     setOpen(!open);
@@ -121,7 +130,7 @@ export function SellerHomePage() {
           {user ? (
             <Avatar
               alt="avatar store"
-              src={Avatar1}
+              src={props.sellerHomePage.user != undefined ? props.sellerHomePage.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
               sx={{ width: 56, height: 56 }}
             />
           ) : (
@@ -230,7 +239,7 @@ export function SellerHomePage() {
               keepMounted: true, // Better open performance on mobile.
             }}
             sx={{
-              display: { xs: 'block', sm: 'none' },
+              display: { xs: 'block', sm: 'block', md: 'none' },
               '& .MuiDrawer-paper': {
                 boxSizing: 'border-box',
                 width: drawerWidth,

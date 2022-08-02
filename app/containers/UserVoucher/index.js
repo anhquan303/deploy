@@ -153,7 +153,7 @@ export function UserVoucher(props) {
       <Grid container spacing={0}>
         {props.userVoucher.listVoucher.length != 0 ? props.userVoucher.listVoucher.map((item) => {
           return (
-            <Grid key={item.id} item xs={12} md={4} sm={12}>
+            <Grid key={item.id} item xs={12} md={5} sm={12} lg={4} style={{ margin: "10px 10px" }}>
               <div className={classes.couponCard}>
 
                 <div onClick={() => getVoucherByIdd(item.id)}>

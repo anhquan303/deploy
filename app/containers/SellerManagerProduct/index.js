@@ -30,6 +30,7 @@ import makeSelectSellerManagerProduct from './selectors';
 import { fetchListFood, searchFood } from './actions';
 import { getStore } from '../../utils/common';
 import CustomTableResponsive from '../../components/CustomTableResponsive';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   information_image: {
@@ -80,14 +81,15 @@ export function SellerManagerProduct(props) {
   const [priceTo, setPriceTo] = useState('');
   const store = getStore();
   const classes = useStyles();
+   let dollarUSLocale = Intl.NumberFormat('en-US');
 
   const columns1 = [
-    { id: 'stt', label: 'No.', minWidth: 10, align: 'center' },
-    { id: 'name', label: 'Food Name', minWidth: 100, align: 'center' },
-    { id: 'price', label: 'Price', minWidth: 100, align: 'center' },
-    { id: 'createdAt', label: 'Create At', minWidth: 100, align: 'center' },
-    { id: 'type', label: 'Type', minWidth: 100, align: 'center' },
-    { id: 'actived', label: 'Active', minWidth: 100, align: 'center' },
+    { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
+    { id: 'name', label: 'Tên món ăn', minWidth: 100, align: 'center' },
+    { id: 'price', label: 'Giá', minWidth: 100, align: 'center' },
+    { id: 'createdAt', label: 'Tạo lúc', minWidth: 100, align: 'center' },
+    { id: 'type', label: 'Loại', minWidth: 100, align: 'center' },
+    { id: 'actived', label: 'Trạng thái', minWidth: 100, align: 'center' },
   ];
 
   function createData(id, stt, name, price, createdAt, type, actived) {
@@ -104,8 +106,8 @@ export function SellerManagerProduct(props) {
             item.id,
             index + 1,
             item.name,
-            item.price,
-            item.createdAt,
+            dollarUSLocale.format(item.price),
+            moment(item.createdAt).format('DD/MM/YYYY,  h:mm:ss a'),
             item.type,
             item.actived,
           ),

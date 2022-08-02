@@ -42,12 +42,13 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     width: 'fit-content',
     borderRadius: '10px',
-    backgroundColor: '#ff9900',
+    backgroundColor: '#fff',
     margin: '10px 5px',
+    color: "#7158fe",
     '&:hover': {
-      backgroundColor: '#FFA500',
+      backgroundColor: '#fff',
       fontWeight: 'bold',
-      color: '#000',
+      color: '#7158fe',
       boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
     },
   },
@@ -214,6 +215,7 @@ export function SellerVoucher(props) {
           quantity: formValues.quantity,
         };
         dispatch(addVoucher(data));
+
       }
       if (type == true) {
         const data = {
@@ -239,6 +241,12 @@ export function SellerVoucher(props) {
         setOpen(false);
         setOpenUpdate(false);
         setOpenDialog(false);
+        formValues.name = "";
+        formValues.percent = "";
+        formValues.minPrice = "";
+        setStartDate(null);
+        setEndDate(null);
+        formValues.quantity = "";
         const data = {
           id: store
         }
@@ -285,7 +293,6 @@ export function SellerVoucher(props) {
   }
 
   const handleChangeActive = (event, id) => {
-    console.log(id)
     setIdAvctive(id)
     setChecked(event.target.checked);
     setIsChangeActive(true)
@@ -309,6 +316,10 @@ export function SellerVoucher(props) {
 
   }, [checked, idActive]);
 
+  // const handleOpenAdd = () => {
+  //   setOpen(true);
+  //   setOpenUpdate(false);
+  // }
   return (
     <div>
       <Grid container spacing={0}>
@@ -330,12 +341,12 @@ export function SellerVoucher(props) {
                     inputProps={{ 'aria-label': 'controlled' }}
                   />
                 </div>
-                <div onClick={() => getVoucherByIdd(item.id)}>
+                <div >
                   <img className={classes.imgCoupon} src="https://www.mssdefence.com/wp-content/uploads/2016/11/Discount-Action-Mss-Defence.png" />
                   <h3 style={{ fontSize: "20px", fontWeight: "400" }}>{item.name}</h3>
                   <div className={classes.couponRow}>
                     <span className={classes.couponCode}>{item.code}</span>
-                    {/* <span className={classes.couponBtn}><CopyToClipBoard text="STEALDEAL20"> LƯU MÃ</CopyToClipBoard></span> */}
+
                     <CopyToClipboard text={item.code}
                       onCopy={() => setCopied(true)}>
                       <span className={classes.couponBtn}>LƯU MÃ</span>
@@ -346,6 +357,17 @@ export function SellerVoucher(props) {
                   {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
                   <div className={classes.circle1}></div>
                   <div className={classes.circle2}></div>
+                </div>
+                <div>
+                  <Button
+                    className={classes.btn}
+                    style={{ width: '50%' }}
+                    variant="contained"
+                    component="span"
+                    onClick={() => getVoucherByIdd(item.id)}
+                  >
+                    Chỉnh sửa
+                  </Button>
                 </div>
               </div>
             </Grid>
@@ -523,7 +545,7 @@ export function SellerVoucher(props) {
           </Typography>
           <Button
             className={classes.btn}
-            style={{ width: '50%' }}
+            //style={{ width: 'fit-content' }}
             variant="contained"
             component="span"
             onClick={closeModal}

@@ -1,5 +1,5 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { signUpFailed, signUpSuccess } from './actions';
+import { sendSMSFailed, sendSMSSuccess, signUpFailed, signUpSuccess } from './actions';
 import { apiSignup } from './api';
 import * as types from './constants';
 
@@ -30,9 +30,24 @@ export function* signUp({ payload }) {
   }
 }
 
+export function* sendSMS({ payload }) {
+  try {
+    const res = yield call(apiSignup, ['api/user/sendSms'], payload);
+    if (res.status == 200) {
+      yield put(sendSMSSuccess("SUCCESS"))
+    } else {
+      yield put(sendSMSFailed("FAILED"))
+    }
+
+  } catch (error) {
+    yield put(sendSMSFailed(error.message));
+  }
+}
+
 
 // Individual exports for testing
 export default function* userRegisterSaga() {
   // See example in containers/HomePage/saga.js
   yield takeEvery(types.SIGN_UP, signUp);
+  yield takeEvery(types.SEND_SMS, sendSMS);
 }

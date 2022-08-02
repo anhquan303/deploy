@@ -18,18 +18,23 @@ import makeSelectSellerReport from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Grid } from '@mui/material';
+import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import moment from 'moment';
 import SearchBar from "material-ui-search-bar";
 import CustomTableResponsive from '../../components/CustomTableResponsive';
-import { getStore } from '../../utils/common';
-import { getReportByStoreId } from './actions';
+import { getStore, getUser } from '../../utils/common';
+import { getReportByStoreId, reset, storeAddReport } from './actions';
 
 const useStyles = makeStyles((theme) => ({
   font: {
     fontFamily: "sans-serif",
     margin: "0"
+  },
+  center: {
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
   },
 }));
 
@@ -43,6 +48,12 @@ export function SellerReport(props) {
   const [searched, setSearched] = useState("");
   const store = getStore();
   const [data, setData] = useState(props.sellerReport.listReport);
+  const [open, setOpen] = useState(false);
+  const initialValues = { title: '', content: '' };
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+  const user = getUser();
 
   useEffect(() => {
     setData(props.sellerReport.listReport);
@@ -55,12 +66,51 @@ export function SellerReport(props) {
     dispatch(getReportByStoreId(data));
   }, []);
 
+  // set value for input
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const validate = values => {
+    const errors = {};
+    if (!values.title) {
+      errors.title = 'title is required!';
+    }
+    if (!values.content) {
+      errors.content = 'content is required!';
+    }
+    return errors;
+  };
+
+  // check validate
+  const handleAddReport = e => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmit(true);
+  };
+
   const requestSearch = (searchedVal) => {
     // const filteredRows = props.dashboardStore.listStore.filter((row) => {
     //   return row.name.toLowerCase().includes(searchedVal.toLowerCase());
     // });
     // setData(filteredRows);
   };
+
+  // addReport
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      const data = {
+        userId: user.id,
+        storeId: store,
+        title: formValues.title,
+        description: formValues.content,
+        image: "abc",
+        userToStore: false
+      };
+      dispatch(storeAddReport(data));
+    }
+  }, [formErrors]);
 
   const cancelSearch = () => {
     setSearched("");
@@ -88,12 +138,33 @@ export function SellerReport(props) {
     }
   }, [data])
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (props.sellerReport.message.includes("thành công")) {
+      const data = {
+        id: store
+      }
+      dispatch(getReportByStoreId(data));
+      setOpen(false);
+      dispatch(reset())
+    }
+  }, [props.sellerReport.message]);
+
+
   return (
     <div>
       <Grid container spacing={0} >
         <Grid item xs={6} md={6} style={{ padding: "10px" }}>
           <p className={classes.font} style={{ fontWeight: "400", fontSize: "30px" }}>{currentDate}</p>
         </Grid>
+
         <Grid item xs={6} md={6} style={{ padding: "10px", }}>
           <SearchBar
             value={searched}
@@ -102,10 +173,57 @@ export function SellerReport(props) {
             placeholder="Tìm kiếm báo cáo theo tên"
           />
         </Grid>
+        <Grid item xs={12} md={12} style={{ padding: "10px", }}>
+          <div className={classes.center} style={{ justifyContent: "right" }}>
+            <Button className={classes.btn} variant="outlined" onClick={handleClickOpen}>
+              Tạo báo cáo
+            </Button>
+          </div>
+        </Grid>
         <Grid item sm={12} xs={12}>
           {data ? <CustomTableResponsive columns={columns1} data={data} detailPage="my-store/report" rows={rows} /> : <span>Chưa có báo cáo</span>}
         </Grid>
       </Grid>
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Tạo báo cáo mới</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Chúng tôi sẽ tiếp nhận báo cáo và chỉnh sửa
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="title"
+            label="Tiêu đề"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={handleChange}
+            name="title"
+            helperText={formErrors.title && formValues.title.length == '' ? formErrors.title : null}
+            error={formErrors.title != null && formValues.title.length == ''}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="content"
+            label="Nội dung"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={handleChange}
+            name="content"
+            helperText={formErrors.content && formValues.content.length == '' ? formErrors.content : null}
+            error={formErrors.content != null && formValues.content.length == ''}
+          />
+          <input type="file" name="myImage" accept="image/png, image/gif, image/jpeg" />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Hủy Bỏ</Button>
+          <Button onClick={handleAddReport}>Gửi</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

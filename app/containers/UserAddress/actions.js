@@ -167,6 +167,27 @@ export function getLocationByUserIdFailed(payload) {
   };
 }
 
+export function changeDefaultLocation(payload) {
+  return {
+    type: types.CHANGE_DEFAULT_LOCATION,
+    payload
+  };
+}
+
+export function changeDefaultLocationSuccess(payload) {
+  return {
+    type: types.CHANGE_DEFAULT_LOCATION_SUCCESS,
+    payload
+  };
+}
+
+export function changeDefaultLocationFailed(payload) {
+  return {
+    type: types.CHANGE_DEFAULT_LOCATION_FAILED,
+    payload
+  };
+}
+
 
 
 

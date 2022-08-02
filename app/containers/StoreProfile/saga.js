@@ -1,5 +1,5 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { addVoucherByUserIdFailed, getFoodByStoreIdFailed, getFoodByStoreIdSuccess, getStoreByIdFailed, getStoreByIdSuccess, getStoreRatingFailed, getStoreRatingSuccess, getVoucherByStoreIdFailed, getVoucherByStoreIdSuccess } from './actions';
+import { addVoucherByUserIdFailed, addVoucherByUserIdSuccess, getFoodByStoreIdFailed, getFoodByStoreIdSuccess, getStoreByIdFailed, getStoreByIdSuccess, getStoreRatingFailed, getStoreRatingSuccess, getVoucherByStoreIdFailed, getVoucherByStoreIdSuccess, userAddReportFailed, userAddReportSuccess } from './actions';
 import { apiFetchData, apiPost } from './api';
 import * as types from './constants';
 
@@ -58,17 +58,29 @@ export function* getVoucherByStoreId({ payload }) {
 export function* addVoucherByUserId({ payload }) {
   try {
     const res = yield call(apiPost, [`api/voucher/${payload.vid}/userGet/${payload.uid}`]);
-    console.log(res)
-    // if (res.status == 200) {
-    //   yield put(getVoucherByStoreIdSuccess(res.data.data))
-    // } else {
-    //   yield put(getVoucherByStoreIdFailed("FAILED"));
-    // }
+    if (res.status == 200) {
+      yield put(addVoucherByUserIdSuccess("thêm thành công"));
+    } else {
+      yield put(addVoucherByUserIdFailed("thêm thất bại"));
+    }
   } catch (error) {
     yield put(addVoucherByUserIdFailed(error.message));
   }
 }
 
+
+export function* userAddReport({ payload }) {
+  try {
+    const res = yield call(apiPost, [`api/report`], payload);
+    if (res.status == 200) {
+      yield put(userAddReportSuccess("Tạo report thành công"))
+    } else {
+      yield put(userAddReportFailed("Tạo report thất bại"))
+    }
+  } catch (error) {
+    yield put(userAddReportFailed(error.message));
+  }
+}
 
 // Individual exports for testing
 export default function* storeProfileSaga() {
@@ -78,4 +90,5 @@ export default function* storeProfileSaga() {
   yield takeEvery(types.GET_STORE_RATING, getStoreRating);
   yield takeEvery(types.GET_VOUCHER_BY_STORE_ID, getVoucherByStoreId);
   yield takeEvery(types.ADD_VOUCHER_BY_USER_ID, addVoucherByUserId);
+  yield takeEvery(types.USER_ADD_REPORT, userAddReport);
 }

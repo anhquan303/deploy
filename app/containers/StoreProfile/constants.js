@@ -25,3 +25,10 @@ export const GET_VOUCHER_BY_STORE_ID_FAILED = 'app/StoreProfile/GET_VOUCHER_BY_S
 export const ADD_VOUCHER_BY_USER_ID = 'app/StoreProfile/ADD_VOUCHER_BY_USER_ID';
 export const ADD_VOUCHER_BY_USER_ID_SUCCESS = 'app/StoreProfile/ADD_VOUCHER_BY_USER_ID_SUCCESS';
 export const ADD_VOUCHER_BY_USER_ID_FAILED = 'app/StoreProfile/ADD_VOUCHER_BY_USER_ID_FAILED';
+
+export const USER_ADD_REPORT = 'app/StoreProfile/USER_ADD_REPORT';
+export const USER_ADD_REPORT_SUCCESS = 'app/StoreProfile/USER_ADD_REPORT_SUCCESS';
+export const USER_ADD_REPORT_FAILED = 'app/StoreProfile/USER_ADD_REPORT_FAILED';
+
+export const RESET = 'app/StoreProfile/RESET';
+

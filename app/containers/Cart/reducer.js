@@ -11,6 +11,7 @@ export const initialState = {
   loading: false,
   listOrder: [],
   message: '',
+  listVoucher: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -80,6 +81,17 @@ const cartReducer = (state = initialState, action) =>
         draft.message = action.payload;
         break;
       case types.DELETE_ALL_CART_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_VOUCHER:
+        draft.loading = true;
+        break;
+      case types.GET_VOUCHER_SUCCESS:
+        draft.loading = false;
+        draft.listVoucher = action.payload;
+        break;
+      case types.GET_VOUCHER_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

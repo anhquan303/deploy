@@ -141,3 +141,25 @@ export function deleteAllCartFailed(payload) {
     payload,
   };
 }
+
+export function getVoucher(payload) {
+  return {
+    type: types.GET_VOUCHER,
+    payload,
+  };
+}
+
+export function getVoucherSuccess(payload) {
+  return {
+    type: types.GET_VOUCHER_SUCCESS,
+    payload,
+  };
+}
+
+export function getVoucherFailed(payload) {
+  return {
+    type: types.GET_VOUCHER_FAILED,
+    payload,
+  };
+}
+
