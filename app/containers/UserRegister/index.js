@@ -42,7 +42,7 @@ import messages from './messages';
 
 import BackGround from '../../images/dhfpt.png';
 import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
-import { reset, signUp } from './actions';
+import { reset, sendSMS, signUp } from './actions';
 
 const useStyles = makeStyles(theme => ({
   body: {
@@ -198,6 +198,14 @@ export function UserRegister(props) {
         location: formValues.address,
       };
       dispatch(signUp(data));
+
+      let newPhone = formValues.phone.substring(1);
+      newPhone = "+84".concat(newPhone);
+      const data1 = {
+        phoneNumber: newPhone,
+        message: `NO NÊ SUPPORT KÍNH CHÁO QUÝ KHÁCH HÀNG`
+      }
+      dispatch(sendSMS(data1))
     }
   }, [formErrors]);
 
@@ -465,7 +473,7 @@ export function UserRegister(props) {
                     onChange={handleChange}
                     helperText={
                       formErrors.passwordVerify &&
-                      formValues.passwordVerify.length == ''
+                        formValues.passwordVerify.length == ''
                         ? formErrors.passwordVerify
                         : formErrors.passwordVerify1
                           ? formErrors.passwordVerify1
@@ -473,7 +481,7 @@ export function UserRegister(props) {
                     }
                     error={
                       formErrors.passwordVerify != null &&
-                      formValues.passwordVerify.length == ''
+                        formValues.passwordVerify.length == ''
                         ? true
                         : formErrors.passwordVerify1 != null
                     }
@@ -511,7 +519,7 @@ export function UserRegister(props) {
                     }
                     error={
                       formErrors.captcha != null &&
-                      formValues.captcha.length == ''
+                        formValues.captcha.length == ''
                         ? true
                         : formErrors.captcha1 != null
                     }

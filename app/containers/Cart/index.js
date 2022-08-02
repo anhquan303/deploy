@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { FormControlLabel, Container, Checkbox, IconButton, Avatar, } from '@mui/material';
+import { FormControlLabel, Container, Checkbox, IconButton, Avatar, Select, MenuItem, InputLabel } from '@mui/material';
 import { makeStyles, Grid, Button } from '@material-ui/core';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -26,7 +26,7 @@ import messages from './messages';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { getUser } from '../../utils/common';
-import { addQuantityFood, deleteAllCart, deleteQuantityFood, getOrderCart, reset, subQuantityFood } from './actions';
+import { addQuantityFood, deleteAllCart, deleteQuantityFood, getOrderCart, getVoucher, reset, subQuantityFood } from './actions';
 import saga from './saga';
 import { useLocation } from 'react-router-dom';
 import Headerr from '../Headerr';
@@ -102,6 +102,8 @@ export function Cart(props) {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const listTest = [];
   const newList = [];
+  const [voucher, setVoucher] = useState('');
+  let dollarUSLocale = Intl.NumberFormat('en-US');
 
   useEffect(() => {
     //dispatch(reset());
@@ -109,6 +111,7 @@ export function Cart(props) {
       uid: user.id,
     };
     dispatch(getOrderCart(data));
+    dispatch(getVoucher(data));
   }, []);
 
 
@@ -178,19 +181,20 @@ export function Cart(props) {
   const isAllSelected = props.cart.listOrder.length > 0 && checkedList.length === listTest.length;
   //const isAllSelected =  props.cart.listOrder.length > 0 && checkedList.length === props.cart.listOrder.length;
 
-  const handleSelectAll = e => {
-    setIsCheckAll(!isCheckAll);
-    setCheckedList(
-      props.cart.listOrder.map(item =>
-        item.cartFoodResponses.map(item1 => item1.food),
-      ),
-    );
-    if (isCheckAll) {
-      setCheckedList([]);
-    }
-  };
+  // const handleSelectAll = e => {
+  //   setIsCheckAll(!isCheckAll);
+  //   setCheckedList(
+  //     props.cart.listOrder.map(item =>
+  //       item.cartFoodResponses.map(item1 => item1.food),
+  //     ),
+  //   );
+  //   if (isCheckAll) {
+  //     setCheckedList([]);
+  //   }
+  // };
 
-  const handleClick = (e, item) => {
+  const handleClick = (e, item, storeName) => {
+
     const { checked } = e.target;
     setCheckedList([...checkedList, item]);
     if (!checked) {
@@ -248,6 +252,11 @@ export function Cart(props) {
   const handleCloseAlert = event => {
     setOpenAlert(false);
   };
+
+  const handleChangeVoucher = (event) => {
+    setVoucher(event.target.value);
+  };
+
   return (
     <div>
       <Headerr />
@@ -275,8 +284,9 @@ export function Cart(props) {
             <span className={classes.text}>Số lượng</span>
           </Grid>
           <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
-            <span className={classes.text}>Số Tiền</span>
+            <span className={classes.text}>Thành Tiền</span>
           </Grid>
+
           <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
             <span className={classes.text}>Thao Tác</span>
           </Grid>
@@ -302,12 +312,12 @@ export function Cart(props) {
                         <Checkbox
                           type="checkbox"
                           id={item1}
-                          onClick={e => handleClick(e, item1)}
+                          onClick={e => handleClick(e, item1, item.store.name)}
                           checked={checkedList.includes(item1)}
                         />
 
                         <div className={classes.smallGrid}>
-                          <Avatar variant="square">{item1.food.image}</Avatar>
+                          <Avatar variant="square" src={item1.food.image} />
                           <span style={{
                             flexWrap: 'wrap', marginLeft: "5px", alignContent: 'center', display: 'flex', justifyContent: 'center'
                           }} className={classes.text}>{item1.food.name}</span>
@@ -315,7 +325,7 @@ export function Cart(props) {
                       </Grid>
                       <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}  >
                         <span className={classes.text}>
-                          {item1.food.price}
+                          {dollarUSLocale.format(item1.food.price)} VND{' '}
                         </span>
                       </Grid>
                       <Grid item md={2} sm={3} xs={6} className={classes.smallGrid} >
@@ -335,12 +345,31 @@ export function Cart(props) {
                           <AddBoxIcon />
                         </IconButton>
                       </Grid>
+                      {/* <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={voucher}
+                          label="Voucher"
+                          placeholder="chọn voucher"
+                          onChange={handleChangeVoucher}
+                        >
+
+                          {props.cart.listVoucher != [] ? props.cart.listVoucher.filter(voucher => voucher.store.id == item.store.id).map(nestItem =>
+                          (
+                            <MenuItem key={nestItem.id} value={nestItem.id}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
+                          )
+                          ) : <span>Không có voucher</span>}
+                        </Select>
+
+                      </Grid> */}
                       <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
                         <span className={classes.text}>
-                          {parseInt(item1.quantity) *
-                            parseInt(item1.food.price)}
+                          {dollarUSLocale.format(parseInt(item1.quantity) *
+                            parseInt(item1.food.price))} VND{' '}
                         </span>
                       </Grid>
+
                       <Grid item md={2} sm={3} xs={6} className={classes.quantityButton} >
                         <Button
                           variant=""
@@ -352,6 +381,30 @@ export function Cart(props) {
                     </Grid>
                   </div>
                 ))}
+                {/* <Grid item md={12} sm={12} xs={12} className={classes.smallGrid} style={{ justifyContent: "right" }}>
+                  <div style={{ padding: "10px", display: "flex" }}>
+                    <div className={classes.smallGrid}>
+                      <InputLabel id="demo-simple-select-label">
+                        Chọn Voucher
+                      </InputLabel>
+                    </div>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={voucher}
+                      label="Voucher"
+                      placeholder="chọn voucher"
+                      onChange={handleChangeVoucher}
+                    >
+
+                      {props.cart.listVoucher != [] ? props.cart.listVoucher.filter(voucher => voucher.store.id == item.store.id).map(nestItem =>
+                      (
+                        <MenuItem key={nestItem.id} value={nestItem.id}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
+                      )
+                      ) : <span>Không có voucher</span>}
+                    </Select>
+                  </div>
+                </Grid> */}
               </Grid>
               {/* ---- */}
             </div>

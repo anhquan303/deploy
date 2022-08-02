@@ -211,8 +211,6 @@ export function FoodDetail(props) {
     history.push(location);
   }
 
-  console.log(props.foodDetail.listFood)
-
   useEffect(() => {
     if (props.foodDetail.food != undefined) {
       const data = {
@@ -222,13 +220,14 @@ export function FoodDetail(props) {
     }
   }, [props.foodDetail.food]);
 
+
   return (
     <div>
       <Headerr />
       <Container fixed>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} className={classes.imgFood}>
-            <img src="https://ofo-image.s3.amazonaws.com/store_image/11_avatar?fbclid=IwAR0vxhkzaE-EV9LWbgXTGoM65tqhAG8U_3mfSWy8a-8vfTOSQzHVtve9haQ" />
+            <img src={props.location.state.item.image} />
           </Grid>
           <Grid item xs={12} md={6}>
             <Button
@@ -337,7 +336,7 @@ export function FoodDetail(props) {
                 <Grid item xs={2} md={3} lg={2} className={classes.center}>
                   <Avatar
                     alt="avatar store"
-                    src={Avatar1}
+                    src={props.foodDetail.food != undefined ? props.foodDetail.food.image : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
                     sx={{ width: 56, height: 56 }}
                   />
                 </Grid>
@@ -358,7 +357,7 @@ export function FoodDetail(props) {
               </Grid>
             </Grid>
 
-            <Grid item xs={12} md={8}>
+            <Grid item xs={12} md={8} className={classes.center}>
               <Grid container spacing={2}>
                 <Grid item xs={4} md={4}>
                   Món ăn <span>12</span>
@@ -366,12 +365,12 @@ export function FoodDetail(props) {
                 <Grid item xs={4} md={4}>
                   Đánh giá <span>12</span>
                 </Grid>
-                <Grid item xs={4} md={4}>
+                {/* <Grid item xs={4} md={4}>
                   Tham gia từ <span>06/28/2022</span>
-                </Grid>
-                <Grid item xs={4} md={4}>
+                </Grid> */}
+                {/* <Grid item xs={4} md={4}>
                   Người theo dõi <span>12</span>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={4} md={4}>
                   Yêu thích <span>12</span>
                 </Grid>
@@ -448,7 +447,7 @@ export function FoodDetail(props) {
                       <Grid item sm={2} xs={12} md={2} className={classes.center}>
                         <Avatar
                           variant="rounded"
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTN7rHMcnK0E9YocmOktrVKzdzeCgWg3oP04bIfqScZykQbYDs8m1e_qcnzzWNMLIG1ZZY&usqp=CAU"
+                          src={item.image}
                         />
                       </Grid>
                       <Grid item sm={7} xs={6} md={6} className={classes.center}>
@@ -537,7 +536,7 @@ export function FoodDetail(props) {
                     >
                       <Avatar
                         alt="avatar store"
-                        src={Avatar1}
+                        src={item.user.avatar ? item.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
                         sx={{ width: 26, height: 26, marginRight: '3px' }}
                       />
                     </Grid>

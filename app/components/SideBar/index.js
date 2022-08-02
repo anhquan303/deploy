@@ -154,12 +154,12 @@ function SideBar(props) {
           <Typography className={classes.text}>Quản lý người dùng</Typography>
         </div>
       </NavLink>
-      <NavLink to="/account" className={classes.link} onClick={handleDrawerToggle}>
+      {/* <NavLink to="/account" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <AccountBoxIcon className={classes.icon} />
           <Typography className={classes.text}>Quản lý tài khoản</Typography>
         </div>
-      </NavLink>
+      </NavLink> */}
       <NavLink to="/store" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <StoreIcon className={classes.icon} />

@@ -3,7 +3,7 @@ import {
   addLocationFailed,
   addLocationSuccess,
   createOrderFailed, createOrderSuccess, createQRFailed, createQRSuccess, getListLocationByUserIdFailed,
-  getListLocationByUserIdSuccess, getListOrderByUserIdFailed, getListOrderByUserIdSuccess, getListWardsFailed, getListWardsSuccess
+  getListLocationByUserIdSuccess, getListOrderByUserIdFailed, getListOrderByUserIdSuccess, getListVoucherFailed, getListVoucherSuccess, getListWardsFailed, getListWardsSuccess
 } from './actions';
 import { apiFetchData, apiGetListWards, apiPost } from './api';
 import * as types from './constants';
@@ -64,7 +64,6 @@ export function* addLocation({ payload }) {
 export function* createQR({ payload }) {
   try {
     const res = yield call(apiPost, [`api/payment/createPayment`], payload);
-    console.log(res)
     if (res.status == 200) {
       yield put(createQRSuccess(res.data.qr_code));
     } else {
@@ -77,7 +76,7 @@ export function* createQR({ payload }) {
 
 export function* getListOrderByUserId({ payload }) {
   try {
-    const res = yield call(apiFetchData, [`api/order?userId=${payload.id}`]);
+    const res = yield call(apiFetchData, [`api/order?pageSize=100&userId=${payload.id}`]);
     if (res.status == 200) {
       yield put(getListOrderByUserIdSuccess(res.data.data));
     } else {
@@ -85,6 +84,19 @@ export function* getListOrderByUserId({ payload }) {
     }
   } catch (error) {
     yield put(getListOrderByUserIdFailed(error.message));
+  }
+}
+
+export function* getListVoucher({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/voucher`]);
+    if (res.status == 200) {
+      yield put(getListVoucherSuccess(res.data.data));
+    } else {
+      yield put(getListVoucherFailed("FAILED"));
+    }
+  } catch (error) {
+    yield put(getListVoucherFailed(error.message));
   }
 }
 
@@ -98,4 +110,5 @@ export default function* paymentSaga() {
   yield takeEvery(types.ADD_LOCATION, addLocation);
   yield takeEvery(types.CREATE_QR, createQR);
   yield takeEvery(types.GET_LIST_ORDER_BY_USER_ID, getListOrderByUserId);
+  yield takeEvery(types.GET_LIST_VOUCHER, getListVoucher);
 }

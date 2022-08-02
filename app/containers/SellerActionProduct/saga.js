@@ -1,6 +1,6 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
 import { activeProductFailed, activeProductSuccess, deactiveProductFailed, deactiveProductSuccess, deleteProductFailed, deleteProductSuccess, getProductByIdFailed, getProductByIdSuccess, updateProductFailed, updateProductSuccess } from './actions';
-import { apiFetchData, apiUpdateProduct } from './api';
+import { apiFetchData, apiUpdateProduct, uploadImage } from './api';
 import * as types from './constants';
 
 
@@ -19,15 +19,31 @@ export function* deleteProduct({ payload }) {
 
 export function* updateProduct({ payload }) {
   try {
-    const data = {
-      name: payload.name,
-      price: payload.price,
-      type: payload.type,
-      description: payload.description,
-      image: payload.image,
-      status: "Active"
+    const formData = new FormData();
+    if (payload.image != null) {
+      formData.append('name', payload.name);
+      formData.append('price', payload.price);
+      formData.append('type', payload.type);
+      formData.append('description', payload.description);
+      formData.append('imageFile', payload.image);
+      formData.append('status', "Active");
+    } else {
+      formData.append('name', payload.name);
+      formData.append('price', payload.price);
+      formData.append('type', payload.type);
+      formData.append('description', payload.description);
+      formData.append('status', "Active");
     }
-    const res = yield call(apiUpdateProduct, [`api/store/${payload.storeId}/foods/${payload.id}/update`], data);
+
+    // const data = {
+    //   name: payload.name,
+    //   price: payload.price,
+    //   type: payload.type,
+    //   description: payload.description,
+    //   image: payload.image,
+    //   status: "Active"
+    // }
+    const res = yield call(uploadImage, [`api/store/${payload.storeId}/foods/${payload.id}/update`], formData);
     if (res.status == 200) {
       yield put(updateProductSuccess("UPDATE SUCCESSFUL"));
     } else {

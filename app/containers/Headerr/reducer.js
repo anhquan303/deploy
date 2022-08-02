@@ -11,6 +11,7 @@ export const initialState = {
   loading: false,
   message: '',
   cart: [],
+  user: undefined
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -38,6 +39,17 @@ const headerrReducer = (state = initialState, action) =>
         draft.cart = action.payload;
         break;
       case types.GET_CART_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_USER_BY_ID:
+        draft.loading = true;
+        break;
+      case types.GET_USER_BY_ID_SUCCESS:
+        draft.loading = false;
+        draft.user = action.payload;
+        break;
+      case types.GET_USER_BY_ID_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

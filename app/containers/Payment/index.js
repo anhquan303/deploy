@@ -24,7 +24,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import Headerr from '../Headerr';
-import { addLocation, createOrder, createQR, getListLocationByUserId, getListOrderByUserId, getListWards, reset } from './actions';
+import { addLocation, createOrder, createQR, getListLocationByUserId, getListOrderByUserId, getListVoucher, getListWards, reset } from './actions';
 import { getUser } from '../../utils/common';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -162,7 +162,44 @@ export function Payment(props) {
   const [locationId, setLocationId] = useState();
   const [paymentType, setPaymentType] = useState('');
   const [orderId, setOrderId] = useState('');
+  const [voucher, setVoucher] = useState([]);
+  let payment = [];
+  let payment2 = [];
+  let count = 0;
+  let [listTest, setListTest] = useState([]);
 
+  console.log(props.location.state.item)
+  if (props.location.state.item.length == 2) {
+    payment[count] = { storeId: props.location.state.item[0].food.foodStore, listFood: [props.location.state.item[0]] };
+    payment[count + 1] = { storeId: props.location.state.item[1].food.foodStore, listFood: [props.location.state.item[1]] };
+  } else {
+    if (props.location.state.item.length == 1) {
+      payment[count] = { storeId: props.location.state.item[0].food.foodStore, listFood: [props.location.state.item[0]] };
+    } else {
+      for (var i = 0; i < props.location.state.item.length - 1; ++i) {
+        console.log('i', i)
+        if (i != 0) {
+          payment[count + 1] = { storeId: props.location.state.item[i + 1].food.foodStore, listFood: [props.location.state.item[i + 1]] };
+        }
+        payment[count] = { storeId: props.location.state.item[i].food.foodStore, listFood: [props.location.state.item[i]] };
+        for (var j = i + 1; j < props.location.state.item.length; ++j) {
+          if (props.location.state.item[i].food.foodStore.name == props.location.state.item[j].food.foodStore.name) {
+            payment[count].listFood.push(props.location.state.item[j])
+          }
+        }
+        ++count;
+      }
+    }
+  }
+
+
+
+
+  //console.log(payment);
+
+  payment2 = payment.filter((ele, ind) => ind === payment.findIndex(elem => elem.storeId.id === ele.storeId.id))
+
+  const [paymentList, setPaymentList] = useState(payment2);
   const singleVal = Array.from(props.location.state.item.map(item => {
     return (item.food.price * item.quantity)
   }));
@@ -172,6 +209,49 @@ export function Payment(props) {
     result += parseInt(singleVal[i]);
   }
 
+  //console.log('list', payment2)
+  const handleChangeVoucher = (event) => {
+    const { name } = event.target;
+    //setVoucher(event.target.value);
+    const checkExist = listTest.some(element => {
+      if (element.storeId.id == name) {
+        return true;
+      }
+      return false;
+
+    })
+
+    for (var i = 0; i < payment2.length; i++) {
+      // console.log('i', i)
+      // console.log('payment', payment2[i].storeId.id)
+      // console.log('name', name)
+      if (payment2[i].storeId.id == name) {
+        //console.log('here')
+        if (checkExist == false) {
+          payment2[i].voucher = event.target.value;
+          listTest.push(Object.assign({}, payment2[i], { voucher: event.target.value }));
+        } else {
+          listTest.splice(i, 1);
+          payment2[i].voucher = event.target.value;
+          listTest.push(Object.assign({}, payment2[i], { voucher: event.target.value }));
+        }
+
+      } else {
+        if (checkExist == false) {
+          listTest.push(payment2[i]);
+        }
+      }
+
+    }
+    if (listTest.length != 0) {
+      setPaymentList([]);
+      setPaymentList(listTest);
+    }
+
+  };
+
+  console.log(paymentList)
+
   const handlePayment = () => {
     if (paymentType != "") {
       if (paymentType == "transfer") {
@@ -179,18 +259,22 @@ export function Payment(props) {
           uid: user.id,
           data: {
             orderCreateRequests:
-              props.location.state.item.map((item) => {
+              paymentList.map((item) => {
                 return (
                   {
-                    storeId: item.food.foodStore.id,
-                    orderFood: [
-                      {
-                        foodId: item.food.id,
-                        quantity: item.quantity
-                      }
-                    ],
-                    voucherId: null,
-                    locationId: locationId
+                    storeId: item.storeId.id,
+                    orderFood:
+                      item.listFood.map((item1) => {
+                        return (
+                          {
+                            foodId: item1.food.id,
+                            quantity: item1.quantity
+                          }
+                        )
+                      }),
+
+                    locationId: locationId,
+                    voucherId: item.voucher == null ? null : item.voucher[0].id
                   }
                 )
               })
@@ -202,17 +286,36 @@ export function Payment(props) {
           uid: user.id,
           data: {
             orderCreateRequests:
-              props.location.state.item.map((item) => {
+              // props.location.state.item.map((item) => {
+              //   return (
+              //     {
+              //       storeId: item.food.foodStore.id,
+              //       orderFood: [
+              //         {
+              //           foodId: item.food.id,
+              //           quantity: item.quantity
+              //         }
+              //       ],
+              //       voucherId: null,
+              //       locationId: locationId
+              //     }
+              //   )
+              // })
+              paymentList.map((item) => {
                 return (
                   {
-                    storeId: item.food.foodStore.id,
-                    orderFood: [
-                      {
-                        foodId: item.food.id,
-                        quantity: item.quantity
-                      }
-                    ],
-                    voucherId: null,
+                    storeId: item.storeId.id,
+                    orderFood:
+                      item.listFood.map((item1) => {
+                        return (
+                          {
+                            foodId: item1.food.id,
+                            quantity: item1.quantity
+                          }
+                        )
+                      })
+                    ,
+                    voucherId: item.voucher == null ? null : item.voucher[0].id,
                     locationId: locationId
                   }
                 )
@@ -233,13 +336,13 @@ export function Payment(props) {
       id: user.id
     }
     dispatch(getListLocationByUserId(data));
-
+    dispatch(getListVoucher());
     dispatch(reset());
   }, []);
 
+
   useEffect(() => {
     if (props.payment.message.includes("Đặt hàng thành công")) {
-      console.log(paymentType)
       if (paymentType == "transfer") {
         const data = {
           id: user.id
@@ -247,7 +350,7 @@ export function Payment(props) {
         dispatch(getListOrderByUserId(data));
       } else {
         setOpenAlert(true);
-        setTimeout(() => dispatch(reset()), 6000);
+        setTimeout(() => dispatch(reset()), 3000);
         setTimeout(() => history.push("/user/order-history"), 2000);
       }
     }
@@ -283,6 +386,11 @@ export function Payment(props) {
       //window.open(props.payment.qrcode, '_blank', 'noopener,noreferrer');
     }
   }, [props.payment.qrcode]);
+
+  const handlePaymentSuccess = () => {
+    setTimeout(() => dispatch(reset()), 6000);
+    setTimeout(() => history.push("/user/order-history"), 2000);
+  }
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -339,6 +447,7 @@ export function Payment(props) {
     dispatch(addLocation(data));
     setOpenModalAddAddress(false);
   }
+
 
   return (
     <div>
@@ -438,7 +547,58 @@ export function Payment(props) {
           <hr />
 
           <div>
-            {props.location.state.item.map((item, index) =>
+            {payment2.length != 0 ? payment2.map((item, index) => {
+              return (
+                <>
+                  <div>
+                    <Grid item sm={12} xs={12} md={12}>
+                      <span className={classes.infor_text}>{item.storeId.name}</span>
+                    </Grid>
+                    {item.listFood.map(nestItem => {
+                      return (
+                        <Grid container spacing={0}>
+                          <Grid item sm={6} xs={12} md={6}>
+                            <span className={classes.infor_text} style={{ fontSize: "20px" }}>{nestItem.food.name}</span>
+                          </Grid>
+                          <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
+                            <span className={classes.infor_text} style={{ fontSize: "20px" }}>{dollarUSLocale.format(nestItem.food.price)} VND</span>
+                          </Grid>
+                          <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
+                            <span className={classes.infor_text} style={{ fontSize: "20px" }}>{nestItem.quantity}</span>
+                          </Grid>
+                          <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
+                            <span className={classes.infor_text} style={{ fontSize: "20px" }}>{dollarUSLocale.format(parseInt(nestItem.food.price) * parseInt(nestItem.quantity))} VND</span>
+                          </Grid>
+                        </Grid>
+
+                      )
+                    })}
+                  </div>
+                  <Grid item md={12} sm={12} xs={12} className={classes.center} style={{ justifyContent: "right" }}>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      name={item.storeId.id}
+                      value={voucher}
+                      //value={voucher === -1 ? '' : voucher}
+                      label="Voucher"
+                      multiple
+                      placeholder="chọn voucher"
+                      onChange={handleChangeVoucher}
+                    >
+
+                      {props.payment.listVoucher != [] ? props.payment.listVoucher.filter(voucher => voucher.store.id == item.storeId.id).map(nestItem =>
+                      (
+                        <MenuItem key={nestItem.id} value={nestItem}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
+                      )
+                      ) : <span>Không có voucher</span>}
+                    </Select>
+
+                  </Grid>
+                  <hr />
+                </>
+              )
+            }) : <span>khong co</span>}
+            {/* {props.location.state.item.map((item, index) =>
               <div key={index}>
                 <Grid item sm={12} xs={12} md={12}>
                   <span className={classes.infor_text}>{item.food.foodStore.name}</span>
@@ -459,32 +619,8 @@ export function Payment(props) {
                 </Grid>
                 <hr />
               </div>
-            )}
+            )} */}
 
-            {/* {props.location.state.item.map(item => item.cartFoodResponses.map((nestItem) => {
-              return (
-                <div key={nestItem.food.foodStore.id}>
-                  <Grid item sm={12} xs={12} md={12}>
-                    <span className={classes.infor_text}>{nestItem.food.foodStore.name}</span>
-                  </Grid>
-                  <Grid container spacing={0}>
-                    <Grid item sm={12} xs={12} md={6}>
-                      <span className={classes.infor_text} style={{ fontSize: "20px" }}>{nestItem.food.name}</span>
-                    </Grid>
-                    <Grid item sm={12} xs={12} md={2} style={{ textAlign: "center" }}>
-                      <span className={classes.infor_text} style={{ fontSize: "20px" }}>{nestItem.food.price} VND</span>
-                    </Grid>
-                    <Grid item sm={12} xs={12} md={2} style={{ textAlign: "center" }}>
-                      <span className={classes.infor_text} style={{ fontSize: "20px" }}>{nestItem.quantity}</span>
-                    </Grid>
-                    <Grid item sm={12} xs={12} md={2} style={{ textAlign: "center" }}>
-                      <span className={classes.infor_text} style={{ fontSize: "20px" }}>{parseInt(nestItem.food.price) * parseInt(nestItem.quantity)}</span>
-                    </Grid>
-                  </Grid>
-                  <hr />
-                </div>
-              )
-            }))} */}
           </div>
 
           <div>
@@ -519,11 +655,23 @@ export function Payment(props) {
             <hr />
           </div>
 
-          <div style={{ margin: "0 auto" }}>
-            {props.payment.qrcode != "" ?
-              <img src={props.payment.qrcode != "" ? props.payment.qrcode : null} />
-              : null}
-          </div>
+          <Grid container spacing={0}>
+            <Grid item xs={12} md={6} sm={12}>
+              <div style={{ margin: "0 auto" }}>
+                {props.payment.qrcode != "" ?
+                  <img src={props.payment.qrcode != "" ? props.payment.qrcode : null} />
+                  : null}
+              </div>
+            </Grid>
+            {/* <Grid item xs={12} md={6} sm={12}>
+              <div style={{ margin: "0 auto" }}>
+                {props.payment.qrcode != "" ?
+                  <img src={props.payment.qrcode != "" ? props.payment.qrcode : null} />
+                  : null}
+              </div>
+            </Grid> */}
+          </Grid>
+
 
           <div>
             <p
@@ -533,6 +681,16 @@ export function Payment(props) {
               Tổng thanh toán: {dollarUSLocale.format(result)} VND
             </p>
             <p style={{ textAlign: 'right' }}>
+              {props.payment.qrcode != "" ?
+                <Button
+                  variant="contained"
+                  component="span"
+                  className={classes.btnSubmit}
+                  onClick={handlePaymentSuccess}
+                >
+                  <span>Tôi đã thanh toán thành công</span>
+                </Button>
+                : null}
               <Button
                 variant="contained"
                 component="span"

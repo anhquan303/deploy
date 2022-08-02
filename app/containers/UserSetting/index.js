@@ -51,6 +51,7 @@ import messages from './messages';
 import saga from './saga';
 import reducer from './reducer';
 import makeSelectUserSetting from './selectors';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -118,7 +119,7 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'center',
     display: 'flex',
     justifyContent: "right",
-    [theme.breakpoints.down("sm")]:{
+    [theme.breakpoints.down("sm")]: {
       justifyContent: "center"
     }
   }
@@ -142,6 +143,7 @@ export function UserSetting(props) {
   const [openAlert, setOpenAlert] = useState(false);
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
+  const [avatar, setAvatar] = useState('');
 
   const handleClick = () => {
     setOpen(!open);
@@ -151,7 +153,13 @@ export function UserSetting(props) {
     setGender(event.target.value);
   };
 
-  const handleUploadClick = () => {};
+  // avatar image
+  const handleUploadClick = async e => {
+    const file = e.target.files;
+    const data = new FormData();
+    data.append(file, file[0]);
+    setAvatar(file[0]);
+  };
 
   const validate = values => {
     const errors = {};
@@ -183,7 +191,8 @@ export function UserSetting(props) {
         firstname: formValues.firstname,
         lastname: formValues.lastname,
         gender,
-        dateOfBirth: dob,
+        dateOfBirth: moment(dob).format('YYYY-MM-DDTHH:mm:ssZ'),
+        avatarFile: avatar
       };
       dispatch(updateUser(data));
       // setOpen(true);
@@ -249,6 +258,24 @@ export function UserSetting(props) {
           <div className={classes.avatar} >
             <CardContent>
               <Grid container>
+                {/* <input
+                  accept="image/*"
+                  className={classes.input}
+                  id="contained-button-file"
+                  type="file"
+                  onChange={handleUploadClick}
+                />
+                <label htmlFor="contained-button-file">
+                  <Avatar
+                    sx={{ width: 150, height: 150 }}
+                    component="span"
+                    src={props.userSetting.user != undefined ? props.userSetting.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
+                  >
+                    <AddPhotoAlternateIcon />
+                  </Avatar>
+
+                </label> */}
+
                 <input
                   accept="image/*"
                   className={classes.input}
@@ -258,17 +285,13 @@ export function UserSetting(props) {
                   onChange={handleUploadClick}
                 />
                 <label htmlFor="contained-button-file">
-                  {user ? (
-                    <Avatar
-                      sx={{ width: 150, height: 150 }}
-                      component="span"
-                      src={Avatar1}
-                    >
-                      <AddPhotoAlternateIcon />
-                    </Avatar>
-                  ) : (
-                    <Avatar src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" />
-                  )}
+                  <Avatar
+                    sx={{ width: 150, height: 150 }}
+                    component="span"
+                    src={props.userSetting.user != undefined ? props.userSetting.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
+                  >
+                    <AddPhotoAlternateIcon />
+                  </Avatar>
                 </label>
               </Grid>
             </CardContent>

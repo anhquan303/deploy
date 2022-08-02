@@ -20,6 +20,8 @@ import saga from './saga';
 import messages from './messages';
 import { useParams } from 'react-router-dom';
 import { Box, TextField } from '@mui/material';
+
+import { CardContent, Avatar } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -34,6 +36,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { getStore } from '../../utils/common';
 import Switch from '@mui/material/Switch';
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +57,14 @@ const useStyles = makeStyles((theme) => ({
       color: "#000",
       boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
     }
+  },
+  input: {
+    display: 'none',
+  },
+  center: {
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
   },
   inside: {
     width: "25%",
@@ -106,6 +117,8 @@ export function SellerActionProduct(props) {
   const [isSubmit, setIsSubmit] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [checked, setChecked] = useState(true);
+  const [foodImage, setFoodImage] = useState('');
+  const [image, setImage] = useState('');
 
 
   //set value for input
@@ -159,11 +172,11 @@ export function SellerActionProduct(props) {
         price: formValues.price,
         type: type,
         description: formValues.description,
-        image: "A",
+        image: image != "" ? image : null,
         storeId: storeId
       }
       dispatch(updateProduct(data));
-      setOpen(true);
+      
     }
 
   }, [formErrors])
@@ -179,6 +192,7 @@ export function SellerActionProduct(props) {
   useEffect(() => {
     if (props.sellerActionProduct.message == "DELETE SUCCESSFUL" || props.sellerActionProduct.message == "UPDATE SUCCESSFUL") {
       props.history.push("/my-store/manager-product")
+      setOpen(true);
       dispatch(reset());
     }
   }, [props.sellerActionProduct.message])
@@ -191,6 +205,7 @@ export function SellerActionProduct(props) {
 
   }, []);
 
+
   useEffect(() => {
     if (props.sellerActionProduct.food) {
       setType(props.sellerActionProduct.food.type);
@@ -198,6 +213,7 @@ export function SellerActionProduct(props) {
       formValues.price = props.sellerActionProduct.food.price;
       formValues.description = props.sellerActionProduct.food.description;
       formValues.image = props.sellerActionProduct.food.image;
+      setFoodImage(props.sellerActionProduct.food.image);
     }
   }, [props.sellerActionProduct.food]);
 
@@ -222,6 +238,17 @@ export function SellerActionProduct(props) {
     }
   }, [checked])
 
+  const handleUploadClick = e => {
+    const file = e.target.files[0];
+    // file.preview = URL.createObjectURL(file)
+    setFoodImage(URL.createObjectURL(file));
+    const file1 = e.target.files;
+    const data = new FormData();
+    data.append(file1, file1[0]);
+    setImage(file1[0]);
+  };
+
+
   return (
     <div style={{ paddingRight: "15px" }}>
       <div style={{ textAlign: "center" }}>
@@ -237,6 +264,32 @@ export function SellerActionProduct(props) {
               onChange={handleChangeActive}
               inputProps={{ 'aria-label': 'controlled' }}
             />
+          </div>
+          <div
+            className={classes.center}
+            style={{ justifyContent: 'center' }}
+          >
+            <CardContent>
+              <Grid container>
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                  onChange={handleUploadClick}
+                />
+                <label htmlFor="contained-button-file">
+                  <Avatar
+                    sx={{ width: 150, height: 150 }}
+                    component="span"
+                    src={foodImage != "" ? foodImage : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
+                  >
+                    <AddPhotoAlternateIcon />
+                  </Avatar>
+                </label>
+              </Grid>
+            </CardContent>
           </div>
           <form>
             <Grid container spacing={0} >
@@ -336,7 +389,7 @@ export function SellerActionProduct(props) {
                 </Grid>
 
               </Grid>
-              <Grid item sm={12} xs={12} >
+              {/* <Grid item sm={12} xs={12} >
                 <Box
                   component="form"
                   sx={{
@@ -352,7 +405,7 @@ export function SellerActionProduct(props) {
                     <input type="file" name="back" placeholder="upload an image" />
                   </div>
                 </Box>
-              </Grid>
+              </Grid> */}
               <Grid container spacing={1} >
                 <Grid item sm={12} xs={12} md={12} lg={4}>
                   <Button onClick={() => props.history.push("/my-store/manager-product")} className={classes.btn} variant="contained" component="span" >

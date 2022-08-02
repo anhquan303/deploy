@@ -29,6 +29,17 @@ const userRegisterReducer = (state = initialState, action) =>
         draft.loading = false;
         draft.message = action.payload;
         break;
+      case types.SEND_SMS:
+        draft.loading = true;
+        break;
+      case types.SEND_SMS_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.SEND_SMS_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
       case types.RESET:
         draft.loading = false;
         draft.message = '';

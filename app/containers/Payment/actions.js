@@ -145,3 +145,25 @@ export function getListOrderByUserIdFailed(payload) {
     payload
   };
 }
+
+
+export function getListVoucher(payload) {
+  return {
+    type: types.GET_LIST_VOUCHER,
+    payload
+  };
+}
+
+export function getListVoucherSuccess(payload) {
+  return {
+    type: types.GET_LIST_VOUCHER_SUCCESS,
+    payload
+  };
+}
+
+export function getListVoucherFailed(payload) {
+  return {
+    type: types.GET_LIST_VOUCHER_FAILED,
+    payload
+  };
+}

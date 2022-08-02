@@ -178,11 +178,11 @@ export function UserReport(props) {
       </div>
       <hr />
 
-      <div className={classes.center} style={{ justifyContent: "right" }}>
+      {/* <div className={classes.center} style={{ justifyContent: "right" }}>
         <Button className={classes.btn} variant="outlined" onClick={handleClickOpen}>
           Tạo báo cáo
         </Button>
-      </div>
+      </div> */}
 
       {data ? <CustomTableResponsive columns={columns1} data={data} detailPage="user/detail-report" rows={rows} /> : <span>Bạn chưa tạo báo cáo</span>}
 

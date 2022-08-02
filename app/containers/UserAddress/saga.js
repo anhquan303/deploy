@@ -1,6 +1,6 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
 import {
-  addLocationFailed, addLocationSuccess, deleteLocationFailed, deleteLocationSuccess, getAllLocationFailed,
+  addLocationFailed, addLocationSuccess, changeDefaultLocationFailed, changeDefaultLocationSuccess, deleteLocationFailed, deleteLocationSuccess, getAllLocationFailed,
   getAllLocationSuccess, getListWardsFailed, getListWardsSuccess, getLocationByIdFailed, getLocationByIdSuccess,
   getLocationByUserIdFailed,
   getLocationByUserIdSuccess,
@@ -104,6 +104,19 @@ export function* getLocationByUserId({ payload }) {
   }
 }
 
+export function* changeDefaultLocation({ payload }) {
+  try {
+    const res = yield call(apiPost, [`api/location/changeDefaultLocation/${payload.id}`]);
+    if (res.status == 200) {
+      yield put(changeDefaultLocationSuccess("SUCCESS"));
+    } else {
+      yield put(changeDefaultLocationFailed("FAILED"));
+    }
+  } catch (error) {
+    yield put(changeDefaultLocationFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* userAddressSaga() {
   // See example in containers/HomePage/saga.js
@@ -114,4 +127,5 @@ export default function* userAddressSaga() {
   yield takeEvery(types.UPDATE_LOCATION, updateLocation);
   yield takeEvery(types.DELETE_LOCATION, deleteLocation);
   yield takeEvery(types.GET_LOCATION_BY_USER_ID, getLocationByUserId);
+  yield takeEvery(types.CHANGE_DEFAULT_LOCATION, changeDefaultLocation);
 }

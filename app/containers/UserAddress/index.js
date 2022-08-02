@@ -42,6 +42,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { getUser } from '../../utils/common';
 import {
   addLocation,
+  changeDefaultLocation,
   deleteLocation,
   getAllLocation,
   getListWards,
@@ -238,6 +239,12 @@ export function UserAddress(props) {
     setOpenDialog(true);
   };
 
+  const handleSetDefault = (id) => {
+    const data = {
+      id: id
+    }
+    dispatch(changeDefaultLocation(data));
+  }
   return (
     <div>
       <Grid container spacing={0}>
@@ -382,7 +389,7 @@ export function UserAddress(props) {
                   </Button>
                 </p>
                 <p style={{ textAlign: 'right' }}>
-                  <Button className={classes.btn} variant="outlined">
+                  <Button disabled={item.defaultLocation == true} className={classes.btn} variant="outlined" onClick={() => handleSetDefault(item.id)}>
                     Chọn mặc định
                   </Button>
                 </p>

@@ -5,7 +5,7 @@ import * as types from './constants';
 
 export function* getListOrderByUserId({ payload }) {
   try {
-    const res = yield call(apiFetchData, [`api/order?userId=${payload.id}`]);
+    const res = yield call(apiFetchData, [`api/order?pageSize=100&userId=${payload.id}`]);
     if (res.status == 200) {
       yield put(getOrderByIdSuccess(res.data.data));
     } else {

@@ -20,13 +20,14 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { makeStyles, Grid, Button } from '@material-ui/core';
-import Snackbar from '@mui/material/Snackbar';
 import { addProduct, reset } from './actions';
 import messages from './messages';
 import saga from './saga';
 import reducer from './reducer';
 import makeSelectSellerAddProduct from './selectors';
 import { getStore } from '../../utils/common';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 const useStyles = makeStyles(theme => ({
   upload: {
@@ -87,6 +88,7 @@ export function SellerAddProduct(props) {
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
   const [isSubmit, setIsSubmit] = useState(false);
+  const [foodImage, setFoodImage] = useState('');
 
   // set value for input
   const handleChange = e => {
@@ -137,21 +139,46 @@ export function SellerAddProduct(props) {
         price: formValues.price,
         type,
         description: formValues.description,
-        image: 'A',
+        image: foodImage,
         storeId,
       };
       dispatch(addProduct(data));
-      setOpen(true);
+
     }
   }, [formErrors]);
 
   useEffect(() => {
     if (props.sellerAddProduct.message === 'ADD SUCCESSFUL') {
-      props.history.push('/my-store/manager-product');
-      dispatch(reset());
+      setOpen(true);
+      setTimeout(() => {
+        props.history.push('/my-store/manager-product');
+      }, 2000);
+      setTimeout(() => {
+        dispatch(reset());
+      }, 2000);
     }
   }, [props.sellerAddProduct.message]);
 
+  // food image
+  const handleUploadFile = async e => {
+    const file = e.target.files;
+    const data = new FormData();
+    data.append(file, file[0]);
+    // setIdentityCardBack("/C/Users/anhqu/OneDrive/Desktop/" + file[0].name);
+    setFoodImage(file[0]);
+  };
+
+
+  const Alert = React.forwardRef(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleCloseAlert = (event) => {
+    setOpen(false);
+  };
   return (
     <div style={{ paddingRight: '15px' }}>
       <div style={{ textAlign: 'center' }}>
@@ -239,7 +266,7 @@ export function SellerAddProduct(props) {
                       }
                       error={
                         formErrors.price != null &&
-                        formValues.price.length == ''
+                          formValues.price.length == ''
                           ? true
                           : formErrors.price1 != null
                       }
@@ -273,7 +300,7 @@ export function SellerAddProduct(props) {
                       }
                       helperText={
                         formErrors.description &&
-                        formValues.description.length == ''
+                          formValues.description.length == ''
                           ? formErrors.description
                           : null
                       }
@@ -296,8 +323,9 @@ export function SellerAddProduct(props) {
                   <div className={classes.upload}>
                     <input
                       type="file"
-                      name="back"
+                      name="foodImage"
                       placeholder="upload an image"
+                      onChange={handleUploadFile}
                     />
                   </div>
                 </Box>
@@ -328,13 +356,18 @@ export function SellerAddProduct(props) {
               </Grid>
             </Grid>
           </form>
-          <Snackbar
+          {/* <Snackbar
             anchorOrigin={{ vertical, horizontal }}
             open={open}
             onClose={handleCloseToast}
             message={props.sellerAddProduct.message}
             autoHideDuration={5000}
-          />
+          /> */}
+          <Snackbar open={open} autoHideDuration={1000} anchorOrigin={{ vertical, horizontal }} onClose={handleCloseAlert}>
+            <Alert severity="success" onClose={handleCloseAlert} sx={{ width: '100%' }}>
+              {props.sellerAddProduct.message}
+            </Alert>
+          </Snackbar>
         </div>
       </div>
     </div>

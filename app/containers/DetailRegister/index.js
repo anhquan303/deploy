@@ -256,7 +256,6 @@ export function DetailRegister(props) {
     }
     dispatch(getRegisterById(data));
   }, []);
-  console.log(props.detailRegister.register)
   return (
     <div style={{ paddingRight: "15px" }}>
       {props.detailRegister.register ? <>

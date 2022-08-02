@@ -60,7 +60,6 @@ export function UserDetailReport(props) {
   const [answer, setAnswer] = useState(false);
   const history = useHistory();
 
-  console.log(props.userDetailReport.report)
   useEffect(() => {
     const data = {
       id: props.location.state.id

@@ -35,7 +35,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { getUser } from '../../utils/common';
-import { getListBank, getListWards, reset, sellerSignUp } from './actions';
+import { getListBank, getListWards, reset, sellerSignUp, verifyBankAccount } from './actions';
 
 const useStyles = makeStyles(theme => ({
   body: {
@@ -184,7 +184,7 @@ export function SellerRegister(props) {
   };
 
   // can cuoc cong dan mat truoc
-  const handleUploadFile = e => {
+  const handleUploadFile = async e => {
     // const file = URL.createObjectURL(e.target.files[0])
     const file = e.target.files;
     // const data = new FormData();
@@ -245,8 +245,6 @@ export function SellerRegister(props) {
 
   };
 
-  console.log(moment(startTime).format('HH:mm:ss'))
-
   const handleChangeEndTime = newValue => {
     //setEndTime(moment(newValue, 'HH:mm:ss').format('hh:mm:ss'));
     setEndTime(newValue)
@@ -280,7 +278,7 @@ export function SellerRegister(props) {
   const validate = values => {
     const errors = {};
     const regexPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
-    const regexEmail = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+    const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
     if (!values.name) {
       errors.name = 'name is required!';
     }
@@ -409,14 +407,19 @@ export function SellerRegister(props) {
     setBank(e.target.value);
   };
 
-  console.log(bank)
   useEffect(() => {
     if (props.sellerRegister.message != '') {
       setOpen(true);
     }
   }, [props.sellerRegister.message]);
 
-
+  const handleVerifyBankAccount = () => {
+    const data = {
+      bin: bank,
+      accountNumber: formValues.bankAccount
+    }
+    dispatch(verifyBankAccount(data));
+  }
   return (
     <div className={classes.body}>
       <div className={classes.container}>
@@ -866,6 +869,7 @@ export function SellerRegister(props) {
                           helperText={formErrors.bankAccount && formValues.bankAccount.length == '' ? formErrors.bankAccount : null}
                           error={formErrors.bankAccount != null && formValues.bankAccount.length == ''}
                         />
+                        {props.sellerRegister.bankAccountName != "" ? <span>{props.sellerRegister.bankAccountName}</span> : null}
                       </Box>
                     </Grid>
                     <div style={{ marginLeft: '8px', width: '100%' }}>
@@ -896,8 +900,18 @@ export function SellerRegister(props) {
                             ))}
                           </Select>
                         </FormControl>
+
                       </Box>
                     </div>
+                    <Button
+                      style={{ width: '100%' }}
+                      className={classes.btnBack}
+                      variant="contained"
+                      component="span"
+                      onClick={handleVerifyBankAccount}
+                    >
+                      Kiểm tra tài khoản
+                    </Button>
                   </Grid>
 
 

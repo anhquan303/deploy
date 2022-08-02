@@ -30,6 +30,21 @@ const sellerReportReducer = (state = initialState, action) =>
         draft.loading = false;
         draft.message = action.payload;
         break;
+      case types.STORE_ADD_REPORT:
+        draft.loading = true;
+        break;
+      case types.STORE_ADD_REPORT_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.STORE_ADD_REPORT_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.RESET:
+        draft.loading = false;
+        draft.message = "";
+        break;
     }
   });
 

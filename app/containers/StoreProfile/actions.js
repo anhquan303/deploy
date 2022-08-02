@@ -117,3 +117,31 @@ export function addVoucherByUserIdFailed(payload) {
     payload
   };
 }
+
+export function userAddReport(payload) {
+  return {
+    type: types.USER_ADD_REPORT,
+    payload
+  };
+}
+
+export function userAddReportSuccess(payload) {
+  return {
+    type: types.USER_ADD_REPORT_SUCCESS,
+    payload
+  };
+}
+
+export function userAddReportFailed(payload) {
+  return {
+    type: types.USER_ADD_REPORT_FAILED,
+    payload
+  };
+}
+
+export function reset(payload) {
+  return {
+    type: types.RESET,
+    payload
+  };
+}

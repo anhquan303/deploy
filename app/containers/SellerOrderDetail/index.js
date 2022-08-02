@@ -138,8 +138,6 @@ export function SellerOrderDetail(props) {
     }
   }, [props.sellerOrderDetail.message]);
 
-  console.log(props.sellerOrderDetail.orderDetail.status)
-
   useEffect(() => {
     if (props.sellerOrderDetail.orderDetail) {
       if (props.sellerOrderDetail.orderDetail.status == 'NEW') {
@@ -256,8 +254,6 @@ export function SellerOrderDetail(props) {
   const handleCloseAlert = event => {
     setOpenAlert(false);
   };
-
-  console.log(props.sellerOrderDetail.orderDetail)
 
   return (
     <div style={{ padding: '10px' }}>

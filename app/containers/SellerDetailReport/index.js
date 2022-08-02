@@ -67,8 +67,6 @@ export function SellerDetailReport(props) {
     dispatch(getReportById(data));
   }, []);
 
-  console.log(props.sellerDetailReport.report)
-
   return (
     <div>
       <Grid container spacing={0} >

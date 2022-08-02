@@ -421,8 +421,9 @@ export function DetailStore(props) {
                             'aria-labelledby': 'basic-button',
                           }}
                         >
-                          <MenuItem onClick={approveStore}>Phê duyệt</MenuItem>
-                          <MenuItem onClick={declineStore}>Từ chối</MenuItem>
+                          {props.detailStore.store.status.includes("approved") ?
+                            <MenuItem onClick={approveStore}>Dừng hoạt động</MenuItem> :
+                            <MenuItem onClick={declineStore}>Hoạt động</MenuItem>}
                         </Menu>
                       </Grid>
                     </Grid>

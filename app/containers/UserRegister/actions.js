@@ -40,3 +40,24 @@ export function reset(payload) {
     payload,
   };
 }
+
+export function sendSMS(payload) {
+  return {
+    type: types.SEND_SMS,
+    payload,
+  };
+}
+
+export function sendSMSSuccess(payload) {
+  return {
+    type: types.SEND_SMS_SUCCESS,
+    payload,
+  };
+}
+
+export function sendSMSFailed(payload) {
+  return {
+    type: types.SEND_SMS_FAILED,
+    payload,
+  };
+}

@@ -42,7 +42,6 @@ export function CardItem({ foodName, storeName, address, img }) {
   useInjectSaga({ key: 'cardItem', saga });
   const classes = useStyles();
 
-  console.log(address)
 
   return (
     <div>
