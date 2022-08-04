@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     width: "fit-content",
     minHeight: "600px",
-    display: "flex",
+    //display: "flex",
     alignItems: "center",
     backgroundColor: "#fff",
     padding: "30px",
@@ -125,16 +125,20 @@ export function Login(props) {
 
 
   //validate
-  const HandleLogin = (e) => {
-    e.preventDefault();
+  const HandleLogin = event => {
+    event.preventDefault();
+    console.log(formValues.userName)
     setFormErrors(validate(formValues));
     setIsSubmit(true);
+    console.log(isSubmit)
 
   }
 
   //login
   useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
+    console.log(formErrors)
+    console.log(isSubmit)
+    if (isSubmit) {
       const data = {
         username: formValues.userName,
         password: formValues.password
@@ -164,13 +168,17 @@ export function Login(props) {
 
   //set value for input
   const handleChange = (e) => {
+    console.log('abc')
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   }
 
+  console.log(formValues.userName)
   const validate = (values) => {
+    console.log('123')
+    console.log(values.userName)
     const errors = {};
-    if (!values.userName) {
+    if (!values.userName || values.userName.trim() === "") {
       errors.userName = "username is required!";
     }
     if (!values.password) {
@@ -210,109 +218,132 @@ export function Login(props) {
     setOpen(false);
     dispatch(reset());
   }, []);
+
+  useEffect(() => {
+    const keyDownHandler = event => {
+      console.log('User pressed: ', event.key);
+
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        setFormErrors(validate(formValues));
+        setIsSubmit(true);
+
+      }
+    };
+
+    document.addEventListener('keydown', keyDownHandler);
+
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler);
+    };
+  }, []);
   return (
     <div className={classes.body}>
       <div className={classes.container}>
-        <form >
-          <div className={classes.top}>
-            <div className={classes.topLogo}>
-              <img src={Logo} alt="logo" className={classes.logo} />
-              <h2>No <span>Nê</span></h2>
-            </div>
+
+        <div className={classes.top}>
+          <div className={classes.topLogo}>
+            <img src={Logo} alt="logo" className={classes.logo} />
+            <h2>No <span>Nê</span></h2>
           </div>
-          <h3 className={classes.registerTag}>Đăng nhập</h3>
+        </div>
+        <h3 className={classes.registerTag}>Đăng nhập</h3>
 
-          {props.login.loading && props.login.loading == true ? (
-            <div style={{ margin: '10px 0' }}>
-              <LinearProgress />
-            </div>
-          ) : null}
+        {props.login.loading && props.login.loading == true ? (
+          <div style={{ margin: '10px 0' }}>
+            <LinearProgress />
+          </div>
+        ) : null}
 
-          <div>
-            <Grid container spacing={2}>
-              <Grid item sm={12} xs={12} style={{ textAlign: "center" }}>
-                <Box
-                  component="form"
-                  sx={{
-                    '& .MuiTextField-root': { m: 0, width: '80%' },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
+        <form>
+          <Grid container spacing={2}>
+            <Grid item sm={12} xs={12} style={{ textAlign: "center" }}>
+              <Box
+                component="form"
+                sx={{
+                  '& .MuiTextField-root': { m: 0, width: '80%' },
+                }}
+                noValidate
+                autoComplete="off"
+              >
 
-                  <TextField
-                    error={formErrors.userName != null && formValues.userName.length == ""}
-                    id="outlined-textarea"
-                    label="Tài khoản"
-                    placeholder="Tài khoản"
-                    multiline
-                    name="userName"
-                    value={formValues.userName}
-                    // onChange={(e) => setUserName(e.target.value)}
-                    onChange={handleChange}
-                    helperText={formErrors.userName && formValues.userName.length == "" ? formErrors.userName : null}
-                  />
+                <TextField
+                  error={formErrors.userName != null && formValues.userName.length == "" || formErrors.userName != null && formErrors.userName.trim() == ""}
+                  id="outlined-textarea"
+                  label="Tài khoản"
+                  placeholder="Tài khoản"
+                  multiline
+                  type="text"
+                  name="userName"
+                  value={formValues.userName}
+                  // onChange={(e) => setUserName(e.target.value)}
+                  onChange={handleChange}
+                  helperText={formErrors.userName && formValues.userName.length == "" ? formErrors.userName : formValues.userName.trim() == "" ? formErrors.userName : null}
+                />
 
-                </Box>
-              </Grid>
-              <Grid item sm={12} xs={12} style={{ textAlign: "center" }}>
-                <Box
-                  component="form"
-                  sx={{
-                    '& .MuiTextField-root': { m: 0, width: '80%' },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <TextField
-                    error={formErrors.password != null && formValues.password.length == ""}
-                    id="outlined-password-input"
-                    label="Mật khẩu"
-                    type="password"
-                    autoComplete="current-password"
-                    name="password"
-                    // value={password}
-                    // onChange={(e) => setPassword(e.target.value)}
-                    value={formValues.password}
-                    onChange={handleChange}
-                    helperText={formErrors.password && formValues.password.length == "" ? formErrors.password : null}
-                  />
-                </Box>
-              </Grid>
+              </Box>
             </Grid>
-          </div>
+            <Grid item sm={12} xs={12} style={{ textAlign: "center" }}>
+              <Box
+                component="form"
+                sx={{
+                  '& .MuiTextField-root': { m: 0, width: '80%' },
+                }}
+                noValidate
+                autoComplete="off"
+              >
+                <TextField
+                  error={formErrors.password != null && formValues.password.length == ""}
+                  id="outlined-password-input"
+                  label="Mật khẩu"
+                  type="password"
+                  autoComplete="current-password"
+                  name="password"
+                  // value={password}
+                  // onChange={(e) => setPassword(e.target.value)}
+                  value={formValues.password}
+                  onChange={handleChange}
+                  helperText={formErrors.password && formValues.password.length == "" ? formErrors.password : null}
+                />
+              </Box>
+            </Grid>
+          </Grid>
 
-          <div style={{ marginLeft: "40px" }}>
+
+          {/* <div style={{ marginLeft: "40px" }}>
             <FormGroup>
               <FormControlLabel className={classes.remember} control={<Checkbox defaultChecked />} label="Nhớ mật khẩu" />
             </FormGroup>
-          </div>
+          </div> */}
 
           <div style={{ textAlign: "center" }}>
-            <Button className={classes.btnSubmit} variant="contained" component="span" onClick={HandleLogin}>
+            <Button className={classes.btnSubmit} type="submit" variant="contained" component="span"  onClick={HandleLogin}>
               ĐĂNG NHẬP
             </Button>
           </div>
-          <div className={classes.google} >
-            <GoogleLogin
-              clientId="525769427042-2vrp9m5sfv6g8fb03fdl2dm1ddv1q03r.apps.googleusercontent.com"
-              buttonText="Đăng nhập với gmail"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={'single_host_origin'}
-              //isSignedIn={true}
-              style={{ width: "100%" }}
-            />
-          </div>
-          <br />
-          <div style={{ textAlign: "center" }}>
-            <div><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
-            <br />
-            <div><span>Quên mật khẩu ? </span><a href="/forget-password" style={{ textDecoration: "none" }}>Lấy lại mật khẩu</a></div>
-            <div><span>Chưa có tài khoản ? </span><a href="/userRegister" style={{ textDecoration: "none" }}>Đăng ký ngay</a></div>
-          </div>
-
         </form>
+
+        <div className={classes.google} >
+          <GoogleLogin
+            clientId="525769427042-2vrp9m5sfv6g8fb03fdl2dm1ddv1q03r.apps.googleusercontent.com"
+            buttonText="Đăng nhập với gmail"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
+            //isSignedIn={true}
+            style={{ width: "100%" }}
+          />
+        </div>
+        <br />
+        <div style={{ textAlign: "center" }}>
+          <div><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
+          <br />
+          <div><span>Quên mật khẩu ? </span><a href="/forget-password" style={{ textDecoration: "none" }}>Lấy lại mật khẩu</a></div>
+          <div><span>Chưa có tài khoản ? </span><a href="/userRegister" style={{ textDecoration: "none" }}>Đăng ký ngay</a></div>
+        </div>
+
+
+
         {/* <Snackbar
           anchorOrigin={{ vertical, horizontal }}
           open={open}
@@ -338,7 +369,7 @@ export function Login(props) {
         </Snackbar>
 
       </div>
-    </div>
+    </div >
   );
 }
 

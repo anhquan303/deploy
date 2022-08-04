@@ -81,7 +81,8 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     alignContent: 'center',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'center'
+
   },
   center: {
     flexWrap: 'wrap',
@@ -227,7 +228,7 @@ export function FoodDetail(props) {
       <Container fixed>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} className={classes.imgFood}>
-            <img src={props.location.state.item.image} />
+            <img src={props.location.state.item.image} style={{ width: "100%" }} />
           </Grid>
           <Grid item xs={12} md={6}>
             <Button

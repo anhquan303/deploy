@@ -20,7 +20,7 @@ import saga from './saga';
 import messages from './messages';
 import {
   Box, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,
-  TextField, Tabs, Tab, Chip, Modal, InputAdornment, Switch
+  TextField, Tabs, Tab, Chip, Modal, InputAdornment, Switch, Backdrop
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -29,6 +29,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { getStore } from '../../utils/common';
 import { activeVoucherById, addVoucher, deleteVoucher, getVoucherById, getVoucherByStoreId, inActiveVoucherById, reset, updateVoucherById } from './actions';
+import Loading from '../../components/Loading';
 
 
 const useStyles = makeStyles(theme => ({
@@ -329,7 +330,7 @@ export function SellerVoucher(props) {
           </Button>
         </Grid>
 
-        {props.sellerVoucher.listVoucher ? props.sellerVoucher.listVoucher.map((item) => {
+        {props.sellerVoucher.listVoucher && props.sellerVoucher.listVoucher.length != 0 ? props.sellerVoucher.listVoucher.map((item) => {
           return (
             <Grid key={item.id} item xs={12} sm={12} md={4} style={{ padding: '10px' }} >
               <div className={classes.couponCard}>
@@ -372,7 +373,7 @@ export function SellerVoucher(props) {
               </div>
             </Grid>
           )
-        }) : null}
+        }) : <span>Chưa có voucher nào</span>}
 
 
       </Grid>
@@ -763,6 +764,13 @@ export function SellerVoucher(props) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.sellerVoucher.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

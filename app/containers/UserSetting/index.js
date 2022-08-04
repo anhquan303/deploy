@@ -32,7 +32,7 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
-import { makeStyles, Button, Fab, CardContent } from '@material-ui/core';
+import { makeStyles, Button, Fab, CardContent, Backdrop } from '@material-ui/core';
 
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import SaveIcon from '@mui/icons-material/Save';
@@ -52,6 +52,7 @@ import saga from './saga';
 import reducer from './reducer';
 import makeSelectUserSetting from './selectors';
 import moment from 'moment';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -144,6 +145,7 @@ export function UserSetting(props) {
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
   const [avatar, setAvatar] = useState('');
+  const [avatarPreview, setAvatarPreview] = useState('');
 
   const handleClick = () => {
     setOpen(!open);
@@ -155,6 +157,8 @@ export function UserSetting(props) {
 
   // avatar image
   const handleUploadClick = async e => {
+    const file1 = e.target.files[0];
+    setAvatarPreview(URL.createObjectURL(file1));
     const file = e.target.files;
     const data = new FormData();
     data.append(file, file[0]);
@@ -191,8 +195,8 @@ export function UserSetting(props) {
         firstname: formValues.firstname,
         lastname: formValues.lastname,
         gender,
-        dateOfBirth: moment(dob).format('YYYY-MM-DDTHH:mm:ssZ'),
-        avatarFile: avatar
+        dateOfBirth: moment(dob).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'),
+        avatarFile: avatar != "" ? avatar : null,
       };
       dispatch(updateUser(data));
       // setOpen(true);
@@ -224,6 +228,7 @@ export function UserSetting(props) {
       setDOB(props.userSetting.user.dateOfBirth);
       formValues.firstname = props.userSetting.user.firstname;
       formValues.lastname = props.userSetting.user.lastname;
+      setAvatarPreview(props.userSetting.user.avatar);
     }
   }, [props.userSetting.user]);
 
@@ -258,24 +263,6 @@ export function UserSetting(props) {
           <div className={classes.avatar} >
             <CardContent>
               <Grid container>
-                {/* <input
-                  accept="image/*"
-                  className={classes.input}
-                  id="contained-button-file"
-                  type="file"
-                  onChange={handleUploadClick}
-                />
-                <label htmlFor="contained-button-file">
-                  <Avatar
-                    sx={{ width: 150, height: 150 }}
-                    component="span"
-                    src={props.userSetting.user != undefined ? props.userSetting.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
-                  >
-                    <AddPhotoAlternateIcon />
-                  </Avatar>
-
-                </label> */}
-
                 <input
                   accept="image/*"
                   className={classes.input}
@@ -288,7 +275,7 @@ export function UserSetting(props) {
                   <Avatar
                     sx={{ width: 150, height: 150 }}
                     component="span"
-                    src={props.userSetting.user != undefined ? props.userSetting.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
+                    src={avatarPreview != "" ? avatarPreview : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
                   >
                     <AddPhotoAlternateIcon />
                   </Avatar>
@@ -487,6 +474,12 @@ export function UserSetting(props) {
           {props.userSetting.message}
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.userSetting.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

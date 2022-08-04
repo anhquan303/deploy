@@ -54,3 +54,31 @@ export function getListWardsFailed(payload) {
     payload,
   };
 }
+
+export function updateStore(payload) {
+  return {
+    type: types.UPDATE_STORE,
+    payload,
+  };
+}
+
+export function updateStoreSuccess(payload) {
+  return {
+    type: types.UPDATE_STORE_SUCCESS,
+    payload,
+  };
+}
+
+export function updateStoreFailed(payload) {
+  return {
+    type: types.UPDATE_STORE_FAILED,
+    payload,
+  };
+}
+
+export function reset(payload) {
+  return {
+    type: types.RESET,
+    payload,
+  };
+}

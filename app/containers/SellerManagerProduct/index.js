@@ -16,7 +16,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 // import Grid from '@mui/material/Grid';
 // import Box from '@mui/material/Box';
-import { Box, TextField, Grid } from '@mui/material';
+import { Box, TextField, Grid, Backdrop } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -31,6 +31,7 @@ import { fetchListFood, searchFood } from './actions';
 import { getStore } from '../../utils/common';
 import CustomTableResponsive from '../../components/CustomTableResponsive';
 import moment from 'moment';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   information_image: {
@@ -81,7 +82,7 @@ export function SellerManagerProduct(props) {
   const [priceTo, setPriceTo] = useState('');
   const store = getStore();
   const classes = useStyles();
-   let dollarUSLocale = Intl.NumberFormat('en-US');
+  let dollarUSLocale = Intl.NumberFormat('en-US');
 
   const columns1 = [
     { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
@@ -307,6 +308,13 @@ export function SellerManagerProduct(props) {
           rows={rows}
         />
       ) : null}
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.sellerManagerProduct.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

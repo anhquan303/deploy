@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Box, Grid, MobileStepper, Container } from '@mui/material';
+import { Box, Grid, MobileStepper, Container, Backdrop, CircularProgress } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import SearchBar from 'material-ui-search-bar';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -40,6 +40,7 @@ import messages from './messages';
 import saga from './saga';
 import reducer from './reducer';
 import makeSelectUserHomePage from './selectors';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -166,6 +167,7 @@ export function UserHomePage(props) {
     <>
       <Headerr />
       <Container fixed>
+
         <div style={{ textAlign: 'center' }}>
           <Button
             className={classes.btn}
@@ -241,6 +243,15 @@ export function UserHomePage(props) {
             </Grid>
           ))}
         </Grid>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={props.userHomePage.loading}
+        //open={true}
+        // onClick={handleClose}
+        >
+          {/* <CircularProgress color="inherit" /> */}
+          <Loading />
+        </Backdrop>
       </Container>
     </>
   );

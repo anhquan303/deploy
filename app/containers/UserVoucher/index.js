@@ -19,12 +19,12 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import {
-  Box, Grid, IconButton, Container, Avatar, Rating, Card, CardMedia, Typography, CardContent,
-  List, ListItemButton, ListItemText, TextField, Tabs, Tab, Chip, Modal, Switch
+  Box, Grid, Backdrop
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import { getUser } from '../../utils/common';
 import { getListVoucherByUserId, reset, userDeleteVoucherById } from './actions';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -187,8 +187,14 @@ export function UserVoucher(props) {
             </Grid>
           )
         }) : <span>Bạn chưa có voucher nào</span>}
-      </Grid>
 
+      </Grid>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.userVoucher.loading}
+      >
+        <Loading />
+      </Backdrop>
 
 
     </div>

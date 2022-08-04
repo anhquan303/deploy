@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Box, Grid, TextField, Container, Avatar } from '@mui/material';
+import { Box, Grid, TextField, Container, Avatar, Backdrop } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import SearchBar from 'material-ui-search-bar';
 import { NavLink, useHistory } from 'react-router-dom';
@@ -25,6 +25,7 @@ import saga from './saga';
 import messages from './messages';
 import { getUser } from '../../utils/common';
 import { getOrderById } from './actions';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -244,6 +245,16 @@ export function UserOrderHistory(props) {
             <hr />
           </div>
         ))}
+
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={props.userOrderHistory.loading}
+        //open={true}
+        // onClick={handleClose}
+        >
+          {/* <CircularProgress color="inherit" /> */}
+          <Loading />
+        </Backdrop>
       </div>
       {/* <FormattedMessage {...messages.header} /> */}
     </>

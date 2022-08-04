@@ -18,13 +18,14 @@ import makeSelectSellerReport from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from '@mui/material';
+import { Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Backdrop } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import moment from 'moment';
 import SearchBar from "material-ui-search-bar";
 import CustomTableResponsive from '../../components/CustomTableResponsive';
 import { getStore, getUser } from '../../utils/common';
 import { getReportByStoreId, reset, storeAddReport } from './actions';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   font: {
@@ -224,6 +225,13 @@ export function SellerReport(props) {
           <Button onClick={handleAddReport}>Gửi</Button>
         </DialogActions>
       </Dialog>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.sellerReport.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

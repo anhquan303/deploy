@@ -15,7 +15,7 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import moment from 'moment';
-import { Box, Grid, Avatar } from '@mui/material';
+import { Box, Grid, Avatar, Backdrop } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import AddShoppingCartRoundedIcon from '@mui/icons-material/AddShoppingCartRounded';
 import HourglassTopRoundedIcon from '@mui/icons-material/HourglassTopRounded';
@@ -28,6 +28,7 @@ import CustomTable from '../../components/CustomTable';
 import CustomTableResponsive from '../../components/CustomTableResponsive';
 import { getStore } from '../../utils/common';
 import { getOrderByStoreId } from './actions';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   font: {
@@ -256,6 +257,13 @@ export function SellerManagerOrder(props) {
           rows={rows}
         />
       ) : null}
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.sellerManagerOrder.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

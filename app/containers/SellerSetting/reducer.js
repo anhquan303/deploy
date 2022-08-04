@@ -42,6 +42,21 @@ const sellerSettingReducer = (state = initialState, action) =>
         draft.loading = false;
         draft.message = action.payload;
         break;
+      case types.UPDATE_STORE:
+        draft.loading = true;
+        break;
+      case types.UPDATE_STORE_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.UPDATE_STORE_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.RESET:
+        draft.loading = false;
+        draft.message = "";
+        break;
     }
   });
 
