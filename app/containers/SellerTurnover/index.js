@@ -29,7 +29,7 @@ import {
   Input,
   Select,
   MenuItem,
-  InputLabel,
+  InputLabel, Backdrop
 } from '@mui/material';
 
 import { makeStyles, Button } from '@material-ui/core';
@@ -45,6 +45,7 @@ import reducer from './reducer';
 import makeSelectSellerTurnover from './selectors';
 import { getDataForChart } from './actions';
 import { getStore } from '../../utils/common';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -223,7 +224,7 @@ export function SellerTurnover(props) {
                 <p className={classes.title}>Doanh số trên mỗi đơn hàng</p>
                 <p className={classes.title}>
                   {props.sellerTurnover.saleData.length != 0
-                    ? dollarUSLocale.format( props.sellerTurnover.saleData[
+                    ? dollarUSLocale.format(props.sellerTurnover.saleData[
                       props.sellerTurnover.saleData.length - 1
                     ].salesPerOrder)
                     : null}{' '}
@@ -358,6 +359,12 @@ export function SellerTurnover(props) {
           }}
         /> */}
       </div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.sellerTurnover.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

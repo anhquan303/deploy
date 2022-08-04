@@ -127,15 +127,11 @@ export function SellerHomePage(props) {
     <div style={{ marginTop: "15px", padding: "10px" }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4} className={classes.avatar}>
-          {user ? (
-            <Avatar
-              alt="avatar store"
-              src={props.sellerHomePage.user != undefined ? props.sellerHomePage.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
-              sx={{ width: 56, height: 56 }}
-            />
-          ) : (
-            <Avatar src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" />
-          )}
+          <Avatar
+            alt="avatar"
+            src={props.sellerHomePage.user != undefined ? props.sellerHomePage.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
+            sx={{ width: 56, height: 56 }}
+          />
         </Grid>
         <Grid item xs={12} md={8} className={classes.avatar}>
           <p className={classes.font}>

@@ -20,13 +20,14 @@ import saga from './saga';
 import messages from './messages';
 import {
   Box, Grid, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,
-  List, ListItemButton, ListItemText, TextField, Tabs, Tab, Chip, Modal, Switch
+  List, ListItemButton, ListItemText, TextField, Tabs, Tab, Chip, Modal, Switch, Backdrop
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import CustomTableResponsive from '../../components/CustomTableResponsive';
 import { getUser } from '../../utils/common';
 import { getListReportByUserId, reset, userAddReport } from './actions';
 import moment from 'moment';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -226,6 +227,12 @@ export function UserReport(props) {
         </DialogActions>
       </Dialog>
 
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.userReport.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

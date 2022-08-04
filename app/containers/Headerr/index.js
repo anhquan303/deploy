@@ -253,7 +253,7 @@ export function Headerr(props) {
               ) : (
                 <>
                   <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title="Open settings">
+                    <Tooltip title={`${props.headerr.user? props.headerr.user.firstname : null} ${props.headerr.user ? props.headerr.user.lastname : null}`}>
                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                         <Avatar alt="avatar" src={props.headerr.user != undefined ? props.headerr.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"} />
                       </IconButton>

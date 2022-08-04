@@ -15,7 +15,7 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import {
-  Box, Grid, MobileStepper, Container, Modal,
+  Box, Grid, MobileStepper, Container, Modal, OutlinedInput,
   Typography, TextField, FormControl, InputLabel, Select, MenuItem
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
@@ -170,8 +170,13 @@ export function Payment(props) {
 
   console.log(props.location.state.item)
   if (props.location.state.item.length == 2) {
-    payment[count] = { storeId: props.location.state.item[0].food.foodStore, listFood: [props.location.state.item[0]] };
-    payment[count + 1] = { storeId: props.location.state.item[1].food.foodStore, listFood: [props.location.state.item[1]] };
+    if (props.location.state.item[0].food.foodStore.name == props.location.state.item[1].food.foodStore.name) {
+      payment[count] = { storeId: props.location.state.item[0].food.foodStore, listFood: [props.location.state.item[0], props.location.state.item[1]] };
+    } else {
+      payment[count] = { storeId: props.location.state.item[0].food.foodStore, listFood: [props.location.state.item[0]] };
+      payment[count + 1] = { storeId: props.location.state.item[1].food.foodStore, listFood: [props.location.state.item[1]] };
+    }
+
   } else {
     if (props.location.state.item.length == 1) {
       payment[count] = { storeId: props.location.state.item[0].food.foodStore, listFood: [props.location.state.item[0]] };
@@ -200,6 +205,7 @@ export function Payment(props) {
   payment2 = payment.filter((ele, ind) => ind === payment.findIndex(elem => elem.storeId.id === ele.storeId.id))
 
   const [paymentList, setPaymentList] = useState(payment2);
+  
   const singleVal = Array.from(props.location.state.item.map(item => {
     return (item.food.price * item.quantity)
   }));
@@ -212,7 +218,7 @@ export function Payment(props) {
   //console.log('list', payment2)
   const handleChangeVoucher = (event) => {
     const { name } = event.target;
-    //setVoucher(event.target.value);
+    setVoucher(event.target.value);
     const checkExist = listTest.some(element => {
       if (element.storeId.id == name) {
         return true;
@@ -230,6 +236,7 @@ export function Payment(props) {
         if (checkExist == false) {
           payment2[i].voucher = event.target.value;
           listTest.push(Object.assign({}, payment2[i], { voucher: event.target.value }));
+
         } else {
           listTest.splice(i, 1);
           payment2[i].voucher = event.target.value;
@@ -274,7 +281,7 @@ export function Payment(props) {
                       }),
 
                     locationId: locationId,
-                    voucherId: item.voucher == null ? null : item.voucher[0].id
+                    voucherId: item.voucher == null ? null : item.voucher.id
                   }
                 )
               })
@@ -575,24 +582,27 @@ export function Payment(props) {
                     })}
                   </div>
                   <Grid item md={12} sm={12} xs={12} className={classes.center} style={{ justifyContent: "right" }}>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      name={item.storeId.id}
-                      value={voucher}
-                      //value={voucher === -1 ? '' : voucher}
-                      label="Voucher"
-                      multiple
-                      placeholder="chọn voucher"
-                      onChange={handleChangeVoucher}
-                    >
+                    <FormControl sx={{ m: 1, width: 300 }}>
+                      <InputLabel id="demo-multiple-name-label">Voucher</InputLabel>
+                      <Select
+                        disabled={props.payment.qrcode != ""}
+                        //labelId="demo-simple-select-label"
+                        name={item.storeId.id}
+                        //value={voucher}
+                        //value=""
+                        input={<OutlinedInput label="Voucher" />}
+                        //multiple
+                        placeholder="chọn voucher"
+                        onChange={handleChangeVoucher}
+                      >
 
-                      {props.payment.listVoucher != [] ? props.payment.listVoucher.filter(voucher => voucher.store.id == item.storeId.id).map(nestItem =>
-                      (
-                        <MenuItem key={nestItem.id} value={nestItem}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
-                      )
-                      ) : <span>Không có voucher</span>}
-                    </Select>
-
+                        {props.payment.listVoucher != [] ? props.payment.listVoucher.filter(voucher => voucher.store.id == item.storeId.id).map(nestItem =>
+                        (
+                          <MenuItem key={nestItem.id} value={nestItem}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
+                        )
+                        ) : <span>Không có voucher</span>}
+                      </Select>
+                    </FormControl>
                   </Grid>
                   <hr />
                 </>
@@ -636,6 +646,7 @@ export function Payment(props) {
                     Lựa chọn phương thức thanh toán
                   </InputLabel>
                   <Select
+                    disabled={props.payment.qrcode != ""}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={paymentType}
@@ -691,18 +702,20 @@ export function Payment(props) {
                   <span>Tôi đã thanh toán thành công</span>
                 </Button>
                 : null}
-              <Button
-                variant="contained"
-                component="span"
-                className={classes.btnSubmit}
-                onClick={handlePayment}
-              >
-                thanh toán
-              </Button>
+              {props.payment.qrcode == "" ?
+                < Button
+                  variant="contained"
+                  component="span"
+                  className={classes.btnSubmit}
+                  onClick={handlePayment}
+                >
+                  thanh toán
+                </Button>
+                : null}
             </p>
           </div>
         </div>
-      </Container>
+      </Container >
 
 
       <Modal
@@ -1022,7 +1035,7 @@ export function Payment(props) {
           {props.payment.message}
         </Alert>
       </Snackbar>
-    </div>
+    </div >
   );
 }
 

@@ -32,7 +32,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { makeStyles, Button, Fab, CardContent } from '@material-ui/core';
+import { makeStyles, Button, Fab, CardContent, Backdrop } from '@material-ui/core';
 import SaveIcon from '@mui/icons-material/Save';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import Snackbar from '@mui/material/Snackbar';
@@ -55,6 +55,7 @@ import messages from './messages';
 import saga from './saga';
 import reducer from './reducer';
 import makeSelectUserAddress from './selectors';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -245,6 +246,9 @@ export function UserAddress(props) {
     }
     dispatch(changeDefaultLocation(data));
   }
+
+  console.log(props.userAddress.locationUser)
+
   return (
     <div>
       <Grid container spacing={0}>
@@ -750,6 +754,8 @@ export function UserAddress(props) {
         </Box>
       </Modal>
 
+
+
       <Snackbar
         open={openAlert}
         autoHideDuration={6000}
@@ -787,6 +793,13 @@ export function UserAddress(props) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.userAddress.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

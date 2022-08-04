@@ -54,3 +54,32 @@ export function cancelOrderFailed(payload) {
     payload,
   };
 }
+
+export function getVoucherById(payload) {
+  return {
+    type: types.GET_VOUCHER_BY_ID,
+    payload,
+  };
+}
+
+export function getVoucherByIdSuccess(payload) {
+  return {
+    type: types.GET_VOUCHER_BY_ID_SUCCESS,
+    payload,
+  };
+}
+
+export function getVoucherByIdFailed(payload) {
+  return {
+    type: types.GET_VOUCHER_BY_ID_FAILED,
+    payload,
+  };
+}
+
+export function reset(payload) {
+  return {
+    type: types.RESET,
+    payload,
+  };
+}
+

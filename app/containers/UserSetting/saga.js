@@ -11,12 +11,18 @@ import * as types from './constants';
 export function* updateUser({ payload }) {
   try {
     const formData = new FormData();
-    formData.append('firstname', payload.firstname);
-    formData.append('lastname', payload.lastname);
-    formData.append('gender', payload.gender);
-    formData.append('dateOfBirth', payload.dateOfBirth);
-    formData.append('avatarFile', payload.avatarFile);
-
+    if (payload.avatarFile != null) {
+      formData.append('firstname', payload.firstname);
+      formData.append('lastname', payload.lastname);
+      formData.append('gender', payload.gender);
+      formData.append('dateOfBirth', payload.dateOfBirth);
+      formData.append('avatarFile', payload.avatarFile);
+    } else {
+      formData.append('firstname', payload.firstname);
+      formData.append('lastname', payload.lastname);
+      formData.append('gender', payload.gender);
+      formData.append('dateOfBirth', payload.dateOfBirth);
+    }
     const res = yield call(uploadImage, ['api/user/update'], formData);
     if (res.status == 200) {
       yield put(updateUserSuccess('UPDATE SUCCESS'));
