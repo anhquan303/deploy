@@ -25,6 +25,8 @@ import Box from '@mui/material/Box';
 import { fetchListUser } from './actions';
 import SearchBar from "material-ui-search-bar";
 import CustomTableResponsive from '../../components/CustomTableResponsive';
+import Loading from '../../components/Loading';
+import { Backdrop } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   information_image: {
@@ -127,6 +129,12 @@ export function DashboardCustomer(props) {
         </Grid>
 
       </Box>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.dashboardCustomer.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

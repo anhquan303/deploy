@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   information_image: {
     background: "#fff",
     padding: "20px",
-    borderRadius: "50px",
+    borderRadius: "10px",
     marginTop: "1rem",
     boxShadow: "0 2rem 3rem rgba(132, 139, 200, 0.18)",
     transition: "0.5s",
@@ -60,11 +60,12 @@ const useStyles = makeStyles((theme) => ({
   information_one: {
     background: "#fff",
     padding: "20px",
-    borderRadius: "50px",
+    borderRadius: "10px",
     marginTop: "1rem",
     boxShadow: "0 2rem 3rem rgba(132, 139, 200, 0.18)",
     transition: "0.5s",
-    height: "100%",
+    //height: "100%",
+    marginBottom: "1rem"
   },
   approved: {
     fontWeight: "600",
@@ -120,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
   information_second: {
     background: "#fff",
     padding: "20px",
-    borderRadius: "50px",
+    borderRadius: "10px",
     marginTop: "1rem",
     boxShadow: "0 2rem 3rem rgba(132, 139, 200, 0.18)",
     transition: "0.5s",
@@ -238,6 +239,59 @@ const useStyles = makeStyles((theme) => ({
       fontFamily: "sans-serif",
       fontStyle: "normal"
     },
+  },
+  cover: {
+    display: "flex",
+    justifyContent: "center",
+    alignItem: "center",
+    minHeight: "65vh",
+    //background: "linear-gradient(#03a9f4, #03a9f4 50%, #fff 50%, #fff 100%)"
+  },
+  inforStore: {
+    position: "relative",
+    width: "300px",
+    height: "400px",
+    background: "#fff",
+    borderRadius: "10px",
+    background: "rgba(255,255,255,0.1)",
+    borderTop: "1px solid rgba(255,255,255,0.5)",
+    backdropFilter: "blur(20px)",
+    boxShadow: "0 15px 25px rgba(0,0,0,0.1)",
+    top: "150px"
+  },
+  avatarImage: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    overFlow: "hidden",
+    transform: "translateY(30px) scale(0.5)",
+    transformOrigin: "top"
+  },
+  img: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover"
+  },
+  content: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    paddingBottom: "30px"
+  },
+  detail: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    textAlign: "center"
   }
 }));
 
@@ -339,15 +393,6 @@ export function DetailStore(props) {
 
   useEffect(() => {
     if (data) {
-      // setRows(data.map((item, index) => 
-      //   createData(item.id, index + 1, item.orderItem_foods[0].food.name, item.orderItem_foods[0].food.price, item.orderItem_foods[0].quantity, item.total_price)
-      // ))
-
-      // setRows(data.map(item =>
-      //   item.orderItem_foods.map(item1 => createData(item1.quantity, item1.quantity, item1.quantity, item1.quantity, item1.quantity, item1.quantity)),
-      // ))
-
-
       setRows(list.map((item, index) =>
         createData(item.id, index + 1, item.foodName, item.price, item.quantity, item.totalPrice)
       ))
@@ -355,85 +400,105 @@ export function DetailStore(props) {
     }
   }, [data])
 
+  console.log(props.detailStore.store)
   return (
     <div style={{ paddingRight: "15px" }}>
       {props.detailStore.store ?
         <>
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={3}>
-              <Grid item md={6} sm={12} xs={12} >
-
-                <div className={classes.information_image} style={{ backgroundImage: `url(${props.detailStore.store.storeImage.avatar})` }}>
-
+          {/* <Box sx={{ flexGrow: 1 }}> */}
+          <Grid container spacing={3}>
+            <Grid item md={12} sm={12} xs={12} >
+              <div className={classes.cover} style={{ backgroundImage: `url(${props.detailStore.store.storeImage.cover_image})`, backgroundSize: "cover", borderRadius: "10px" }}>
+                <div className={classes.inforStore}>
+                  <div className={classes.avatarImage}>
+                    <img src={props.detailStore.store.storeImage.avatar} alt="avatar" className={classes.img} />
+                  </div>
+                  <div className={classes.content}>
+                    <div className={classes.details}>
+                      <p className={classes.text}>{props.detailStore.store.name}</p>
+                    </div>
+                  </div>
                 </div>
-              </Grid>
-              <Grid item md={6} sm={12} xs={12}>
-                <div className={classes.information_one}>
-                  <Box sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={2}>
-                      <Grid item sm={8} xs={12} className={classes.one}>
+              </div>
+              {/* <div className={classes.information_image} style={{ backgroundImage: `url(${props.detailStore.store.storeImage.avatar})` }}>
 
-                        <div className={classes.intro}>
-                          <p className={classes.text}>{props.detailStore.store.name}</p>
-                          <p className={classes.text}>{props.detailStore.store.otherLocation != null ?
-                            <>
-                              <span>{props.detailStore.store.otherLocation.name}, </span>
-                              <span>{props.detailStore.store.otherLocation.village}, </span>
-                              <span>{props.detailStore.store.otherLocation.town}</span>
-                            </>
-                            :
-                            <>
-                              <span>{props.detailStore.store.dormLocation.dormName}</span>
-                              <span>{props.detailStore.store.dormLocation.room_number}</span>
-                            </>}
-                          </p>
-                          <p className={classes.text}>{props.detailStore.store.phone}</p>
-                        </div>
-
-                      </Grid>
-                      <Grid item sm={4} xs={12} className={classes.zero}>
-                        <div className={classes.divCheckIcon} >
-                          <CheckCircleIcon style={{ width: "100%", height: "100%", color: "#5890FF" }} />
-                        </div>
-
-                      </Grid>
-                      <Grid item md={5} sm={8} xs={12} className={classes.two}>
-
-                        <div className={classes.approved}>
-                          {props.detailStore.store.status.includes("approved") ? <p style={{ color: "#20D167" }}>{props.detailStore.store.status}</p> : <p style={{ color: "#FE0000" }}>{props.detailStore.store.status}</p>}
-
-                        </div>
-
-                      </Grid>
-                      <Grid item md={7} sm={4} xs={12} className={classes.three}>
-
-                        <div className={classes.verify}>
-                          <Button variant="contained" component="span" className={classes.btnChangeStatus} onClick={handleClick}>
-                            Đổi trạng thái
-                          </Button>
-                        </div>
-                        <Menu
-                          id="basic-menu"
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={handleClose}
-                          MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                          }}
-                        >
-                          {props.detailStore.store.status.includes("approved") ?
-                            <MenuItem onClick={approveStore}>Dừng hoạt động</MenuItem> :
-                            <MenuItem onClick={declineStore}>Hoạt động</MenuItem>}
-                        </Menu>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </div>
-              </Grid>
+                </div> */}
             </Grid>
-          </Box>
+            <Grid item md={12} sm={12} xs={12} >
+              <h1>Thông tin</h1>
+              <div className={classes.information_one}>
+                <Box sx={{ flexGrow: 1 }}>
+                  <Grid container spacing={2}>
+                    <Grid item sm={8} xs={12} className={classes.one}>
 
-          <Box sx={{ flexGrow: 1 }}>
+                      <div className={classes.intro}>
+                        <p className={classes.text}>{props.detailStore.store.name}</p>
+                        <p className={classes.text}>{props.detailStore.store.otherLocation != null ?
+                          <>
+                            <span>{props.detailStore.store.otherLocation.name}, </span>
+                            <span>{props.detailStore.store.otherLocation.village}, </span>
+                            <span>{props.detailStore.store.otherLocation.town}</span>
+                          </>
+                          :
+                          <>
+                            <span>{props.detailStore.store.dormLocation.dormName}</span>
+                            <span>{props.detailStore.store.dormLocation.room_number}</span>
+                          </>}
+                        </p>
+                        <p className={classes.text}>{props.detailStore.store.phone}</p>
+                        <span><h2>Chủ sở hữu: {props.detailStore.store.owner_name}</h2></span>
+                        <span><h2>Số điện thoại: {props.detailStore.store.user.phoneNumber}</h2></span>
+                      </div>
+
+                    </Grid>
+                    <Grid item sm={4} xs={12} className={classes.zero}>
+                      <div className={classes.divCheckIcon} >
+                        <CheckCircleIcon style={{ width: "100%", height: "100%", color: "#5890FF" }} />
+                      </div>
+
+                    </Grid>
+                    <Grid item md={5} sm={8} xs={12} className={classes.two}>
+
+                      <div className={classes.approved}>
+                        {props.detailStore.store.status.includes("approved") ? <p style={{ color: "#20D167" }}>Đang hoạt động</p> : <p style={{ color: "#FE0000" }}>Ngừng hoạt động</p>}
+
+                      </div>
+
+                    </Grid>
+                    <Grid item md={7} sm={4} xs={12} className={classes.three}>
+
+                      <div className={classes.verify}>
+                        {props.detailStore.store.status.includes("approved") ?
+                          <Button variant="contained" component="span" className={classes.btnChangeStatus} style={{ width: "fit-content" }} onClick={declineStore}>
+                            Chuyển trạng thái thành dừng hoạt động
+                          </Button>
+                          :
+                          <Button variant="contained" component="span" className={classes.btnChangeStatus} style={{ width: "fit-content" }} onClick={approveStore}>
+                            Chuyển trạng thái thành hoạt động
+                          </Button>
+                        }
+                      </div>
+                      {/* <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                          'aria-labelledby': 'basic-button',
+                        }}
+                      >
+                        {props.detailStore.store.status.includes("approved") ?
+                          <MenuItem onClick={approveStore}>Dừng hoạt động</MenuItem> :
+                          <MenuItem onClick={declineStore}>Hoạt động</MenuItem>}
+                      </Menu> */}
+                    </Grid>
+                  </Grid>
+                </Box>
+              </div>
+            </Grid>
+          </Grid>
+
+          {/* <Box sx={{ flexGrow: 1 }}>
             <h1>Thông tin</h1>
             <div className={classes.information_second}>
               <Grid container spacing={2}>
@@ -449,14 +514,14 @@ export function DetailStore(props) {
                 </Grid>
               </Grid>
             </div>
-          </Box>
+          </Box> */}
 
-          <div style={{ marginTop: "20px" }}>
+          <div style={{ marginTop: "30px" }}>
             <Grid container spacing={2}>
-              <Grid item md={3} sm={4} xs={12}>
+              <Grid item md={3} sm={12} xs={12}>
                 <span><h2>Đơn hàng</h2></span>
               </Grid>
-              <Grid item md={9} sm={8} xs={12}  >
+              <Grid item md={9} sm={12} xs={12}  >
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <Grid container spacing={2}>
                     <Grid item md={4} sm={3} xs={12}>

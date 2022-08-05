@@ -95,8 +95,9 @@ function CustomTableResponsive({ columns, data, detailPage, rows }) {
                         align={column.align}
                         style={{ width: column.minWidth }}
                         onClick={() => handleClick(row.id)}
+              
                       >
-                        {column.format ? column.format(value) : value}
+                        <span >{column.format ? column.format(value) : value}</span>
                       </TableCell>
                     );
                   })}
@@ -138,6 +139,7 @@ function CustomTableResponsive({ columns, data, detailPage, rows }) {
             )}
           </TableBody> */}
         </Table>
+        {rows.length == 0 ? <p style={{ textAlign: "center", fontWeight: "600", fontSize: "24px", color: "#fe0000", fontFamily: "sans-serif" }}>Không có dữ liệu</p> : null}
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
@@ -148,7 +150,7 @@ function CustomTableResponsive({ columns, data, detailPage, rows }) {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </Paper>
+    </Paper >
   );
 }
 

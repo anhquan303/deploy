@@ -19,7 +19,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { useParams } from 'react-router-dom';
-import { Box, TextField } from '@mui/material';
+import { Backdrop, Box, TextField } from '@mui/material';
 
 import { CardContent, Avatar } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
@@ -37,6 +37,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { getStore } from '../../utils/common';
 import Switch from '@mui/material/Switch';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+import Loading from '../../components/Loading';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -176,7 +177,7 @@ export function SellerActionProduct(props) {
         storeId: storeId
       }
       dispatch(updateProduct(data));
-      
+
     }
 
   }, [formErrors])
@@ -455,6 +456,12 @@ export function SellerActionProduct(props) {
           </Dialog>
         </div>
       </div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.sellerActionProduct.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

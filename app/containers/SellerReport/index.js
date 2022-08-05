@@ -120,7 +120,7 @@ export function SellerReport(props) {
 
   const columns1 = [
     { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
-    { id: 'title', label: 'Nội dung', minWidth: 100, align: 'center' },
+    { id: 'title', label: 'Tiêu đề', minWidth: 100, align: 'center' },
     { id: 'createAt', label: 'Thời gian', minWidth: 100, align: 'center' },
     { id: 'status', label: 'Trạng thái', minWidth: 100, align: 'center' },
   ];

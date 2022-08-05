@@ -27,7 +27,7 @@ import makeSelectSellerManagerOrder from './selectors';
 import CustomTable from '../../components/CustomTable';
 import CustomTableResponsive from '../../components/CustomTableResponsive';
 import { getStore } from '../../utils/common';
-import { getOrderByStoreId } from './actions';
+import { getOrderByStatus, getOrderByStatusCancel, getOrderByStoreId } from './actions';
 import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
@@ -102,6 +102,8 @@ export function SellerManagerOrder(props) {
       id: store,
     };
     dispatch(getOrderByStoreId(data));
+    dispatch(getOrderByStatus(data));
+    dispatch(getOrderByStatusCancel(data));
   }, []);
 
   return (
@@ -128,20 +130,14 @@ export function SellerManagerOrder(props) {
             }}
           >
             <Grid container spacing={0}>
-              <Grid
-                item
-                xs={12}
-                md={3}
-                style={{ padding: '10px' }}
-                className={classes.center}
-              >
+              <Grid item xs={4} md={4} lg={3} style={{ padding: '10px' }} className={classes.center}>
                 <Avatar
                   sx={{ width: 56, height: 56, backgroundColor: '#FF9900' }}
                 >
                   <AddShoppingCartRoundedIcon sx={{ color: '#000' }} />
                 </Avatar>
               </Grid>
-              <Grid item xs={12} md={9} style={{ padding: '10px' }}>
+              <Grid item xs={8} md={8} lg={9} style={{ padding: '10px' }}>
                 <p
                   className={classes.font}
                   style={{ fontWeight: '700', fontSize: '15px' }}
@@ -171,20 +167,14 @@ export function SellerManagerOrder(props) {
             }}
           >
             <Grid container spacing={0}>
-              <Grid
-                item
-                xs={12}
-                md={3}
-                style={{ padding: '10px' }}
-                className={classes.center}
-              >
+              <Grid item xs={4} md={4} lg={3} style={{ padding: '10px' }} className={classes.center} >
                 <Avatar
                   sx={{ width: 56, height: 56, backgroundColor: '#FF9900' }}
                 >
                   <HourglassTopRoundedIcon sx={{ color: '#000' }} />
                 </Avatar>
               </Grid>
-              <Grid item xs={12} md={9} style={{ padding: '10px' }}>
+              <Grid item xs={8} md={8} lg={9} style={{ padding: '10px' }}>
                 <p
                   className={classes.font}
                   style={{ fontWeight: '700', fontSize: '15px' }}
@@ -199,7 +189,7 @@ export function SellerManagerOrder(props) {
                     color: '#0000EE',
                   }}
                 >
-                  12
+                  {props.sellerManagerOrder.listOrderNew.length}
                 </p>
               </Grid>
             </Grid>
@@ -214,20 +204,14 @@ export function SellerManagerOrder(props) {
             }}
           >
             <Grid container spacing={0}>
-              <Grid
-                item
-                xs={12}
-                md={3}
-                style={{ padding: '10px' }}
-                className={classes.center}
-              >
+              <Grid item xs={4} md={4} lg={3} style={{ padding: '10px' }} className={classes.center}>
                 <Avatar
                   sx={{ width: 56, height: 56, backgroundColor: '#FF9900' }}
                 >
                   <HighlightOffRoundedIcon sx={{ color: '#000' }} />
                 </Avatar>
               </Grid>
-              <Grid item xs={12} md={9} style={{ padding: '10px' }}>
+              <Grid item xs={8} md={8} lg={9} style={{ padding: '10px' }}>
                 <p
                   className={classes.font}
                   style={{ fontWeight: '700', fontSize: '15px' }}
@@ -242,7 +226,7 @@ export function SellerManagerOrder(props) {
                     color: '#0000EE',
                   }}
                 >
-                  12
+                  {props.sellerManagerOrder.listOrderCancel.length}
                 </p>
               </Grid>
             </Grid>

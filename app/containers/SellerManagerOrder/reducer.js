@@ -11,6 +11,8 @@ export const initialState = {
   loading: false,
   message: '',
   listOrder: [],
+  listOrderNew: [],
+  listOrderCancel: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -27,6 +29,28 @@ const sellerManagerOrderReducer = (state = initialState, action) =>
         draft.listOrder = action.payload;
         break;
       case types.GET_ORDER_BY_STORE_ID_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_ORDER_BY_STATUS_NEW:
+        draft.loading = true;
+        break;
+      case types.GET_ORDER_BY_STATUS_NEW_SUCCESS:
+        draft.loading = false;
+        draft.listOrderNew = action.payload;
+        break;
+      case types.GET_ORDER_BY_STATUS_NEW_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_ORDER_BY_STATUS_CANCEL:
+        draft.loading = true;
+        break;
+      case types.GET_ORDER_BY_STATUS_CANCEL_SUCCESS:
+        draft.loading = false;
+        draft.listOrderCancel = action.payload;
+        break;
+      case types.GET_ORDER_BY_STATUS_CANCEL_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

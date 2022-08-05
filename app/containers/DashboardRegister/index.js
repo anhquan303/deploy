@@ -24,6 +24,8 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { fetchListRegister } from './actions';
 import CustomTableResponsive from '../../components/CustomTableResponsive';
+import { Backdrop } from '@mui/material';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   information_image: {
@@ -100,6 +102,12 @@ export function DashboardRegister(props) {
         </Grid>
 
       </Box>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.dashboardRegister.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

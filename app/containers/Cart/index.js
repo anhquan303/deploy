@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { FormControlLabel, Container, Checkbox, IconButton, Avatar, Select, MenuItem, InputLabel } from '@mui/material';
+import { FormControlLabel, Container, Checkbox, IconButton, Avatar, Select, MenuItem, InputLabel, Backdrop } from '@mui/material';
 import { makeStyles, Grid, Button } from '@material-ui/core';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -30,6 +30,7 @@ import { addQuantityFood, deleteAllCart, deleteQuantityFood, getOrderCart, getVo
 import saga from './saga';
 import { useLocation } from 'react-router-dom';
 import Headerr from '../Headerr';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   bigGrid: {
@@ -216,6 +217,39 @@ export function Cart(props) {
   }
 
 
+  const handleChangeByStore = (e, storeId) => {
+    checkedList ? checkedList.map(item => newList.push(item)) : null;
+
+    const value = e.target.value;
+    // const findId = checkedList.indexOf(storeId)
+
+    if (value === "allByStore") {
+      const { checked } = e.target;
+      if (checked) {
+        props.cart.listOrder ? props.cart.listOrder.filter(store => store.store.id == storeId).map(item => item.cartFoodResponses.map(nestItem => newList.push(nestItem))) : null;
+      }
+      if (!checked) {
+        newList.length != 0 ? newList.filter(food => food.food.foodStore.id != storeId).map(item => {
+          newList.push(item);
+        }) : null;
+
+
+        // const hehe = newList.filter((ele, ind) => ind === newList.findIndex(elem => elem.food.id !== ele.food.id))
+        const list = newList.filter((item, index) => newList.indexOf(item) !== index);
+        newList.splice(0, newList.length)
+        list.map(item => newList.push(item));
+      }
+
+    }
+    if (newList.length != 0) {
+      setCheckedList([]);
+      setCheckedList(newList);
+    } else {
+      setCheckedList([]);
+    }
+  }
+
+
   const handleChange = (event) => {
     const value = event.target.value;
     if (value === "all") {
@@ -228,14 +262,8 @@ export function Cart(props) {
         )) : null;
         setCheckedList(newList)
       }
-      //checkedList.push(props.cart.listOrder[0].cartFoodResponses[0].food) : null;
-      //setCheckedList(checkedList.length === listTest.length ? [] : props.cart.listOrder.map(item => Object.assign({}, item.cartFoodResponses)));
-      //return;
     }
-    // const list = [...checkedList];
-    // const index = list.indexOf(value);
-    // index === -1 ? list.push(value) : list.splice(index, 1);
-    // setCheckedList(list);
+
   }
 
   const handleDeleteAll = () => {
@@ -256,6 +284,10 @@ export function Cart(props) {
   const handleChangeVoucher = (event) => {
     setVoucher(event.target.value);
   };
+
+  // console.log(props.cart.listOrder[0].cartFoodResponses)
+  // // console.log(checkedList.some(item => props.cart.listOrder[0].cartFoodResponses.includes(item)))
+  // console.log(props.cart.listOrder[0].cartFoodResponses.every(item => checkedList.includes(item)))
 
   return (
     <div>
@@ -298,7 +330,16 @@ export function Cart(props) {
               {/* Store */}
               <Grid container spacing={0} className={classes.bigGrid}>
                 <Grid item md={12} sm={12} xs={12} className={classes.shopCard}>
-                  <Checkbox />
+                  <Checkbox
+                    name="selectAllByStore"
+                    type="checkbox"
+                    id={item.store.id}
+                    value="allByStore"
+                    onChange={e => handleChangeByStore(e, item.store.id)}
+                    //checked={checkedList.includes(item.cartFoodResponses.map(nestItem => nestItem), -100)}
+                    //checked= {checkedList.every(item1 => item.cartFoodResponses.includes(item1))}
+                    checked={item.cartFoodResponses.every(item => checkedList.includes(item))}
+                  />
                   <div className={classes.smallGrid}>
                     <span className={classes.text} >{item.store.name}</span>
                   </div>
@@ -413,7 +454,15 @@ export function Cart(props) {
 
         <Grid container spacing={0} className={classes.bigGrid}>
           <Grid item md={3} sm={3} xs={6} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
-            <Checkbox />
+            <Checkbox
+              name="selectAll"
+              type="checkbox"
+              id="selectAll"
+              value="all"
+              //onClick={handleSelectAll}
+              onChange={handleChange}
+              checked={isAllSelected}
+            />
             <div className={classes.smallGrid}>
               <span className={classes.text}>Chọn Tất Cả</span>
             </div>
@@ -444,6 +493,12 @@ export function Cart(props) {
           {props.cart.message}
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.cart.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

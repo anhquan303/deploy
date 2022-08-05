@@ -16,7 +16,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import {
   Box, Grid, MobileStepper, Container, Modal, OutlinedInput,
-  Typography, TextField, FormControl, InputLabel, Select, MenuItem
+  Typography, TextField, FormControl, InputLabel, Select, MenuItem, Backdrop
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import makeSelectPayment from './selectors';
@@ -30,6 +30,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useHistory } from 'react-router-dom';
 import { id } from 'date-fns/locale';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -205,7 +206,7 @@ export function Payment(props) {
   payment2 = payment.filter((ele, ind) => ind === payment.findIndex(elem => elem.storeId.id === ele.storeId.id))
 
   const [paymentList, setPaymentList] = useState(payment2);
-  
+
   const singleVal = Array.from(props.location.state.item.map(item => {
     return (item.food.price * item.quantity)
   }));
@@ -219,42 +220,45 @@ export function Payment(props) {
   const handleChangeVoucher = (event) => {
     const { name } = event.target;
     setVoucher(event.target.value);
-    const checkExist = listTest.some(element => {
-      if (element.storeId.id == name) {
-        return true;
-      }
-      return false;
+    if (event.target.value != 0) {
+      const checkExist = listTest.some(element => {
+        if (element.storeId.id == name) {
+          return true;
+        }
+        return false;
 
-    })
+      })
 
-    for (var i = 0; i < payment2.length; i++) {
-      // console.log('i', i)
-      // console.log('payment', payment2[i].storeId.id)
-      // console.log('name', name)
-      if (payment2[i].storeId.id == name) {
-        //console.log('here')
-        if (checkExist == false) {
-          payment2[i].voucher = event.target.value;
-          listTest.push(Object.assign({}, payment2[i], { voucher: event.target.value }));
+      for (var i = 0; i < payment2.length; i++) {
+        // console.log('i', i)
+        // console.log('payment', payment2[i].storeId.id)
+        // console.log('name', name)
+        if (payment2[i].storeId.id == name) {
+          //console.log('here')
+          if (checkExist == false) {
+            payment2[i].voucher = event.target.value;
+            listTest.push(Object.assign({}, payment2[i], { voucher: event.target.value }));
+
+          } else {
+            listTest.splice(i, 1);
+            payment2[i].voucher = event.target.value;
+            listTest.push(Object.assign({}, payment2[i], { voucher: event.target.value }));
+          }
 
         } else {
-          listTest.splice(i, 1);
-          payment2[i].voucher = event.target.value;
-          listTest.push(Object.assign({}, payment2[i], { voucher: event.target.value }));
+          if (checkExist == false) {
+            listTest.push(payment2[i]);
+          }
         }
 
-      } else {
-        if (checkExist == false) {
-          listTest.push(payment2[i]);
-        }
       }
-
+      if (listTest.length != 0) {
+        setPaymentList([]);
+        setPaymentList(listTest);
+      }
+    }else{
+      console.log('here')
     }
-    if (listTest.length != 0) {
-      setPaymentList([]);
-      setPaymentList(listTest);
-    }
-
   };
 
   console.log(paymentList)
@@ -595,7 +599,7 @@ export function Payment(props) {
                         placeholder="chọn voucher"
                         onChange={handleChangeVoucher}
                       >
-
+                        <MenuItem value="0">Không sử dụng voucher</MenuItem>
                         {props.payment.listVoucher != [] ? props.payment.listVoucher.filter(voucher => voucher.store.id == item.storeId.id).map(nestItem =>
                         (
                           <MenuItem key={nestItem.id} value={nestItem}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
@@ -1035,6 +1039,13 @@ export function Payment(props) {
           {props.payment.message}
         </Alert>
       </Snackbar>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.payment.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div >
   );
 }

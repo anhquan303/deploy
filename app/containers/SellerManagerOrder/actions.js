@@ -33,3 +33,46 @@ export function getOrderByStoreIdFailed(payload) {
     payload,
   };
 }
+
+export function getOrderByStatus(payload) {
+  return {
+    type: types.GET_ORDER_BY_STATUS_NEW,
+    payload,
+  };
+}
+
+export function getOrderByStatusSuccess(payload) {
+  return {
+    type: types.GET_ORDER_BY_STATUS_NEW_SUCCESS,
+    payload,
+  };
+}
+
+export function getOrderByStatusFailed(payload) {
+  return {
+    type: types.GET_ORDER_BY_STATUS_NEW_FAILED,
+    payload,
+  };
+}
+
+export function getOrderByStatusCancel(payload) {
+  return {
+    type: types.GET_ORDER_BY_STATUS_CANCEL,
+    payload,
+  };
+}
+
+export function getOrderByStatusCancelSuccess(payload) {
+  return {
+    type: types.GET_ORDER_BY_STATUS_CANCEL_SUCCESS,
+    payload,
+  };
+}
+
+export function getOrderByStatusCancelFailed(payload) {
+  return {
+    type: types.GET_ORDER_BY_STATUS_CANCEL_FAILED,
+    payload,
+  };
+}
+
