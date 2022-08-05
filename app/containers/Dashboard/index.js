@@ -30,6 +30,8 @@ import { getAllFood, getAllStore, getAllUser, getData } from './actions';
 import Avatar from '@mui/material/Avatar';
 import { getUser } from '../../utils/common';
 import { Line } from 'react-chartjs-2';
+import { Backdrop } from '@mui/material';
+import Loading from '../../components/Loading';
 
 
 export function Dashboard(props) {
@@ -143,6 +145,12 @@ export function Dashboard(props) {
         </Grid>
 
       </Box>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.dashboard.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

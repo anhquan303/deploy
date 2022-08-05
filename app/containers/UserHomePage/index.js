@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Box, Grid, MobileStepper, Container, Backdrop, CircularProgress } from '@mui/material';
+import { Box, Grid, MobileStepper, Container, Backdrop, CircularProgress, Card, CardMedia } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import SearchBar from 'material-ui-search-bar';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -70,14 +70,41 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     width: 'fit-content',
     borderRadius: '10px',
-    backgroundColor: '#ff9900',
+    backgroundColor: '#EA5E5E',
     margin: '10px 5px',
+    color: "#fff",
     '&:hover': {
-      backgroundColor: '#FFA500',
+      backgroundColor: '#EA5E5E',
       fontWeight: 'bold',
-      color: '#000',
+      color: '#fff',
       boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
     },
+  },
+  root: {
+    height: "557px",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundImage: `url("https://res.edu.vn/wp-content/uploads/2021/12/unit-46-topic-food.jpeg")`,
+    filter: "blur(6px)",
+    //backdropFilter: "blur(10px)",
+
+
+  },
+  profileImage: {
+    zIndex: 2,
+    position: "relative",
+    top: "25%",
+    left: "35%",
+    justifyContent: "center",
+    // width: "60px",
+    height: "fit-content",
+    padding: "10px",
+    width: "fit-content",
+    margin: "0 auto",
+    //backdropFilter: "blur(10px)",
+    backgroundColor: "rgb(0, 0, 0)", /* Fallback color */
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    position: "absolute",
   },
 }));
 
@@ -94,11 +121,6 @@ export function UserHomePage(props) {
   const store = getStore();
 
   const user = getUser();
-  const handleLogout = () => {
-    dispatch(logOut());
-    removeUserSession();
-    props.history.push('/');
-  };
 
   const handleSellerRegister = () => {
     if (user) {
@@ -120,36 +142,6 @@ export function UserHomePage(props) {
     requestSearch(searched);
   };
 
-  const images = [
-    {
-      imgPath: 'http://shopeeplus.com//upload/images/1ma-giam-gia-shopee.png',
-    },
-    {
-      imgPath:
-        'https://product.hstatic.net/200000324415/product/img_4130_6703ef1ab42b474baa2bf4db587b787e_large.jpg',
-    },
-    {
-      imgPath: 'https://file.vfo.vn/hinh/2016/01/anh-bia-ve-do-an-telasm-1.jpg',
-    },
-    {
-      imgPath:
-        'https://file.vfo.vn/hinh/2016/01/anh-bia-ve-do-an-telasm-16.jpg',
-    },
-  ];
-
-  const maxSteps = images.length;
-
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
-
-  const handleStepChange = step => {
-    setActiveStep(step);
-  };
 
   // get list food
   useEffect(() => {
@@ -166,54 +158,67 @@ export function UserHomePage(props) {
   return (
     <>
       <Headerr />
-      <Container fixed>
-
-        <div style={{ textAlign: 'center' }}>
-          <Button
-            className={classes.btn}
-            variant="outlined"
-            startIcon={<RestaurantIcon />}
-          >
-            All
-          </Button>
-          <Button
-            className={classes.btn}
-            variant="outlined"
-            startIcon={<RiceBowlIcon />}
-          >
-            Rice
-          </Button>
-          <Button
-            className={classes.btn}
-            variant="outlined"
-            startIcon={<RamenDiningIcon />}
-          >
-            Noodle
-          </Button>
-          <Button
-            className={classes.btn}
-            variant="outlined"
-            startIcon={<FreeBreakfastIcon />}
-          >
-            Drink
-          </Button>
-          <Button
-            className={classes.btn}
-            variant="outlined"
-            startIcon={<FastfoodIcon />}
-          >
-            Fast Food
-          </Button>
-          <Button
-            className={classes.btn}
-            variant="outlined"
-            startIcon={<StarIcon />}
-          >
-            Top Favorite
-          </Button>
+      <div>
+        <div className={classes.root}></div>
+        <div className={classes.profileImage} >
+          <p style={{ fontFamily: "san-serif", fontWeight: "600", fontSize: "64px", textAlign: "center", margin: "0", color: "#f1F6F7" }}>Khám phá đồ ăn, <br /> ẩm thực xứ sở Hola</p>
+          <SearchBar
+            value={searched}
+            onChange={searchVal => requestSearch(searchVal)}
+            onCancelSearch={() => cancelSearch()}
+            //placeholder="What would you like to eat today?"
+            placeholder="Bạn muốn ăn gì hôm nay?"
+          />
         </div>
 
-        {/* <Grid container spacing={2} style={{ marignTop: "10px" }}>
+        <Container fixed>
+
+          <div style={{ textAlign: 'center' }}>
+            <Button
+              className={classes.btn}
+              variant="outlined"
+              startIcon={<RestaurantIcon />}
+            >
+              All
+            </Button>
+            <Button
+              className={classes.btn}
+              variant="outlined"
+              startIcon={<RiceBowlIcon />}
+            >
+              Rice
+            </Button>
+            <Button
+              className={classes.btn}
+              variant="outlined"
+              startIcon={<RamenDiningIcon />}
+            >
+              Noodle
+            </Button>
+            <Button
+              className={classes.btn}
+              variant="outlined"
+              startIcon={<FreeBreakfastIcon />}
+            >
+              Drink
+            </Button>
+            <Button
+              className={classes.btn}
+              variant="outlined"
+              startIcon={<FastfoodIcon />}
+            >
+              Fast Food
+            </Button>
+            <Button
+              className={classes.btn}
+              variant="outlined"
+              startIcon={<StarIcon />}
+            >
+              Top Favorite
+            </Button>
+          </div>
+
+          {/* <Grid container spacing={2} style={{ marignTop: "10px" }}>
           {foods.map((item, index) =>
 
             <Grid item sm={4} xs={6} md={2} key={index} style={{ width: "100%" }}>
@@ -226,33 +231,34 @@ export function UserHomePage(props) {
           )}
         </Grid> */}
 
-        <Grid container spacing={2} style={{ marignTop: '10px' }}>
-          {props.userHomePage.foodList.map((item, index) => (
-            <Grid item sm={4} xs={6} md={3} key={index} style={{ width: '100%' }}>
-              <Link
-                to={{ pathname: `/food/${item.id}`, state: { item } }}
-                style={{ textDecoration: 'none' }}
-              >
-                <CardItem
-                  foodName={item.name}
-                  storeName={item.foodStore.name}
-                  address={item.foodStore.dormLocation == null ? item.foodStore.otherLocation : item.foodStore.dormLocation}
-                  img={item.image}
-                />
-              </Link>
-            </Grid>
-          ))}
-        </Grid>
-        <Backdrop
-          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={props.userHomePage.loading}
-        //open={true}
-        // onClick={handleClose}
-        >
-          {/* <CircularProgress color="inherit" /> */}
-          <Loading />
-        </Backdrop>
-      </Container>
+          <Grid container spacing={2} style={{ marignTop: '10px' }}>
+            {props.userHomePage.foodList.map((item, index) => (
+              <Grid item sm={4} xs={6} md={3} key={index} style={{ width: '100%' }}>
+                <Link
+                  to={{ pathname: `/food/${item.id}`, state: { item } }}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <CardItem
+                    foodName={item.name}
+                    storeName={item.foodStore.name}
+                    address={item.foodStore.dormLocation == null ? item.foodStore.otherLocation : item.foodStore.dormLocation}
+                    img={item.image}
+                  />
+                </Link>
+              </Grid>
+            ))}
+          </Grid>
+          <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={props.userHomePage.loading}
+          //open={true}
+          // onClick={handleClose}
+          >
+            {/* <CircularProgress color="inherit" /> */}
+            <Loading />
+          </Backdrop>
+        </Container>
+      </div>
     </>
   );
 }

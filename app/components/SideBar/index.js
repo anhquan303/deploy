@@ -166,12 +166,12 @@ function SideBar(props) {
           <Typography className={classes.text}>Quản lý quán ăn</Typography>
         </div>
       </NavLink >
-      <NavLink to="/order" className={classes.link} onClick={handleDrawerToggle}>
+      {/* <NavLink to="/order" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <LocalGroceryStoreIcon className={classes.icon} />
           <Typography className={classes.text}>Quản lý đặt hàng</Typography>
         </div>
-      </NavLink>
+      </NavLink> */}
       <NavLink to="/report" className={classes.link} onClick={handleDrawerToggle}>
         <div className={classes.item}>
           <ReportProblemIcon className={classes.icon} />

@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Box, TextField } from '@mui/material';
+import { Backdrop, Box, TextField } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -28,6 +28,7 @@ import makeSelectSellerAddProduct from './selectors';
 import { getStore } from '../../utils/common';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   upload: {
@@ -370,6 +371,12 @@ export function SellerAddProduct(props) {
           </Snackbar>
         </div>
       </div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.sellerAddProduct.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

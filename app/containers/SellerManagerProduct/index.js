@@ -78,11 +78,33 @@ export function SellerManagerProduct(props) {
   useInjectSaga({ key: 'sellerManagerProduct', saga });
 
   const [nameSearch, setNameSearch] = useState('');
-  const [priceFrom, setPriceFrom] = useState('');
-  const [priceTo, setPriceTo] = useState('');
+  const initialValues = { priceFrom: "", priceTo: "" };
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+  // const [priceFrom, setPriceFrom] = useState('');
+  // const [priceTo, setPriceTo] = useState('');
   const store = getStore();
   const classes = useStyles();
   let dollarUSLocale = Intl.NumberFormat('en-US');
+
+  const validate = (values) => {
+    const errors = {};
+    const numberOnly = /^[0-9]*$/;
+    if (numberOnly.test(values.priceFrom) == false) {
+      errors.priceFrom = 'number only';
+    }
+    if (numberOnly.test(values.priceTo) == false) {
+      errors.priceTo = 'number only';
+    }
+    return errors;
+  }
+
+  // set value for input
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
 
   const columns1 = [
     { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
@@ -131,20 +153,35 @@ export function SellerManagerProduct(props) {
     setType(e.target.value);
   };
 
-  const searchFood1 = () => {
-    const data = {
-      name: nameSearch,
-      startPrice: priceFrom,
-      endPrice: priceTo,
-      id: store,
-    };
-    dispatch(searchFood(data));
+  const searchFood1 = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmit(true);
+    // const data = {
+    //   name: nameSearch,
+    //   startPrice: formValues.priceFrom,
+    //   endPrice: formValues.priceTo,
+    //   id: store,
+    // };
+    // dispatch(searchFood(data));
   };
+
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      const data = {
+        name: nameSearch,
+        startPrice: formValues.priceFrom,
+        endPrice: formValues.priceTo,
+        id: store,
+      };
+      dispatch(searchFood(data));
+    }
+  }, [formErrors]);
 
   const reset = () => {
     setNameSearch('');
-    setPriceFrom('');
-    setPriceTo('');
+    setFormValues({ ...formValues, ['priceFrom']: "" });
+    setFormValues({ ...formValues, ['priceTo']: "" });
   };
 
   return (
@@ -234,8 +271,11 @@ export function SellerManagerProduct(props) {
                         label="Giá từ"
                         placeholder="Giá từ"
                         multiline
-                        value={priceFrom}
-                        onChange={e => setPriceFrom(e.target.value)}
+                        name="priceFrom"
+                        value={formValues.priceFrom}
+                        onChange={handleChange}
+                        helperText={formErrors.priceFrom != null ? formErrors.priceFrom : null}
+                        error={formErrors.priceFrom != null ? true : null}
                       />
                     </Grid>
                     <Grid item md={6} sm={12} xs={12}>
@@ -244,8 +284,11 @@ export function SellerManagerProduct(props) {
                         label="đến"
                         placeholder="đến"
                         multiline
-                        value={priceTo}
-                        onChange={e => setPriceTo(e.target.value)}
+                        name="priceTo"
+                        value={formValues.priceTo}
+                        onChange={handleChange}
+                        helperText={formErrors.priceTo != null ? formErrors.priceTo : null}
+                        error={formErrors.priceTo != null ? true : null}
                       />
                     </Grid>
                   </Grid>

@@ -25,6 +25,8 @@ import DashboardHeader from '../../components/DashboardHeader';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import CustomTableResponsive from '../../components/CustomTableResponsive';
+import Loading from '../../components/Loading';
+import { Backdrop } from '@mui/material';
 
 export function DashboardStore(props) {
   const { dispatch, listStore } = props;
@@ -56,14 +58,6 @@ export function DashboardStore(props) {
     setSearched("");
     requestSearch(searched);
   };
-
-  // const columns = [
-  //   { title: "ID", field: "id" },
-  //   { title: "Name", field: "name" },
-  //   { title: "Owner", field: "user.username" },
-  //   { title: "Slogan", field: "slogan" },
-  //   { title: "Status", field: "status" },
-  // ]
 
   const columns1 = [
     { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
@@ -140,6 +134,12 @@ export function DashboardStore(props) {
           </Grid>
 
         </Box>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={props.dashboardStore.loading}
+        >
+          <Loading />
+        </Backdrop>
       </div>
     </>
   );

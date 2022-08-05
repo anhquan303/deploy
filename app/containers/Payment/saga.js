@@ -76,7 +76,7 @@ export function* createQR({ payload }) {
 
 export function* getListOrderByUserId({ payload }) {
   try {
-    const res = yield call(apiFetchData, [`api/order?pageSize=100&userId=${payload.id}`]);
+    const res = yield call(apiFetchData, [`api/order?pageSize=1000&userId=${payload.id}`]);
     if (res.status == 200) {
       yield put(getListOrderByUserIdSuccess(res.data.data));
     } else {

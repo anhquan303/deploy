@@ -120,78 +120,62 @@ export function SellerTurnover(props) {
   }, [time]);
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#fff" }}>
       <p className={classes.title} style={{ fontSize: '25px' }}>
         Chỉ số quan trọng
       </p>
-      <Grid container spacing={0}>
-        <Grid item md={3} sm={12} xs={12} style={{ padding: '10px' }}>
-          <div className={classes.information}>
-            <Grid container spacing={0}>
-              <Grid item md={6} sm={12} xs={12}>
-                <p className={classes.title}>Doanh số</p>
-                <p className={classes.title}>
-                  {props.sellerTurnover.saleData.length != 0
-                    ? dollarUSLocale.format(props.sellerTurnover.saleData[
-                      props.sellerTurnover.saleData.length - 1
-                    ].totalAmount)
+      <div className={classes.center} >
+        <Grid container spacing={0} >
+          <Grid item md={4} sm={12} xs={12} style={{ padding: '10px' }}>
+            <div className={classes.information}>
+              <Grid container spacing={0}>
+                <Grid item md={6} sm={12} xs={12}>
+                  <p className={classes.title}>Doanh số</p>
+                  <p className={classes.title}>
+                    {props.sellerTurnover.saleData.length != 0
+                      ? dollarUSLocale.format(props.sellerTurnover.saleData[
+                        props.sellerTurnover.saleData.length - 1
+                      ].totalAmount)
 
-                    : null}{' '}
-                  VND
-                </p>
+                      : null}{' '}
+                    VND
+                  </p>
+                </Grid>
+                <Grid item md={6} sm={12} xs={12} style={{ textAlign: 'center' }}>
+                  <MonetizationOnRoundedIcon
+                    sx={{ width: 50, height: 50, color: '#FFAC30' }}
+                  />
+                </Grid>
               </Grid>
-              <Grid item md={6} sm={12} xs={12} style={{ textAlign: 'center' }}>
-                <MonetizationOnRoundedIcon
-                  sx={{ width: 50, height: 50, color: '#FFAC30' }}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={0}>
-              <Grid item md={6} sm={12} xs={12}>
-                <p className={classes.compare}>So với hôm qua</p>
-              </Grid>
-              <Grid item md={6} sm={12} xs={12}>
-                <p className={classes.compare} style={{ textAlign: 'right' }}>
-                  0.00%
-                </p>
-              </Grid>
-            </Grid>
-          </div>
-        </Grid>
 
-        <Grid item md={3} sm={12} xs={12} style={{ padding: '10px' }}>
-          <div className={classes.information}>
-            <Grid container spacing={0}>
-              <Grid item md={6} sm={12} xs={12}>
-                <p className={classes.title}>Đơn hàng</p>
-                <p className={classes.title}>
-                  {props.sellerTurnover.saleData.length != 0
-                    ? props.sellerTurnover.saleData[
-                      props.sellerTurnover.saleData.length - 1
-                    ].totalOrder
-                    : null}
-                </p>
-              </Grid>
-              <Grid item md={6} sm={12} xs={12} style={{ textAlign: 'center' }}>
-                <AssignmentRoundedIcon
-                  sx={{ width: 50, height: 50, color: '#FFAC30' }}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={0}>
-              <Grid item md={6} sm={12} xs={12}>
-                <p className={classes.compare}>So với hôm qua</p>
-              </Grid>
-              <Grid item md={6} sm={12} xs={12}>
-                <p className={classes.compare} style={{ textAlign: 'right' }}>
-                  0.00%
-                </p>
-              </Grid>
-            </Grid>
-          </div>
-        </Grid>
+            </div>
+          </Grid>
 
-        <Grid item md={3} sm={12} xs={12} style={{ padding: '10px' }}>
+          <Grid item md={4} sm={12} xs={12} style={{ padding: '10px' }}>
+            <div className={classes.information}>
+              <Grid container spacing={0}>
+                <Grid item md={6} sm={12} xs={12}>
+                  <p className={classes.title}>Đơn hàng</p>
+                  <p className={classes.title}>
+                    {props.sellerTurnover.saleData.length != 0
+                      ? props.sellerTurnover.saleData[
+                        props.sellerTurnover.saleData.length - 1
+                      ].totalOrder
+                      : null}
+                  </p>
+                </Grid>
+                <Grid item md={6} sm={12} xs={12} style={{ textAlign: 'center' }}>
+                  <AssignmentRoundedIcon
+                    sx={{ width: 50, height: 50, color: '#FFAC30' }}
+                  />
+                </Grid>
+              </Grid>
+
+
+            </div>
+          </Grid>
+
+          {/* <Grid item md={3} sm={12} xs={12} style={{ padding: '10px' }}>
           <div className={classes.information}>
             <Grid container spacing={0}>
               <Grid item md={6} sm={12} xs={12}>
@@ -215,41 +199,35 @@ export function SellerTurnover(props) {
               </Grid>
             </Grid>
           </div>
-        </Grid>
+        </Grid> */}
 
-        <Grid item md={3} sm={12} xs={12} style={{ padding: '10px' }}>
-          <div className={classes.information}>
-            <Grid container spacing={0}>
-              <Grid item md={6} sm={12} xs={12}>
-                <p className={classes.title}>Doanh số trên mỗi đơn hàng</p>
-                <p className={classes.title}>
-                  {props.sellerTurnover.saleData.length != 0
-                    ? dollarUSLocale.format(props.sellerTurnover.saleData[
-                      props.sellerTurnover.saleData.length - 1
-                    ].salesPerOrder)
-                    : null}{' '}
-                  VND
-                </p>
+          <Grid item md={4} sm={12} xs={12} style={{ padding: '10px' }}>
+            <div className={classes.information}>
+              <Grid container spacing={0}>
+                <Grid item md={6} sm={12} xs={12}>
+                  <p className={classes.title}>Doanh số trên mỗi đơn hàng</p>
+                  <p className={classes.title}>
+                    {props.sellerTurnover.saleData.length != 0
+                      ? dollarUSLocale.format(props.sellerTurnover.saleData[
+                        props.sellerTurnover.saleData.length - 1
+                      ].salesPerOrder)
+                      : null}{' '}
+                    VND
+                  </p>
+                </Grid>
+                <Grid item md={6} sm={12} xs={12} style={{ textAlign: 'center' }}>
+                  <MonetizationOnRoundedIcon
+                    sx={{ width: 50, height: 50, color: '#FFAC30' }}
+                  />
+                </Grid>
               </Grid>
-              <Grid item md={6} sm={12} xs={12} style={{ textAlign: 'center' }}>
-                <MonetizationOnRoundedIcon
-                  sx={{ width: 50, height: 50, color: '#FFAC30' }}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={0}>
-              <Grid item md={6} sm={12} xs={12}>
-                <p className={classes.compare}>So với hôm qua</p>
-              </Grid>
-              <Grid item md={4} sm={12} xs={12}>
-                <p className={classes.compare} style={{ textAlign: 'right' }}>
-                  0.00%
-                </p>
-              </Grid>
-            </Grid>
-          </div>
+
+            </div>
+          </Grid>
+
         </Grid>
-      </Grid>
+      </div>
+
 
       <Grid container spacing={0} style={{ marginTop: '30px' }}>
         <Grid item md={2} sm={12} xs={12} className={classes.center}>

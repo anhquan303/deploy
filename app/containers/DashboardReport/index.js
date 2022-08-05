@@ -18,12 +18,13 @@ import makeSelectDashboardReport from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Grid } from '@mui/material';
+import { Backdrop, Grid } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import moment from 'moment';
 import SearchBar from "material-ui-search-bar";
 import CustomTableResponsive from '../../components/CustomTableResponsive';
 import { getAllReport } from './actions';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   font: {
@@ -102,6 +103,12 @@ export function DashboardReport(props) {
           {data ? <CustomTableResponsive columns={columns1} data={data} detailPage="report" rows={rows} /> : <span>Chưa có báo cáo</span>}
         </Grid>
       </Grid>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.dashboardReport.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }
