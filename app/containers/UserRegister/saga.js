@@ -19,10 +19,11 @@ export function* signUp({ payload }) {
       }]
     }
     const res = yield call(apiSignup, ['auth/adduser'], data);
+    console.log(res)
     if (res.status == 200) {
-      yield put(signUpSuccess(res.data.msg))
+      yield put(signUpSuccess(res.data.message))
     } else {
-      yield put(signUpFailed(res.data.msg))
+      yield put(signUpFailed(res.data.message))
     }
 
   } catch (error) {
@@ -34,7 +35,7 @@ export function* sendSMS({ payload }) {
   try {
     const res = yield call(apiSignup, ['api/user/sendSms'], payload);
     if (res.status == 200) {
-      yield put(sendSMSSuccess("SUCCESS"))
+      yield put(sendSMSSuccess("Hệ thống đã gửi tin nhắn về số điện thoại của quý khách"))
     } else {
       yield put(sendSMSFailed("FAILED"))
     }

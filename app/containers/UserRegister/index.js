@@ -25,6 +25,7 @@ import {
   CircularProgress,
   Fade,
   LinearProgress,
+  Backdrop,
 } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -43,6 +44,7 @@ import messages from './messages';
 import BackGround from '../../images/dhfpt.png';
 import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
 import { reset, sendSMS, signUp } from './actions';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   body: {
@@ -217,9 +219,9 @@ export function UserRegister(props) {
 
   // redirect to login page
   useEffect(() => {
-    if (props.userRegister.message != '') {
+    if (props.userRegister.message != '' && props.userRegister.messageSMS != '') {
       setOpen(true);
-      if (props.userRegister.message.includes('SUCCESS')) {
+      if (props.userRegister.messageSMS == "Hệ thống đã gửi tin nhắn về số điện thoại của quý khách" && props.userRegister.message == "ADD NEW SUCCESSFUL! PLEASE VERIFY YOUR ACCOUNT THROUGH VERIFY LINK IN YOUR EMAIL") {
         setTimeout(() => {
           props.history.push('/login');
         }, 2000);
@@ -241,6 +243,8 @@ export function UserRegister(props) {
   const handleCloseAlert = event => {
     setOpen(false);
   };
+
+  console.log(props.userRegister.message)
 
   return (
     <div className={classes.body}>
@@ -591,6 +595,13 @@ export function UserRegister(props) {
           </Alert>
         </Snackbar>
       </div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.userRegister.loading}
+      >
+        {/* <CircularProgress color="inherit" /> */}
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

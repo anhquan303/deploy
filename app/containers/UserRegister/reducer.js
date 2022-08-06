@@ -10,6 +10,7 @@ import * as types from './constants';
 export const initialState = {
   loading: false,
   message: '',
+  messageSMS: '',
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -34,15 +35,16 @@ const userRegisterReducer = (state = initialState, action) =>
         break;
       case types.SEND_SMS_SUCCESS:
         draft.loading = false;
-        draft.message = action.payload;
+        draft.messageSMS = action.payload;
         break;
       case types.SEND_SMS_FAILED:
         draft.loading = false;
-        draft.message = action.payload;
+        draft.messageSMS = action.payload;
         break;
       case types.RESET:
         draft.loading = false;
         draft.message = '';
+        draft.messageSMS = '';
         break;
     }
   });
