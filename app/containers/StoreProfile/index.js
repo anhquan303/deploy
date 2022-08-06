@@ -34,22 +34,24 @@ import { Link } from 'react-router-dom';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { getUser } from '../../utils/common';
+import { Footerr } from '../Footerr';
 
 let HEIGHT = window.screen.height;
 
 const useStyles = makeStyles(theme => ({
   btn: {
-    position: 'relative',
-    width: 'fit-content',
-    borderRadius: '10px',
-    backgroundColor: '#ff9900',
-    margin: '10px 5px',
-    '&:hover': {
-      backgroundColor: '#FFA500',
-      fontWeight: 'bold',
-      color: '#000',
-      boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
-    },
+    position: "relative",
+    width: "fit-content",
+    borderRadius: "10px",
+    backgroundColor: "#FD4444",
+    color: "#fff",
+    margin: "10px 5px",
+    "&:hover": {
+      backgroundColor: "#FF1C1C",
+      fontWeight: "bold",
+      color: "#fff",
+      boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
+    }
   },
   center: {
     flexWrap: 'wrap',
@@ -494,7 +496,7 @@ export function StoreProfile(props) {
           </DialogActions>
         </Dialog>
       </Container>
-
+      <Footerr />
     </div >
   );
 }

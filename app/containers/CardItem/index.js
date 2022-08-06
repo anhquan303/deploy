@@ -91,7 +91,7 @@ export function CardItem({ foodName, storeName, address, img }) {
         <CardMedia
           component="img"
           height="140"
-          image="https://images.squarespace-cdn.com/content/v1/53883795e4b016c956b8d243/1551438228969-H0FPV1FO3W5B0QL328AS/chup-anh-thuc-an-1.jpg"
+          image={img}
           alt="anh mon an"
         />
         <CardContent>

@@ -107,7 +107,7 @@ export function SellerActionProduct(props) {
 
   const classes = useStyles();
   const store = getStore();
-  const [type, setType] = useState();
+  const [type, setType] = useState("");
   const [storeId, setStoreId] = useState(store);
   const initialValues = { name: "", price: "", description: "", image: "" };
   const [formValues, setFormValues] = useState(initialValues);
@@ -249,6 +249,8 @@ export function SellerActionProduct(props) {
     setImage(file1[0]);
   };
 
+  console.log(props.sellerActionProduct.food)
+  console.log(type)
 
   return (
     <div style={{ paddingRight: "15px" }}>

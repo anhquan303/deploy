@@ -41,6 +41,7 @@ import saga from './saga';
 import reducer from './reducer';
 import makeSelectUserHomePage from './selectors';
 import Loading from '../../components/Loading';
+import { Footerr } from '../Footerr';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -84,9 +85,11 @@ const useStyles = makeStyles(theme => ({
     height: "557px",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundImage: `url("https://res.edu.vn/wp-content/uploads/2021/12/unit-46-topic-food.jpeg")`,
-    filter: "blur(6px)",
+    backgroundImage: `url("https://scontent.fhan14-2.fna.fbcdn.net/v/t1.15752-9/295485308_402761288506747_6752222352704131353_n.png?_nc_cat=111&ccb=1-7&_nc_sid=ae9488&_nc_ohc=acIyVeFHsQ4AX_vdh7B&_nc_ht=scontent.fhan14-2.fna&oh=03_AVKkIkPoYKYsyGeJ3RdfdyaZlIYCEuRHaWTvh3X2ckRuwg&oe=6314B8CD")`,
+    //filter: "blur(4px)",
+    filter: "brightness(50%)",
     //backdropFilter: "blur(10px)",
+    border: "1px solid #000"
 
 
   },
@@ -99,12 +102,46 @@ const useStyles = makeStyles(theme => ({
     // width: "60px",
     height: "fit-content",
     padding: "10px",
-    width: "fit-content",
+    //width: "fit-content",
     margin: "0 auto",
     //backdropFilter: "blur(10px)",
-    backgroundColor: "rgb(0, 0, 0)", /* Fallback color */
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    // backgroundColor: "rgb(0, 0, 0)", 
+    // backgroundColor: "rgba(0, 0, 0, 0.4)",
     position: "absolute",
+    [theme.breakpoints.down("xs")]: {
+      top: "35%",
+      left: "5%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      top: "35%",
+      left: "12%",
+    },
+    [theme.breakpoints.down("md")]: {
+      top: "35%",
+      left: "30%",
+    },
+  },
+  text: {
+    fontFamily: 'Montserrat, sans-serif',
+    fontWeight: "500",
+    fontSize: "64px",
+    textAlign: "center",
+    margin: "0",
+    color: "#f1F6F7",
+    [theme.breakpoints.down("sm")]: {
+      fontWeight: "400",
+      fontSize: "32px",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontWeight: "400",
+      fontSize: "25px",
+    },
+  },
+  center: {
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
+    justifyContent: 'center',
   },
 }));
 
@@ -131,10 +168,11 @@ export function UserHomePage(props) {
   };
 
   const requestSearch = searchedVal => {
-    // const filteredRows = props.dashboardStore.listStore.filter((row) => {
-    //   return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-    // });
-    // setData(filteredRows);
+    const data = {
+      sid: store,
+      search: searchedVal
+    };
+    dispatch(fetchListFood(data));
   };
 
   const cancelSearch = () => {
@@ -142,17 +180,18 @@ export function UserHomePage(props) {
     requestSearch(searched);
   };
 
+  console.log(props.userHomePage.foodList)
 
   // get list food
   useEffect(() => {
 
     const data = {
       sid: store,
-      search: props.location.state ? props.location.state.search : ""
+      search: searched
     };
     dispatch(fetchListFood(data));
 
-  }, [props.location.state]);
+  }, []);
 
 
   return (
@@ -161,19 +200,22 @@ export function UserHomePage(props) {
       <div>
         <div className={classes.root}></div>
         <div className={classes.profileImage} >
-          <p style={{ fontFamily: "san-serif", fontWeight: "600", fontSize: "64px", textAlign: "center", margin: "0", color: "#f1F6F7" }}>Khám phá đồ ăn, <br /> ẩm thực xứ sở Hola</p>
-          <SearchBar
-            value={searched}
-            onChange={searchVal => requestSearch(searchVal)}
-            onCancelSearch={() => cancelSearch()}
-            //placeholder="What would you like to eat today?"
-            placeholder="Bạn muốn ăn gì hôm nay?"
-          />
+          <div>
+            <p className={classes.text}>Khám phá đồ ăn, <br /> ẩm thực xứ sở Hola</p>
+            <SearchBar
+              value={searched}
+              onChange={searchVal => requestSearch(searchVal)}
+              onCancelSearch={() => cancelSearch()}
+              //placeholder="What would you like to eat today?"
+              placeholder="Bạn muốn ăn gì hôm nay?"
+            />
+          </div>
+
         </div>
 
         <Container fixed>
 
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: 'center', margin: "30px 0" }}>
             <Button
               className={classes.btn}
               variant="outlined"
@@ -259,6 +301,7 @@ export function UserHomePage(props) {
           </Backdrop>
         </Container>
       </div>
+      <Footerr />
     </>
   );
 }

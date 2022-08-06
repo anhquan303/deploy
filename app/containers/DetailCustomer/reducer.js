@@ -10,7 +10,8 @@ import * as types from './constants';
 export const initialState = {
   loading: false,
   message: "",
-  user: undefined
+  user: undefined,
+  listOrder: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -53,6 +54,17 @@ const detailCustomerReducer = (state = initialState, action) =>
         draft.message = action.payload;
         break;
       case types.APPROVED_USER_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_ORDER_BY_USER_ID:
+        draft.loading = true;
+        break;
+      case types.GET_ORDER_BY_USER_ID_SUCCESS:
+        draft.loading = false;
+        draft.listOrder = action.payload;
+        break;
+      case types.GET_ORDER_BY_USER_ID_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

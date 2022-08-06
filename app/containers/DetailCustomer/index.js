@@ -19,7 +19,10 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import moment from 'moment';
-import { Box, Grid, Container, Avatar, Typography, Tab, Tabs, Menu, MenuItem } from '@mui/material';
+import {
+  Box, Grid, Container, Avatar, Typography, Tab, Tabs, Menu, TableCell, TableBody, IconButton,
+  MenuItem, Backdrop, TableContainer, Paper, Table, TableHead, TableRow, Collapse
+} from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import SearchBar from "material-ui-search-bar";
 import Avatar1 from '../../images/quan.jpg';
@@ -29,7 +32,11 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import CustomTable from '../../components/CustomTable';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { approvedUser, declinedUser, getUserById, reset } from './actions';
+import { approvedUser, declinedUser, getOrderByUserId, getUserById, reset } from './actions';
+import Loading from '../../components/Loading';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
 
 const useStyles = makeStyles((theme) => ({
   font: {
@@ -46,12 +53,13 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     width: "fit-content",
     borderRadius: "10px",
-    backgroundColor: "#ff9900",
+    backgroundColor: "#FD4444",
+    color: "#fff",
     margin: "10px 5px",
     "&:hover": {
-      backgroundColor: "#FFA500",
+      backgroundColor: "#FF1C1C",
       fontWeight: "bold",
-      color: "#000",
+      color: "#fff",
       boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
     }
   },
@@ -86,6 +94,21 @@ export function DetailCustomer(props) {
   const action = false;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  let dollarUSLocale = Intl.NumberFormat('en-US');
+  const [data, setData] = useState(props.detailCustomer.listOrder);
+
+
+  useEffect(() => {
+    setData(props.detailCustomer.listOrder);
+  }, [props.detailCustomer.listOrder])
+
+  useEffect(() => {
+    const data = {
+      id: props.location.state.id
+    }
+    dispatch(getUserById(data));
+    dispatch(getOrderByUserId(data));
+  }, []);
 
   const handleChangeTab = (event, newValue) => {
     event.preventDefault();
@@ -112,6 +135,15 @@ export function DetailCustomer(props) {
     { title: "Price", field: "status" },
     { title: "Status", field: "contact" },
   ]
+
+  const columns1 = [
+    { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
+    { id: 'code', label: 'Mã đơn hàng', minWidth: 100, align: 'center' },
+    { id: 'createAt', label: 'Thời gian', minWidth: 100, align: 'center' },
+    { id: 'slogan', label: 'Slogan', minWidth: 100, align: 'center' },
+    { id: 'status', label: 'Trạng thái', minWidth: 100, align: 'center' },
+
+  ];
 
   const order = [];
 
@@ -142,12 +174,6 @@ export function DetailCustomer(props) {
     dispatch(approvedUser(data));
   }
 
-  useEffect(() => {
-    const data = {
-      id: props.location.state.id
-    }
-    dispatch(getUserById(data));
-  }, []);
 
   useEffect(() => {
     if (props.detailCustomer.message == "APPROVED SUCCESS" || props.detailCustomer.message == "DECLINED SUCCESS") {
@@ -158,6 +184,110 @@ export function DetailCustomer(props) {
       dispatch(reset());
     }
   }, [props.detailCustomer.message]);
+
+  console.log(props.detailCustomer.listOrder);
+  let result = 0;
+
+  const singleVal = Array.from(props.detailCustomer.listOrder ? props.detailCustomer.listOrder.map(item => item.total_price) : null);
+
+  console.log(singleVal)
+
+  for (var i = 0; i < singleVal.length; i++) {
+    result += parseInt(singleVal[i]);
+  }
+
+  function createData(stt, code, createdAt, totalPrice, voucher, food) {
+    return {
+      stt,
+      code,
+      createdAt,
+      totalPrice,
+      voucher,
+      food,
+    };
+  }
+
+
+  function Row({ row }) {
+    const [open, setOpen] = React.useState(false);
+
+    return (
+      <React.Fragment>
+        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+          <TableCell>
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+          <TableCell component="th" scope="row">
+            {row.stt}
+          </TableCell>
+          <TableCell align="right">{row.code}</TableCell>
+          <TableCell align="right">{row.createdAt}</TableCell>
+          <TableCell align="right">{row.totalPrice}</TableCell>
+          <TableCell align="right">{row.voucher}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="h6" gutterBottom component="div">
+                  History
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>STT</TableCell>
+                      <TableCell>Tên món ăn</TableCell>
+                      <TableCell align="right">Đơn giá</TableCell>
+                      <TableCell align="right">Số lượng</TableCell>
+                      <TableCell align="right">Thành tiền ($)</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {row.food.map((food, index) => (
+                      <TableRow key={food.food.id}>
+                        <TableCell component="th" scope="row">
+                          {index + 1}
+                        </TableCell>
+                        <TableCell>{food.food.name}</TableCell>
+                        <TableCell align="right">{dollarUSLocale.format(food.price)}</TableCell>
+                        <TableCell align="right">{food.quantity}</TableCell>
+                        <TableCell align="right">{dollarUSLocale.format(food.quantity * food.price)}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+    );
+  }
+
+
+  // const rows = [
+  //   createData('1', '#32465465', 6.0, 24, 4.0, 3.99),
+  //   createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
+  //   createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
+  //   createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
+  //   createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
+  // ];
+
+
+  const [rows, setRows] = useState([]);
+  useEffect(() => {
+    if (data) {
+      setRows(data.map((item, index) =>
+        createData(index + 1, item.code, moment(item.createdAt).format('DD/MM/YYYY'), dollarUSLocale.format(item.total_price), item.voucherId, item.orderItem_foods)
+      ))
+    }
+  }, [data]);
 
   return (
     <div style={{ padding: "15px" }}>
@@ -181,9 +311,9 @@ export function DetailCustomer(props) {
                 <p className={classes.text} >{props.detailCustomer.user.phoneNumber}</p>
                 <p className={classes.text}>{props.detailCustomer.user ? props.detailCustomer.user.status : null}</p>
                 <hr />
-                <Button className={classes.btn} variant="outlined" startIcon={<SendRoundedIcon />}>
+                {/* <Button className={classes.btn} variant="outlined" startIcon={<SendRoundedIcon />}>
                   Gửi email
-                </Button>
+                </Button> */}
                 <Button className={classes.btn} variant="outlined" startIcon={<AutorenewIcon />} onClick={handleClick}>
                   Đổi trạng thái
                 </Button>
@@ -259,7 +389,7 @@ export function DetailCustomer(props) {
                     <p className={classes.title}>Order</p>
                     <hr />
                     <div>
-                      <p className={classes.font} style={{ fontWeight: "200", fontSize: "30px" }}>50 &#40;total&#41;</p>
+                      <p className={classes.font} style={{ fontWeight: "200", fontSize: "30px" }}>{props.detailCustomer.listOrder ? props.detailCustomer.listOrder.length : 0} &#40;total&#41;</p>
                     </div>
                   </div>
                 </Grid>
@@ -268,7 +398,7 @@ export function DetailCustomer(props) {
                     <p className={classes.title}>Order Cost</p>
                     <hr />
                     <div>
-                      <p className={classes.font} style={{ fontWeight: "200", fontSize: "30px" }}>2.500.000 VND</p>
+                      <p className={classes.font} style={{ fontWeight: "200", fontSize: "30px" }}> {dollarUSLocale.format(result)} VND</p>
                     </div>
                   </div>
                 </Grid>
@@ -284,7 +414,27 @@ export function DetailCustomer(props) {
             </Tabs>
           </div>
           <div>
-            <CustomTable data={order} itemPerPage={5} totalItem={order.length} detailPage="" columns={columns} action={action} />
+            {/* <CustomTable data={order} itemPerPage={5} totalItem={order.length} detailPage="" columns={columns} action={action} /> */}
+
+            <TableContainer component={Paper}>
+              <Table aria-label="collapsible table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell />
+                    <TableCell>STT</TableCell>
+                    <TableCell align="right">Mã đơn hàng</TableCell>
+                    <TableCell align="right">Thời gian</TableCell>
+                    <TableCell align="right">Tổng số tiền &nbsp;(VND)</TableCell>
+                    <TableCell align="right">Voucher</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <Row key={row.name} row={row} />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </div>
         </> : null}
       {/* <Helmet>
@@ -292,6 +442,12 @@ export function DetailCustomer(props) {
         <meta name="description" content="Description of DetailCustomer" />
       </Helmet>
       <FormattedMessage {...messages.header} /> */}
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.detailCustomer.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

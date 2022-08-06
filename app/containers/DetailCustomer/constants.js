@@ -18,5 +18,9 @@ export const APPROVED_USER = 'app/DetailCustomer/APPROVED_USER';
 export const APPROVED_USER_SUCCESS = 'app/DetailCustomer/APPROVED_USER_SUCCESS';
 export const APPROVED_USER_FAILED = 'app/DetailCustomer/APPROVED_USER_FAILED';
 
+export const GET_ORDER_BY_USER_ID = 'app/DetailCustomer/GET_ORDER_BY_USER_ID';
+export const GET_ORDER_BY_USER_ID_SUCCESS = 'app/DetailCustomer/GET_ORDER_BY_USER_ID_SUCCESS';
+export const GET_ORDER_BY_USER_ID_FAILED = 'app/DetailCustomer/GET_ORDER_BY_USER_ID_FAILED';
+
 export const RESET = 'app/DetailCustomer/RESET';
 
