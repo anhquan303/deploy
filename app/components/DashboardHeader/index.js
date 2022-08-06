@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   secondText: {
-    color: "#000",
+    color: "#fff",
     fontWeight: "700",
     fontSize: "18px",
     [theme.breakpoints.down("xs")]: {
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   text: {
-    color: "#000",
+    color: "#fff",
     [theme.breakpoints.up("xs")]: {
       fontWeight: "bold",
       fontSize: "1.3rem",

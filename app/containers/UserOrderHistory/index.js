@@ -29,17 +29,18 @@ import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
   btn: {
-    position: 'relative',
-    width: 'fit-content',
-    borderRadius: '10px',
-    backgroundColor: '#ff9900',
-    marginTop: '0px 5px',
-    '&:hover': {
-      backgroundColor: '#FFA500',
-      fontWeight: 'bold',
-      color: '#000',
-      boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
-    },
+    position: "relative",
+    width: "fit-content",
+    borderRadius: "10px",
+    backgroundColor: "#FD4444",
+    color: "#fff",
+    margin: "10px 5px",
+    "&:hover": {
+      backgroundColor: "#FF1C1C",
+      fontWeight: "bold",
+      color: "#fff",
+      boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
+    }
   },
   font: {
     fontFamily: 'sans-serif',
@@ -115,6 +116,7 @@ export function UserOrderHistory(props) {
     };
     history.push(location);
   }
+  
 
   return (
     <>
@@ -142,6 +144,47 @@ export function UserOrderHistory(props) {
             placeholder="Tìm kiếm theo tên shop hoặc tên sản phẩm"
           />
         </Grid>
+
+        <div>
+          <Grid container spacing={0}>
+            <Grid item xs={12} md={3} sm={12} className={classes.center} style={{justifyContent: "center"}}>
+              <Button
+                // onClick={() => handleComment(item1, item)}
+                className={classes.btn}
+                variant="outlined"
+              >
+                mới
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={3} sm={12} className={classes.center} style={{justifyContent: "center"}}>
+              <Button
+                // onClick={() => handleComment(item1, item)}
+                className={classes.btn}
+                variant="outlined"
+              >
+                đang chờ
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={3} sm={12} className={classes.center} style={{justifyContent: "center"}}>
+              <Button
+                // onClick={() => handleComment(item1, item)}
+                className={classes.btn}
+                variant="outlined"
+              >
+                đã thanh toán
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={3} sm={12} className={classes.center} style={{justifyContent: "center"}}>
+              <Button
+                // onClick={() => handleComment(item1, item)}
+                className={classes.btn}
+                variant="outlined"
+              >
+                đã hủy
+              </Button>
+            </Grid>
+          </Grid>
+        </div>
 
         {props.userOrderHistory.orderList.slice(0).reverse().map((item, index) => (
           <div

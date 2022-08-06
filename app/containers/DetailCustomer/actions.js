@@ -83,3 +83,24 @@ export function approvedUserFailed(payload) {
   };
 }
 
+export function getOrderByUserId(payload) {
+  return {
+    type: types.GET_ORDER_BY_USER_ID,
+    payload
+  };
+}
+
+export function getOrderByUserIdSuccess(payload) {
+  return {
+    type: types.GET_ORDER_BY_USER_ID_SUCCESS,
+    payload
+  };
+}
+
+export function getOrderByUserIdFailed(payload) {
+  return {
+    type: types.GET_ORDER_BY_USER_ID_FAILED,
+    payload
+  };
+}
+

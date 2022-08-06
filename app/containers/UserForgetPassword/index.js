@@ -82,12 +82,13 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     width: 'fit-content',
     borderRadius: '10px',
-    backgroundColor: '#ff9900',
+    backgroundColor: '#FD4444',
     marginTop: '10px',
+    color: '#fff',
     '&:hover': {
-      backgroundColor: 'orange',
+      backgroundColor: '#FF1C1C',
       fontWeight: 'bold',
-      color: '#000',
+      color: '#fff',
     },
   },
   topLogo: {

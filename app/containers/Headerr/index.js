@@ -126,6 +126,15 @@ const useStyles = makeStyles(theme => ({
       order: "2"
     },
   },
+  partner: {
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
+    justifyContent: 'left',
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: 'center',
+    },
+  }
 }));
 
 export function Headerr(props) {
@@ -209,8 +218,8 @@ export function Headerr(props) {
 
 
   return (
-    <div style={{ backgroundColor: '#FF9900', marginBottom: "1rem" }}>
-      <Container fixed style={{ padding: '10px' }}>
+    <div style={{ backgroundColor: '#fff', padding: "15px", boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)', }}>
+      {/* <Container fixed style={{ padding: '10px' }}>
         <Grid container spacing={0}>
           <Grid item xs={12} sm={12} md={3} className={classes.zero}>
             <div style={{ textAlign: 'center' }}>
@@ -222,7 +231,6 @@ export function Headerr(props) {
               ) : null}
               {user && user.authorities[0].authority == 'SELLER' ? (
                 <>
-                  {/* <span className={classes.myStore}><Button startIcon={<StoreIcon />} href="/my-store/manager-order" ><span ><FormattedMessage {...messages.myStore} /></span> </Button></span> */}
                   <div className={classes.center}>
                     <NavLink to="/my-store/manager-order" className={classes.link}>
                       <div className={classes.item}>
@@ -244,7 +252,7 @@ export function Headerr(props) {
 
           <Grid item xs={12} md={3} sm={12} className={classes.two}>
             <div style={{ textAlign: 'center' }}>
-              {/* <LocaleToggle /> */}
+         
               {user == null ? (
                 <>
                   <Button href="/userRegister"><FormattedMessage {...messages.signup} /></Button>|
@@ -253,7 +261,7 @@ export function Headerr(props) {
               ) : (
                 <>
                   <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title={`${props.headerr.user? props.headerr.user.firstname : null} ${props.headerr.user ? props.headerr.user.lastname : null}`}>
+                    <Tooltip title={`${props.headerr.user ? props.headerr.user.firstname : null} ${props.headerr.user ? props.headerr.user.lastname : null}`}>
                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                         <Avatar alt="avatar" src={props.headerr.user != undefined ? props.headerr.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"} />
                       </IconButton>
@@ -305,7 +313,6 @@ export function Headerr(props) {
               value={searched}
               onChange={searchVal => requestSearch(searchVal)}
               onCancelSearch={() => cancelSearch()}
-              //placeholder="What would you like to eat today?"
               placeholder="Bạn muốn ăn gì hôm nay?"
             />
           </Grid>
@@ -314,6 +321,108 @@ export function Headerr(props) {
               <Badge badgeContent={result} color="primary" onClick={() => history.push("/cart")}>
                 <AddShoppingCartIcon color="action" />
               </Badge>
+            </div>
+          </Grid>
+        </Grid>
+      </Container> */}
+
+      <Container fixed>
+        <Grid container spacing={0}>
+          <Grid item xs={12} sm={12} md={3} className={classes.center}>
+            <div style={{ display: "flex", margin: '0 auto' }}>
+              <div style={{ width: '60px', height: '60px', marginRight: "10px" }}>
+                <img
+                  src={Logo}
+                  alt="logo"
+                  style={{ width: '100%', height: '100%', borderRadius: '20px' }}
+                  onClick={() => history.push('/')}
+                />
+              </div>
+              <div className={classes.center}>
+                <p className={classes.title}>
+                  No <span style={{ color: '#EA5E5E' }}>Nê</span>
+                </p>
+              </div>
+            </div>
+
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={4} className={classes.partner}>
+            <div style={{ textAlign: 'center' }}>
+              {(user && user.authorities[0].authority == 'USER') ||
+                user == null ? (
+                <Button onClick={handleSellerRegister}>
+                  <FormattedMessage {...messages.becomeSeller} />
+                </Button>
+              ) : null}
+              {user && user.authorities[0].authority == 'SELLER' ? (
+                <>
+                  {/* <span className={classes.myStore}><Button startIcon={<StoreIcon />} href="/my-store/manager-order" ><span ><FormattedMessage {...messages.myStore} /></span> </Button></span> */}
+                  <div className={classes.center}>
+                    <NavLink to="/my-store/manager-order" className={classes.link}>
+                      <div className={classes.item}>
+                        <StoreIcon className={classes.icon} />
+                        <Typography className={classes.text}><FormattedMessage {...messages.myStore} /></Typography>
+                      </div>
+                    </NavLink>
+                  </div>
+                </>
+              ) : null}
+            </div>
+          </Grid>
+
+          <Grid item xs={2} sm={4} md={2} className={classes.center} style={{ justifyContent: "right" }}>
+            <div style={{ textAlign: 'center' }}>
+              <Badge badgeContent={result} color="primary" onClick={() => history.push("/cart")}>
+                <AddShoppingCartIcon color="action" />
+              </Badge>
+            </div>
+          </Grid>
+
+          <Grid item xs={10} sm={8} md={3} className={classes.center} style={{ justifyContent: "left", paddingLeft: "20px" }}>
+            <div style={{ textAlign: 'center' }}>
+              {/* <LocaleToggle /> */}
+              {user == null ? (
+                <>
+                  <Button href="/userRegister"><FormattedMessage {...messages.signup} /></Button>|
+                  <Button href="/login"><FormattedMessage {...messages.login} /> </Button>
+                </>
+              ) : (
+                <>
+                  <Box sx={{ flexGrow: 0 }}>
+                    <Tooltip title={`${props.headerr.user ? props.headerr.user.firstname : null} ${props.headerr.user ? props.headerr.user.lastname : null}`}>
+                      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                        <Avatar alt="avatar" src={props.headerr.user != undefined ? props.headerr.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"} />
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      sx={{ mt: '45px' }}
+                      id="menu-appbar"
+                      anchorEl={anchorElUser}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      open={Boolean(anchorElUser)}
+                      onClose={handleCloseUserMenu}
+                    >
+
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography onClick={() => history.push('/user/setting')} textAlign="center"><FormattedMessage {...messages.myAccount} /></Typography>
+                      </MenuItem>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography onClick={handleLogout} textAlign="center"><FormattedMessage {...messages.logout} /></Typography>
+                      </MenuItem>
+
+                    </Menu>
+                  </Box>
+                </>
+              )}
             </div>
           </Grid>
         </Grid>

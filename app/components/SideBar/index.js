@@ -57,9 +57,9 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(3),
       cursor: "pointer",
       "&:hover": {
-        color: "#FF9900",
+        color: "#FD4444",
         marginLeft: "20px",
-        backgroundColor: "#FFD18C"
+        backgroundColor: "#f48787"
       },
     },
 
@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#7d8da1",
     alignItems: "center",
     "&.active": {
-      color: "#FFAC30"
+      color: "#FD4444"
     }
   },
   icon: {
@@ -117,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   span: {
-    color: "#FFAC30"
+    color: "#FD4444"
   }
 
 }));
@@ -211,7 +211,7 @@ function SideBar(props) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar style={{ backgroundColor: "#FFAC30" }}
+      <AppBar style={{ backgroundColor: "#FD4444" }}
         // position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },

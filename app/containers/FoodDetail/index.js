@@ -56,20 +56,22 @@ import reducer from './reducer';
 import makeSelectFoodDetail from './selectors';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
+import { Footerr } from '../Footerr';
 
 const useStyles = makeStyles(theme => ({
   btn: {
-    position: 'relative',
-    width: 'fit-content',
-    borderRadius: '10px',
-    backgroundColor: '#ff9900',
-    margin: '10px 5px',
-    '&:hover': {
-      backgroundColor: '#FFA500',
-      fontWeight: 'bold',
-      color: '#000',
-      boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
-    },
+    position: "relative",
+    width: "fit-content",
+    borderRadius: "10px",
+    backgroundColor: "#FD4444",
+    color: "#fff",
+    margin: "10px 5px",
+    "&:hover": {
+      backgroundColor: "#FF1C1C",
+      fontWeight: "bold",
+      color: "#fff",
+      boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
+    }
   },
   star: {
     color: '#FFCD29',
@@ -223,21 +225,21 @@ export function FoodDetail(props) {
 
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#F3F7F8" }}>
       <Headerr />
-      <Container fixed>
+      <Container fixed style={{ marginTop: "30px", backgroundColor: "#fff", boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} className={classes.imgFood}>
             <img src={props.location.state.item.image} style={{ width: "100%" }} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Button
+            {/* <Button
               className={classes.btn}
               variant="outlined"
               startIcon={<ThumbUpIcon />}
             >
               Yêu thích
-            </Button>
+            </Button> */}
             <p className={classes.font}>
               {props.foodDetail.food ? props.foodDetail.food.name : null} -{' '}
               {props.foodDetail.food
@@ -278,7 +280,7 @@ export function FoodDetail(props) {
                 </Grid> */}
               </Grid>
             </div>
-            <div style={{ margin: '10px 0' }}>
+            {/* <div style={{ margin: '10px 0' }}>
               <CircleIcon
                 style={{ color: '#128B02', width: '10px', height: '10px' }}
               />
@@ -292,29 +294,13 @@ export function FoodDetail(props) {
                   ? props.foodDetail.food.foodStore.closeTime
                   : null}
               </span>
-            </div>
+            </div> */}
             <p style={{ fontFamily: 'sans-serif', margin: '5px 0' }}>
               Giá bán{' '}
               {props.foodDetail.food ? dollarUSLocale.format(props.foodDetail.food.price) : null} VND
             </p>
             <div>
               <Grid container spacing={2}>
-                {/* <Grid item xs={12} md={6} className={classes.center}>
-                  <span className={classes.center}>Số lượng</span>
-                  <IconButton
-                    style={{ color: '#FF9900' }}
-                    onClick={decrementQuantity}
-                  >
-                    <IndeterminateCheckBoxIcon />
-                  </IconButton>
-                  <span className={classes.quantityNumber}>{quantity}</span>
-                  <IconButton
-                    style={{ color: '#FF9900' }}
-                    onClick={incrementQuantity}
-                  >
-                    <AddBoxIcon />
-                  </IconButton>
-                </Grid> */}
                 <Grid item xs={12} md={6} className={classes.center} style={{ justifyContent: "right" }}>
                   <Button
                     className={classes.btn}
@@ -341,19 +327,19 @@ export function FoodDetail(props) {
                     sx={{ width: 56, height: 56 }}
                   />
                 </Grid>
-                <Grid item xs={10} md={9} lg={10}>
+                <Grid item xs={10} md={9} lg={10} className={classes.center}>
                   <p style={{ margin: '0' }}>
                     {props.foodDetail.food
                       ? <span style={{ cursor: "pointer", color: "#000" }} onClick={() => toStoreProfile(props.foodDetail.food.foodStore.id)}>{props.foodDetail.food.foodStore.name}</span>
                       : null}
                   </p>
-                  <Button
+                  {/* <Button
                     className={classes.btn}
                     variant="outlined"
                     startIcon={<ThumbUpIcon />}
                   >
                     Yêu thích
-                  </Button>
+                  </Button> */}
                 </Grid>
               </Grid>
             </Grid>
@@ -588,7 +574,8 @@ export function FoodDetail(props) {
           </Alert>
         </Snackbar>
       </Container>
-    </div>
+      <Footerr />
+    </div >
   );
 }
 

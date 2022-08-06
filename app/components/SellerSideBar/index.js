@@ -95,7 +95,7 @@ const useStyles = makeStyles(theme => ({
     color: '#7d8da1',
     alignItems: 'center',
     '&.active': {
-      color: '#FFAC30',
+      color: '#FD4444',
     },
   },
   icon: {

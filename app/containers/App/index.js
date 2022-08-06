@@ -63,6 +63,7 @@ import UserReport from '../../containers/UserReport';
 import UserDetailReport from '../../containers/UserDetailReport';
 import SellerReport from '../../containers/SellerReport';
 import SellerDetailReport from '../../containers/SellerDetailReport';
+import Footerr from '../../containers/Footerr';
 import { getUser } from '../../utils/common';
 import Headerr from '../Headerr';
 
@@ -159,6 +160,7 @@ export default function App() {
 
                   <Route path="" component={NotFoundPage} />
                 </Switch>
+                
               </Grid>
             </div>
           </Grid>
@@ -215,6 +217,7 @@ export default function App() {
                     {/* <Route path="/sellerRegister" component={SellerRegister} /> */}
                     <Route path="" component={NotFoundPage} />
                   </Switch>
+                  
                 </Grid>
               </div>
             </Grid>
@@ -245,9 +248,11 @@ export default function App() {
                       <Route path="/user/detail-report/:id" component={UserDetailReport} />
                       <Route path="" component={NotFoundPage} />
                     </Switch>
+                    
                   </Grid>
                 </Grid>
               </Container>
+              <Footerr />
             </>
           ) : (user != null && user.authorities[0].authority != 'USER') ||
             (user != null && user.authorities[0].authority != 'SELLER') ? (
@@ -262,6 +267,7 @@ export default function App() {
                   <Route path="/store-profile" component={StoreProfile} />
                   <Route path="" component={NotFoundPage} />
                 </Switch>
+              
               </Grid>
             </Grid>
           ) : (
@@ -281,7 +287,9 @@ export default function App() {
                   <Route path="/forget-password" component={ForgetPassword} />
                   <Route path="" component={NotFoundPage} />
                 </Switch>
+                
               </Grid>
+             
             </Grid>
           )}
 

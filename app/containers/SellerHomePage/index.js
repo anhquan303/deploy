@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
     color: '#000',
     alignItems: 'center',
     '&.active': {
-      color: '#FFAC30',
+      color: '#FD4444',
     },
   },
   avatar: {

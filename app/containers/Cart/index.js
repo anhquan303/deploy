@@ -31,6 +31,7 @@ import saga from './saga';
 import { useLocation } from 'react-router-dom';
 import Headerr from '../Headerr';
 import Loading from '../../components/Loading';
+import { Footerr } from '../Footerr';
 
 const useStyles = makeStyles(theme => ({
   bigGrid: {
@@ -290,9 +291,9 @@ export function Cart(props) {
   // console.log(props.cart.listOrder[0].cartFoodResponses.every(item => checkedList.includes(item)))
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#F3F7F8", height: "100vh" }}>
       <Headerr />
-      <Container fixed>
+      <Container fixed >
         <Grid container spacing={0} className={classes.bigGrid} >
           <Grid item md={4} sm={12} xs={12} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
             <Checkbox
@@ -499,6 +500,7 @@ export function Cart(props) {
       >
         <Loading />
       </Backdrop>
+      <Footerr />
     </div>
   );
 }
