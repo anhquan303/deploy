@@ -24,7 +24,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import Headerr from '../Headerr';
-import { addLocation, createOrder, createQR, getListLocationByUserId, getListOrderByUserId, getListVoucher, getListWards, reset } from './actions';
+import { addLocation, createOrder, createQR, getDefaultLocation, getListLocationByUserId, getListOrderByUserId, getListVoucher, getListWards, reset } from './actions';
 import { getUser } from '../../utils/common';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -267,78 +267,63 @@ export function Payment(props) {
   console.log(paymentList)
 
   const handlePayment = () => {
-    if (paymentType != "") {
-      if (paymentType == "transfer") {
-        const data = {
-          uid: user.id,
-          data: {
-            orderCreateRequests:
-              paymentList.map((item) => {
-                return (
-                  {
-                    storeId: item.storeId.id,
-                    orderFood:
-                      item.listFood.map((item1) => {
-                        return (
-                          {
-                            foodId: item1.food.id,
-                            quantity: item1.quantity
-                          }
-                        )
-                      }),
 
-                    locationId: locationId,
-                    voucherId: item.voucher == null ? null : item.voucher.id
-                  }
-                )
-              })
-          }
-        }
-        dispatch(createOrder(data));
-      } else {
-        const data = {
-          uid: user.id,
-          data: {
-            orderCreateRequests:
-              // props.location.state.item.map((item) => {
-              //   return (
-              //     {
-              //       storeId: item.food.foodStore.id,
-              //       orderFood: [
-              //         {
-              //           foodId: item.food.id,
-              //           quantity: item.quantity
-              //         }
-              //       ],
-              //       voucherId: null,
-              //       locationId: locationId
-              //     }
-              //   )
-              // })
-              paymentList.map((item) => {
-                return (
-                  {
-                    storeId: item.storeId.id,
-                    orderFood:
-                      item.listFood.map((item1) => {
-                        return (
-                          {
-                            foodId: item1.food.id,
-                            quantity: item1.quantity
-                          }
-                        )
-                      })
-                    ,
-                    voucherId: item.voucher == null ? null : item.voucher.id,
-                    locationId: locationId
-                  }
-                )
-              })
-          }
-        }
-        dispatch(createOrder(data));
+
+    const data = {
+      uid: user.id,
+      data: {
+        orderCreateRequests:
+          paymentList.map((item) => {
+            return (
+              {
+                storeId: item.storeId.id,
+                orderFood:
+                  item.listFood.map((item1) => {
+                    return (
+                      {
+                        foodId: item1.food.id,
+                        quantity: item1.quantity
+                      }
+                    )
+                  }),
+
+                locationId: locationId,
+                voucherId: item.voucher == null ? null : item.voucher.id
+              }
+            )
+          })
       }
     }
+    dispatch(createOrder(data));
+
+    // const data = {
+    //   uid: user.id,
+    //   data: {
+    //     orderCreateRequests:
+    //       paymentList.map((item) => {
+    //         return (
+    //           {
+    //             storeId: item.storeId.id,
+    //             orderFood:
+    //               item.listFood.map((item1) => {
+    //                 return (
+    //                   {
+    //                     foodId: item1.food.id,
+    //                     quantity: item1.quantity
+    //                   }
+    //                 )
+    //               })
+    //             ,
+    //             voucherId: item.voucher == null ? null : item.voucher.id,
+    //             locationId: locationId
+    //           }
+    //         )
+    //       })
+    //   }
+    // }
+    // dispatch(createOrder(data));
+
+
 
   }
 
@@ -352,59 +337,69 @@ export function Payment(props) {
     dispatch(getListLocationByUserId(data));
     dispatch(getListVoucher());
     dispatch(reset());
+    dispatch(getDefaultLocation());
   }, []);
 
 
   useEffect(() => {
     if (props.payment.message.includes("Đặt hàng thành công")) {
-      if (paymentType == "transfer") {
-        const data = {
-          id: user.id
-        }
-        dispatch(getListOrderByUserId(data));
-      } else {
-        setOpenAlert(true);
-        setTimeout(() => dispatch(reset()), 3000);
-        setTimeout(() => history.push("/user/order-history"), 2000);
+      // if (paymentType == "transfer") {
+      //   const data = {
+      //     id: user.id
+      //   }
+      //   dispatch(getListOrderByUserId(data));
+      // } else {
+      setOpenAlert(true);
+      setTimeout(() => dispatch(reset()), 3000);
+      setTimeout(() => history.push("/user/order-history"), 2000);
+      //}
+    }
+    if (props.payment.message.includes("Thêm địa chỉ thành công")) {
+      const data = {
+        id: user.id
       }
+      dispatch(getListLocationByUserId(data));
+      setOpenAlert(true);
+      setTimeout(() => dispatch(reset()), 3000);
     }
   }, [props.payment.message])
 
+  console.log(props.payment.defaultLocation)
 
   //get id of order
-  useEffect(() => {
-    if (props.payment.listOrder && paymentType == "transfer") {
-      if (props.payment.listOrder.length != 0) {
-        setOrderId(props.payment.listOrder[props.payment.listOrder.length - 1].id);
-      }
-    }
-  }, [props.payment.listOrder]);
+  // useEffect(() => {
+  //   if (props.payment.listOrder && paymentType == "transfer") {
+  //     if (props.payment.listOrder.length != 0) {
+  //       setOrderId(props.payment.listOrder[props.payment.listOrder.length - 1].id);
+  //     }
+  //   }
+  // }, [props.payment.listOrder]);
 
   //create qr code for order
-  useEffect(() => {
-    if (orderId != '') {
-      const data = {
-        order_id: orderId
-      }
-      dispatch(createQR(data));
-    }
-  }, [orderId])
+  // useEffect(() => {
+  //   if (orderId != '') {
+  //     const data = {
+  //       order_id: orderId
+  //     }
+  //     dispatch(createQR(data));
+  //   }
+  // }, [orderId])
 
   //qr code
-  useEffect(() => {
-    if (props.payment.qrcode != "") {
+  // useEffect(() => {
+  //   if (props.payment.qrcode != "") {
 
-      // setOpenAlert(true);
-      // setTimeout(() => dispatch(reset()), 6000);
-      // setTimeout(() => history.push("/user/order-history"), 2000);
-      //window.open(props.payment.qrcode, '_blank', 'noopener,noreferrer');
-    }
-  }, [props.payment.qrcode]);
+  //     // setOpenAlert(true);
+  //     // setTimeout(() => dispatch(reset()), 6000);
+  //     // setTimeout(() => history.push("/user/order-history"), 2000);
+  //     //window.open(props.payment.qrcode, '_blank', 'noopener,noreferrer');
+  //   }
+  // }, [props.payment.qrcode]);
 
-  const handlePaymentSuccess = () => {
-    setTimeout(() => dispatch(reset()), 6000);
-    setTimeout(() => history.push("/user/order-history"), 2000);
-  }
+  // const handlePaymentSuccess = () => {
+  //   setTimeout(() => dispatch(reset()), 6000);
+  //   setTimeout(() => history.push("/user/order-history"), 2000);
+  // }
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -416,13 +411,19 @@ export function Payment(props) {
 
   useEffect(() => {
     if (props.payment.listLocation) {
-      if (props.payment.listLocation.length != 0 && props.payment.listLocation != null) {
-        setNameAddress(props.payment.listLocation[0].name);
-        setAddress(props.payment.listLocation[0].village);
-        setLocationId(props.payment.listLocation[0].id);
+      if (props.payment.defaultLocation == undefined) {
+        if (props.payment.listLocation.length != 0 && props.payment.listLocation != null) {
+          setNameAddress(props.payment.listLocation[0].name);
+          setAddress(props.payment.listLocation[0].village);
+          setLocationId(props.payment.listLocation[0].id);
+        } else {
+          setNameAddress("");
+          setAddress("");
+        }
       } else {
-        setNameAddress("");
-        setAddress("");
+        setNameAddress(props.payment.defaultLocation.name);
+        setAddress(props.payment.defaultLocation.village);
+        setLocationId(props.payment.defaultLocation.id);
       }
     }
 
@@ -462,7 +463,8 @@ export function Payment(props) {
     setOpenModalAddAddress(false);
   }
 
-
+  console.log(props.payment.listLocation);
+  console.log(props.payment.message);
   return (
     <div>
       {/* <Helmet>
@@ -490,50 +492,83 @@ export function Payment(props) {
                 Địa chỉ nhận hàng
               </p>
             </Grid>
-            {props.payment.listLocation != null ?
-              <Grid container spacing={0}>
-                <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
-                  <span className={classes.infor_text}>{user.firstname} {user.lastname}</span>
+            {props.payment.defaultLocation == undefined ?
+              <>
+                {props.payment.listLocation != null ?
+                  <Grid container spacing={0}>
+                    <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
+                      <span className={classes.infor_text}>{user.firstname} {user.lastname}</span>
+                    </Grid>
+                    <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
+                      <span className={classes.infor_text}>{user.phone}</span>
+                    </Grid>
+                    <Grid item sm={12} xs={12} md={12} lg={6} className={classes.center}>
+                      <span
+                        className={classes.infor_text}
+                        style={{ fontWeight: '300' }}
+                      >
+                        {nameAddress}, {address}
+                      </span>
+                    </Grid>
+                    <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
+                      <Button
+                        variant="contained"
+                        component="span"
+                        className={classes.btnSubmit}
+                        onClick={() => setOpenModal(true)}
+                      >
+                        thay đổi
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  :
+                  <Grid container spacing={0}>
+                    <Grid item sm={12} xs={12} md={12} lg={10} className={classes.center}>
+                      Chưa có địa chỉ
+                    </Grid>
+                    <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
+                      <Button
+                        variant="contained"
+                        component="span"
+                        className={classes.btnSubmit}
+                        onClick={() => setOpenModalAddAddress(true)}
+                      >
+                        thêm địa chỉ
+                      </Button>
+                    </Grid>
+                  </Grid>
+                }
+              </>
+              : <>
+
+                <Grid container spacing={0}>
+                  <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
+                    <span className={classes.infor_text}>{user.firstname} {user.lastname}</span>
+                  </Grid>
+                  <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
+                    <span className={classes.infor_text}>{user.phone}</span>
+                  </Grid>
+                  <Grid item sm={12} xs={12} md={12} lg={6} className={classes.center}>
+                    <span
+                      className={classes.infor_text}
+                      style={{ fontWeight: '300' }}
+                    >
+                      {nameAddress}, {address}
+                    </span>
+                  </Grid>
+                  <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
+                    <Button
+                      variant="contained"
+                      component="span"
+                      className={classes.btnSubmit}
+                      onClick={() => setOpenModal(true)}
+                    >
+                      thay đổi
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
-                  <span className={classes.infor_text}>{user.phone}</span>
-                </Grid>
-                <Grid item sm={12} xs={12} md={12} lg={6} className={classes.center}>
-                  <span
-                    className={classes.infor_text}
-                    style={{ fontWeight: '300' }}
-                  >
-                    {nameAddress}, {address}
-                  </span>
-                </Grid>
-                <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
-                  <Button
-                    variant="contained"
-                    component="span"
-                    className={classes.btnSubmit}
-                    onClick={() => setOpenModal(true)}
-                  >
-                    thay đổi
-                  </Button>
-                </Grid>
-              </Grid>
-              :
-              <Grid container spacing={0}>
-                <Grid item sm={12} xs={12} md={12} lg={10} className={classes.center}>
-                  Chưa có địa chỉ
-                </Grid>
-                <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
-                  <Button
-                    variant="contained"
-                    component="span"
-                    className={classes.btnSubmit}
-                    onClick={() => setOpenModalAddAddress(true)}
-                  >
-                    thêm địa chỉ
-                  </Button>
-                </Grid>
-              </Grid>
-            }
+              </>}
+
           </Grid>
         </div>
 
@@ -640,7 +675,7 @@ export function Payment(props) {
 
           </div>
 
-          <div>
+          {/* <div>
             <Grid container spacing={0}>
               <Grid item sm={12} xs={12} md={4} className={classes.center}>
                 <p className={classes.infor_text}>
@@ -671,9 +706,9 @@ export function Payment(props) {
               </Grid>
             </Grid>
             <hr />
-          </div>
+          </div> */}
 
-          <Grid container spacing={0}>
+          {/* <Grid container spacing={0}>
             <Grid item xs={12} md={6} sm={12}>
               <div style={{ margin: "0 auto" }}>
                 {props.payment.qrcode != "" ?
@@ -681,14 +716,7 @@ export function Payment(props) {
                   : null}
               </div>
             </Grid>
-            {/* <Grid item xs={12} md={6} sm={12}>
-              <div style={{ margin: "0 auto" }}>
-                {props.payment.qrcode != "" ?
-                  <img src={props.payment.qrcode != "" ? props.payment.qrcode : null} />
-                  : null}
-              </div>
-            </Grid> */}
-          </Grid>
+          </Grid> */}
 
 
           <div>
@@ -699,7 +727,7 @@ export function Payment(props) {
               Tổng thanh toán: {dollarUSLocale.format(result)} VND
             </p>
             <p style={{ textAlign: 'right' }}>
-              {props.payment.qrcode != "" ?
+              {/* {props.payment.qrcode != "" ?
                 <Button
                   variant="contained"
                   component="span"
@@ -708,17 +736,17 @@ export function Payment(props) {
                 >
                   <span>Tôi đã thanh toán thành công</span>
                 </Button>
-                : null}
-              {props.payment.qrcode == "" ?
-                < Button
-                  variant="contained"
-                  component="span"
-                  className={classes.btnSubmit}
-                  onClick={handlePayment}
-                >
-                  đặt hàng
-                </Button>
-                : null}
+                : null} */}
+              {/* {props.payment.qrcode == "" ? */}
+              < Button
+                variant="contained"
+                component="span"
+                className={classes.btnSubmit}
+                onClick={handlePayment}
+              >
+                đặt hàng
+              </Button>
+              {/* : null} */}
             </p>
           </div>
         </div>

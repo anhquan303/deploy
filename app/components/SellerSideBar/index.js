@@ -201,7 +201,7 @@ function SellerSideBar(props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar
-        style={{ backgroundColor: '#FFAC30' }}
+        style={{ backgroundColor: '#FD4444' }}
         // position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },

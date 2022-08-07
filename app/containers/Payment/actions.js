@@ -167,3 +167,24 @@ export function getListVoucherFailed(payload) {
     payload
   };
 }
+
+export function getDefaultLocation(payload) {
+  return {
+    type: types.GET_DEFAULT_LOCATION,
+    payload
+  };
+}
+
+export function getDefaultLocationSuccess(payload) {
+  return {
+    type: types.GET_DEFAULT_LOCATION_SUCCESS,
+    payload
+  };
+}
+
+export function getDefaultLocationFailed(payload) {
+  return {
+    type: types.GET_DEFAULT_LOCATION_FAILED,
+    payload
+  };
+}

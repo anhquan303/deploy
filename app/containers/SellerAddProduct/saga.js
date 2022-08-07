@@ -11,7 +11,7 @@ export function* addProduct({ payload }) {
     formData.append('type', payload.type);
     formData.append('description', payload.description);
     formData.append('imageFile', payload.image);
-    formData.append('status', "");
+    formData.append('status', "a");
     // const data = {
     //   name: payload.name,
     //   price: payload.price,

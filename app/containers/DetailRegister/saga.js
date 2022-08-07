@@ -32,6 +32,7 @@ export function* declinedStore({ payload }) {
 export function* getRegisterById({ payload }) {
   try {
     const res = yield call(apiFetchData, [`api/store/detail?id=${payload.id}`]);
+    console.log(res)
     if (res.status == 200) {
       yield put(getRegisterByIdSuccess(res.data));
     } else {

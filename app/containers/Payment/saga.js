@@ -2,7 +2,7 @@ import { take, call, put, select, takeEvery } from 'redux-saga/effects';
 import {
   addLocationFailed,
   addLocationSuccess,
-  createOrderFailed, createOrderSuccess, createQRFailed, createQRSuccess, getListLocationByUserIdFailed,
+  createOrderFailed, createOrderSuccess, createQRFailed, createQRSuccess, getDefaultLocationFailed, getDefaultLocationSuccess, getListLocationByUserIdFailed,
   getListLocationByUserIdSuccess, getListOrderByUserIdFailed, getListOrderByUserIdSuccess, getListVoucherFailed, getListVoucherSuccess, getListWardsFailed, getListWardsSuccess
 } from './actions';
 import { apiFetchData, apiGetListWards, apiPost } from './api';
@@ -100,6 +100,19 @@ export function* getListVoucher({ payload }) {
   }
 }
 
+export function* getDefaultLocation({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/location/getDefaultLocation`]);
+    if (res.status == 200) {
+      yield put(getDefaultLocationSuccess(res.data.data.body.data));
+    } else {
+      yield put(getDefaultLocationFailed("FAILED"));
+    }
+  } catch (error) {
+    yield put(getDefaultLocationFailed(error.message));
+  }
+}
+
 
 // Individual exports for testing
 export default function* paymentSaga() {
@@ -111,4 +124,5 @@ export default function* paymentSaga() {
   yield takeEvery(types.CREATE_QR, createQR);
   yield takeEvery(types.GET_LIST_ORDER_BY_USER_ID, getListOrderByUserId);
   yield takeEvery(types.GET_LIST_VOUCHER, getListVoucher);
+  yield takeEvery(types.GET_DEFAULT_LOCATION, getDefaultLocation);
 }

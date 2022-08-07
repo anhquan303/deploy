@@ -477,7 +477,6 @@ export function SellerRegister(props) {
                         id="outlined-textarea"
                         label="Tên quán"
                         placeholder="Tên quán"
-                        multiline
                         name="name"
                         value={formValues.name}
                         onChange={handleChange}
@@ -507,7 +506,6 @@ export function SellerRegister(props) {
                         id="outlined-textarea"
                         label="Email"
                         placeholder="Email"
-                        multiline
                         value={formValues.email}
                         name="email"
                         onChange={handleChange}
@@ -544,7 +542,6 @@ export function SellerRegister(props) {
                       id="outlined-textarea"
                       label="Số điện thoại liên hệ"
                       placeholder="Số điện thoại liên hệ"
-                      multiline
                       name="phone"
                       value={formValues.phone}
                       onChange={handleChange}
@@ -608,7 +605,6 @@ export function SellerRegister(props) {
                         id="outlined-textarea"
                         label="Huyện"
                         placeholder="Huyện"
-                        multiline
                         onChange={handleChange}
                         name="district"
                         value={formValues.district}
@@ -668,7 +664,6 @@ export function SellerRegister(props) {
                         id="outlined-textarea"
                         label="Thôn"
                         placeholder="Thôn"
-                        multiline
                         onChange={handleChange}
                         name="village"
                         value={formValues.village}
@@ -700,7 +695,6 @@ export function SellerRegister(props) {
                           id="outlined-textarea"
                           label="Dorm"
                           placeholder="Dorm"
-                          multiline
                           onChange={handleChange}
                           name="dorm"
                           value={formValues.dorm}
@@ -729,7 +723,6 @@ export function SellerRegister(props) {
                           id="outlined-textarea"
                           label="Phòng"
                           placeholder="Phòng"
-                          multiline
                           onChange={handleChange}
                           name="room"
                           value={formValues.room}
@@ -778,7 +771,6 @@ export function SellerRegister(props) {
                         id="outlined-textarea"
                         label="Tên đầy đủ của người đại diện"
                         placeholder="Tên đầy đủ của người đại diện"
-                        multiline
                         value={user.username}
                         disabled
                       />
@@ -799,7 +791,6 @@ export function SellerRegister(props) {
                         id="outlined-textarea"
                         label="Email"
                         placeholder="Email"
-                        multiline
                         // name="email1"
                         value={user.email}
                       />
@@ -838,7 +829,6 @@ export function SellerRegister(props) {
                         id="outlined-textarea"
                         label="Số nhà và đường phố"
                         placeholder="Số nhà và đường phố"
-                        multiline
                         name="address1"
                         value=""
                       />
@@ -863,7 +853,6 @@ export function SellerRegister(props) {
                           id="outlined-textarea"
                           label="Số tài khoản"
                           placeholder="Số tài khoản"
-                          multiline
                           onChange={handleChange}
                           name="bankAccount"
                           value={formValues.bankAccount}

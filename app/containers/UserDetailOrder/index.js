@@ -161,6 +161,7 @@ export function UserDetailOrder(props) {
       }
     }
   }, [props.userDetailOrder.message]);
+  
 
   return (
     <div>
@@ -200,8 +201,10 @@ export function UserDetailOrder(props) {
             style={{ fontWeight: '700', fontSize: '20px', color: '#20D167' }}
           >
             {props.userDetailOrder.order != undefined
-              ? props.userDetailOrder.order.status
-              : null}
+              ? props.userDetailOrder.order.status != "CANCEL" ?
+                <span style={{ color: '#20D167' }}>{props.userDetailOrder.order.status}</span>
+                : <span style={{ color: '#fe0000' }}>{props.userDetailOrder.order.status}</span> : null}
+
           </span>
         </Grid>
       </Grid>
@@ -274,15 +277,19 @@ export function UserDetailOrder(props) {
                         <Grid item xs={12} md={8} sm={12}>
                           {item.food.name} <br />x{item.quantity}
                         </Grid>
-                        <Grid item xs={12} md={12} sm={12}>
-                          <Button
-                            className={classes.btn}
-                            variant="outlined"
-                            onClick={() => handleComment(item)}
-                          >
-                            Đánh giá
-                          </Button>
-                        </Grid>
+                        {props.userDetailOrder.order != undefined
+                          ? props.userDetailOrder.order.status != "CANCEL" ?
+                            <Grid item xs={12} md={12} sm={12}>
+                              <Button
+                                className={classes.btn}
+                                variant="outlined"
+                                onClick={() => handleComment(item)}
+                              >
+                                Đánh giá
+                              </Button>
+                            </Grid>
+                            : null : null}
+
                       </Grid>
                     </Grid>
 

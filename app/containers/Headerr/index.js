@@ -334,7 +334,7 @@ export function Headerr(props) {
                 <img
                   src={Logo}
                   alt="logo"
-                  style={{ width: '100%', height: '100%', borderRadius: '20px' }}
+                  style={{ width: '100%', height: '100%', borderRadius: '20px', cursor: "pointer" }}
                   onClick={() => history.push('/')}
                 />
               </div>
