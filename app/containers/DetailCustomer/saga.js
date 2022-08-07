@@ -1,5 +1,5 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { declinedUserFailed, declinedUserSuccess, getOrderByUserIdFailed, getOrderByUserIdSuccess, getUserByIdFailed, getUserByIdSuccess } from './actions';
+import { declinedUserFailed, declinedUserSuccess, getLocationFailed, getLocationSuccess, getOrderByUserIdFailed, getOrderByUserIdSuccess, getUserByIdFailed, getUserByIdSuccess } from './actions';
 import { apiFetchData, apiPost } from './api';
 import * as types from './constants';
 
@@ -7,7 +7,6 @@ import * as types from './constants';
 export function* getUserById({ payload }) {
   try {
     const res = yield call(apiFetchData, [`api/user/getById?id=${payload.id}`]);
-    console.log(res)
     if (res.status == 200) {
       yield put(getUserByIdSuccess(res.data.data));
     } else {
@@ -47,7 +46,6 @@ export function* approveUser({ payload }) {
 export function* getOrderByUserId({ payload }) {
   try {
     const res = yield call(apiFetchData, [`api/order?pageSize=10000&userId=${payload.id}`]);
-    console.log(res)
     if (res.status == 200) {
       yield put(getOrderByUserIdSuccess(res.data.data));
     } else {
@@ -58,6 +56,19 @@ export function* getOrderByUserId({ payload }) {
   }
 }
 
+export function* getListLocation({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/location/getLocationByUserId/${payload.id}`]);
+    if (res.status == 200) {
+      yield put(getLocationSuccess(res.data.data));
+    } else {
+      yield put(getLocationFailed("Failed"));
+    }
+  } catch (error) {
+    yield put(getLocationFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* detailCustomerSaga() {
   // See example in containers/HomePage/saga.js
@@ -65,4 +76,5 @@ export default function* detailCustomerSaga() {
   yield takeEvery(types.DECLINED_USER, declinedUser);
   yield takeEvery(types.APPROVED_USER, approveUser);
   yield takeEvery(types.GET_ORDER_BY_USER_ID, getOrderByUserId);
+  yield takeEvery(types.GET_LOCATION, getListLocation);
 }

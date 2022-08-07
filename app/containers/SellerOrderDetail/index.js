@@ -476,16 +476,20 @@ export function SellerOrderDetail(props) {
             </Grid>
           </div>
           <div style={{ textAlign: 'center' }}>
-            {check == false && delivery == false && delivered == false && paid == false ? <Button
-              disabled={check == true}
-              className={classes.btn}
-              variant="outlined"
-              startIcon={<DoneIcon />}
-              onClick={changeStatus}
-            >
-              Xác nhận
-            </Button> : null}
+            {props.sellerOrderDetail.orderDetail && props.sellerOrderDetail.orderDetail.status != "CANCEL" ?
+              <>
+                {check == false && delivery == false && delivered == false && paid == false ? <Button
+                  disabled={check == true}
+                  className={classes.btn}
+                  variant="outlined"
+                  startIcon={<DoneIcon />}
+                  onClick={changeStatus}
+                >
+                  Xác nhận
+                </Button> : null}
+              </>
 
+              : null}
             {check == true && delivery == false && delivered == false && paid == false ? <Button
               disabled={check == false}
               className={classes.btn}

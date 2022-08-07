@@ -46,17 +46,18 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   btn: {
-    position: 'relative',
-    width: '100%',
-    borderRadius: '10px',
-    backgroundColor: '#ff9900',
-    marginTop: '10px',
-    '&:hover': {
-      backgroundColor: '#FFA500',
-      fontWeight: 'bold',
-      color: '#000',
-      boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
-    },
+    position: "relative",
+    width: "fit-content",
+    borderRadius: "10px",
+    backgroundColor: "#FD4444",
+    color: "#fff",
+    margin: "10px 5px",
+    "&:hover": {
+      backgroundColor: "#FF1C1C",
+      fontWeight: "bold",
+      color: "#fff",
+      boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
+    }
   },
   priceFrom: {
     padding: '0 20px',
@@ -203,7 +204,6 @@ export function SellerManagerProduct(props) {
                     id="outlined-textarea"
                     label="Tên món ăn"
                     placeholder="Tên món ăn"
-                    multiline
                     value={nameSearch}
                     onChange={e => setNameSearch(e.target.value)}
                   />
@@ -222,12 +222,17 @@ export function SellerManagerProduct(props) {
                       label="Type"
                       onChange={handleChangeType}
                     >
-                      <MenuItem value="ComNong">Cơm Nóng</MenuItem>
-                      <MenuItem value="ComRang">Cơm Rang</MenuItem>
-                      <MenuItem value="ComTam">Cơm Tấm</MenuItem>
-                      <MenuItem value="NemNuong">Nem Nướng</MenuItem>
-                      <MenuItem value="Pho">Phở</MenuItem>
-                      <MenuItem value="Banhmi">Bánh Mì</MenuItem>
+                      <MenuItem value="BANHMI">Bánh mì</MenuItem>
+                      <MenuItem value="COMRANG">Cơm rang</MenuItem>
+                      <MenuItem value="COMTAM">Cơm tấm</MenuItem>
+                      <MenuItem value="COMXUAT">Cơm xuất</MenuItem>
+                      <MenuItem value="BUNGIOHEO">Bún giò heo</MenuItem>
+                      <MenuItem value="BUNTRA">Bún chả</MenuItem>
+                      <MenuItem value="BUNDAU">Bún đậu</MenuItem>
+                      <MenuItem value="PHO">Phở</MenuItem>
+                      <MenuItem value="MIEN">Miến</MenuItem>
+                      <MenuItem value="MI">Mỳ</MenuItem>
+                      <MenuItem value="NEMNUONG">Nem nướng</MenuItem>
                     </Select>
                   </FormControl>
                 </Box>
@@ -249,7 +254,6 @@ export function SellerManagerProduct(props) {
                     id="outlined-textarea"
                     label="Trạng thái"
                     placeholder="Trạng thái"
-                    multiline
                   />
                 </Box>
               </div>
@@ -270,7 +274,6 @@ export function SellerManagerProduct(props) {
                         id="outlined-textarea"
                         label="Giá từ"
                         placeholder="Giá từ"
-                        multiline
                         name="priceFrom"
                         value={formValues.priceFrom}
                         onChange={handleChange}
@@ -283,7 +286,6 @@ export function SellerManagerProduct(props) {
                         id="outlined-textarea"
                         label="đến"
                         placeholder="đến"
-                        multiline
                         name="priceTo"
                         value={formValues.priceTo}
                         onChange={handleChange}

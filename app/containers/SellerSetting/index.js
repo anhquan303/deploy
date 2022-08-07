@@ -27,7 +27,8 @@ import {
   Grid,
   CardContent,
   Avatar,
-  
+  Backdrop,
+
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -44,6 +45,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import moment from 'moment';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Loading from '../../components/Loading';
 
 
 const useStyles = makeStyles(theme => ({
@@ -244,8 +246,8 @@ export function SellerSetting(props) {
   useEffect(() => {
     if (props.sellerSetting.message != "") {
       if (props.sellerSetting.message.includes("thành công")) {
-          setOpenAlert(true);
-          setTimeout(() => dispatch(reset()), 3000);
+        setOpenAlert(true);
+        setTimeout(() => dispatch(reset()), 3000);
       }
     }
   }, [props.sellerSetting.message]);
@@ -715,7 +717,7 @@ export function SellerSetting(props) {
       </div>
       <Snackbar
         open={openAlert}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         anchorOrigin={{ vertical, horizontal }}
         onClose={handleCloseAlert}
       >
@@ -728,6 +730,13 @@ export function SellerSetting(props) {
           {props.sellerSetting.message}
         </Alert>
       </Snackbar>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={props.sellerSetting.loading}
+      >
+        <Loading />
+      </Backdrop>
     </div>
   );
 }

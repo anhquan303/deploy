@@ -104,3 +104,25 @@ export function getOrderByUserIdFailed(payload) {
   };
 }
 
+export function getLocation(payload) {
+  return {
+    type: types.GET_LOCATION,
+    payload
+  };
+}
+
+export function getLocationSuccess(payload) {
+  return {
+    type: types.GET_LOCATION_SUCCESS,
+    payload
+  };
+}
+
+export function getLocationFailed(payload) {
+  return {
+    type: types.GET_LOCATION_FAILED,
+    payload
+  };
+}
+
+

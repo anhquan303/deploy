@@ -12,6 +12,7 @@ export const initialState = {
   message: "",
   user: undefined,
   listOrder: [],
+  listLocation: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -65,6 +66,17 @@ const detailCustomerReducer = (state = initialState, action) =>
         draft.listOrder = action.payload;
         break;
       case types.GET_ORDER_BY_USER_ID_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_LOCATION:
+        draft.loading = true;
+        break;
+      case types.GET_LOCATION_SUCCESS:
+        draft.loading = false;
+        draft.listLocation = action.payload;
+        break;
+      case types.GET_LOCATION_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

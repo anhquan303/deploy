@@ -32,7 +32,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import CustomTable from '../../components/CustomTable';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { approvedUser, declinedUser, getOrderByUserId, getUserById, reset } from './actions';
+import { approvedUser, declinedUser, getLocation, getOrderByUserId, getUserById, reset } from './actions';
 import Loading from '../../components/Loading';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -108,6 +108,7 @@ export function DetailCustomer(props) {
     }
     dispatch(getUserById(data));
     dispatch(getOrderByUserId(data));
+    dispatch(getLocation(data));
   }, []);
 
   const handleChangeTab = (event, newValue) => {
@@ -207,6 +208,7 @@ export function DetailCustomer(props) {
     };
   }
 
+  console.log(props.detailCustomer.listLocation)
 
   function Row({ row }) {
     const [open, setOpen] = React.useState(false);
@@ -245,7 +247,7 @@ export function DetailCustomer(props) {
                       <TableCell>Tên món ăn</TableCell>
                       <TableCell align="right">Đơn giá</TableCell>
                       <TableCell align="right">Số lượng</TableCell>
-                      <TableCell align="right">Thành tiền ($)</TableCell>
+                      <TableCell align="right">Thành tiền (VND)</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -288,6 +290,14 @@ export function DetailCustomer(props) {
       ))
     }
   }, [data]);
+
+  let defaultLocation = null;
+  if (props.detailCustomer.listLocation && props.detailCustomer.listLocation.length != 0) {
+    defaultLocation = Array.from(props.detailCustomer.listLocation ? props.detailCustomer.listLocation.filter(address => address.defaultLocation == true).map(item => {
+      return (item.name + ", " + item.village);
+    }) : null);
+  }
+  console.log(defaultLocation)
 
   return (
     <div style={{ padding: "15px" }}>
@@ -360,7 +370,8 @@ export function DetailCustomer(props) {
                     </Grid>
                     <Grid item xs={8} md={10} style={{ padding: "10px" }}>
                       <p className={classes.text}>Địa chỉ</p>
-                      <p className={classes.text}>Tuấn Cường 1, Thạch Hòa, Thạch Thất</p>
+                      <p className={classes.text}>{defaultLocation != null ? defaultLocation : props.detailCustomer.listLocation && props.detailCustomer.listLocation.length != 0
+                        ? <span>{props.detailCustomer.listLocation[0].name}, {props.detailCustomer.listLocation[0].village}</span> : <span>Khách hàng chưa có địa chỉ</span>}</p>
                     </Grid>
                   </Grid>
                 </div>

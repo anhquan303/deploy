@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Box, Grid, TextField, Container, Avatar, Backdrop } from '@mui/material';
+import { Box, Grid, TextField, Container, Avatar, Backdrop, Tabs, Tab } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import SearchBar from 'material-ui-search-bar';
 import { NavLink, useHistory } from 'react-router-dom';
@@ -66,6 +66,7 @@ export function UserOrderHistory(props) {
   const user = getUser();
   const history = useHistory();
   let dollarUSLocale = Intl.NumberFormat('en-US');
+  const [value, setValue] = useState(0);
 
   const requestSearch = searchedVal => {
     // const filteredRows = props.dashboardStore.listStore.filter((row) => {
@@ -82,6 +83,7 @@ export function UserOrderHistory(props) {
   useEffect(() => {
     const data = {
       id: user.id,
+      status: "",
     };
     dispatch(getOrderById(data));
   }, []);
@@ -116,7 +118,70 @@ export function UserOrderHistory(props) {
     };
     history.push(location);
   }
-  
+
+
+  const handleChangeTab = (event, newValue) => {
+    event.preventDefault();
+    setValue(newValue);
+  };
+
+  useEffect(() => {
+    if (value == 0) {
+      const data = {
+        id: user.id,
+        status: "",
+      };
+      dispatch(getOrderById(data));
+    }
+    if (value == "1") {
+      const data = {
+        status: "NEW",
+        id: user.id,
+        pageSize: 10000
+      }
+      dispatch(getOrderById(data))
+    }
+    if (value == "2") {
+      const data = {
+        status: "ORDER",
+        id: user.id,
+        pageSize: 10000
+      }
+      dispatch(getOrderById(data))
+    }
+    if (value == "3") {
+      const data = {
+        status: "DELIVERY",
+        id: user.id,
+        pageSize: 10000
+      }
+      dispatch(getOrderById(data))
+    }
+    if (value == "4") {
+      const data = {
+        status: "DELIVERED",
+        id: user.id,
+        pageSize: 10000
+      }
+      dispatch(getOrderById(data))
+    }
+    if (value == "5") {
+      const data = {
+        status: "PAID",
+        id: user.id,
+        pageSize: 10000
+      }
+      dispatch(getOrderById(data))
+    }
+    if (value == "6") {
+      const data = {
+        status: "CANCEL",
+        id: user.id,
+        pageSize: 10000
+      }
+      dispatch(getOrderById(data))
+    }
+  }, [value])
 
   return (
     <>
@@ -146,44 +211,16 @@ export function UserOrderHistory(props) {
         </Grid>
 
         <div>
-          <Grid container spacing={0}>
-            <Grid item xs={12} md={3} sm={12} className={classes.center} style={{justifyContent: "center"}}>
-              <Button
-                // onClick={() => handleComment(item1, item)}
-                className={classes.btn}
-                variant="outlined"
-              >
-                mới
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} className={classes.center} style={{justifyContent: "center"}}>
-              <Button
-                // onClick={() => handleComment(item1, item)}
-                className={classes.btn}
-                variant="outlined"
-              >
-                đang chờ
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} className={classes.center} style={{justifyContent: "center"}}>
-              <Button
-                // onClick={() => handleComment(item1, item)}
-                className={classes.btn}
-                variant="outlined"
-              >
-                đã thanh toán
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={3} sm={12} className={classes.center} style={{justifyContent: "center"}}>
-              <Button
-                // onClick={() => handleComment(item1, item)}
-                className={classes.btn}
-                variant="outlined"
-              >
-                đã hủy
-              </Button>
-            </Grid>
-          </Grid>
+          <Tabs style={{ margin: "0 auto" }} value={value} onChange={handleChangeTab} variant="scrollable" textColor="primary" indicatorColor="primary" scrollButtons allowScrollButtonsMobile>
+            
+            <Tab label="Tất cả đơn" />
+            <Tab label="Đơn chờ xác nhận" />
+            <Tab label="Đơn đã xác nhận" />
+            <Tab label="Đơn đang giao" />
+            <Tab label="Đơn đã nhận" />
+            <Tab label="Đơn đã thanh toán" />
+            <Tab label="Đơn đã hủy" />
+          </Tabs>
         </div>
 
         {props.userOrderHistory.orderList.slice(0).reverse().map((item, index) => (
@@ -233,7 +270,7 @@ export function UserOrderHistory(props) {
                   fontSize: '20px',
                 }}
               >
-                {item.status}
+                {item.status == "CANCEL" ? <span style={{ color: "#fe0000" }}>{item.status}</span> : <span style={{ color: "#20D167" }}>{item.status}</span>}
               </Grid>
             </Grid>
             <hr />
@@ -257,15 +294,16 @@ export function UserOrderHistory(props) {
                       >
                         {item1.food.name} <br />x{item1.quantity}
                       </Grid>
-                      <Grid item xs={12} md={12} sm={12}>
-                        <Button
-                          onClick={() => handleComment(item1, item)}
-                          className={classes.btn}
-                          variant="outlined"
-                        >
-                          Đánh giá
-                        </Button>
-                      </Grid>
+                      {item.status != "CANCEL" ?
+                        <Grid item xs={12} md={12} sm={12}>
+                          <Button
+                            onClick={() => handleComment(item1, item)}
+                            className={classes.btn}
+                            variant="outlined"
+                          >
+                            Đánh giá
+                          </Button>
+                        </Grid> : null}
                     </Grid>
                   </Grid>
                   <Grid item xs={12} md={6} sm={12} className={classes.center}>
@@ -275,11 +313,10 @@ export function UserOrderHistory(props) {
                 <hr />
               </div>
             ))}
+
             <Grid container spacing={0} style={{ padding: '10px' }}>
               <Grid item xs={12} md={6} sm={12}>
-                {/* <Button onClick={() => handleComment()} className={classes.btn} variant="outlined">
-                  Đánh giá
-                </Button> */}
+                <img src={item.qr_code} alt="qrcode" style={{ width: "60%" }} />
               </Grid>
               <Grid item xs={12} md={6} sm={12} className={classes.center}>
                 Tổng số tiền: {dollarUSLocale.format(item.total_price)} VND

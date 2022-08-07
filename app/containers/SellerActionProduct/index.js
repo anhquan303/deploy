@@ -46,16 +46,17 @@ const useStyles = makeStyles((theme) => ({
     padding: "20px",
     borderRadius: "10px"
   },
-  btn: {
+   btn: {
     position: "relative",
     width: "100%",
     borderRadius: "10px",
-    backgroundColor: "#ff9900",
-    marginTop: "10px",
+    backgroundColor: "#FD4444",
+    color: "#fff",
+    margin: "10px 5px",
     "&:hover": {
-      backgroundColor: "#FFA500",
+      backgroundColor: "#FF1C1C",
       fontWeight: "bold",
-      color: "#000",
+      color: "#fff",
       boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
     }
   },
@@ -331,12 +332,17 @@ export function SellerActionProduct(props) {
                         label="Type"
                         onChange={handleChangeType}
                       >
-                        <MenuItem value="ComNong">Cơm Nóng</MenuItem>
-                        <MenuItem value="ComRang">Cơm Rang</MenuItem>
-                        <MenuItem value="ComTam">Cơm Tấm</MenuItem>
-                        <MenuItem value="NemNuong">Nem Nướng</MenuItem>
-                        <MenuItem value="Pho">Phở</MenuItem>
-                        <MenuItem value="Banhmi">Bánh Mì</MenuItem>
+                        <MenuItem value="BANHMI">Bánh mì</MenuItem>
+                        <MenuItem value="COMRANG">Cơm rang</MenuItem>
+                        <MenuItem value="COMTAM">Cơm tấm</MenuItem>
+                        <MenuItem value="COMXUAT">Cơm xuất</MenuItem>
+                        <MenuItem value="BUNGIOHEO">Bún giò heo</MenuItem>
+                        <MenuItem value="BUNTRA">Bún chả</MenuItem>
+                        <MenuItem value="BUNDAU">Bún đậu</MenuItem>
+                        <MenuItem value="PHO">Phở</MenuItem>
+                        <MenuItem value="MIEN">Miến</MenuItem>
+                        <MenuItem value="MI">Mỳ</MenuItem>
+                        <MenuItem value="NEMNUONG">Nem nướng</MenuItem>
                       </Select>
                     </FormControl>
                   </Box>

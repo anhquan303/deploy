@@ -22,5 +22,9 @@ export const GET_ORDER_BY_USER_ID = 'app/DetailCustomer/GET_ORDER_BY_USER_ID';
 export const GET_ORDER_BY_USER_ID_SUCCESS = 'app/DetailCustomer/GET_ORDER_BY_USER_ID_SUCCESS';
 export const GET_ORDER_BY_USER_ID_FAILED = 'app/DetailCustomer/GET_ORDER_BY_USER_ID_FAILED';
 
+export const GET_LOCATION = 'app/DetailCustomer/GET_LOCATION';
+export const GET_LOCATION_SUCCESS = 'app/DetailCustomer/GET_LOCATION_SUCCESS';
+export const GET_LOCATION_FAILED = 'app/DetailCustomer/GET_LOCATION_FAILED';
+
 export const RESET = 'app/DetailCustomer/RESET';
 
