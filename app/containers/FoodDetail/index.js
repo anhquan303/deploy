@@ -44,6 +44,7 @@ import {
   getFoodById,
   getFoodByStoreId,
   getListCommentFoodById,
+  getListCommentStore,
   getRatingFoodById,
   reset,
 } from './actions';
@@ -54,7 +55,7 @@ import messages from './messages';
 import saga from './saga';
 import reducer from './reducer';
 import makeSelectFoodDetail from './selectors';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { Footerr } from '../Footerr';
 
@@ -99,15 +100,15 @@ const useStyles = makeStyles(theme => ({
   },
   storeInfo: {
     padding: '20px',
-    border: '3px solid #000',
-    borderRadius: '20px',
+    border: '1px solid #000',
+    borderRadius: '5px',
     marginTop: '15px',
   },
   foodType: {
     background: '#fff',
     padding: '10px',
-    borderRadius: '20px',
-    boxShadow: '0 2rem 3rem rgba(132, 139, 200, 0.18)',
+    borderRadius: '5px',
+    boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px;',
     transition: '0.5s',
     height: 'fit-content',
     width: '100%',
@@ -164,7 +165,7 @@ export function FoodDetail(props) {
     dispatch(getFoodById(data));
     dispatch(getRatingFoodById(data));
     dispatch(getListCommentFoodById(data));
-  }, []);
+  }, [props.location.state.item.id]);
 
   useEffect(() => {
     if (props.foodDetail.rating) {
@@ -183,6 +184,8 @@ export function FoodDetail(props) {
       dispatch(addToCart(data));
     }
   };
+
+  //console.log(props.location.state.item.id)
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -220,9 +223,11 @@ export function FoodDetail(props) {
         id: props.foodDetail.food.foodStore.id
       }
       dispatch(getFoodByStoreId(data));
+      dispatch(getListCommentStore(data));
     }
   }, [props.foodDetail.food]);
 
+  console.log(props.foodDetail.listCommentStore)
 
   return (
     <div style={{ backgroundColor: "#F3F7F8" }}>
@@ -240,20 +245,20 @@ export function FoodDetail(props) {
             >
               Yêu thích
             </Button> */}
-            <p className={classes.font}>
-              {props.foodDetail.food ? props.foodDetail.food.name : null} -{' '}
-              {props.foodDetail.food
+            <p className={classes.font} style={{ fontWeight: "600", fontSize: "25px" }}>
+              {props.foodDetail.food ? props.foodDetail.food.name : null}
+              {/* {props.foodDetail.food
                 ? <span onClick={() => toStoreProfile(props.foodDetail.food.foodStore.id)} style={{ cursor: "pointer", color: "#000" }}>{props.foodDetail.food.foodStore.name}</span>
-                : null}
+                : null} */}
             </p>
-            <p className={classes.font}>
+            {/* <p className={classes.font}>
               {props.location.state.item.foodStore.dormLocation == null
                 ? <span>
                   {props.location.state.item.foodStore.otherLocation.name} - {props.location.state.item.foodStore.otherLocation.village} - {props.location.state.item.foodStore.otherLocation.town}</span>
                 : <span>{props.location.state.item.foodStore.dormLocation.dormName} - {props.location.state.item.foodStore.dormLocation.room_number} </span>}
               - Hòa Lạc
-            </p>
-            {/* // <props.location.state.item.foodStore.dormLocation}{' '}> */}
+            </p> */}
+
             <div>
               {/* <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
               <span>|</span><span style={{ margin: "5px 5px" }}>999+ đánh giá</span>
@@ -269,9 +274,8 @@ export function FoodDetail(props) {
                 </Grid>
 
                 <Grid item xs={5} sm={3} md={4} lg={3}>
-                  <span>|</span>
                   <span style={{ margin: '5px 5px' }}>
-                    {props.foodDetail.listComment.length} đánh giá
+                    ({props.foodDetail.listComment.length})
                   </span>
                 </Grid>
                 {/* <Grid item xs={4} md={3}>
@@ -296,16 +300,17 @@ export function FoodDetail(props) {
               </span>
             </div> */}
             <p style={{ fontFamily: 'sans-serif', margin: '5px 0' }}>
-              Giá bán{' '}
+              Giá bán{'     '}
               {props.foodDetail.food ? dollarUSLocale.format(props.foodDetail.food.price) : null} VND
             </p>
             <div>
               <Grid container spacing={2}>
-                <Grid item xs={12} md={6} className={classes.center} style={{ justifyContent: "right" }}>
+                <Grid item xs={12} md={12} >
                   <Button
                     className={classes.btn}
                     variant="outlined"
                     onClick={handleAddToCart}
+                    style={{ width: "100%", marginTop: "15px", borderRadius: "5px" }}
                   >
                     Thêm vào giỏ hàng
                   </Button>
@@ -320,17 +325,17 @@ export function FoodDetail(props) {
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
               <Grid container spacing={2}>
-                <Grid item xs={2} md={3} lg={2} className={classes.center}>
+                <Grid item xs={3} md={3} lg={2} className={classes.center}>
                   <Avatar
                     alt="avatar store"
                     src={props.foodDetail.food != undefined ? props.foodDetail.food.image : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
                     sx={{ width: 56, height: 56 }}
                   />
                 </Grid>
-                <Grid item xs={10} md={9} lg={10} className={classes.center}>
+                <Grid item xs={9} md={9} lg={10} className={classes.center}>
                   <p style={{ margin: '0' }}>
                     {props.foodDetail.food
-                      ? <span style={{ cursor: "pointer", color: "#000" }} onClick={() => toStoreProfile(props.foodDetail.food.foodStore.id)}>{props.foodDetail.food.foodStore.name}</span>
+                      ? <span style={{ cursor: "pointer", color: "#000", fontFamily: "'Montserrat', sans-serif", fontSize: "22px", fontWeight: "600" }} onClick={() => toStoreProfile(props.foodDetail.food.foodStore.id)}>{props.foodDetail.food.foodStore.name}</span>
                       : null}
                   </p>
                   {/* <Button
@@ -347,10 +352,10 @@ export function FoodDetail(props) {
             <Grid item xs={12} md={8} className={classes.center}>
               <Grid container spacing={2}>
                 <Grid item xs={4} md={4}>
-                  Món ăn <span>12</span>
+                  Món ăn <span>{props.foodDetail.listFood ? props.foodDetail.listFood.length : 0}</span>
                 </Grid>
                 <Grid item xs={4} md={4}>
-                  Đánh giá <span>12</span>
+                  Đánh giá <span>{props.foodDetail.listCommentStore ? props.foodDetail.listCommentStore.length : 0}</span>
                 </Grid>
                 {/* <Grid item xs={4} md={4}>
                   Tham gia từ <span>06/28/2022</span>
@@ -367,14 +372,14 @@ export function FoodDetail(props) {
         </div>
 
         <div style={{ marginTop: '5px' }}>
-          <p
+          {/* <p
             className={classes.font}
             style={{ fontWeight: 'bold', fontSize: '25px', margin: '0' }}
           >
             Menu
-          </p>
+          </p> */}
           <Grid container spacing={0} style={{ marginTop: '5px' }}>
-            <Grid item xs={12} md={3} style={{ padding: '10px' }}>
+            {/* <Grid item xs={12} md={3} style={{ padding: '10px' }}>
               <List
                 component="nav"
                 aria-label="secondary mailbox folder"
@@ -411,8 +416,8 @@ export function FoodDetail(props) {
                   <ListItemText primary="Đồ ăn vặt" />
                 </ListItemButton>
               </List>
-            </Grid>
-            <Grid item xs={12} md={6} style={{ padding: '10px' }}>
+            </Grid> */}
+            {/* <Grid item xs={12} md={6} style={{ padding: '10px' }}>
               <div className={classes.foodType}>
                 <SearchBar
                   value={searched}
@@ -430,76 +435,39 @@ export function FoodDetail(props) {
 
                 {props.foodDetail.listFood ? props.foodDetail.listFood.map((item) => {
                   return (
-                    <Grid key={item.id} container spacing={0} style={{ margin: "5px 0" }}>
-                      <Grid item sm={2} xs={12} md={2} className={classes.center}>
-                        <Avatar
-                          variant="rounded"
-                          src={item.image}
-                        />
-                      </Grid>
-                      <Grid item sm={7} xs={6} md={6} className={classes.center}>
-                        <p style={{ margin: '0', fontFamily: 'sans-serif' }}>
-                          {item.name}
-                        </p>
-                        {/* <p style={{ margin: '0', fontFamily: 'sans-serif' }}>
-                            Đã bán: 999+ lần |{' '}
-                            <span>
-                              <ThumbUpIcon />
-                            </span>{' '}
-                            100+
-                          </p> */}
-                      </Grid>
-                      <Grid item xs={6} md={4} sm={3} className={classes.center}>
-                        <span
-                          className={classes.center}
-                          style={{ color: '#1168EB', fontWeight: 'bold' }}
-                        >
-                          {dollarUSLocale.format(item.price)} VND{' '}
-                        </span>
-                        <IconButton style={{ color: '#FF9900' }}>
-                          <AddBoxIcon />
-                        </IconButton>
-                      </Grid>
+                    <Link
+                      to={{ pathname: `/food/${item.id}`, state: { item } }}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <Grid key={item.id} container spacing={0} style={{ margin: "5px 0" }}>
+                        <Grid item sm={2} xs={12} md={2} className={classes.center}>
+                          <Avatar
+                            variant="rounded"
+                            src={item.image}
+                          />
+                        </Grid>
+                        <Grid item sm={7} xs={6} md={6} className={classes.center}>
+                          <p style={{ margin: '0', fontFamily: 'sans-serif' }}>
+                            {item.name}
+                          </p>
+                        </Grid>
+                        <Grid item xs={6} md={4} sm={3} className={classes.center}>
+                          <span
+                            className={classes.center}
+                            style={{ color: '#1168EB', fontWeight: 'bold' }}
+                          >
+                            {dollarUSLocale.format(item.price)} VND{' '}
+                          </span>
+                        </Grid>
 
-                    </Grid>
+                      </Grid>
+                    </Link>
                   )
                 }) : null}
-
-                {/* <Grid container spacing={0}>
-                  <Grid item sm={2} xs={12} md={2} className={classes.center}>
-                    <Avatar
-                      variant="rounded"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTN7rHMcnK0E9YocmOktrVKzdzeCgWg3oP04bIfqScZykQbYDs8m1e_qcnzzWNMLIG1ZZY&usqp=CAU"
-                    />
-                  </Grid>
-                  <Grid item sm={7} xs={6} md={7}>
-                    <p style={{ margin: '0', fontFamily: 'sans-serif' }}>
-                      Hambuger hơi ngon
-                    </p>
-                    <p style={{ margin: '0', fontFamily: 'sans-serif' }}>
-                      Đã bán: 999+ lần |{' '}
-                      <span>
-                        <ThumbUpIcon />
-                      </span>{' '}
-                      100+
-                    </p>
-                  </Grid>
-                  <Grid item xs={6} md={3} sm={3} className={classes.center}>
-                    <span
-                      className={classes.center}
-                      style={{ color: '#1168EB', fontWeight: 'bold' }}
-                    >
-                      25.000 VND{' '}
-                    </span>
-                    <IconButton style={{ color: '#FF9900' }}>
-                      <AddBoxIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid> */}
               </div>
-            </Grid>
-            <Grid item xs={12} md={3} style={{ padding: '10px' }}>
-              <div className={classes.foodType}>
+            </Grid> */}
+            <Grid item xs={12} md={12} style={{ padding: '10px', marginBottom: "30px" }}>
+              <div className={classes.foodType} style={{ height: "300px", overflowY: "scroll" }}>
                 <p
                   className={classes.font}
                   style={{
@@ -509,51 +477,58 @@ export function FoodDetail(props) {
                     textAlign: 'center',
                   }}
                 >
-                  Đánh giá và bình luận
+                  Đánh giá và bình luận từ khách hàng
                 </p>
+                <Grid container spacing={0} >
+                  {props.foodDetail.listComment.slice(0).reverse().map((item, index) => (
 
-                {props.foodDetail.listComment.slice(0).reverse().map((item, index) => (
-                  <Grid container spacing={0} key={index}>
-                    <Grid
-                      item
-                      xs={2}
-                      md={2}
-                      className={classes.center}
-                      style={{ height: 'fit-content' }}
-                    >
-                      <Avatar
-                        alt="avatar store"
-                        src={item.user.avatar ? item.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
-                        sx={{ width: 26, height: 26, marginRight: '3px' }}
-                      />
+                    <Grid key={index} item xs={12} md={6} style={{ padding: "5px" }}>
+                      <Grid container spacing={0} >
+                        <Grid item xs={3} md={2} className={classes.center} style={{ height: 'fit-content' }}>
+                          <Avatar
+                            alt="avatar store"
+                            src={item.user.avatar ? item.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
+                            sx={{ width: 50, height: 50, marginRight: '2px' }}
+                          />
+                        </Grid>
+                        <Grid item xs={9} md={10}>
+                          <Grid container spacing={0} >
+                            <Grid item xs={6} md={6}>
+                              <p style={{ margin: '0', fontSize: "22px", fontWeight: "600", fontFamily: "Montserrat, sans-serif" }}>{item.user.username}</p>
+                            </Grid>
+                            <Grid item xs={6} md={6}>
+                              <div>
+                                <Rating
+                                  name="half-rating-read"
+                                  value={5}
+                                  precision={0.5}
+                                  readOnly
+                                />
+                              </div>
+                            </Grid>
+                          </Grid>
+
+
+                          <p className={classes.font} style={{ margin: '0' }}>
+                            {item.description}
+                          </p>
+                          {/* <img src="https://phunuketnoi.com/wp-content/uploads/2021/03/mon-ngon-moi-ngay.jpg" style={{ width: "100%" }} /> */}
+                          <p
+                            className={classes.font}
+                            style={{
+                              margin: '0',
+                              color: '#AFAFAF',
+                              fontSize: '13px',
+                            }}
+                          >
+                            {moment(item.create_at).format('DD/MM/YYYY')}
+                          </p>
+                        </Grid>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={10} md={10}>
-                      <p style={{ margin: '0' }}>{item.user.username}</p>
-                      <div>
-                        <Rating
-                          name="half-rating-read"
-                          value={5}
-                          precision={0.5}
-                          readOnly
-                        />
-                      </div>
-                      <p className={classes.font} style={{ margin: '0' }}>
-                        {item.description}
-                      </p>
-                      {/* <img src="https://phunuketnoi.com/wp-content/uploads/2021/03/mon-ngon-moi-ngay.jpg" style={{ width: "100%" }} /> */}
-                      <p
-                        className={classes.font}
-                        style={{
-                          margin: '0',
-                          color: '#AFAFAF',
-                          fontSize: '13px',
-                        }}
-                      >
-                        {moment(item.create_at).format('DD/MM/YYYY')}
-                      </p>
-                    </Grid>
-                  </Grid>
-                ))}
+
+                  ))}
+                </Grid>
               </div>
             </Grid>
           </Grid>

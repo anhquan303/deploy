@@ -124,7 +124,7 @@ export function SellerHomePage(props) {
   };
 
   const drawer = (
-    <div style={{ marginTop: "15px", padding: "10px" }}>
+    <div style={{ marginTop: "15px", padding: "10px", backgroundColor: "#fff" }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4} className={classes.avatar}>
           <Avatar
@@ -142,7 +142,7 @@ export function SellerHomePage(props) {
       <hr />
       <div style={{ marginTop: '15px' }}>
         <List
-          sx={{ width: '100%', maxWidth: 360, bgcolor: '#FAFAFA' }}
+          sx={{ width: '100%', maxWidth: 360, bgcolor: '#fff' }}
           component="nav"
           aria-labelledby="nested-list-subheader"
         >

@@ -49,9 +49,9 @@ const useStyles = makeStyles(theme => ({
       marginBottom: theme.spacing(3),
       cursor: 'pointer',
       '&:hover': {
-        color: '#FF9900',
+        color: '#FD4444',
         marginLeft: '20px',
-        backgroundColor: '#FFD18C',
+        backgroundColor: '#FB8989',
       },
     },
   },
@@ -107,7 +107,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   span: {
-    color: '#FFAC30',
+    color: '#EA5E5E',
   },
 }));
 

@@ -145,3 +145,24 @@ export function reset(payload) {
     payload
   };
 }
+
+export function getStoreComment(payload) {
+  return {
+    type: types.GET_STORE_COMMENT,
+    payload
+  };
+}
+
+export function getStoreCommentSuccess(payload) {
+  return {
+    type: types.GET_STORE_COMMENT_SUCCESS,
+    payload
+  };
+}
+
+export function getStoreCommentFailed(payload) {
+  return {
+    type: types.GET_STORE_COMMENT_FAILED,
+    payload
+  };
+}

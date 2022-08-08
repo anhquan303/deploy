@@ -29,7 +29,7 @@ import { makeStyles, Container, Typography } from '@material-ui/core';
 import { getAllFood, getAllStore, getAllUser, getData } from './actions';
 import Avatar from '@mui/material/Avatar';
 import { getUser } from '../../utils/common';
-import { Line } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import { Backdrop } from '@mui/material';
 import Loading from '../../components/Loading';
 
@@ -59,88 +59,111 @@ export function Dashboard(props) {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={3}>
           <Grid item sm={4} xs={12}>
-            <div className="total">
-              <span style={{ background: "#0D31F0" }}><StoreIcon /></span>
-              <div className="middle">
-                <div className="left">
-                  <h3>Tổng số quán ăn</h3>
-                  <h1>{props.dashboard.storeList.length}</h1>
-                </div>
-                {/* <div className="progress">
+            <div style={{ padding: "20px" }}>
+              <div className="total">
+                <span style={{ background: "#0D31F0" }}><StoreIcon /></span>
+                <div className="middle">
+                  <div className="left">
+                    <h3>Tổng số quán ăn</h3>
+                    <h1>{props.dashboard.storeList.length}</h1>
+                  </div>
+                  {/* <div className="progress">
                   <svg>
                     <circle cx="38" cy="38" r="36"></circle>
                   </svg>
                   <div className="number"><p>81%</p></div>
                 </div> */}
+                </div>
+               
               </div>
-              <small className="text-muted">24h qua</small>
             </div>
           </Grid>
           <Grid item sm={4} xs={12}>
-            <div className="total">
-              <span style={{ background: "#ff9900" }}><PersonIcon /></span>
-              <div className="middle">
-                <div className="left">
-                  <h3>Tổng số người dùng</h3>
-                  <h1>{props.dashboard.userList.length}</h1>
-                </div>
-                {/* <div className="progress">
+            <div style={{ padding: "20px" }}>
+              <div className="total">
+                <span style={{ background: "#ff9900" }}><PersonIcon /></span>
+                <div className="middle">
+                  <div className="left">
+                    <h3>Tổng số người dùng</h3>
+                    <h1>{props.dashboard.userList.length}</h1>
+                  </div>
+                  {/* <div className="progress">
                   <svg>
                     <circle cx="38" cy="38" r="36"></circle>
                   </svg>
                   <div className="number"><p>81%</p></div>
                 </div> */}
+                </div>
+                
               </div>
-              <small className="text-muted">24h qua</small>
             </div>
           </Grid>
           <Grid item sm={4} xs={12}>
-            <div className="total">
-              <span style={{ background: "#20D167" }}><FastfoodIcon /></span>
-              <div className="middle">
-                <div className="left">
-                  <h3>Tổng số món ăn</h3>
-                  <h1>{props.dashboard.foodList.length}</h1>
-                </div>
-                {/* <div className="progress">
+            <div style={{ padding: "20px" }}>
+              <div className="total">
+                <span style={{ background: "#20D167" }}><FastfoodIcon /></span>
+                <div className="middle">
+                  <div className="left">
+                    <h3>Tổng số món ăn</h3>
+                    <h1>{props.dashboard.foodList.length}</h1>
+                  </div>
+                  {/* <div className="progress">
                   <svg>
                     <circle cx="38" cy="38" r="36"></circle>
                   </svg>
                   <div className="number"><p>81%</p></div>
                 </div> */}
+                </div>
+                
               </div>
-              <small className="text-muted">24h qua</small>
             </div>
           </Grid>
           <Grid item sm={12} xs={12}>
-            <h3>Hoạt động</h3>
-            <Line
-              data={{
-                labels: ["12/07/2022", "13/07/2022", "14/07/2022"],
-                datasets: [
-                  {
-                    data: ["400000", "150000", "1000000"],
-                    label: "Quán ăn",
-                    borderColor: "#FFAC30",
-                    fill: true
-                  },
-                  {
-                    data: ["17", "10", "40"],
-                    label: "Người dùng",
-                    borderColor: "#1168EB",
-                    backgroundColor: "rgba(255, 0, 0, 0.5)",
-                    fill: true
-                  },
-                  {
-                    data: ["50000", "30000", "100000"],
-                    label: "Món ăn",
-                    borderColor: "#FE0000",
-                    backgroundColor: "rgba(255, 0, 0, 0.5)",
-                    fill: true
-                  }
-                ]
-              }}
-            />
+            <div style={{ width: "30%", margin: "0 auto" }}>
+              <h3>Đồ thị</h3>
+              <Pie
+                data={{
+                  // labels: ["12/07/2022", "13/07/2022", "14/07/2022"],
+                  // datasets: [
+                  //   {
+                  //     data: ["400000", "150000", "1000000"],
+                  //     label: "Quán ăn",
+                  //     borderColor: "#FFAC30",
+                  //     fill: true
+                  //   },
+                  //   {
+                  //     data: ["17", "10", "40"],
+                  //     label: "Người dùng",
+                  //     borderColor: "#1168EB",
+                  //     backgroundColor: "rgba(255, 0, 0, 0.5)",
+                  //     fill: true
+                  //   },
+                  //   {
+                  //     data: ["50000", "30000", "100000"],
+                  //     label: "Món ăn",
+                  //     borderColor: "#FE0000",
+                  //     backgroundColor: "rgba(255, 0, 0, 0.5)",
+                  //     fill: true
+                  //   }
+                  // ]
+                  labels: [
+                    'Tổng số quán ăn',
+                    'Tổng số người dùng',
+                    'Tổng số món ăn'
+                  ],
+                  datasets: [{
+                    label: 'My First Dataset',
+                    data: [props.dashboard.storeList.length, props.dashboard.userList.length, props.dashboard.foodList.length],
+                    backgroundColor: [
+                      'rgb(255, 99, 132)',
+                      'rgb(54, 162, 235)',
+                      'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                  }]
+                }}
+              />
+            </div>
           </Grid>
         </Grid>
 

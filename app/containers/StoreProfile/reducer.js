@@ -13,7 +13,8 @@ export const initialState = {
   store: undefined,
   food: [],
   storeRating: undefined,
-  listVoucher: []
+  listVoucher: [],
+  storeComment: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -91,6 +92,17 @@ const storeProfileReducer = (state = initialState, action) =>
       case types.RESET:
         draft.loading = false;
         draft.message = "";
+        break;
+      case types.GET_STORE_COMMENT:
+        draft.loading = true;
+        break;
+      case types.GET_STORE_COMMENT_SUCCESS:
+        draft.loading = false;
+        draft.storeComment = action.payload;
+        break;
+      case types.GET_STORE_COMMENT_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
         break;
     }
   });

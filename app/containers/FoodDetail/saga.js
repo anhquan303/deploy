@@ -8,6 +8,8 @@ import {
   getFoodByStoreIdSuccess,
   getListCommentFoodByIdFailed,
   getListCommentFoodByIdSuccess,
+  getListCommentStoreFailed,
+  getListCommentStoreSuccess,
   getRatingFoodByIdFailed,
   getRatingFoodByIdSuccess,
 } from './actions';
@@ -79,6 +81,19 @@ export function* getListFoodByStoreId({ payload }) {
   }
 }
 
+export function* getListCommentStore({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/store/getUsersComments?id=${payload.id}`]);
+    if (res.status == 200) {
+      yield put(getListCommentStoreSuccess(res.data));
+    } else {
+      yield put(getListCommentStoreFailed('Failed'));
+    }
+  } catch (error) {
+    yield put(getListCommentStoreFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* foodDetailSaga() {
   // See example in containers/HomePage/saga.js
@@ -87,4 +102,5 @@ export default function* foodDetailSaga() {
   yield takeEvery(types.GET_LIST_COMMENT_FOOD_BY_ID, getListCommentFoodById);
   yield takeEvery(types.GET_FOOD_BY_STORE_ID, getListFoodByStoreId);
   yield takeEvery(types.ADD_TO_CART, addToCart);
+  yield takeEvery(types.GET_LIST_COMMENT_STORE, getListCommentStore);
 }

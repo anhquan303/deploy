@@ -227,7 +227,7 @@ export default function App() {
             (user != null &&
               user.authorities[0].authority != 'SELLER' &&
               location.pathname.indexOf('/user/') == 0) ? (
-            <>
+            <div style={{ backgroundColor: "#F3F7F8" }}>
               <Headerr />
               <Container fixed>
                 <Grid container spacing={0} style={{ marginTop: '15px' }}>
@@ -253,7 +253,7 @@ export default function App() {
                 </Grid>
               </Container>
               <Footerr />
-            </>
+            </div>
           ) : (user != null && user.authorities[0].authority != 'USER') ||
             (user != null && user.authorities[0].authority != 'SELLER') ? (
             <Grid container spacing={1}>

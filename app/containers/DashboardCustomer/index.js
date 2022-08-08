@@ -30,7 +30,8 @@ import { Backdrop } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   information_image: {
-    background: "#fff",
+    background: "#FD4444",
+    color: "#fff",
     padding: "10px",
     borderRadius: "20px",
     margin: "0 auto",

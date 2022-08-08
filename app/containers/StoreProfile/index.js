@@ -29,12 +29,14 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { CardItem } from '../CardItem';
-import { addVoucherByUserId, getFoodByStoreId, getStoreById, getStoreRating, getVoucherByStoreId, reset, userAddReport } from './actions';
+import { addVoucherByUserId, getFoodByStoreId, getStoreById, getStoreComment, getStoreRating, getVoucherByStoreId, reset, userAddReport } from './actions';
 import { Link } from 'react-router-dom';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { getUser } from '../../utils/common';
 import { Footerr } from '../Footerr';
+import { CardItemFood } from '../CardItemFood';
+import moment from 'moment';
 
 let HEIGHT = window.screen.height;
 
@@ -85,21 +87,27 @@ const useStyles = makeStyles(theme => ({
   },
   profileImage: {
     position: "relative",
-    top: "-125px",
+    //bottom: "25%",
     // left: "50px",
     justifyContent: "center",
     // width: "60px",
     height: "fit-content",
     border: "5px solid white",
     margin: "20px",
+    [theme.breakpoints.down("sm")]: {
+      bottom: "30%",
+    },
     [theme.breakpoints.down("xs")]: {
-      top: "-181px",
+      bottom: "60%",
+    },
+    [theme.breakpoints.up("md")]: {
+      bottom: "25%",
     },
   },
   profileInfoContainer: {
     position: "relative",
     top: "-100px",
-    margin: "auto"
+    margin: "auto",
   },
   userName: {
     fontWeight: "bold",
@@ -183,6 +191,18 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("md")]: {
       width: 500,
     },
+  },
+  foodType: {
+    background: '#fff',
+    padding: '10px',
+    borderRadius: '5px',
+    boxShadow: '0 2rem 3rem rgba(132, 139, 200, 0.18)',
+    transition: '0.5s',
+    height: 'fit-content',
+    width: '100%',
+  },
+  font: {
+    fontFamily: 'sans-serif',
   },
 }));
 
@@ -280,6 +300,7 @@ export function StoreProfile(props) {
     dispatch(getFoodByStoreId(data));
     dispatch(getStoreRating(data));
     dispatch(getVoucherByStoreId(data));
+    dispatch(getStoreComment(data));
   }, []);
 
 
@@ -291,24 +312,26 @@ export function StoreProfile(props) {
     dispatch(addVoucherByUserId(data));
   }
 
+  console.log(props.storeProfile.storeComment)
+
   return (
-    <div>
+    <div style={{ backgroundColor: "#F3F7F8" }}>
       <Headerr />
 
-      <Container fixed>
+      <Container fixed style={{ marginTop: "30px" }}>
         <Card className={classes.root}>
           <CardMedia className={classes.media} image={props.storeProfile.store ? props.storeProfile.store.storeImage.cover_image : null} title="Cover" />
           <div className={classes.profileImage} style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", backgroundColor: "#fff", borderRadius: "10px" }}>
             <Grid container spacing={0} >
-              <Grid item lg={1} md={2} sm={3}>
+              <Grid item lg={2} md={3} sm={4}>
                 <div style={{ padding: "5px" }}>
                   <Box
                     component="img"
                     sx={{
-                      height: 71,
-                      width: 90,
-                      maxHeight: { xs: 71, md: 71 },
-                      maxWidth: { xs: 90, md: 90 },
+                      height: "100%",
+                      width: "100%",
+                      // maxHeight: { xs: 90, md: 90 },
+                      // maxWidth: { xs: 90, md: 1 },
                       borderRadius: "10px"
                     }}
                     alt="avatar store"
@@ -317,9 +340,9 @@ export function StoreProfile(props) {
                 </div>
 
               </Grid>
-              <Grid item lg={11} md={10} sm={9}>
+              <Grid item lg={10} md={9} sm={8} style={{ paddingLeft: "15px" }}>
                 <p style={{ fontFamily: "circular std book,sans-serif", margin: "0", fontWeight: "700", fontSize: "30px" }}>{props.storeProfile.store ? props.storeProfile.store.name : null}</p>
-                <Chip icon={<AccessTimeIcon />} label={`Thời gian mở cửa: ${props.storeProfile.store ? props.storeProfile.store.open_time : null} - ${props.storeProfile.store ? props.storeProfile.store.close_time : null}`} variant="outlined" />
+                <Chip icon={<AccessTimeIcon />} label={`${props.storeProfile.store ? props.storeProfile.store.open_time : null} - ${props.storeProfile.store ? props.storeProfile.store.close_time : null}`} variant="outlined" />
                 <p style={{ fontFamily: "circular std book,sans-serif", margin: "10px 0 ", fontWeight: "400", fontSize: "13px", color: "#858796", textAlign: "left" }}>{props.storeProfile.store ? props.storeProfile.store.description : null}</p>
                 <div style={{ display: "flex", margin: "10px 0 " }}>
                   <div>
@@ -331,12 +354,12 @@ export function StoreProfile(props) {
                       className={classes.center}
                     />
                   </div>
-                  <div style={{ margin: "3px" }}> 5 - 243 Ratings</div>
+                  <div style={{ margin: "3px" }}> {props.storeProfile.storeRating ? props.storeProfile.storeRating : 0} - {props.storeProfile.storeComment ? props.storeProfile.storeComment.length : 0} Ratings</div>
                 </div>
                 <div>
-                  <Button className={classes.btn} variant="outlined" onClick={() => history.goBack()}>
+                  {/* <Button className={classes.btn} variant="outlined" onClick={() => history.goBack()}>
                     Yêu thích
-                  </Button>
+                  </Button> */}
                   <Button className={classes.btn} variant="outlined" onClick={handleClickOpen}>
                     Báo cáo
                   </Button>
@@ -351,6 +374,7 @@ export function StoreProfile(props) {
           <Tabs value={value} onChange={handleChangeTab} aria-label="disabled tabs example" style={{ margin: '0 auto' }}>
             <Tab label="Tất cả sản phẩm" />
             <Tab label="Voucher của quán" />
+            <Tab label="Đánh giá từ người mua" />
           </Tabs>
         </div>
 
@@ -405,16 +429,17 @@ export function StoreProfile(props) {
                 <Grid container spacing={0}>
                   {props.storeProfile.food.map((item) => {
                     return (
-                      <Grid item xs={12} sm={12} md={3} key={item.id} style={{ padding: '0 10px' }}>
+                      <Grid item xs={12} sm={6} md={4} key={item.id} style={{ padding: '10px 10px' }}>
                         <Link
                           to={{ pathname: `/food/${item.id}`, state: { item } }}
                           style={{ textDecoration: 'none' }}
                         >
-                          <CardItem
+                          <CardItemFood
                             foodName={item.name}
                             storeName={item.foodStore.name}
                             address="address"
                             img={item.image}
+                            price={item.price}
                           />
                         </Link>
                       </Grid>
@@ -425,35 +450,97 @@ export function StoreProfile(props) {
               </Grid>
             </Grid>
           </div>
-          :
-          <div>
-            <Grid container spacing={0}>
-              {props.storeProfile.listVoucher && props.storeProfile.listVoucher.length != 0 ? props.storeProfile.listVoucher.map((item) => {
-                return (
-                  <Grid key={item.id} item xs={12} sm={12} md={4} style={{ padding: '10px' }}>
-                    <div className={classes.couponCard}>
-                      <img className={classes.imgCoupon} src="https://www.mssdefence.com/wp-content/uploads/2016/11/Discount-Action-Mss-Defence.png" />
-                      <h3 style={{ fontSize: "20px", fontWeight: "400" }}>{item.name}</h3>
-                      <div className={classes.couponRow}>
-                        <span className={classes.couponCode}>{item.code}</span>
-                        {/* <span className={classes.couponBtn}><CopyToClipBoard text="STEALDEAL20"> LƯU MÃ</CopyToClipBoard></span> */}
-                        <CopyToClipboard text={item.code}
-                          onCopy={() => setCopied(true)}>
-                          <span className={classes.couponBtn} onClick={() => handleSaveVoucher(item.id)}>LƯU MÃ</span>
-                        </CopyToClipboard>
+          : value == 1 ?
+            <div>
+              <Grid container spacing={0}>
+                {props.storeProfile.listVoucher && props.storeProfile.listVoucher.length != 0 ? props.storeProfile.listVoucher.map((item) => {
+                  return (
+                    <Grid key={item.id} item xs={12} sm={12} md={4} style={{ padding: '10px' }}>
+                      <div className={classes.couponCard}>
+                        <img className={classes.imgCoupon} src="https://www.mssdefence.com/wp-content/uploads/2016/11/Discount-Action-Mss-Defence.png" />
+                        <h3 style={{ fontSize: "20px", fontWeight: "400" }}>{item.name}</h3>
+                        <div className={classes.couponRow}>
+                          <span className={classes.couponCode}>{item.code}</span>
+                          {/* <span className={classes.couponBtn}><CopyToClipBoard text="STEALDEAL20"> LƯU MÃ</CopyToClipBoard></span> */}
+                          <CopyToClipboard text={item.code}
+                            onCopy={() => setCopied(true)}>
+                            <span className={classes.couponBtn} onClick={() => handleSaveVoucher(item.id)}>LƯU MÃ</span>
+                          </CopyToClipboard>
+                        </div>
+                        <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
+                        {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
+                        {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
+                        <div className={classes.circle1}></div>
+                        <div className={classes.circle2}></div>
                       </div>
-                      <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
-                      {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
-                      {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
-                      <div className={classes.circle1}></div>
-                      <div className={classes.circle2}></div>
-                    </div>
-                  </Grid>
-                )
-              }) : <span style={{ margin: "0 auto" }}>Store chưa có voucher</span>}
+                    </Grid>
+                  )
+                }) : <span style={{ margin: "0 auto" }}>Store chưa có voucher</span>}
 
-            </Grid>
-          </div>
+              </Grid>
+            </div>
+            :
+            <div className={classes.foodType} style={{ height: "300px", overflowY: "scroll" }}>
+              <p
+                className={classes.font}
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: '20px',
+                  marginTop: '0',
+                  textAlign: 'center',
+                }}
+              >
+                Đánh giá và bình luận
+              </p>
+              <Grid container spacing={0} >
+                {props.storeProfile.storeComment.slice(0).reverse().map((item, index) => (
+                  <Grid key={index} item xs={12} md={6} style={{ padding: "5px" }}>
+                    <Grid container spacing={0} >
+                      <Grid item xs={3} md={2} className={classes.center} style={{ height: 'fit-content' }}>
+                        <Avatar
+                          alt="avatar store"
+                          src={item.user.avatar ? item.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
+                          sx={{ width: 50, height: 50, marginRight: '3px' }}
+                        />
+                      </Grid>
+                      <Grid item xs={9} md={10}>
+                        <Grid container spacing={0} >
+                          <Grid item xs={6} md={6}>
+                            <p style={{ margin: '0', fontSize: "22px", fontWeight: "600", fontFamily: "Montserrat, sans-serif" }}>{item.user.username}</p>
+                          </Grid>
+                          <Grid item xs={6} md={6}>
+                            <div>
+                              <Rating
+                                name="half-rating-read"
+                                value={5}
+                                precision={0.5}
+                                readOnly
+                              />
+                            </div>
+                          </Grid>
+                        </Grid>
+
+
+                        <p className={classes.font} style={{ margin: '0' }}>
+                          {item.description}
+                        </p>
+                        {/* <img src="https://phunuketnoi.com/wp-content/uploads/2021/03/mon-ngon-moi-ngay.jpg" style={{ width: "100%" }} /> */}
+                        <p
+                          className={classes.font}
+                          style={{
+                            margin: '0',
+                            color: '#AFAFAF',
+                            fontSize: '13px',
+                          }}
+                        >
+                          {moment(item.create_at).format('DD/MM/YYYY')}
+                        </p>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
         }
 
         <Dialog open={open} onClose={handleClose}>

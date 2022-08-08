@@ -133,6 +133,37 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'left',
     [theme.breakpoints.down("sm")]: {
       justifyContent: 'center',
+      order: "2",
+    },
+  },
+  loginBtn: {
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
+    justifyContent: "left",
+    paddingLeft: "20px",
+    [theme.breakpoints.down("sm")]: {
+      order: "0",
+      justifyContent: 'right',
+    },
+  },
+  cartIcon: {
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
+    justifyContent: 'right',
+    [theme.breakpoints.down("sm")]: {
+      order: "3",
+      justifyContent: 'center',
+    },
+  },
+  logo: {
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    [theme.breakpoints.down("sm")]: {
+      order: "1",
     },
   }
 }));
@@ -328,7 +359,7 @@ export function Headerr(props) {
 
       <Container fixed>
         <Grid container spacing={0}>
-          <Grid item xs={12} sm={12} md={3} className={classes.center}>
+          <Grid item xs={12} sm={12} md={3} className={classes.logo}>
             <div style={{ display: "flex", margin: '0 auto' }}>
               <div style={{ width: '60px', height: '60px', marginRight: "10px" }}>
                 <img
@@ -371,15 +402,15 @@ export function Headerr(props) {
             </div>
           </Grid>
 
-          <Grid item xs={2} sm={4} md={2} className={classes.center} style={{ justifyContent: "right" }}>
-            <div style={{ textAlign: 'center' }}>
+          <Grid item xs={12} sm={12} md={2} className={classes.cartIcon}>
+            <div style={{ textAlign: 'center', cursor: "pointer" }}>
               <Badge badgeContent={result} color="primary" onClick={() => history.push("/cart")}>
                 <AddShoppingCartIcon color="action" />
               </Badge>
             </div>
           </Grid>
 
-          <Grid item xs={10} sm={8} md={3} className={classes.center} style={{ justifyContent: "left", paddingLeft: "20px" }}>
+          <Grid item xs={12} sm={12} md={3} className={classes.loginBtn} >
             <div style={{ textAlign: 'center' }}>
               {/* <LocaleToggle /> */}
               {user == null ? (

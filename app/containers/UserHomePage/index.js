@@ -96,8 +96,8 @@ const useStyles = makeStyles(theme => ({
   profileImage: {
     zIndex: 2,
     position: "relative",
-    top: "25%",
-    left: "35%",
+    // top: "25%",
+    // left: "35%",
     justifyContent: "center",
     // width: "60px",
     height: "fit-content",
@@ -108,17 +108,15 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: "rgb(0, 0, 0)", 
     // backgroundColor: "rgba(0, 0, 0, 0.4)",
     position: "absolute",
-    [theme.breakpoints.down("xs")]: {
-      top: "35%",
-      left: "5%",
-    },
+
     [theme.breakpoints.down("sm")]: {
       top: "35%",
-      left: "12%",
+      //left: "30%",
+      width: "100%"
     },
-    [theme.breakpoints.down("md")]: {
-      top: "35%",
-      left: "30%",
+    [theme.breakpoints.up("md")]: {
+      top: "25%",
+      left: "35%",
     },
   },
   text: {
@@ -195,7 +193,7 @@ export function UserHomePage(props) {
 
 
   return (
-    <>
+    <div style={{ backgroundColor: "#F3F7F8" }}>
       <Headerr />
       <div>
         <div className={classes.root}></div>
@@ -302,7 +300,7 @@ export function UserHomePage(props) {
         </Container>
       </div>
       <Footerr />
-    </>
+    </div>
   );
 }
 

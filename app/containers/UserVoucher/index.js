@@ -139,7 +139,7 @@ export function UserVoucher(props) {
   }, [props.userVoucher.message]);
 
   return (
-    <div>
+    <div >
       <div>
         <p className={classes.font} style={{ fontWeight: '500', fontSize: '25px' }} >
           Voucher của tôi

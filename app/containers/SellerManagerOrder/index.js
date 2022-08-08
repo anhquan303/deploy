@@ -124,17 +124,18 @@ export function SellerManagerOrder(props) {
         <Grid item xs={12} md={4} style={{ padding: '10px' }}>
           <div
             style={{
-              border: '3px solid #000',
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
               borderRadius: '10px',
               background: '#FFF',
+
             }}
           >
             <Grid container spacing={0}>
               <Grid item xs={4} md={4} lg={3} style={{ padding: '10px' }} className={classes.center}>
                 <Avatar
-                  sx={{ width: 56, height: 56, backgroundColor: '#FF9900' }}
+                  sx={{ width: 56, height: 56, backgroundColor: '#EA5E5E' }}
                 >
-                  <AddShoppingCartRoundedIcon sx={{ color: '#000' }} />
+                  <AddShoppingCartRoundedIcon sx={{ color: '#fff' }} />
                 </Avatar>
               </Grid>
               <Grid item xs={8} md={8} lg={9} style={{ padding: '10px' }}>
@@ -161,7 +162,7 @@ export function SellerManagerOrder(props) {
         <Grid item xs={12} md={4} style={{ padding: '10px' }}>
           <div
             style={{
-              border: '3px solid #000',
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
               borderRadius: '10px',
               background: '#FFF',
             }}
@@ -169,9 +170,9 @@ export function SellerManagerOrder(props) {
             <Grid container spacing={0}>
               <Grid item xs={4} md={4} lg={3} style={{ padding: '10px' }} className={classes.center} >
                 <Avatar
-                  sx={{ width: 56, height: 56, backgroundColor: '#FF9900' }}
+                  sx={{ width: 56, height: 56, backgroundColor: '#EA5E5E' }}
                 >
-                  <HourglassTopRoundedIcon sx={{ color: '#000' }} />
+                  <HourglassTopRoundedIcon sx={{ color: '#fff' }} />
                 </Avatar>
               </Grid>
               <Grid item xs={8} md={8} lg={9} style={{ padding: '10px' }}>
@@ -198,7 +199,7 @@ export function SellerManagerOrder(props) {
         <Grid item xs={12} md={4} style={{ padding: '10px' }}>
           <div
             style={{
-              border: '3px solid #000',
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
               borderRadius: '10px',
               background: '#FFF',
             }}
@@ -206,9 +207,9 @@ export function SellerManagerOrder(props) {
             <Grid container spacing={0}>
               <Grid item xs={4} md={4} lg={3} style={{ padding: '10px' }} className={classes.center}>
                 <Avatar
-                  sx={{ width: 56, height: 56, backgroundColor: '#FF9900' }}
+                  sx={{ width: 56, height: 56, backgroundColor: '#EA5E5E' }}
                 >
-                  <HighlightOffRoundedIcon sx={{ color: '#000' }} />
+                  <HighlightOffRoundedIcon sx={{ color: '#fff' }} />
                 </Avatar>
               </Grid>
               <Grid item xs={8} md={8} lg={9} style={{ padding: '10px' }}>

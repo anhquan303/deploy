@@ -104,3 +104,24 @@ export function reset(payload) {
   };
 }
 
+export function userRatingStore(payload) {
+  return {
+    type: types.USER_RATING_STORE,
+    payload,
+  };
+}
+
+export function userRatingStoreSuccess(payload) {
+  return {
+    type: types.USER_RATING_STORE_SUCCESS,
+    payload,
+  };
+}
+
+export function userRatingStoreFailed(payload) {
+  return {
+    type: types.USER_RATING_STORE_FAILED,
+    payload,
+  };
+}
+

@@ -29,7 +29,8 @@ import Loading from '../../components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   information_image: {
-    background: "#fff",
+    background: "#FD4444",
+    color: "#fff",
     padding: "10px",
     borderRadius: "20px",
     margin: "10px auto",

@@ -30,5 +30,8 @@ export const GET_FOOD_BY_STORE_ID_FAILED = 'app/FoodDetail/GET_FOOD_BY_STORE_ID_
 // export const GET_CART_BY_ID_SUCCESS = 'app/FoodDetail/GET_CART_BY_ID_SUCCESS';
 // export const GET_CART_BY_ID_FAILED = 'app/FoodDetail/GET_CART_BY_ID_FAILED';
 
+export const GET_LIST_COMMENT_STORE = 'app/FoodDetail/GET_LIST_COMMENT_STORE';
+export const GET_LIST_COMMENT_STORE_SUCCESS = 'app/FoodDetail/GET_LIST_COMMENT_STORE_SUCCESS';
+export const GET_LIST_COMMENT_STORE_FAILED = 'app/FoodDetail/GET_LIST_COMMENT_STORE_FAILED';
 
 export const RESET = 'app/FoodDetail/RESET';
