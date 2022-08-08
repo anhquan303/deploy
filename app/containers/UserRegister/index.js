@@ -26,6 +26,7 @@ import {
   Fade,
   LinearProgress,
   Backdrop,
+  Modal,
 } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -43,7 +44,7 @@ import messages from './messages';
 
 import BackGround from '../../images/dhfpt.png';
 import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
-import { reset, sendSMS, signUp } from './actions';
+import { reset, sendOTP, sendSMS, signUp, verifyPhoneee } from './actions';
 import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
@@ -101,6 +102,27 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     marginBottom: '20px',
   },
+  center: {
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  modal: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 650,
+    height: 300,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    backgroundColor: '#fff',
+    textAlign: 'center',
+    borderRadius: '20px',
+    padding: '10px',
+  },
 }));
 
 export function UserRegister(props) {
@@ -118,14 +140,19 @@ export function UserRegister(props) {
     email: '',
     passwordVerify: '',
     captcha: '',
+    otp: '',
   };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
+  const [formErrorsPhone, setFormErrorsPhone] = useState({});
   const [accept, setAccept] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isSubmitPhone, setIsSubmitPhone] = useState(false);
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
   const [open, setOpen] = useState(false);
+  const [verifyPhone, setVerifyPhone] = useState(true);
+  const [checkVerifyPhone, setCheckVerifyPhone] = useState(false);
 
   // set value for input
   const handleChange = e => {
@@ -171,15 +198,17 @@ export function UserRegister(props) {
     if (regexPhone.test(values.phone) == false) {
       errors.phone1 = 'match 10 digits';
     }
-    if (!values.captcha) {
-      errors.captcha = 'captcha is required!';
-    }
-    if (validateCaptcha(values.captcha) == false) {
-      errors.captcha1 = 'captcha does not match!';
-    }
+    // if (!values.captcha) {
+    //   errors.captcha = 'captcha is required!';
+    // }
+    // if (validateCaptcha(values.captcha) == false) {
+    //   errors.captcha1 = 'captcha does not match!';
+    // }
 
     return errors;
   };
+
+
 
   // check validate
   const handleSignup = e => {
@@ -199,16 +228,17 @@ export function UserRegister(props) {
         lastName: formValues.lastName,
         email: formValues.email,
         location: formValues.address,
+        otp: formValues.otp
       };
       dispatch(signUp(data));
 
-      let newPhone = formValues.phone.substring(1);
-      newPhone = "+84".concat(newPhone);
-      const data1 = {
-        phoneNumber: newPhone,
-        message: `NO NÊ SUPPORT KÍNH CHÁO QUÝ KHÁCH HÀNG`
-      }
-      dispatch(sendSMS(data1))
+      // let newPhone = formValues.phone.substring(1);
+      // newPhone = "+84".concat(newPhone);
+      // const data1 = {
+      //   phoneNumber: newPhone,
+      //   message: `NO NÊ SUPPORT KÍNH CHÁO QUÝ KHÁCH HÀNG`
+      // }
+      // dispatch(sendSMS(data1))
     }
   }, [formErrors]);
 
@@ -219,13 +249,16 @@ export function UserRegister(props) {
 
   // redirect to login page
   useEffect(() => {
-    if (props.userRegister.message != '' && props.userRegister.messageSMS != '') {
+    if (props.userRegister.message != '') {
       setOpen(true);
-      if (props.userRegister.messageSMS == "Hệ thống đã gửi tin nhắn về số điện thoại của quý khách" && props.userRegister.message == "ADD NEW SUCCESSFUL! PLEASE VERIFY YOUR ACCOUNT THROUGH VERIFY LINK IN YOUR EMAIL") {
+      if (props.userRegister.message == "REGISTER SUCCESSFUL") {
         setTimeout(() => {
           props.history.push('/login');
         }, 2000);
       }
+      // if (props.userRegister.messageOTP == "WE ALREADY SEND VERIFICATION CODE TO YOUR PHONE") {
+      //   setCheckVerifyPhone(true);
+      // }
       setTimeout(() => {
         dispatch(reset());
       }, 2000);
@@ -233,8 +266,30 @@ export function UserRegister(props) {
   }, [props.userRegister.message]);
 
   useEffect(() => {
-    loadCaptchaEnginge(8);
-  }, []);
+    if (props.userRegister.messageOTP != '') {
+      if (props.userRegister.messageOTP == "WE ALREADY SEND VERIFICATION CODE TO YOUR PHONE") {
+        setCheckVerifyPhone(true);
+        setTimeout(() => {
+          dispatch(reset());
+        }, 2000);
+      }
+      if (props.userRegister.messageOTP == "SUCCESSFUL") {
+        setVerifyPhone(false);
+        setTimeout(() => {
+          dispatch(reset());
+        }, 2000);
+      }
+    }
+  }, [props.userRegister.messageOTP])
+
+  useEffect(() => {
+    setCheckVerifyPhone(false);
+    dispatch(reset());
+  }, [])
+
+  // useEffect(() => {
+  //   loadCaptchaEnginge(8);
+  // }, []);
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -245,6 +300,52 @@ export function UserRegister(props) {
   };
 
   console.log(props.userRegister.message)
+  // verify phone
+
+  // check validate
+  const handleVerifyPhone = e => {
+    e.preventDefault();
+    setFormErrorsPhone(validatePhone(formValues));
+    setIsSubmitPhone(true);
+  };
+  console.log(props.userRegister.messageOTP)
+
+  const validatePhone = values => {
+    const errors = {};
+    const regexPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+    if (!values.phone) {
+      errors.phone = 'phone is required!';
+    }
+    if (regexPhone.test(values.phone) == false) {
+      errors.phone1 = 'match 10 digits';
+    }
+    // if (!values.otp) {
+    //   errors.otp = 'otp is required!';
+    // }
+
+    return errors;
+  };
+
+  useEffect(() => {
+    if (Object.keys(formErrorsPhone).length === 0 && isSubmitPhone) {
+      let newPhone = formValues.phone.substring(1);
+      newPhone = "+84".concat(newPhone);
+      const data = {
+        phoneNumber: newPhone,
+        message: "NO NÊ SUPPORT KÍNH CHÁO QUÝ KHÁCH HÀNG. ĐÂY LÀ MÃ XÁC NHẬN CỦA QUÝ KHÁCH: "
+      }
+      dispatch(sendOTP(data));
+
+    }
+  }, [formErrorsPhone]);
+
+  const verifyPhonee = () => {
+    const data = {
+      phone: formValues.phone,
+      otp: formValues.otp
+    }
+    dispatch(verifyPhoneee(data));
+  }
 
   return (
     <div className={classes.body}>
@@ -319,7 +420,7 @@ export function UserRegister(props) {
                   autoComplete="off"
                 >
                   <TextField
-                    id="outlined-textarea1"
+                    id="outlined-textareaaa"
                     label="Tên"
                     placeholder="Tên"
                     multiline
@@ -380,11 +481,12 @@ export function UserRegister(props) {
                   autoComplete="off"
                 >
                   <TextField
+                    disabled
                     id="outlined-textarea4"
                     label="Số điện thoại"
                     placeholder="Số điện thoại"
-                    multiline
                     name="phone"
+                    value={formValues.phone}
                     onChange={handleChange}
                     helperText={
                       formErrors.phone != null && formValues.phone.length == ''
@@ -495,7 +597,7 @@ export function UserRegister(props) {
               </Grid>
             </Grid>
 
-            <Grid container spacing={2}>
+            {/* <Grid container spacing={2}>
               <Grid item sm={6} xs={12} style={{ textAlign: 'center' }}>
                 <LoadCanvasTemplate />
               </Grid>
@@ -531,7 +633,7 @@ export function UserRegister(props) {
                   />
                 </Box>
               </Grid>
-            </Grid>
+            </Grid> */}
 
             {/* <Box
                   component="form"
@@ -595,6 +697,121 @@ export function UserRegister(props) {
           </Alert>
         </Snackbar>
       </div>
+
+      <Modal
+        open={verifyPhone}
+        //onClose={() => setVerifyPhone(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className={classes.modal}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            style={{ marginTop: '10px' }}
+          >
+            Xác thực số điện thoại
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <Grid container spacing={0} style={{ padding: '20px' }}>
+              <Grid
+                item
+                sm={12}
+                xs={12}
+                style={{ width: '100%', margin: '10px 0' }}
+              >
+                <Box
+                  component="form"
+                  sx={{
+                    '& .MuiTextField-root': { m: 0, width: '100%' },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    disabled={checkVerifyPhone == true}
+                    id="outlined-textareaa"
+                    label="Số điện thoại"
+                    placeholder="Số điện thoại"
+                    onChange={handleChange}
+                    name="phone"
+                    helperText={
+                      formErrorsPhone.phone != null && formValues.phone.length == ''
+                        ? formErrorsPhone.phone
+                        : formErrorsPhone.phone1 != null
+                          ? formErrorsPhone.phone1
+                          : null
+                    }
+                    error={
+                      formErrorsPhone.phone != null && formValues.phone.length == ''
+                        ? true
+                        : formErrorsPhone.phone1 != null
+                    }
+                  />
+                </Box>
+              </Grid>
+
+              {checkVerifyPhone == true ?
+                <Grid
+                  item
+                  sm={12}
+                  xs={12}
+                  style={{ width: '100%', margin: '10px 0' }}
+                >
+                  <Box
+                    component="form"
+                    sx={{
+                      '& .MuiTextField-root': { m: 0, width: '100%' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <TextField
+
+                      id="outlined-textareaa"
+                      label="Nhập mã xác thực"
+                      placeholder="Nhập mã xác thực"
+                      onChange={handleChange}
+                      name="otp"
+                    // helperText={
+                    //   formErrors.otp && formValues.otp.length == ''
+                    //     ? formErrors.otp
+                    //     : null
+                    // }
+                    // error={
+                    //   formErrors.otp != null &&
+                    //   formValues.otp.length == ''
+                    // }
+                    />
+                  </Box>
+                </Grid>
+                : null}
+            </Grid>
+          </Typography>
+          {checkVerifyPhone == false ?
+            <Button
+              className={classes.btn}
+              style={{ width: '50%' }}
+              variant="contained"
+              component="span"
+              onClick={handleVerifyPhone}
+            >
+              Lấy mã
+            </Button>
+            :
+            <Button
+              className={classes.btn}
+              style={{ width: '50%' }}
+              variant="contained"
+              component="span"
+              onClick={verifyPhonee}
+            >
+              Xác thực số điện thoại
+            </Button>}
+        </Box>
+      </Modal>
+
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={props.userRegister.loading}

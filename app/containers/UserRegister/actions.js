@@ -61,3 +61,45 @@ export function sendSMSFailed(payload) {
     payload,
   };
 }
+
+export function sendOTP(payload) {
+  return {
+    type: types.SEND_OTP,
+    payload,
+  };
+}
+
+export function sendOTPSuccess(payload) {
+  return {
+    type: types.SEND_OTP_SUCCESS,
+    payload,
+  };
+}
+
+export function sendOTPFailed(payload) {
+  return {
+    type: types.SEND_OTP_FAILED,
+    payload,
+  };
+}
+
+export function verifyPhoneee(payload) {
+  return {
+    type: types.VERIFY_PHONE,
+    payload,
+  };
+}
+
+export function verifyPhoneSuccess(payload) {
+  return {
+    type: types.VERIFY_PHONE_SUCCESS,
+    payload,
+  };
+}
+
+export function verifyPhoneFailed(payload) {
+  return {
+    type: types.VERIFY_PHONE_FAILED,
+    payload,
+  };
+}

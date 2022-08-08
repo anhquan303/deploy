@@ -28,7 +28,7 @@ import saga from './saga';
 import messages from './messages';
 import { getUser, removeUserSession } from '../../utils/common';
 import { getCart, getUserById, logOut, reset } from './actions';
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
+import Logo from '../../images/logoNone.png';
 import Avatar1 from '../../images/quan.jpg';
 import StoreIcon from '@mui/icons-material/Store';
 
