@@ -11,6 +11,7 @@ export const initialState = {
   loading: false,
   message: '',
   messageSMS: '',
+  messageOTP: '',
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -45,6 +46,29 @@ const userRegisterReducer = (state = initialState, action) =>
         draft.loading = false;
         draft.message = '';
         draft.messageSMS = '';
+        draft.messageOTP = '';
+        break;
+      case types.SEND_OTP:
+        draft.loading = true;
+        break;
+      case types.SEND_OTP_SUCCESS:
+        draft.loading = false;
+        draft.messageOTP = action.payload;
+        break;
+      case types.SEND_OTP_FAILED:
+        draft.loading = false;
+        draft.messageOTP = action.payload;
+        break;
+      case types.VERIFY_PHONE:
+        draft.loading = true;
+        break;
+      case types.VERIFY_PHONE_SUCCESS:
+        draft.loading = false;
+        draft.messageOTP = action.payload;
+        break;
+      case types.VERIFY_PHONE_FAILED:
+        draft.loading = false;
+        draft.messageOTP = action.payload;
         break;
     }
   });

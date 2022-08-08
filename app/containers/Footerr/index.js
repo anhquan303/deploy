@@ -22,7 +22,7 @@ import {
   Box, Grid, Container
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg'
+import Logo from '../../images/logoNone.png';
 import { useHistory } from 'react-router-dom';
 import { getUser } from '../../utils/common';
 
