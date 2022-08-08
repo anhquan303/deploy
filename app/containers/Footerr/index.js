@@ -68,13 +68,13 @@ export function Footerr(props) {
             </div>
           </Grid>
           <Grid item md={4} sm={4} xs={12} className={classes.center}>
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "left" }}>
               <img src={Logo} style={{ width: "80%" }} />
               <h4>@2022 NoNe</h4>
             </div>
           </Grid>
-          <Grid item md={4} sm={4} xs={12} className={classes.center} style={{ justifyContent: "right", alignContent: 'start' }}>
-            <div style={{ textAlign: "right" }}>
+          <Grid item md={4} sm={4} xs={12} className={classes.center} style={{ justifyContent: "left", alignContent: 'start' }}>
+            <div style={{ textAlign: "left" }}>
               <h1>Địa chỉ</h1>
               <h4>Đại học FPT</h4>
               <h4>Km29 Đường Cao Tốc 08, Thạch Hoà, Thạch Thất, Hà Nội</h4>

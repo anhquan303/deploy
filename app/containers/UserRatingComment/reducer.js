@@ -7,6 +7,7 @@ import produce from 'immer';
 import { DEFAULT_ACTION } from './constants';
 import * as types from './constants';
 
+
 export const initialState = {
   loading: false,
   message: '',
@@ -55,6 +56,28 @@ const userRatingCommentReducer = (state = initialState, action) =>
       case types.RESET:
         draft.loading = false;
         draft.message = "";
+      case types.USER_ADD_COMMENT_STORE:
+        draft.loading = true;
+        break;
+      case types.USER_ADD_COMMENT_STORE_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.USER_ADD_COMMENT_STORE_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.USER_RATING_STORE:
+        draft.loading = true;
+        break;
+      case types.USER_RATING_STORE_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.USER_RATING_STORE_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
     }
   });
 

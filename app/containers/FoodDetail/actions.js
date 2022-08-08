@@ -125,6 +125,27 @@ export function getFoodByStoreIdFailed(payload){
   };
 }
 
+export function getListCommentStore(payload){
+  return {
+    type: types.GET_LIST_COMMENT_STORE,
+    payload,
+  };
+}
+
+export function getListCommentStoreSuccess(payload){
+  return {
+    type: types.GET_LIST_COMMENT_STORE_SUCCESS,
+    payload,
+  };
+}
+
+export function getListCommentStoreFailed(payload){
+  return {
+    type: types.GET_LIST_COMMENT_STORE_FAILED,
+    payload,
+  };
+}
+
 // export function getCart(payload) {
 //   return {
 //     type: types.GET_CART_BY_ID,

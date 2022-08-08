@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   information_image: {
     background: '#fff',
     padding: '10px',
-    borderRadius: '20px',
+    borderRadius: '5px',
     margin: '0 auto',
     boxShadow: '0 2rem 3rem rgba(132, 139, 200, 0.18)',
     transition: '0.5s',

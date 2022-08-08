@@ -92,12 +92,12 @@ export function DashboardReport(props) {
           <p className={classes.font} style={{ fontWeight: "400", fontSize: "30px" }}>{currentDate}</p>
         </Grid>
         <Grid item xs={6} md={6} style={{ padding: "10px", }}>
-          <SearchBar
+          {/* <SearchBar
             value={searched}
             onChange={(searchVal) => requestSearch(searchVal)}
             onCancelSearch={() => cancelSearch()}
             placeholder="Tìm kiếm báo cáo theo tên"
-          />
+          /> */}
         </Grid>
         <Grid item sm={12} xs={12}>
           {data ? <CustomTableResponsive columns={columns1} data={data} detailPage="report" rows={rows} /> : <span>Chưa có báo cáo</span>}

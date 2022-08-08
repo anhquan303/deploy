@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function CardItem({ foodName, storeName, address, img }) {
+export function CardItem({ foodName, storeName, address, img, price }) {
   useInjectReducer({ key: 'cardItem', reducer });
   useInjectSaga({ key: 'cardItem', saga });
   const classes = useStyles();
@@ -101,11 +101,11 @@ export function CardItem({ foodName, storeName, address, img }) {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
           }}>
-            {foodName}
+             {storeName}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          {/* <Typography variant="body2" color="text.secondary">
             {storeName}
-          </Typography>
+          </Typography> */}
           <Typography variant="body2" color="text.secondary" style={{
             whiteSpace: 'nowrap',
             width: '100%',

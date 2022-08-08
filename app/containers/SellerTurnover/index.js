@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
     padding: '20px',
     borderRadius: '20px',
     marginTop: '1rem',
-    boxShadow: '0 2rem 3rem rgba(132, 139, 200, 0.18)',
+    boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
     transition: '0.5s',
     height: '100%',
   },
@@ -120,13 +120,13 @@ export function SellerTurnover(props) {
   }, [time]);
 
   return (
-    <div style={{ backgroundColor: "#fff" }}>
+    <div style={{ backgroundColor: "#fafafa" }}>
       <p className={classes.title} style={{ fontSize: '25px' }}>
         Chỉ số quan trọng
       </p>
       <div className={classes.center} >
         <Grid container spacing={0} >
-          <Grid item md={4} sm={12} xs={12} style={{ padding: '10px' }}>
+          <Grid item md={4} sm={12} xs={12} style={{ padding: '10px 30px' }}>
             <div className={classes.information}>
               <Grid container spacing={0}>
                 <Grid item md={6} sm={12} xs={12}>
@@ -151,7 +151,7 @@ export function SellerTurnover(props) {
             </div>
           </Grid>
 
-          <Grid item md={4} sm={12} xs={12} style={{ padding: '10px' }}>
+          <Grid item md={4} sm={12} xs={12} style={{ padding: '10px 30px' }}>
             <div className={classes.information}>
               <Grid container spacing={0}>
                 <Grid item md={6} sm={12} xs={12}>
@@ -201,7 +201,7 @@ export function SellerTurnover(props) {
           </div>
         </Grid> */}
 
-          <Grid item md={4} sm={12} xs={12} style={{ padding: '10px' }}>
+          <Grid item md={4} sm={12} xs={12} style={{ padding: '10px 30px' }}>
             <div className={classes.information}>
               <Grid container spacing={0}>
                 <Grid item md={6} sm={12} xs={12}>
@@ -264,7 +264,7 @@ export function SellerTurnover(props) {
         </Grid>
       </Grid>
 
-      <div style={{ padding: '30px' }}>
+      <div style={{ padding: '30px', width: "60%", margin: "0 auto" }}>
         <Line
           data={{
             // labels: props.sellerTurnover.saleData.map((data) => data.day),

@@ -22,6 +22,8 @@ import {
   Avatar,
   Rating,
   IconButton,
+  Modal,
+  Typography,
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import SendIcon from '@mui/icons-material/Send';
@@ -32,7 +34,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { getUser } from '../../utils/common';
-import { getFoodById, reset, userAddCommentFood, userRatingFood } from './actions';
+import { getFoodById, reset, userAddCommentFood, userAddCommentStore, userRatingFood, userRatingStore } from './actions';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
@@ -64,6 +66,20 @@ const useStyles = makeStyles(theme => ({
   link: {
     textDecoration: 'none',
   },
+  modal: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 650,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    backgroundColor: '#fff',
+    textAlign: 'center',
+    borderRadius: '20px',
+    padding: '10px',
+  },
 }));
 
 export function UserRatingComment(props) {
@@ -73,13 +89,16 @@ export function UserRatingComment(props) {
 
   const classes = useStyles();
   const [star, setStar] = useState(0);
+  const [starStore, setStarStore] = useState(0);
   const [comment, setComment] = useState('');
+  const [commentStore, setCommentStore] = useState('');
   const user = getUser();
   const history = useHistory();
   let dollarUSLocale = Intl.NumberFormat('en-US');
   const [openAlert, setOpenAlert] = useState(false);
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
+  const [openCommentStore, setOpenCommentStore] = useState(false);
 
 
   const handleSubmit = () => {
@@ -98,19 +117,42 @@ export function UserRatingComment(props) {
     dispatch(userRatingFood(data1));
   };
 
+  const handleSubmitStore = () => {
+    const data = {
+      store_id: props.userRatingComment.food ? props.userRatingComment.food.foodStore.id : null,
+      user_id: user.id,
+      description: commentStore,
+    };
+    dispatch(userAddCommentStore(data));
+
+    const data1 = {
+      store_id: props.userRatingComment.food ? props.userRatingComment.food.foodStore.id : null,
+      user_id: user.id,
+      star: starStore
+    };
+    dispatch(userRatingStore(data1));
+  };
+
 
   useEffect(() => {
     if (props.userRatingComment.message != "") {
-      setOpenAlert(true);
-      setTimeout(() => dispatch(reset()), 6000);
-      const location = {
-        pathname: `/food/${props.location.state.fid}`,
-        state: {
-          item: props.userRatingComment.food
-        },
-      };
+      if (props.userRatingComment.message == "thành công") {
+        setOpenAlert(true);
+        setOpenCommentStore(false);
+        setTimeout(() => dispatch(reset()), 2000);
+        const location = {
+          pathname: `/food/${props.location.state.fid}`,
+          state: {
+            item: props.userRatingComment.food
+          },
+        };
 
-      setTimeout(() => history.push(location), 2000);
+        setTimeout(() => history.push(location), 2000);
+      } else {
+        setOpenAlert(true);
+        setTimeout(() => dispatch(reset()), 2000);
+        setOpenCommentStore(true);
+      }
 
     }
   }, [props.userRatingComment.message]);
@@ -121,6 +163,7 @@ export function UserRatingComment(props) {
       fid: props.location.state.fid,
     };
     dispatch(getFoodById(data));
+    dispatch(reset());
   }, []);
 
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -130,6 +173,19 @@ export function UserRatingComment(props) {
   const handleCloseAlert = event => {
     setOpenAlert(false);
   };
+
+  const closeModal = () => {
+    setOpenCommentStore(false);
+    const location = {
+      pathname: `/food/${props.location.state.fid}`,
+      state: {
+        item: props.userRatingComment.food
+      },
+    };
+    history.push(location);
+  }
+
+  console.log(props.userRatingComment.food)
 
   return (
     <div>
@@ -240,9 +296,10 @@ export function UserRatingComment(props) {
           </Box>
         </div>
       </div>
+
       <Snackbar
         open={openAlert}
-        autoHideDuration={6000}
+        autoHideDuration={2000}
         anchorOrigin={{ vertical, horizontal }}
         onClose={handleCloseAlert}
       >
@@ -255,6 +312,63 @@ export function UserRatingComment(props) {
           {props.userRatingComment.message}
         </Alert>
       </Snackbar>
+
+      <Modal
+        open={openCommentStore}
+        //onClose={() => setOpenCommentStore(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className={classes.modal}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            style={{ marginTop: '10px' }}
+          >
+            Đánh giá chất lượng và dịch vụ của quán ăn
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <div style={{ textAlign: 'center', marginTop: '30px' }}>
+              <Rating
+                name="simple-controlled"
+                value={starStore}
+                onChange={(event, newValue) => {
+                  setStarStore(newValue);
+                }}
+              />
+
+              <div style={{ margin: '0 auto', width: 'fit-content' }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                  {/* {user ? <Avatar alt="avatar store" src={Avatar1} sx={{ width: 26, height: 26, marginRight: "3px" }} />
+                : <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />} */}
+                  <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                  <TextField
+                    id="input-with-sx"
+                    label="Viết bình luận ..."
+                    variant="standard"
+                    value={commentStore}
+                    onChange={e => setCommentStore(e.target.value)}
+                  />
+                  <IconButton style={{ color: '#FF9900' }} onClick={handleSubmitStore}>
+                    <SendIcon />
+                  </IconButton>
+                </Box>
+              </div>
+            </div>
+          </Typography>
+          <Button
+            className={classes.btn}
+            style={{ width: '50%' }}
+            variant="contained"
+            component="span"
+            onClick={() => closeModal()}
+          >
+            Bỏ qua
+          </Button>
+        </Box>
+
+      </Modal>
     </div>
   );
 }

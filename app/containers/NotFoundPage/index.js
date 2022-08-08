@@ -12,10 +12,15 @@ import messages from './messages';
 
 export default function NotFound() {
   return (
-    <article>
-      <H1>
-        <FormattedMessage {...messages.header} />
-      </H1>
-    </article>
+    <>
+      <article>
+        <H1>
+          <FormattedMessage {...messages.header} />
+        </H1>
+        <H1>
+          <a href="/" style={{ textDecoration: "none", color: "#369DFC" }}>Trở lại trang chủ</a>
+        </H1>
+      </article>
+    </>
   );
 }
