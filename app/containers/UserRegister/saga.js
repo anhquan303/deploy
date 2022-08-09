@@ -1,6 +1,6 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { sendOTPFailed, sendOTPSuccess, sendSMSFailed, sendSMSSuccess, signUpFailed, signUpSuccess, verifyPhoneFailed, verifyPhoneSuccess } from './actions';
-import { apiSignup } from './api';
+import { sendOTPFailed, sendOTPSuccess, sendSMSFailed, sendSMSSuccess, signUpFailed, signUpSuccess, verifyEmailFailed, verifyEmailSuccess, verifyPhoneFailed, verifyPhoneSuccess } from './actions';
+import { apiFetchData, apiSignup } from './api';
 import * as types from './constants';
 
 
@@ -76,6 +76,26 @@ export function* verifyPhone({ payload }) {
   }
 }
 
+export function* verifyEmail({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`https://emailvalidation.abstractapi.com/v1/?api_key=1ca5175122ab443aaa6b300a9a9e94e0&email=${payload.email}`]);
+    console.log(res)
+    if (res.status == 200) {
+      if (res.data.deliverability == "DELIVERABLE") {
+        yield put(verifyEmailSuccess(res.data.deliverability));
+      } else {
+        yield put(verifyEmailFailed("Không tìm thấy địa chỉ email"))
+      }
+    } else {
+      yield put(verifyEmailFailed("FAILED"))
+    }
+
+  } catch (error) {
+    yield put(verifyEmailFailed(error.message));
+  }
+}
+
+
 
 // Individual exports for testing
 export default function* userRegisterSaga() {
@@ -84,4 +104,5 @@ export default function* userRegisterSaga() {
   yield takeEvery(types.SEND_SMS, sendSMS);
   yield takeEvery(types.SEND_OTP, sendOTP);
   yield takeEvery(types.VERIFY_PHONE, verifyPhone);
+  yield takeEvery(types.VERIFY_EMAIL, verifyEmail);
 }

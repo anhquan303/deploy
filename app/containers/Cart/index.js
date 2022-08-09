@@ -291,103 +291,104 @@ export function Cart(props) {
   // console.log(props.cart.listOrder[0].cartFoodResponses.every(item => checkedList.includes(item)))
 
   return (
-    <div style={{ backgroundColor: "#F3F7F8", height: "100vh" }}>
-      <Headerr />
-      <Container fixed >
-        <Grid container spacing={0} className={classes.bigGrid} >
-          <Grid item md={4} sm={12} xs={12} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
-            <Checkbox
-              name="selectAll"
-              type="checkbox"
-              id="selectAll"
-              value="all"
-              //onClick={handleSelectAll}
-              onChange={handleChange}
-              checked={isAllSelected}
-            //isChecked={isCheckAll}
-            />
-            <div className={classes.smallGrid}>
-              <span className={classes.text} ><FormattedMessage {...messages.food} /></span>
-            </div>
-          </Grid>
-          <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
-            <span className={classes.text}>Đơn Giá</span>
-          </Grid>
-          <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
-            <span className={classes.text}>Số lượng</span>
-          </Grid>
-          <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
-            <span className={classes.text}>Thành Tiền</span>
+    <>
+      <div style={{ backgroundColor: "#F3F7F8", height: "100vh" }}>
+        <Headerr />
+        <Container fixed >
+          <Grid container spacing={0} className={classes.bigGrid} >
+            <Grid item md={4} sm={12} xs={12} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
+              <Checkbox
+                name="selectAll"
+                type="checkbox"
+                id="selectAll"
+                value="all"
+                //onClick={handleSelectAll}
+                onChange={handleChange}
+                checked={isAllSelected}
+              //isChecked={isCheckAll}
+              />
+              <div className={classes.smallGrid}>
+                <span className={classes.text} ><FormattedMessage {...messages.food} /></span>
+              </div>
+            </Grid>
+            <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
+              <span className={classes.text}>Đơn Giá</span>
+            </Grid>
+            <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
+              <span className={classes.text}>Số lượng</span>
+            </Grid>
+            <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
+              <span className={classes.text}>Thành Tiền</span>
+            </Grid>
+
+            <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
+              <span className={classes.text}>Thao Tác</span>
+            </Grid>
           </Grid>
 
-          <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
-            <span className={classes.text}>Thao Tác</span>
-          </Grid>
-        </Grid>
+          {props.cart.listOrder
+            ? props.cart.listOrder.map((item, index) => (
+              <div key={index}>
+                {/* Store */}
+                <Grid container spacing={0} className={classes.bigGrid}>
+                  <Grid item md={12} sm={12} xs={12} className={classes.shopCard}>
+                    <Checkbox
+                      name="selectAllByStore"
+                      type="checkbox"
+                      id={item.store.id}
+                      value="allByStore"
+                      onChange={e => handleChangeByStore(e, item.store.id)}
+                      //checked={checkedList.includes(item.cartFoodResponses.map(nestItem => nestItem), -100)}
+                      //checked= {checkedList.every(item1 => item.cartFoodResponses.includes(item1))}
+                      checked={item.cartFoodResponses.every(item => checkedList.includes(item))}
+                    />
+                    <div className={classes.smallGrid}>
+                      <span className={classes.text} >{item.store.name}</span>
+                    </div>
+                  </Grid>
 
-        {props.cart.listOrder
-          ? props.cart.listOrder.map((item, index) => (
-            <div key={index}>
-              {/* Store */}
-              <Grid container spacing={0} className={classes.bigGrid}>
-                <Grid item md={12} sm={12} xs={12} className={classes.shopCard}>
-                  <Checkbox
-                    name="selectAllByStore"
-                    type="checkbox"
-                    id={item.store.id}
-                    value="allByStore"
-                    onChange={e => handleChangeByStore(e, item.store.id)}
-                    //checked={checkedList.includes(item.cartFoodResponses.map(nestItem => nestItem), -100)}
-                    //checked= {checkedList.every(item1 => item.cartFoodResponses.includes(item1))}
-                    checked={item.cartFoodResponses.every(item => checkedList.includes(item))}
-                  />
-                  <div className={classes.smallGrid}>
-                    <span className={classes.text} >{item.store.name}</span>
-                  </div>
-                </Grid>
+                  {/* Item */}
+                  {item.cartFoodResponses.map((item1, index) => (
+                    <div style={{ width: '100%' }} key={index}>
+                      <Grid container spacing={0} style={{ padding: "10px", height: "fit-content" }}>
+                        <Grid item md={4} sm={12} xs={12} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
+                          <Checkbox
+                            type="checkbox"
+                            id={item1}
+                            onClick={e => handleClick(e, item1, item.store.name)}
+                            checked={checkedList.includes(item1)}
+                          />
 
-                {/* Item */}
-                {item.cartFoodResponses.map((item1, index) => (
-                  <div style={{ width: '100%' }} key={index}>
-                    <Grid container spacing={0} style={{ padding: "10px", height: "fit-content" }}>
-                      <Grid item md={4} sm={12} xs={12} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
-                        <Checkbox
-                          type="checkbox"
-                          id={item1}
-                          onClick={e => handleClick(e, item1, item.store.name)}
-                          checked={checkedList.includes(item1)}
-                        />
-
-                        <div className={classes.smallGrid}>
-                          <Avatar variant="square" src={item1.food.image} />
-                          <span style={{
-                            flexWrap: 'wrap', marginLeft: "5px", alignContent: 'center', display: 'flex', justifyContent: 'center'
-                          }} className={classes.text}>{item1.food.name}</span>
-                        </div>
-                      </Grid>
-                      <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}  >
-                        <span className={classes.text}>
-                          {dollarUSLocale.format(item1.food.price)} VND{' '}
-                        </span>
-                      </Grid>
-                      <Grid item md={2} sm={3} xs={6} className={classes.smallGrid} >
-                        <IconButton
-                          style={{ color: '#FF9900' }}
-                          onClick={() => subQuantity(item1.food.id)}
-                        >
-                          <IndeterminateCheckBoxIcon />
-                        </IconButton>
-                        <span className={classes.quantityNumber}>
-                          {item1.quantity}
-                        </span>
-                        <IconButton
-                          style={{ color: '#FF9900' }}
-                          onClick={() => addQuantity(item1.food.id)}
-                        >
-                          <AddBoxIcon />
-                        </IconButton>
-                      </Grid>
-                      {/* <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
+                          <div className={classes.smallGrid}>
+                            <Avatar variant="square" src={item1.food.image} />
+                            <span style={{
+                              flexWrap: 'wrap', marginLeft: "5px", alignContent: 'center', display: 'flex', justifyContent: 'center'
+                            }} className={classes.text}>{item1.food.name}</span>
+                          </div>
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}  >
+                          <span className={classes.text}>
+                            {dollarUSLocale.format(item1.food.price)} VND{' '}
+                          </span>
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6} className={classes.smallGrid} >
+                          <IconButton
+                            style={{ color: '#FF9900' }}
+                            onClick={() => subQuantity(item1.food.id)}
+                          >
+                            <IndeterminateCheckBoxIcon />
+                          </IconButton>
+                          <span className={classes.quantityNumber}>
+                            {item1.quantity}
+                          </span>
+                          <IconButton
+                            style={{ color: '#FF9900' }}
+                            onClick={() => addQuantity(item1.food.id)}
+                          >
+                            <AddBoxIcon />
+                          </IconButton>
+                        </Grid>
+                        {/* <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
@@ -405,25 +406,25 @@ export function Cart(props) {
                         </Select>
 
                       </Grid> */}
-                      <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
-                        <span className={classes.text}>
-                          {dollarUSLocale.format(parseInt(item1.quantity) *
-                            parseInt(item1.food.price))} VND{' '}
-                        </span>
-                      </Grid>
+                        <Grid item md={2} sm={3} xs={6} className={classes.smallGrid}>
+                          <span className={classes.text}>
+                            {dollarUSLocale.format(parseInt(item1.quantity) *
+                              parseInt(item1.food.price))} VND{' '}
+                          </span>
+                        </Grid>
 
-                      <Grid item md={2} sm={3} xs={6} className={classes.quantityButton} >
-                        <Button
-                          variant=""
-                          onClick={() => deleteFood(item1.food.id)}
-                        >
-                          XÓA
-                        </Button>
+                        <Grid item md={2} sm={3} xs={6} className={classes.quantityButton} >
+                          <Button
+                            variant=""
+                            onClick={() => deleteFood(item1.food.id)}
+                          >
+                            XÓA
+                          </Button>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </div>
-                ))}
-                {/* <Grid item md={12} sm={12} xs={12} className={classes.smallGrid} style={{ justifyContent: "right" }}>
+                    </div>
+                  ))}
+                  {/* <Grid item md={12} sm={12} xs={12} className={classes.smallGrid} style={{ justifyContent: "right" }}>
                   <div style={{ padding: "10px", display: "flex" }}>
                     <div className={classes.smallGrid}>
                       <InputLabel id="demo-simple-select-label">
@@ -447,61 +448,63 @@ export function Cart(props) {
                     </Select>
                   </div>
                 </Grid> */}
-              </Grid>
-              {/* ---- */}
-            </div>
-          ))
-          : null}
+                </Grid>
+                {/* ---- */}
+              </div>
+            ))
+            : null}
 
-        <Grid container spacing={0} className={classes.bigGrid}>
-          <Grid item md={3} sm={3} xs={6} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
-            <Checkbox
-              name="selectAll"
-              type="checkbox"
-              id="selectAll"
-              value="all"
-              //onClick={handleSelectAll}
-              onChange={handleChange}
-              checked={isAllSelected}
-            />
-            <div className={classes.smallGrid}>
-              <span className={classes.text}>Chọn Tất Cả</span>
-            </div>
+          <Grid container spacing={0} className={classes.bigGrid}>
+            <Grid item md={3} sm={3} xs={6} className={classes.smallGrid} style={{ justifyContent: 'left' }}>
+              <Checkbox
+                name="selectAll"
+                type="checkbox"
+                id="selectAll"
+                value="all"
+                //onClick={handleSelectAll}
+                onChange={handleChange}
+                checked={isAllSelected}
+              />
+              <div className={classes.smallGrid}>
+                <span className={classes.text}>Chọn Tất Cả</span>
+              </div>
+            </Grid>
+            <Grid item md={3} sm={3} xs={6} className={classes.smallGrid}>
+              <span className={classes.text} onClick={handleDeleteAll}>Xoá Tất Cả</span>
+            </Grid>
+            <Grid item md={3} sm={2} xs={12} className={classes.smallGrid}>
+              <span className={classes.text}>Tổng thanh toán ( Sản phẩm):</span>
+            </Grid>
+            <Grid item md={3} sm={3} xs={12} className={classes.smallGrid} fixed >
+              <Button onClick={() => handlePayment()} variant="contained">Mua Hàng</Button>
+            </Grid>
           </Grid>
-          <Grid item md={3} sm={3} xs={6} className={classes.smallGrid}>
-            <span className={classes.text} onClick={handleDeleteAll}>Xoá Tất Cả</span>
-          </Grid>
-          <Grid item md={3} sm={2} xs={12} className={classes.smallGrid}>
-            <span className={classes.text}>Tổng thanh toán ( Sản phẩm):</span>
-          </Grid>
-          <Grid item md={3} sm={3} xs={12} className={classes.smallGrid} fixed >
-            <Button onClick={() => handlePayment()} variant="contained">Mua Hàng</Button>
-          </Grid>
-        </Grid>
-      </Container>
-      <Snackbar
-        open={openAlert}
-        autoHideDuration={6000}
-        anchorOrigin={{ vertical, horizontal }}
-        onClose={handleCloseAlert}
-      >
-        {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
-        <Alert
-          severity="success"
+        </Container>
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={6000}
+          anchorOrigin={{ vertical, horizontal }}
           onClose={handleCloseAlert}
-          sx={{ width: '100%' }}
         >
-          {props.cart.message}
-        </Alert>
-      </Snackbar>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={props.cart.loading}
-      >
-        <Loading />
-      </Backdrop>
-      <Footerr />
-    </div>
+          {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
+          <Alert
+            severity="success"
+            onClose={handleCloseAlert}
+            sx={{ width: '100%' }}
+          >
+            {props.cart.message}
+          </Alert>
+        </Snackbar>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={props.cart.loading}
+        >
+          <Loading />
+        </Backdrop>
+
+      </div>
+      <Footerr />s
+    </>
   );
 }
 

@@ -22,4 +22,8 @@ export const VERIFY_PHONE = 'app/UserRegister/VERIFY_PHONE';
 export const VERIFY_PHONE_SUCCESS = 'app/UserRegister/VERIFY_PHONE_SUCCESS';
 export const VERIFY_PHONE_FAILED = 'app/UserRegister/VERIFY_PHONE_FAILED';
 
+export const VERIFY_EMAIL = 'app/UserRegister/VERIFY_EMAIL';
+export const VERIFY_EMAIL_SUCCESS = 'app/UserRegister/VERIFY_EMAIL_SUCCESS';
+export const VERIFY_EMAIL_FAILED = 'app/UserRegister/VERIFY_EMAIL_FAILED';
+
 export const RESET = 'app/UserRegister/RESET';

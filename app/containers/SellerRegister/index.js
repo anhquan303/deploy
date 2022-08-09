@@ -859,7 +859,7 @@ export function SellerRegister(props) {
                           helperText={formErrors.bankAccount && formValues.bankAccount.length == '' ? formErrors.bankAccount : null}
                           error={formErrors.bankAccount != null && formValues.bankAccount.length == ''}
                         />
-                        {props.sellerRegister.bankAccountName != "" ? <span>{props.sellerRegister.bankAccountName}</span> : null}
+
                       </Box>
                     </Grid>
                     <div style={{ marginLeft: '8px', width: '100%' }}>
@@ -893,15 +893,18 @@ export function SellerRegister(props) {
 
                       </Box>
                     </div>
-                    <Button
-                      style={{ width: '100%' }}
-                      className={classes.btnBack}
-                      variant="contained"
-                      component="span"
-                      onClick={handleVerifyBankAccount}
-                    >
-                      Kiểm tra tài khoản
-                    </Button>
+                    {props.sellerRegister.bankAccountName != null ? <span style={{ margin: "10px 0" }}>{props.sellerRegister.bankAccountName}</span> : <span style={{ margin: "10px 0" }}>Không tìm thấy số tài khoản</span>}
+                    <div style={{ margin: "0 auto" }}>
+                      <Button
+                        style={{ width: 'fit-content', margin: "10px 0" }}
+                        className={classes.btnBack}
+                        variant="contained"
+                        component="span"
+                        onClick={handleVerifyBankAccount}
+                      >
+                        Kiểm tra tài khoản
+                      </Button>
+                    </div>
                   </Grid>
 
 

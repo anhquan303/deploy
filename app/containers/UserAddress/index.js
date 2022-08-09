@@ -109,6 +109,12 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '20px',
     padding: '10px',
   },
+  action: {
+    textAlign: "right",
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "center",
+    }
+  }
 }));
 
 export function UserAddress(props) {
@@ -378,12 +384,13 @@ export function UserAddress(props) {
             <Grid
               item
               xs={12}
+              sm={12}
               md={4}
               className={classes.center}
-              style={{ justifyContent: 'right' }}
+              style={{ justifyContent: 'center' }}
             >
               <div>
-                <p style={{ textAlign: 'right' }}>
+                <p className={classes.action}>
                   <Button
                     className={classes.btn}
                     variant="outlined"
@@ -398,7 +405,7 @@ export function UserAddress(props) {
                     Chọn mặc định
                   </Button>
                 </p>
-                <p style={{ textAlign: 'right' }}>
+                <p className={classes.action}>
                   <Button
                     className={classes.btn}
                     variant="outlined"

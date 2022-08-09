@@ -1,6 +1,6 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
 import { getReportByStoreIdFailed, getReportByStoreIdSuccess, storeAddReportFailed, storeAddReportSuccess } from './actions';
-import { apiFetchData, apiPost } from './api';
+import { apiFetchData, apiPost, uploadImage } from './api';
 import * as types from './constants';
 
 export function* getListReportByStoreId({ payload }) {
@@ -18,7 +18,15 @@ export function* getListReportByStoreId({ payload }) {
 
 export function* storeAddReport({ payload }) {
   try {
-    const res = yield call(apiPost, [`api/report`], payload);
+    const formData = new FormData();
+    formData.append('userId', payload.userId);
+    formData.append('storeId', payload.storeId);
+    formData.append('title', payload.title);
+    formData.append('description', payload.description);
+    formData.append('imageFile', payload.image);
+    formData.append('userToStore', payload.userToStore);
+
+    const res = yield call(uploadImage, [`api/report`], formData);
     if (res.status == 200) {
       yield put(storeAddReportSuccess("Tạo báo cáo thành công"));
     } else {
