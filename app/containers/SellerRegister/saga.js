@@ -25,7 +25,7 @@ export function* sellerSignUp({ payload }) {
     formData.append('email', payload.email);
     formData.append('open_time', payload.open_time);
     formData.append('close_time', payload.close_time);
-    formData.append('cover_image', payload.image.avatar);
+    formData.append('cover_image', payload.image.cover_image);
     formData.append('avatar', payload.image.avatar);
     // formData.append('avatar', null);
     formData.append(
@@ -126,7 +126,11 @@ export function* verifyBankAccount({ payload }) {
   try {
     const res = yield call(apiVerifyBankAccount, [], payload);
     if (res.status == 200) {
-      yield put(verifyBankAccountSuccsess(res.data.data.accountName));
+      if (res.data.desc.includes("Success")) {
+        yield put(verifyBankAccountSuccsess(res.data.data.accountName));
+      } else {
+        yield put(verifyBankAccountSuccsess(res.data.desc));
+      }
     } else {
       yield put(verifyBankAccountFailed('Failed'));
     }

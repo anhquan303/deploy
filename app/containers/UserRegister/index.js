@@ -44,7 +44,7 @@ import messages from './messages';
 
 import BackGround from '../../images/dhfpt.png';
 import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
-import { reset, sendOTP, sendSMS, signUp, verifyPhoneee } from './actions';
+import { reset, sendOTP, sendSMS, signUp, verifyEmail, verifyPhoneee } from './actions';
 import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({
@@ -113,7 +113,7 @@ const useStyles = makeStyles(theme => ({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 650,
+    width: "50%",
     height: 300,
     bgcolor: 'background.paper',
     boxShadow: 24,
@@ -122,6 +122,9 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     borderRadius: '20px',
     padding: '10px',
+    [theme.breakpoints.down("sm")]: {
+      width: "90%",
+    }
   },
 }));
 
@@ -165,12 +168,14 @@ export function UserRegister(props) {
     const regexPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
     // const regexEmail = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
     const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
+    const regexPassword = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,15})$/;
     if (!values.userName) {
       errors.userName = 'username is required!';
     }
     if (!values.password) {
       errors.password = 'password is required!';
     }
+
     if (!values.firstName) {
       errors.firstName = 'firstName is required!';
     }
@@ -198,6 +203,9 @@ export function UserRegister(props) {
     if (regexPhone.test(values.phone) == false) {
       errors.phone1 = 'match 10 digits';
     }
+    if (regexPassword.test(values.password) == false) {
+      errors.password1 = 'Password required pattern with at least one digit, one upper case letter, one lower case letter and one special symbol';
+    }
     // if (!values.captcha) {
     //   errors.captcha = 'captcha is required!';
     // }
@@ -220,27 +228,45 @@ export function UserRegister(props) {
   // signup
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      const data = {
-        userName: formValues.userName,
-        password: formValues.password,
-        phone: formValues.phone,
-        firstName: formValues.firstName,
-        lastName: formValues.lastName,
-        email: formValues.email,
-        location: formValues.address,
-        otp: formValues.otp
-      };
-      dispatch(signUp(data));
+      const data1 = {
+        email: formValues.email
+      }
+      dispatch(verifyEmail(data1));
 
-      // let newPhone = formValues.phone.substring(1);
-      // newPhone = "+84".concat(newPhone);
-      // const data1 = {
-      //   phoneNumber: newPhone,
-      //   message: `NO NÊ SUPPORT KÍNH CHÁO QUÝ KHÁCH HÀNG`
-      // }
-      // dispatch(sendSMS(data1))
+      // const data = {
+      //   userName: formValues.userName,
+      //   password: formValues.password,
+      //   phone: formValues.phone,
+      //   firstName: formValues.firstName,
+      //   lastName: formValues.lastName,
+      //   email: formValues.email,
+      //   location: formValues.address,
+      //   otp: formValues.otp
+      // };
+      // dispatch(signUp(data));
+
     }
   }, [formErrors]);
+
+  useEffect(() => {
+    if (props.userRegister.checkEmail != '') {
+      console.log(props.userRegister.checkEmail);
+      if (props.userRegister.checkEmail == "DELIVERABLE") {
+        const data = {
+          userName: formValues.userName,
+          password: formValues.password,
+          phone: formValues.phone,
+          firstName: formValues.firstName,
+          lastName: formValues.lastName,
+          email: formValues.email,
+          location: formValues.address,
+          otp: formValues.otp
+        };
+        dispatch(signUp(data));
+      }
+    }
+
+  }, [props.userRegister.checkEmail]);
 
   // close toast
   const handleCloseToast = () => {
@@ -251,7 +277,7 @@ export function UserRegister(props) {
   useEffect(() => {
     if (props.userRegister.message != '') {
       setOpen(true);
-      if (props.userRegister.message == "REGISTER SUCCESSFUL") {
+      if (props.userRegister.message == "REGISTER SUCCESSFUL !") {
         setTimeout(() => {
           props.history.push('/login');
         }, 2000);
@@ -299,7 +325,6 @@ export function UserRegister(props) {
     setOpen(false);
   };
 
-  console.log(props.userRegister.message)
   // verify phone
 
   // check validate
@@ -308,7 +333,6 @@ export function UserRegister(props) {
     setFormErrorsPhone(validatePhone(formValues));
     setIsSubmitPhone(true);
   };
-  console.log(props.userRegister.messageOTP)
 
   const validatePhone = values => {
     const errors = {};
@@ -553,11 +577,14 @@ export function UserRegister(props) {
                     helperText={
                       formErrors.password && formValues.password.length == ''
                         ? formErrors.password
-                        : null
+                        : formErrors.password1
+                          ? formErrors.password1
+                          : null
                     }
                     error={
-                      formErrors.password != null &&
-                      formValues.password.length == ''
+                      formErrors.password != null && formValues.password.length == ''
+                        ? true
+                        : formErrors.password1 != null
                     }
                   />
                 </Box>
@@ -790,25 +817,32 @@ export function UserRegister(props) {
             </Grid>
           </Typography>
           {checkVerifyPhone == false ?
-            <Button
-              className={classes.btn}
-              style={{ width: '50%' }}
-              variant="contained"
-              component="span"
-              onClick={handleVerifyPhone}
-            >
-              Lấy mã
-            </Button>
+            <>
+              <Button
+                className={classes.btn}
+                style={{ width: '50%' }}
+                variant="contained"
+                component="span"
+                onClick={handleVerifyPhone}
+              >
+                Lấy mã
+              </Button>
+              <div><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
+            </>
             :
-            <Button
-              className={classes.btn}
-              style={{ width: '50%' }}
-              variant="contained"
-              component="span"
-              onClick={verifyPhonee}
-            >
-              Xác thực số điện thoại
-            </Button>}
+            <>
+              <Button
+                className={classes.btn}
+                style={{ width: '50%' }}
+                variant="contained"
+                component="span"
+                onClick={verifyPhonee}
+              >
+                Xác thực số điện thoại
+              </Button>
+              <div><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
+            </>
+          }
         </Box>
       </Modal>
 

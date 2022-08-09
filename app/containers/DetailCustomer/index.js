@@ -297,7 +297,7 @@ export function DetailCustomer(props) {
       return (item.name + ", " + item.village);
     }) : null);
   }
-  console.log(defaultLocation)
+  console.log(props.detailCustomer.user)
 
   return (
     <div style={{ padding: "15px" }}>
@@ -315,7 +315,7 @@ export function DetailCustomer(props) {
           <Grid container spacing={0} >
             <Grid item xs={12} md={4} style={{ padding: "10px" }}>
               <div style={{ padding: "10px", border: "1px solid #000", textAlign: "center", borderRadius: "10px" }}>
-                <Avatar sx={{ width: 150, height: 150, margin: "5px auto" }} component="span" src={Avatar1} />
+                <Avatar sx={{ width: 150, height: 150, margin: "5px auto" }} component="span" src={props.detailCustomer.user.avatar} />
                 <p className={classes.font} style={{ fontWeight: "700", fontSize: "30px" }}>{props.detailCustomer.user.firstname} {props.detailCustomer.user.lastname}</p>
                 <p className={classes.text} style={{ color: "#949494" }}>{props.detailCustomer.user.email}</p>
                 <p className={classes.text} >{props.detailCustomer.user.phoneNumber}</p>

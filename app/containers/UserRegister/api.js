@@ -8,3 +8,11 @@ export const apiSignup = (data, payload) => {
             .catch((err) => reject(err));
     });
 }
+
+export const apiFetchData = data =>
+    new Promise((resolve, reject) =>
+        apiBase
+            .get(`${data[0]}`, data[1])
+            .then(res => resolve(res))
+            .catch(err => reject(err)),
+    );

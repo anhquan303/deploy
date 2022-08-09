@@ -466,35 +466,82 @@ export function Payment(props) {
   console.log(props.payment.listLocation);
   console.log(props.payment.message);
   return (
-    <div>
-      {/* <Helmet>
+    <>
+      <div style={{ backgroundColor: "#F3F7F8", paddingBottom: "20px", height: "100%" }}>
+        {/* <Helmet>
         <title>Payment</title>
         <meta name="description" content="Description of Payment" />
       </Helmet>
       <FormattedMessage {...messages.header} /> */}
-      <Headerr />
-      <Container fixed>
-        <div>
-          <p
-            className={classes.font}
-            style={{ fontWeight: '700', fontSize: '30px' }}
-          >
-            Thanh toán
-          </p>
-        </div>
-        <div className={classes.information}>
-          <Grid container spacing={0}>
-            <Grid item sm={12} xs={12} md={12}>
-              <p
-                className={classes.font}
-                style={{ fontWeight: '600', fontSize: '25px' }}
-              >
-                Địa chỉ nhận hàng
-              </p>
-            </Grid>
-            {props.payment.defaultLocation == undefined ?
-              <>
-                {props.payment.listLocation != null ?
+        <Headerr />
+        <Container fixed>
+          <div>
+            <p
+              className={classes.font}
+              style={{ fontWeight: '700', fontSize: '30px' }}
+            >
+              Thanh toán
+            </p>
+          </div>
+          <div className={classes.information}>
+            <Grid container spacing={0}>
+              <Grid item sm={12} xs={12} md={12}>
+                <p
+                  className={classes.font}
+                  style={{ fontWeight: '600', fontSize: '25px' }}
+                >
+                  Địa chỉ nhận hàng
+                </p>
+              </Grid>
+              {props.payment.defaultLocation == undefined ?
+                <>
+                  {props.payment.listLocation != null ?
+                    <Grid container spacing={0}>
+                      <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
+                        <span className={classes.infor_text}>{user.firstname} {user.lastname}</span>
+                      </Grid>
+                      <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
+                        <span className={classes.infor_text}>{user.phone}</span>
+                      </Grid>
+                      <Grid item sm={12} xs={12} md={12} lg={6} className={classes.center}>
+                        <span
+                          className={classes.infor_text}
+                          style={{ fontWeight: '300' }}
+                        >
+                          {nameAddress}, {address}
+                        </span>
+                      </Grid>
+                      <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
+                        <Button
+                          variant="contained"
+                          component="span"
+                          className={classes.btnSubmit}
+                          onClick={() => setOpenModal(true)}
+                        >
+                          thay đổi
+                        </Button>
+                      </Grid>
+                    </Grid>
+                    :
+                    <Grid container spacing={0}>
+                      <Grid item sm={12} xs={12} md={12} lg={10} className={classes.center}>
+                        Chưa có địa chỉ
+                      </Grid>
+                      <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
+                        <Button
+                          variant="contained"
+                          component="span"
+                          className={classes.btnSubmit}
+                          onClick={() => setOpenModalAddAddress(true)}
+                        >
+                          thêm địa chỉ
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  }
+                </>
+                : <>
+
                   <Grid container spacing={0}>
                     <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
                       <span className={classes.infor_text}>{user.firstname} {user.lastname}</span>
@@ -521,136 +568,90 @@ export function Payment(props) {
                       </Button>
                     </Grid>
                   </Grid>
-                  :
-                  <Grid container spacing={0}>
-                    <Grid item sm={12} xs={12} md={12} lg={10} className={classes.center}>
-                      Chưa có địa chỉ
-                    </Grid>
-                    <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
-                      <Button
-                        variant="contained"
-                        component="span"
-                        className={classes.btnSubmit}
-                        onClick={() => setOpenModalAddAddress(true)}
-                      >
-                        thêm địa chỉ
-                      </Button>
-                    </Grid>
-                  </Grid>
-                }
-              </>
-              : <>
+                </>}
 
-                <Grid container spacing={0}>
-                  <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
-                    <span className={classes.infor_text}>{user.firstname} {user.lastname}</span>
-                  </Grid>
-                  <Grid item sm={12} xs={12} md={12} lg={2} className={classes.center}>
-                    <span className={classes.infor_text}>{user.phone}</span>
-                  </Grid>
-                  <Grid item sm={12} xs={12} md={12} lg={6} className={classes.center}>
-                    <span
-                      className={classes.infor_text}
-                      style={{ fontWeight: '300' }}
-                    >
-                      {nameAddress}, {address}
-                    </span>
-                  </Grid>
-                  <Grid item sm={12} xs={12} md={12} lg={2} style={{ textAlign: 'center' }}>
-                    <Button
-                      variant="contained"
-                      component="span"
-                      className={classes.btnSubmit}
-                      onClick={() => setOpenModal(true)}
-                    >
-                      thay đổi
-                    </Button>
-                  </Grid>
-                </Grid>
-              </>}
-
-          </Grid>
-        </div>
-
-        <div className={classes.information}>
-          <Grid container spacing={0}>
-            <Grid item sm={6} xs={12} md={6}>
-              <span className={classes.infor_text}>Món ăn</span>
             </Grid>
-            <Grid item sm={2} xs={4} md={2} style={{ textAlign: 'center' }}>
-              <span className={classes.infor_text} style={{ color: '#C1BBC1' }}>
-                Đơn giá
-              </span>
-            </Grid>
-            <Grid item sm={2} xs={4} md={2} style={{ textAlign: 'center' }}>
-              <span className={classes.infor_text} style={{ color: '#C1BBC1' }}>
-                Số lượng
-              </span>
-            </Grid>
-            <Grid item sm={2} xs={4} md={2} style={{ textAlign: 'center' }}>
-              <span className={classes.infor_text} style={{ color: '#C1BBC1' }}>
-                Thành tiền
-              </span>
-            </Grid>
-          </Grid>
-          <hr />
+          </div>
 
-          <div>
-            {payment2.length != 0 ? payment2.map((item, index) => {
-              return (
-                <>
-                  <div>
-                    <Grid item sm={12} xs={12} md={12}>
-                      <span className={classes.infor_text}>{item.storeId.name}</span>
-                    </Grid>
-                    {item.listFood.map(nestItem => {
-                      return (
-                        <Grid container spacing={0}>
-                          <Grid item sm={6} xs={12} md={6}>
-                            <span className={classes.infor_text} style={{ fontSize: "20px" }}>{nestItem.food.name}</span>
-                          </Grid>
-                          <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
-                            <span className={classes.infor_text} style={{ fontSize: "20px" }}>{dollarUSLocale.format(nestItem.food.price)} VND</span>
-                          </Grid>
-                          <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
-                            <span className={classes.infor_text} style={{ fontSize: "20px" }}>{nestItem.quantity}</span>
-                          </Grid>
-                          <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
-                            <span className={classes.infor_text} style={{ fontSize: "20px" }}>{dollarUSLocale.format(parseInt(nestItem.food.price) * parseInt(nestItem.quantity))} VND</span>
-                          </Grid>
-                        </Grid>
+          <div className={classes.information}>
+            <Grid container spacing={0}>
+              <Grid item sm={6} xs={12} md={6}>
+                <span className={classes.infor_text}>Món ăn</span>
+              </Grid>
+              <Grid item sm={2} xs={4} md={2} style={{ textAlign: 'center' }}>
+                <span className={classes.infor_text} style={{ color: '#C1BBC1' }}>
+                  Đơn giá
+                </span>
+              </Grid>
+              <Grid item sm={2} xs={4} md={2} style={{ textAlign: 'center' }}>
+                <span className={classes.infor_text} style={{ color: '#C1BBC1' }}>
+                  Số lượng
+                </span>
+              </Grid>
+              <Grid item sm={2} xs={4} md={2} style={{ textAlign: 'center' }}>
+                <span className={classes.infor_text} style={{ color: '#C1BBC1' }}>
+                  Thành tiền
+                </span>
+              </Grid>
+            </Grid>
+            <hr />
 
-                      )
-                    })}
-                  </div>
-                  <Grid item md={12} sm={12} xs={12} className={classes.center} style={{ justifyContent: "right" }}>
-                    <FormControl sx={{ m: 1, width: 300 }}>
-                      <InputLabel id="demo-multiple-name-label">Voucher</InputLabel>
-                      <Select
-                        disabled={props.payment.qrcode != ""}
-                        //labelId="demo-simple-select-label"
-                        name={item.storeId.id}
-                        //value={voucher}
-                        //value=""
-                        input={<OutlinedInput label="Voucher" />}
-                        //multiple
-                        placeholder="chọn voucher"
-                        onChange={handleChangeVoucher}
-                      >
-                        <MenuItem value="0">Không sử dụng voucher</MenuItem>
-                        {props.payment.listVoucher != [] ? props.payment.listVoucher.filter(voucher => voucher.store.id == item.storeId.id).map(nestItem =>
-                        (
-                          <MenuItem key={nestItem.id} value={nestItem}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
+            <div>
+              {payment2.length != 0 ? payment2.map((item, index) => {
+                return (
+                  <>
+                    <div>
+                      <Grid item sm={12} xs={12} md={12}>
+                        <span className={classes.infor_text}>{item.storeId.name}</span>
+                      </Grid>
+                      {item.listFood.map(nestItem => {
+                        return (
+                          <Grid container spacing={0}>
+                            <Grid item sm={6} xs={12} md={6}>
+                              <span className={classes.infor_text} style={{ fontSize: "20px" }}>{nestItem.food.name}</span>
+                            </Grid>
+                            <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
+                              <span className={classes.infor_text} style={{ fontSize: "20px" }}>{dollarUSLocale.format(nestItem.food.price)} VND</span>
+                            </Grid>
+                            <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
+                              <span className={classes.infor_text} style={{ fontSize: "20px" }}>{nestItem.quantity}</span>
+                            </Grid>
+                            <Grid item sm={2} xs={4} md={2} style={{ textAlign: "center" }}>
+                              <span className={classes.infor_text} style={{ fontSize: "20px" }}>{dollarUSLocale.format(parseInt(nestItem.food.price) * parseInt(nestItem.quantity))} VND</span>
+                            </Grid>
+                          </Grid>
+
                         )
-                        ) : <span>Không có voucher</span>}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <hr />
-                </>
-              )
-            }) : <span>khong co</span>}
-            {/* {props.location.state.item.map((item, index) =>
+                      })}
+                    </div>
+                    <Grid item md={12} sm={12} xs={12} className={classes.center} style={{ justifyContent: "right" }}>
+                      <FormControl sx={{ m: 1, width: 300 }}>
+                        <InputLabel id="demo-multiple-name-label">Voucher</InputLabel>
+                        <Select
+                          disabled={props.payment.qrcode != ""}
+                          //labelId="demo-simple-select-label"
+                          name={item.storeId.id}
+                          //value={voucher}
+                          //value=""
+                          input={<OutlinedInput label="Voucher" />}
+                          //multiple
+                          placeholder="chọn voucher"
+                          onChange={handleChangeVoucher}
+                        >
+                          <MenuItem value="0">Không sử dụng voucher</MenuItem>
+                          {props.payment.listVoucher != [] ? props.payment.listVoucher.filter(voucher => voucher.store.id == item.storeId.id).map(nestItem =>
+                          (
+                            <MenuItem key={nestItem.id} value={nestItem}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
+                          )
+                          ) : <span>Không có voucher</span>}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <hr />
+                  </>
+                )
+              }) : <span>khong co</span>}
+              {/* {props.location.state.item.map((item, index) =>
               <div key={index}>
                 <Grid item sm={12} xs={12} md={12}>
                   <span className={classes.infor_text}>{item.food.foodStore.name}</span>
@@ -673,9 +674,9 @@ export function Payment(props) {
               </div>
             )} */}
 
-          </div>
+            </div>
 
-          {/* <div>
+            {/* <div>
             <Grid container spacing={0}>
               <Grid item sm={12} xs={12} md={4} className={classes.center}>
                 <p className={classes.infor_text}>
@@ -708,7 +709,7 @@ export function Payment(props) {
             <hr />
           </div> */}
 
-          {/* <Grid container spacing={0}>
+            {/* <Grid container spacing={0}>
             <Grid item xs={12} md={6} sm={12}>
               <div style={{ margin: "0 auto" }}>
                 {props.payment.qrcode != "" ?
@@ -719,15 +720,15 @@ export function Payment(props) {
           </Grid> */}
 
 
-          <div>
-            <p
-              className={classes.font}
-              style={{ textAlign: 'right', fontSize: '25px' }}
-            >
-              Tổng thanh toán: {dollarUSLocale.format(result)} VND
-            </p>
-            <p style={{ textAlign: 'right' }}>
-              {/* {props.payment.qrcode != "" ?
+            <div>
+              <p
+                className={classes.font}
+                style={{ textAlign: 'right', fontSize: '25px' }}
+              >
+                Tổng thanh toán: {dollarUSLocale.format(result)} VND
+              </p>
+              <p style={{ textAlign: 'right' }}>
+                {/* {props.payment.qrcode != "" ?
                 <Button
                   variant="contained"
                   component="span"
@@ -737,348 +738,350 @@ export function Payment(props) {
                   <span>Tôi đã thanh toán thành công</span>
                 </Button>
                 : null} */}
-              {/* {props.payment.qrcode == "" ? */}
-              < Button
-                variant="contained"
-                component="span"
-                className={classes.btnSubmit}
-                onClick={handlePayment}
-              >
-                đặt hàng
-              </Button>
-              {/* : null} */}
-            </p>
-          </div>
-        </div>
-      </Container >
-
-
-      <Modal
-        open={openModalAddAddress}
-        onClose={() => setOpenModalAddAddress(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className={classes.modal}>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            style={{ marginTop: '10px' }}
-          >
-            Thêm địa chỉ
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <Grid container spacing={0} style={{ padding: '20px' }}>
-              <Grid
-                item
-                sm={12}
-                xs={12}
-                style={{ width: '100%', margin: '10px 0' }}
-              >
-                <Box
-                  component="form"
-                  sx={{
-                    '& .MuiTextField-root': { m: 0, width: '100%' },
-                  }}
-                  noValidate
-                  autoComplete="off"
+                {/* {props.payment.qrcode == "" ? */}
+                < Button
+                  variant="contained"
+                  component="span"
+                  className={classes.btnSubmit}
+                  onClick={handlePayment}
                 >
-                  <TextField
-                    disabled
-                    id="outlined-textarea"
-                    label="Huyện"
-                    placeholder="Huyện"
-                    multiline
-                    onChange={handleChange}
-                    name="district"
-                    value={formValues.district}
-                    helperText={
-                      formErrors.district && formValues.district.length == ''
-                        ? formErrors.district
-                        : null
-                    }
-                    error={
-                      formErrors.district != null &&
-                      formValues.district.length == ''
-                    }
-                  />
-                </Box>
-              </Grid>
+                  đặt hàng
+                </Button>
+                {/* : null} */}
+              </p>
+            </div>
+          </div>
+        </Container >
 
-              <Grid
-                item
-                sm={12}
-                xs={12}
-                style={{ width: '100%', margin: '10px 0' }}
-              >
-                <div style={{ width: '100%' }}>
+
+        <Modal
+          open={openModalAddAddress}
+          onClose={() => setOpenModalAddAddress(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className={classes.modal}>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              style={{ marginTop: '10px' }}
+            >
+              Thêm địa chỉ
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <Grid container spacing={0} style={{ padding: '20px' }}>
+                <Grid
+                  item
+                  sm={12}
+                  xs={12}
+                  style={{ width: '100%', margin: '10px 0' }}
+                >
                   <Box
                     component="form"
                     sx={{
-                      '& .MuiTextField-root': { m: 1, width: '100%' },
+                      '& .MuiTextField-root': { m: 0, width: '100%' },
                     }}
                     noValidate
                     autoComplete="off"
                   >
-                    <FormControl fullWidth>
-                      <InputLabel id="demo-simple-select-label">Xã</InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={type}
-                        label="Xã"
-                        onChange={handleChangeType}
-                      >
-                        {props.payment.listWard.map((item, index) => (
-                          <MenuItem key={index} value={item.name}>
-                            {item.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    <TextField
+                      disabled
+                      id="outlined-textarea"
+                      label="Huyện"
+                      placeholder="Huyện"
+                      multiline
+                      onChange={handleChange}
+                      name="district"
+                      value={formValues.district}
+                      helperText={
+                        formErrors.district && formValues.district.length == ''
+                          ? formErrors.district
+                          : null
+                      }
+                      error={
+                        formErrors.district != null &&
+                        formValues.district.length == ''
+                      }
+                    />
                   </Box>
-                </div>
-              </Grid>
+                </Grid>
 
-              <Grid
-                item
-                sm="auto"
-                xs="auto"
-                style={{ width: '100%', margin: '10px 0' }}
-              >
-                <Box
-                  component="form"
-                  sx={{
-                    '& .MuiTextField-root': { m: 0, width: '100%' },
-                  }}
-                  noValidate
-                  autoComplete="off"
+                <Grid
+                  item
+                  sm={12}
+                  xs={12}
+                  style={{ width: '100%', margin: '10px 0' }}
                 >
-                  <TextField
-                    id="outlined-textarea"
-                    label="Thôn"
-                    placeholder="Thôn"
-                    multiline
-                    onChange={handleChange}
-                    name="town"
-                    value={formValues.town}
-                    helperText={
-                      formErrors.town && formValues.town.length == ''
-                        ? formErrors.town
-                        : null
-                    }
-                    error={formErrors.town != null && formValues.town == ''}
-                  />
-                </Box>
-              </Grid>
-
-              <Grid
-                item
-                sm="auto"
-                xs="auto"
-                style={{ width: '100%', margin: '10px 0' }}
-              >
-                <Box
-                  component="form"
-                  sx={{
-                    '& .MuiTextField-root': { m: 0, width: '100%' },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <TextField
-                    id="outlined-textarea"
-                    label="Địa chỉ"
-                    placeholder="Địa chỉ"
-                    multiline
-                    onChange={handleChange}
-                    name="address"
-                    value={formValues.address}
-                    helperText={
-                      formErrors.address && formValues.address.length == ''
-                        ? formErrors.address
-                        : null
-                    }
-                    error={
-                      formErrors.address != null && formValues.address == ''
-                    }
-                  />
-                </Box>
-              </Grid>
-            </Grid>
-          </Typography>
-          <Button
-            className={classes.btn}
-            style={{ width: '50%' }}
-            variant="contained"
-            component="span"
-            onClick={closeModalAddress}
-          >
-            Thêm
-          </Button>
-        </Box>
-      </Modal>
-
-
-      <Modal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className={classes.modal}>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            style={{ marginTop: '10px' }}
-          >
-            Thay đổi địa chỉ
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {props.payment.listLocation != null ? props.payment.listLocation.map((item) => {
-              return (
-                <div key={item.id}>
-                  <Grid container spacing={0}>
-                    <Grid item xs={12} md={8} className={classes.center}>
-                      <Grid container spacing={0}>
-                        <Grid item xs={3} md={3}>
-                          <p
-                            className={classes.font}
-                            style={{
-                              fontWeight: '500',
-                              fontSize: '20px',
-                              color: '#7E7E7E',
-                              textAlign: 'right',
-                            }}
-                          >
-                            Họ và tên
-                          </p>
-                        </Grid>
-                        <Grid item xs={9} md={9}>
-                          <p
-                            className={classes.font}
-                            style={{
-                              fontWeight: '500',
-                              fontSize: '20px',
-                              color: '#000',
-                              textAlign: 'left',
-                              paddingLeft: '10px',
-                            }}
-                          >
-                            {user.firstname} {user.lastname}
-                          </p>
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={0}>
-                        <Grid item xs={3} md={3}>
-                          <p
-                            className={classes.font}
-                            style={{
-                              fontWeight: '500',
-                              fontSize: '20px',
-                              color: '#7E7E7E',
-                              textAlign: 'right',
-                            }}
-                          >
-                            Số điện thoại
-                          </p>
-                        </Grid>
-                        <Grid item xs={9} md={9}>
-                          <p
-                            className={classes.font}
-                            style={{
-                              fontWeight: '500',
-                              fontSize: '20px',
-                              color: '#000',
-                              textAlign: 'left',
-                              paddingLeft: '10px',
-                            }}
-                          >
-                            {user.phone}
-                          </p>
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={0}>
-                        <Grid item xs={3} md={3}>
-                          <p
-                            className={classes.font}
-                            style={{
-                              fontWeight: '500',
-                              fontSize: '20px',
-                              color: '#7E7E7E',
-                              textAlign: 'right',
-                            }}
-                          >
-                            Địa chỉ
-                          </p>
-                        </Grid>
-                        <Grid item xs={9} md={9}>
-                          <p
-                            className={classes.font}
-                            style={{
-                              fontWeight: '500',
-                              fontSize: '20px',
-                              color: '#000',
-                              paddingLeft: '10px',
-                              textAlign: 'left',
-                            }}
-                          >
-                            {item.name} - {item.village}
-                          </p>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      className={classes.center}
-                      style={{ justifyContent: 'right' }}
+                  <div style={{ width: '100%' }}>
+                    <Box
+                      component="form"
+                      sx={{
+                        '& .MuiTextField-root': { m: 1, width: '100%' },
+                      }}
+                      noValidate
+                      autoComplete="off"
                     >
-                      <div>
-                        <p style={{ textAlign: 'right' }}>
-                          <Button className={classes.btn} variant="outlined" onClick={() => handleChangeLocation(item.name, item.village, item.id)}>
-                            Chọn
-                          </Button>
-                        </p>
-                      </div>
-                    </Grid>
-                  </Grid>
-                  <hr />
-                </div>
-              )
-            }) : null}
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Xã</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={type}
+                          label="Xã"
+                          onChange={handleChangeType}
+                        >
+                          {props.payment.listWard.map((item, index) => (
+                            <MenuItem key={index} value={item.name}>
+                              {item.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Box>
+                  </div>
+                </Grid>
 
-          </Typography>
-        </Box>
-      </Modal>
+                <Grid
+                  item
+                  sm="auto"
+                  xs="auto"
+                  style={{ width: '100%', margin: '10px 0' }}
+                >
+                  <Box
+                    component="form"
+                    sx={{
+                      '& .MuiTextField-root': { m: 0, width: '100%' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <TextField
+                      id="outlined-textarea"
+                      label="Thôn"
+                      placeholder="Thôn"
+                      multiline
+                      onChange={handleChange}
+                      name="town"
+                      value={formValues.town}
+                      helperText={
+                        formErrors.town && formValues.town.length == ''
+                          ? formErrors.town
+                          : null
+                      }
+                      error={formErrors.town != null && formValues.town == ''}
+                    />
+                  </Box>
+                </Grid>
 
-      <Snackbar
-        open={openAlert}
-        autoHideDuration={6000}
-        anchorOrigin={{ vertical, horizontal }}
-        onClose={handleCloseAlert}
-      >
-        {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
-        <Alert
-          severity="success"
-          onClose={handleCloseAlert}
-          sx={{ width: '100%' }}
+                <Grid
+                  item
+                  sm="auto"
+                  xs="auto"
+                  style={{ width: '100%', margin: '10px 0' }}
+                >
+                  <Box
+                    component="form"
+                    sx={{
+                      '& .MuiTextField-root': { m: 0, width: '100%' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <TextField
+                      id="outlined-textarea"
+                      label="Địa chỉ"
+                      placeholder="Địa chỉ"
+                      multiline
+                      onChange={handleChange}
+                      name="address"
+                      value={formValues.address}
+                      helperText={
+                        formErrors.address && formValues.address.length == ''
+                          ? formErrors.address
+                          : null
+                      }
+                      error={
+                        formErrors.address != null && formValues.address == ''
+                      }
+                    />
+                  </Box>
+                </Grid>
+              </Grid>
+            </Typography>
+            <Button
+              className={classes.btn}
+              style={{ width: '50%' }}
+              variant="contained"
+              component="span"
+              onClick={closeModalAddress}
+            >
+              Thêm
+            </Button>
+          </Box>
+        </Modal>
+
+
+        <Modal
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
         >
-          {props.payment.message}
-        </Alert>
-      </Snackbar>
+          <Box className={classes.modal}>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              style={{ marginTop: '10px' }}
+            >
+              Thay đổi địa chỉ
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              {props.payment.listLocation != null ? props.payment.listLocation.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <Grid container spacing={0}>
+                      <Grid item xs={12} md={8} className={classes.center}>
+                        <Grid container spacing={0}>
+                          <Grid item xs={3} md={3}>
+                            <p
+                              className={classes.font}
+                              style={{
+                                fontWeight: '500',
+                                fontSize: '20px',
+                                color: '#7E7E7E',
+                                textAlign: 'right',
+                              }}
+                            >
+                              Họ và tên
+                            </p>
+                          </Grid>
+                          <Grid item xs={9} md={9}>
+                            <p
+                              className={classes.font}
+                              style={{
+                                fontWeight: '500',
+                                fontSize: '20px',
+                                color: '#000',
+                                textAlign: 'left',
+                                paddingLeft: '10px',
+                              }}
+                            >
+                              {user.firstname} {user.lastname}
+                            </p>
+                          </Grid>
+                        </Grid>
+                        <Grid container spacing={0}>
+                          <Grid item xs={3} md={3}>
+                            <p
+                              className={classes.font}
+                              style={{
+                                fontWeight: '500',
+                                fontSize: '20px',
+                                color: '#7E7E7E',
+                                textAlign: 'right',
+                              }}
+                            >
+                              Số điện thoại
+                            </p>
+                          </Grid>
+                          <Grid item xs={9} md={9}>
+                            <p
+                              className={classes.font}
+                              style={{
+                                fontWeight: '500',
+                                fontSize: '20px',
+                                color: '#000',
+                                textAlign: 'left',
+                                paddingLeft: '10px',
+                              }}
+                            >
+                              {user.phone}
+                            </p>
+                          </Grid>
+                        </Grid>
+                        <Grid container spacing={0}>
+                          <Grid item xs={3} md={3}>
+                            <p
+                              className={classes.font}
+                              style={{
+                                fontWeight: '500',
+                                fontSize: '20px',
+                                color: '#7E7E7E',
+                                textAlign: 'right',
+                              }}
+                            >
+                              Địa chỉ
+                            </p>
+                          </Grid>
+                          <Grid item xs={9} md={9}>
+                            <p
+                              className={classes.font}
+                              style={{
+                                fontWeight: '500',
+                                fontSize: '20px',
+                                color: '#000',
+                                paddingLeft: '10px',
+                                textAlign: 'left',
+                              }}
+                            >
+                              {item.name} - {item.village}
+                            </p>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        md={4}
+                        className={classes.center}
+                        style={{ justifyContent: 'right' }}
+                      >
+                        <div>
+                          <p style={{ textAlign: 'right' }}>
+                            <Button className={classes.btn} variant="outlined" onClick={() => handleChangeLocation(item.name, item.village, item.id)}>
+                              Chọn
+                            </Button>
+                          </p>
+                        </div>
+                      </Grid>
+                    </Grid>
+                    <hr />
+                  </div>
+                )
+              }) : null}
 
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={props.payment.loading}
-      >
-        <Loading />
-      </Backdrop>
+            </Typography>
+          </Box>
+        </Modal>
+
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={6000}
+          anchorOrigin={{ vertical, horizontal }}
+          onClose={handleCloseAlert}
+        >
+          {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
+          <Alert
+            severity="success"
+            onClose={handleCloseAlert}
+            sx={{ width: '100%' }}
+          >
+            {props.payment.message}
+          </Alert>
+        </Snackbar>
+
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={props.payment.loading}
+        >
+          <Loading />
+        </Backdrop>
+
+      </div >
       <Footerr />
-    </div >
+    </>
   );
 }
 

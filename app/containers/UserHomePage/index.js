@@ -193,72 +193,73 @@ export function UserHomePage(props) {
 
 
   return (
-    <div style={{ backgroundColor: "#F3F7F8" }}>
-      <Headerr />
-      <div>
-        <div className={classes.root}></div>
-        <div className={classes.profileImage} >
-          <div>
-            <p className={classes.text}>Khám phá đồ ăn, <br /> ẩm thực xứ sở Hola</p>
-            <SearchBar
-              value={searched}
-              onChange={searchVal => requestSearch(searchVal)}
-              onCancelSearch={() => cancelSearch()}
-              //placeholder="What would you like to eat today?"
-              placeholder="Bạn muốn ăn gì hôm nay?"
-            />
+    <>
+      <div style={{ backgroundColor: "#F3F7F8", paddingBottom: "20px" }}>
+        <Headerr />
+        <div>
+          <div className={classes.root}></div>
+          <div className={classes.profileImage} >
+            <div>
+              <p className={classes.text}>Khám phá đồ ăn, <br /> ẩm thực xứ sở Hola</p>
+              <SearchBar
+                value={searched}
+                onChange={searchVal => requestSearch(searchVal)}
+                onCancelSearch={() => cancelSearch()}
+                //placeholder="What would you like to eat today?"
+                placeholder="Bạn muốn ăn gì hôm nay?"
+              />
+            </div>
+
           </div>
 
-        </div>
+          <Container fixed>
 
-        <Container fixed>
+            <div style={{ textAlign: 'center', margin: "30px 0" }}>
+              <Button
+                className={classes.btn}
+                variant="outlined"
+                startIcon={<RestaurantIcon />}
+              >
+                All
+              </Button>
+              <Button
+                className={classes.btn}
+                variant="outlined"
+                startIcon={<RiceBowlIcon />}
+              >
+                Rice
+              </Button>
+              <Button
+                className={classes.btn}
+                variant="outlined"
+                startIcon={<RamenDiningIcon />}
+              >
+                Noodle
+              </Button>
+              <Button
+                className={classes.btn}
+                variant="outlined"
+                startIcon={<FreeBreakfastIcon />}
+              >
+                Drink
+              </Button>
+              <Button
+                className={classes.btn}
+                variant="outlined"
+                startIcon={<FastfoodIcon />}
+              >
+                Fast Food
+              </Button>
+              <Button
+                className={classes.btn}
+                variant="outlined"
+                startIcon={<StarIcon />}
+              >
+                Top Favorite
+              </Button>
+            </div>
 
-          <div style={{ textAlign: 'center', margin: "30px 0" }}>
-            <Button
-              className={classes.btn}
-              variant="outlined"
-              startIcon={<RestaurantIcon />}
-            >
-              All
-            </Button>
-            <Button
-              className={classes.btn}
-              variant="outlined"
-              startIcon={<RiceBowlIcon />}
-            >
-              Rice
-            </Button>
-            <Button
-              className={classes.btn}
-              variant="outlined"
-              startIcon={<RamenDiningIcon />}
-            >
-              Noodle
-            </Button>
-            <Button
-              className={classes.btn}
-              variant="outlined"
-              startIcon={<FreeBreakfastIcon />}
-            >
-              Drink
-            </Button>
-            <Button
-              className={classes.btn}
-              variant="outlined"
-              startIcon={<FastfoodIcon />}
-            >
-              Fast Food
-            </Button>
-            <Button
-              className={classes.btn}
-              variant="outlined"
-              startIcon={<StarIcon />}
-            >
-              Top Favorite
-            </Button>
-          </div>
-
-          {/* <Grid container spacing={2} style={{ marignTop: "10px" }}>
+            {/* <Grid container spacing={2} style={{ marignTop: "10px" }}>
           {foods.map((item, index) =>
 
             <Grid item sm={4} xs={6} md={2} key={index} style={{ width: "100%" }}>
@@ -271,36 +272,38 @@ export function UserHomePage(props) {
           )}
         </Grid> */}
 
-          <Grid container spacing={2} style={{ marignTop: '10px' }}>
-            {props.userHomePage.foodList.map((item, index) => (
-              <Grid item sm={4} xs={6} md={3} key={index} style={{ width: '100%' }}>
-                <Link
-                  to={{ pathname: `/food/${item.id}`, state: { item } }}
-                  style={{ textDecoration: 'none' }}
-                >
-                  <CardItem
-                    foodName={item.name}
-                    storeName={item.foodStore.name}
-                    address={item.foodStore.dormLocation == null ? item.foodStore.otherLocation : item.foodStore.dormLocation}
-                    img={item.image}
-                  />
-                </Link>
-              </Grid>
-            ))}
-          </Grid>
-          <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={props.userHomePage.loading}
-          //open={true}
-          // onClick={handleClose}
-          >
-            {/* <CircularProgress color="inherit" /> */}
-            <Loading />
-          </Backdrop>
-        </Container>
+            <Grid container spacing={2} style={{ marignTop: '10px' }}>
+              {props.userHomePage.foodList.map((item, index) => (
+                <Grid item sm={4} xs={6} md={3} key={index} style={{ width: '100%' }}>
+                  <Link
+                    to={{ pathname: `/food/${item.id}`, state: { item } }}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <CardItem
+                      foodName={item.name}
+                      storeName={item.foodStore.name}
+                      address={item.foodStore.dormLocation == null ? item.foodStore.otherLocation : item.foodStore.dormLocation}
+                      img={item.image}
+                    />
+                  </Link>
+                </Grid>
+              ))}
+            </Grid>
+            <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={props.userHomePage.loading}
+            //open={true}
+            // onClick={handleClose}
+            >
+              {/* <CircularProgress color="inherit" /> */}
+              <Loading />
+            </Backdrop>
+          </Container>
+        </div>
+
       </div>
       <Footerr />
-    </div>
+    </>
   );
 }
 

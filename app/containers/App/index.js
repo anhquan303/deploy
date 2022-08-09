@@ -160,7 +160,7 @@ export default function App() {
 
                   <Route path="" component={NotFoundPage} />
                 </Switch>
-                
+
               </Grid>
             </div>
           </Grid>
@@ -217,7 +217,7 @@ export default function App() {
                     {/* <Route path="/sellerRegister" component={SellerRegister} /> */}
                     <Route path="" component={NotFoundPage} />
                   </Switch>
-                  
+
                 </Grid>
               </div>
             </Grid>
@@ -227,33 +227,36 @@ export default function App() {
             (user != null &&
               user.authorities[0].authority != 'SELLER' &&
               location.pathname.indexOf('/user/') == 0) ? (
-            <div style={{ backgroundColor: "#F3F7F8" }}>
-              <Headerr />
-              <Container fixed>
-                <Grid container spacing={0} style={{ marginTop: '15px' }}>
-                  <Grid item sm={12} xs={12} md={3} style={{ padding: '10px' }}>
-                    <SellerHomePage />
-                  </Grid>
+            <>
+              <div style={{ backgroundColor: "#F3F7F8", paddingBottom: "20px", height: "100%" }}>
+                <Headerr />
+                <Container fixed>
+                  <Grid container spacing={0} style={{ marginTop: '15px' }}>
+                    <Grid item sm={12} xs={12} md={3} style={{ padding: '10px' }}>
+                      <SellerHomePage />
+                    </Grid>
 
-                  <Grid item sm={12} xs={12} md={9} style={{ padding: '10px', backgroundColor: '#fff' }}>
-                    <Switch>
-                      <Route path="/user/setting" component={UserSetting} />
-                      <Route exact path="/user/order-history" component={UserOrderHistory} />
-                      <Route exact path="/user/order-history/:id" component={UserDetailOrder} />
-                      <Route path="/user/change-password" component={UserChangePassword} />
-                      <Route path="/user/address" component={UserAddress} />
-                      <Route path="/user/rating-comment/:id" component={UserRatingComment} />
-                      <Route path="/user/voucher" component={UserVoucher} />
-                      <Route exact path="/user/report" component={UserReport} />
-                      <Route path="/user/detail-report/:id" component={UserDetailReport} />
-                      <Route path="" component={NotFoundPage} />
-                    </Switch>
-                    
+                    <Grid item sm={12} xs={12} md={9} style={{ padding: '10px', backgroundColor: '#fff' }}>
+                      <Switch>
+                        <Route path="/user/setting" component={UserSetting} />
+                        <Route exact path="/user/order-history" component={UserOrderHistory} />
+                        <Route exact path="/user/order-history/:id" component={UserDetailOrder} />
+                        <Route path="/user/change-password" component={UserChangePassword} />
+                        <Route path="/user/address" component={UserAddress} />
+                        <Route path="/user/rating-comment/:id" component={UserRatingComment} />
+                        <Route path="/user/voucher" component={UserVoucher} />
+                        <Route exact path="/user/report" component={UserReport} />
+                        <Route path="/user/detail-report/:id" component={UserDetailReport} />
+                        <Route path="" component={NotFoundPage} />
+                      </Switch>
+
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Container>
+                </Container>
+
+              </div>
               <Footerr />
-            </div>
+            </>
           ) : (user != null && user.authorities[0].authority != 'USER') ||
             (user != null && user.authorities[0].authority != 'SELLER') ? (
             <Grid container spacing={1}>
@@ -267,7 +270,7 @@ export default function App() {
                   <Route path="/store-profile" component={StoreProfile} />
                   <Route path="" component={NotFoundPage} />
                 </Switch>
-              
+
               </Grid>
             </Grid>
           ) : (
@@ -287,9 +290,9 @@ export default function App() {
                   <Route path="/forget-password" component={ForgetPassword} />
                   <Route path="" component={NotFoundPage} />
                 </Switch>
-                
+
               </Grid>
-             
+
             </Grid>
           )}
 

@@ -155,7 +155,7 @@ export function SellerHomePage(props) {
           </ListItemButton>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <NavLink to="/user/setting" className={classes.link}>
+              <NavLink to="/user/setting" className={classes.link} onClick={handleDrawerToggle}>
                 <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <ArticleIcon />
@@ -163,7 +163,7 @@ export function SellerHomePage(props) {
                   <ListItemText primary="Hồ sơ" />
                 </ListItemButton>
               </NavLink>
-              <NavLink to="/user/address" className={classes.link}>
+              <NavLink to="/user/address" className={classes.link} onClick={handleDrawerToggle}> 
                 <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <HomeIcon />
@@ -171,7 +171,7 @@ export function SellerHomePage(props) {
                   <ListItemText primary="Địa chỉ" />
                 </ListItemButton>
               </NavLink>
-              <NavLink to="/user/change-password" className={classes.link}>
+              <NavLink to="/user/change-password" className={classes.link} onClick={handleDrawerToggle}>
                 <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <PasswordIcon />
@@ -181,7 +181,7 @@ export function SellerHomePage(props) {
               </NavLink>
             </List>
           </Collapse>
-          <NavLink to="/user/order-history" className={classes.link}>
+          <NavLink to="/user/order-history" className={classes.link} onClick={handleDrawerToggle}>
             <ListItemButton>
               <ListItemIcon>
                 <AssignmentIcon />
@@ -189,7 +189,7 @@ export function SellerHomePage(props) {
               <ListItemText primary="Lịch sử mua hàng" />
             </ListItemButton>
           </NavLink>
-          <NavLink to="/user/voucher" className={classes.link}>
+          <NavLink to="/user/voucher" className={classes.link} onClick={handleDrawerToggle}>
             <ListItemButton>
               <ListItemIcon>
                 <ConfirmationNumberIcon />
@@ -197,7 +197,7 @@ export function SellerHomePage(props) {
               <ListItemText primary="Voucher của tôi" />
             </ListItemButton>
           </NavLink>
-          <NavLink to="/user/report" className={classes.link}>
+          <NavLink to="/user/report" className={classes.link} onClick={handleDrawerToggle}>
             <ListItemButton>
               <ListItemIcon>
                 <ReportProblemIcon />

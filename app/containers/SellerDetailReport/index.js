@@ -110,7 +110,7 @@ export function SellerDetailReport(props) {
               borderRadius: "10px"
             }}
             alt="evidence"
-            src="https://cdn.luatminhkhue.vn/lmk/articles/71/356492/bang-chung-la-gi---khai-niem-ve-bang-chung---356492.jpeg"
+            src={props.sellerDetailReport.report ? props.sellerDetailReport.report.image : null}
           />
         </Grid>
       </Grid>

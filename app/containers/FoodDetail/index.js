@@ -100,9 +100,10 @@ const useStyles = makeStyles(theme => ({
   },
   storeInfo: {
     padding: '20px',
-    border: '1px solid #000',
     borderRadius: '5px',
     marginTop: '15px',
+    backgroundColor: "#fff",
+    boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
   },
   foodType: {
     background: '#fff',
@@ -227,7 +228,7 @@ export function FoodDetail(props) {
     }
   }, [props.foodDetail.food]);
 
-  console.log(props.foodDetail.listCommentStore)
+  console.log(props.foodDetail.food)
 
   return (
     <div style={{ backgroundColor: "#F3F7F8" }}>
@@ -328,7 +329,7 @@ export function FoodDetail(props) {
                 <Grid item xs={3} md={3} lg={2} className={classes.center}>
                   <Avatar
                     alt="avatar store"
-                    src={props.foodDetail.food != undefined ? props.foodDetail.food.image : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
+                    src={props.foodDetail.food != undefined ? props.foodDetail.food.foodStore.storeImage.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
                     sx={{ width: 56, height: 56 }}
                   />
                 </Grid>

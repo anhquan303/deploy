@@ -1,6 +1,6 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
 import { addVoucherByUserIdFailed, addVoucherByUserIdSuccess, getFoodByStoreIdFailed, getFoodByStoreIdSuccess, getStoreByIdFailed, getStoreByIdSuccess, getStoreCommentFailed, getStoreCommentSuccess, getStoreRatingFailed, getStoreRatingSuccess, getVoucherByStoreIdFailed, getVoucherByStoreIdSuccess, userAddReportFailed, userAddReportSuccess } from './actions';
-import { apiFetchData, apiPost } from './api';
+import { apiFetchData, apiPost, uploadImage } from './api';
 import * as types from './constants';
 
 export function* getStoreById({ payload }) {
@@ -71,7 +71,18 @@ export function* addVoucherByUserId({ payload }) {
 
 export function* userAddReport({ payload }) {
   try {
-    const res = yield call(apiPost, [`api/report`], payload);
+    console.log('here')
+    const formData = new FormData();
+    formData.append('userId', payload.userId);
+    formData.append('storeId', payload.storeId);
+    formData.append('title', payload.title);
+    formData.append('description', payload.description);
+    formData.append('imageFile', payload.image);
+    formData.append('userToStore', payload.userToStore);
+
+
+    const res = yield call(uploadImage, [`api/report`], formData);
+    console.log(res)
     if (res.status == 200) {
       yield put(userAddReportSuccess("Tạo report thành công"))
     } else {

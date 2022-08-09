@@ -223,11 +223,21 @@ export function StoreProfile(props) {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [evidence, setEvidence] = useState('');
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  // anh bang chung
+  const handleUploadEvidence = async e => {
+    console.log('here')
+    const file = e.target.files;
+    const data = new FormData();
+    data.append(file, file[0]);
+    setEvidence(file[0]);
+
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -248,6 +258,9 @@ export function StoreProfile(props) {
     if (!values.content) {
       errors.content = 'content is required!';
     }
+    // if (!evidence) {
+    //   errors.evidence = 'evidence is required!';
+    // }
     return errors;
   };
 
@@ -260,13 +273,16 @@ export function StoreProfile(props) {
 
   // sendReport
   useEffect(() => {
+    console.log(isSubmit)
+    console.log(formErrors)
     if (Object.keys(formErrors).length === 0 && isSubmit) {
+      console.log('api')
       const data = {
         userId: user.id,
         storeId: props.location.state.id,
         title: formValues.title,
         description: formValues.content,
-        image: "abc",
+        image: evidence,
         userToStore: true
       };
       dispatch(userAddReport(data));
@@ -312,8 +328,10 @@ export function StoreProfile(props) {
     dispatch(addVoucherByUserId(data));
   }
 
-  console.log(props.storeProfile.storeComment)
+  console.log(formErrors)
 
+
+  console.log(evidence)
   return (
     <div style={{ backgroundColor: "#F3F7F8" }}>
       <Headerr />
@@ -575,7 +593,7 @@ export function StoreProfile(props) {
               helperText={formErrors.content && formValues.content.length == '' ? formErrors.content : null}
               error={formErrors.content != null && formValues.content.length == ''}
             />
-            <input type="file" name="myImage" accept="image/png, image/gif, image/jpeg" />
+            <input type="file" name="myImage" onChange={handleUploadEvidence} />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Hủy Bỏ</Button>

@@ -12,6 +12,7 @@ export const initialState = {
   message: '',
   messageSMS: '',
   messageOTP: '',
+  checkEmail: '',
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -47,6 +48,7 @@ const userRegisterReducer = (state = initialState, action) =>
         draft.message = '';
         draft.messageSMS = '';
         draft.messageOTP = '';
+        draft.checkEmail = '';
         break;
       case types.SEND_OTP:
         draft.loading = true;
@@ -69,6 +71,17 @@ const userRegisterReducer = (state = initialState, action) =>
       case types.VERIFY_PHONE_FAILED:
         draft.loading = false;
         draft.messageOTP = action.payload;
+        break;
+      case types.VERIFY_EMAIL:
+        draft.loading = true;
+        break;
+      case types.VERIFY_EMAIL_SUCCESS:
+        draft.loading = false;
+        draft.checkEmail = action.payload;
+        break;
+      case types.VERIFY_EMAIL_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
         break;
     }
   });

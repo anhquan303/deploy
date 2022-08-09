@@ -255,6 +255,8 @@ export function SellerOrderDetail(props) {
     setOpenAlert(false);
   };
 
+  console.log(props.sellerOrderDetail.orderDetail)
+
   return (
     <div style={{ padding: '10px' }}>
       <Grid container spacing={0}>
@@ -390,9 +392,9 @@ export function SellerOrderDetail(props) {
               </Grid>
               <Grid item xs={12} md={6} style={{ padding: '10px' }}>
                 <p className={classes.text} style={{ textAlign: 'right' }}>
-                  {moment(
+                  {moment.utc(
                     props.sellerOrderDetail.orderDetail
-                      ? props.sellerOrderDetail.orderDetail.createdAt
+                      ? new Date(props.sellerOrderDetail.orderDetail.createdAt)
                       : null,
                   ).format('HH:mm:ss')}
                 </p>

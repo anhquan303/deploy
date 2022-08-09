@@ -109,6 +109,7 @@ export function UserOrderHistory(props) {
     history.push(location);
   };
 
+
   const toStoreProfile = (id) => {
     const location = {
       pathname: `/store-profile`,
@@ -183,6 +184,8 @@ export function UserOrderHistory(props) {
     }
   }, [value])
 
+  console.log(props.userOrderHistory.orderList)
+
   return (
     <>
       <div>
@@ -212,7 +215,7 @@ export function UserOrderHistory(props) {
 
         <div>
           <Tabs style={{ margin: "0 auto" }} value={value} onChange={handleChangeTab} variant="scrollable" textColor="primary" indicatorColor="primary" scrollButtons allowScrollButtonsMobile>
-            
+
             <Tab label="Tất cả đơn" />
             <Tab label="Đơn chờ xác nhận" />
             <Tab label="Đơn đã xác nhận" />
@@ -227,9 +230,10 @@ export function UserOrderHistory(props) {
           <div
             key={index}
             style={{
-              border: '1px solid #000',
               padding: '10px',
               margin: '10px 0',
+              backgroundColor: "#fff",
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
             }}
           >
             <Grid container spacing={0} style={{ padding: '10px' }}>
@@ -256,7 +260,7 @@ export function UserOrderHistory(props) {
                 className={classes.center}
                 style={{ justifyContent: 'center' }}
               >
-                {moment(item.createdAt).subtract(1, "days").format('DD/MM/YYYY')}
+                {moment(item.createdAt).format('DD/MM/YYYY')}
               </Grid>
               <Grid
                 item
@@ -282,7 +286,7 @@ export function UserOrderHistory(props) {
                       <Grid item xs={12} md={2} sm={12}>
                         <Avatar
                           variant="square"
-                          src="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg"
+                          src={item1.food.image}
                         />
                       </Grid>
                       <Grid

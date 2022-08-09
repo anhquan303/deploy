@@ -55,6 +55,7 @@ export function SellerReport(props) {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const user = getUser();
+  const [evidence, setEvidence] = useState('');
 
   useEffect(() => {
     setData(props.sellerReport.listReport);
@@ -81,6 +82,9 @@ export function SellerReport(props) {
     if (!values.content) {
       errors.content = 'content is required!';
     }
+    if (!evidence) {
+      errors.evidence = 'evidence is required!';
+    }
     return errors;
   };
 
@@ -89,6 +93,15 @@ export function SellerReport(props) {
     e.preventDefault();
     setFormErrors(validate(formValues));
     setIsSubmit(true);
+  };
+
+  // anh bang chung
+  const handleUploadEvidence = async e => {
+    const file = e.target.files;
+    const data = new FormData();
+    data.append(file, file[0]);
+    setEvidence(file[0]);
+
   };
 
   const requestSearch = (searchedVal) => {
@@ -106,7 +119,7 @@ export function SellerReport(props) {
         storeId: store,
         title: formValues.title,
         description: formValues.content,
-        image: "abc",
+        image: evidence,
         userToStore: false
       };
       dispatch(storeAddReport(data));
@@ -218,7 +231,7 @@ export function SellerReport(props) {
             helperText={formErrors.content && formValues.content.length == '' ? formErrors.content : null}
             error={formErrors.content != null && formValues.content.length == ''}
           />
-          <input type="file" name="myImage" accept="image/png, image/gif, image/jpeg" />
+          <input type="file" name="myImage" onChange={handleUploadEvidence} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Hủy Bỏ</Button>

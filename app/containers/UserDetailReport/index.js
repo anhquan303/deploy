@@ -68,6 +68,8 @@ export function UserDetailReport(props) {
     dispatch(getDetailReportById(data));
   }, [])
 
+
+  console.log(props.userDetailReport.report)
   return (
     <div>
       <Grid container spacing={0} >
@@ -77,7 +79,7 @@ export function UserDetailReport(props) {
           </Button>
         </Grid>
         <Grid item xs={6} md={6} style={{ padding: "10px", justifyContent: "right" }} className={classes.center}>
-          <p className={classes.font} style={{ fontWeight: "400", fontSize: "30px" }}>26/07/2022</p>
+          <p className={classes.font} style={{ fontWeight: "400", fontSize: "30px" }}>{moment().format('DD/MM/YYYY')}</p>
         </Grid>
       </Grid>
 
@@ -111,7 +113,8 @@ export function UserDetailReport(props) {
               borderRadius: "10px"
             }}
             alt="evidence"
-            src="https://cdn.luatminhkhue.vn/lmk/articles/71/356492/bang-chung-la-gi---khai-niem-ve-bang-chung---356492.jpeg"
+            src={props.userDetailReport.report ? props.userDetailReport.report.image : null}
+
           />
         </Grid>
       </Grid>
