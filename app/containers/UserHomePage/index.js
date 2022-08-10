@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Box, Grid, MobileStepper, Container, Backdrop, CircularProgress, Card, CardMedia } from '@mui/material';
+import { Box, Grid, MobileStepper, Container, Backdrop, CircularProgress, Card, CardMedia, Tabs, Tab } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import SearchBar from 'material-ui-search-bar';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -26,9 +26,6 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import RiceBowlIcon from '@mui/icons-material/RiceBowl';
 import RamenDiningIcon from '@mui/icons-material/RamenDining';
-import FreeBreakfastIcon from '@mui/icons-material/FreeBreakfast';
-import FastfoodIcon from '@mui/icons-material/Fastfood';
-import StarIcon from '@mui/icons-material/Star';
 import { Link } from 'react-router-dom';
 import { CardItem } from '../CardItem';
 import Headerr from '../Headerr';
@@ -42,6 +39,8 @@ import reducer from './reducer';
 import makeSelectUserHomePage from './selectors';
 import Loading from '../../components/Loading';
 import { Footerr } from '../Footerr';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -141,6 +140,42 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
   },
+  root1: {
+    position: "relative",
+    width: "100%",
+    [theme.breakpoints.down("sm")]: {
+      height: "200px"
+    },
+  },
+  image__img: {
+    dispatch: "block",
+    width: "100%",
+    [theme.breakpoints.down("sm")]: {
+      height: "200px"
+    },
+  },
+  overlay: {
+    position: "absolute",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    background: "rgba(0,0,0,0.6)",
+    color: "#fff",
+    [theme.breakpoints.down("sm")]: {
+      height: "200px"
+    },
+  },
+  search: {
+    [theme.breakpoints.up("md")]: {
+      width: "40%",
+      margin: "0 auto"
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "80%",
+      margin: "0 auto"
+    },
+  }
 }));
 
 export function UserHomePage(props) {
@@ -154,8 +189,9 @@ export function UserHomePage(props) {
   const theme = useTheme();
   // const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
   const store = getStore();
-
+  const [value, setValue] = useState(0);
   const user = getUser();
+  const [type, setType] = useState("");
 
   const handleSellerRegister = () => {
     if (user) {
@@ -168,7 +204,8 @@ export function UserHomePage(props) {
   const requestSearch = searchedVal => {
     const data = {
       sid: store,
-      search: searchedVal
+      search: searchedVal,
+      type: type
     };
     dispatch(fetchListFood(data));
   };
@@ -182,22 +219,80 @@ export function UserHomePage(props) {
 
   // get list food
   useEffect(() => {
-
     const data = {
       sid: store,
-      search: searched
+      search: searched,
+      type: type
     };
     dispatch(fetchListFood(data));
+  }, [type]);
 
-  }, []);
+
+  useEffect(() => {
+    console.log(value)
+    if (value == 0) {
+      setType("")
+    }
+    if (value == 1) {
+      setType("BANHMI")
+    }
+    if (value == 2) {
+      setType("COM")
+    }
+    if (value == 3) {
+      setType("BUN")
+    }
+    if (value == 4) {
+      setType("PHO")
+    }
+    if (value == 5) {
+      setType("MIEN")
+    }
+    if (value == 6) {
+      setType("MY")
+    }
+    if (value == 7) {
+      setType("OTHER")
+    }
+    // const data = {
+    //   sid: store,
+    //   search: searched,
+    //   type: type
+    // };
+    // dispatch(fetchListFood(data));
+  }, [value])
 
 
+  const handleChange = (event, newValue) => {
+    console.log(newValue)
+    setValue(newValue);
+
+  };
+
+  console.log(type)
   return (
     <>
       <div style={{ backgroundColor: "#F3F7F8", paddingBottom: "20px" }}>
         <Headerr />
         <div>
-          <div className={classes.root}></div>
+          <div className={classes.root1}>
+            <img className={classes.image__img} src="https://scontent.fhan14-2.fna.fbcdn.net/v/t1.15752-9/295485308_402761288506747_6752222352704131353_n.png?_nc_cat=111&ccb=1-7&_nc_sid=ae9488&_nc_ohc=acIyVeFHsQ4AX_vdh7B&_nc_ht=scontent.fhan14-2.fna&oh=03_AVKkIkPoYKYsyGeJ3RdfdyaZlIYCEuRHaWTvh3X2ckRuwg&oe=6314B8CD" />
+            <div className={classes.overlay}>
+              <div>
+                <p className={classes.text}>Khám phá đồ ăn, <br /> ẩm thực xứ sở Hola</p>
+                <SearchBar
+                  className={classes.search}
+                  value={searched}
+                  onChange={searchVal => requestSearch(searchVal)}
+                  onCancelSearch={() => cancelSearch()}
+                  //placeholder="What would you like to eat today?"
+                  placeholder="Bạn muốn ăn gì hôm nay?"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* <div className={classes.root}></div>
           <div className={classes.profileImage} >
             <div>
               <p className={classes.text}>Khám phá đồ ăn, <br /> ẩm thực xứ sở Hola</p>
@@ -210,53 +305,30 @@ export function UserHomePage(props) {
               />
             </div>
 
-          </div>
+          </div> */}
 
           <Container fixed>
 
-            <div style={{ textAlign: 'center', margin: "30px 0" }}>
-              <Button
-                className={classes.btn}
-                variant="outlined"
-                startIcon={<RestaurantIcon />}
-              >
-                All
-              </Button>
-              <Button
-                className={classes.btn}
-                variant="outlined"
-                startIcon={<RiceBowlIcon />}
-              >
-                Rice
-              </Button>
-              <Button
-                className={classes.btn}
-                variant="outlined"
-                startIcon={<RamenDiningIcon />}
-              >
-                Noodle
-              </Button>
-              <Button
-                className={classes.btn}
-                variant="outlined"
-                startIcon={<FreeBreakfastIcon />}
-              >
-                Drink
-              </Button>
-              <Button
-                className={classes.btn}
-                variant="outlined"
-                startIcon={<FastfoodIcon />}
-              >
-                Fast Food
-              </Button>
-              <Button
-                className={classes.btn}
-                variant="outlined"
-                startIcon={<StarIcon />}
-              >
-                Top Favorite
-              </Button>
+            <div style={{ textAlign: 'center', margin: "30px auto" }}>
+              <Box sx={{ maxWidth: { xs: 320, sm: 480, md: 560 }, bgcolor: 'background.paper', margin: "0 auto" }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  variant="scrollable"
+                  scrollButtons
+                  allowScrollButtonsMobile
+                  aria-label="scrollable force tabs example"
+                >
+                  <Tab icon={<FastfoodIcon />} label="Tất cả" />
+                  <Tab icon={<BreakfastDiningIcon />} label="Bánh mì" />
+                  <Tab icon={<RiceBowlIcon />} label="Cơm" />
+                  <Tab icon={<RamenDiningIcon />} label="Bún" />
+                  <Tab icon={<RamenDiningIcon />} label="Phở" />
+                  <Tab icon={<RamenDiningIcon />} label="Miến" />
+                  <Tab icon={<RamenDiningIcon />} label="Mỳ" />
+                  <Tab icon={<RestaurantIcon />} label="Khác" />
+                </Tabs>
+              </Box>
             </div>
 
             {/* <Grid container spacing={2} style={{ marignTop: "10px" }}>
@@ -284,6 +356,7 @@ export function UserHomePage(props) {
                       storeName={item.foodStore.name}
                       address={item.foodStore.dormLocation == null ? item.foodStore.otherLocation : item.foodStore.dormLocation}
                       img={item.image}
+                      price={item.price}
                     />
                   </Link>
                 </Grid>

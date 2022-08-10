@@ -13,7 +13,7 @@ export function* logOut({ payload }) {
 
 export function* fetchListFood({ payload }) {
   try {
-    const res = yield call(apiFetchData, [`api/store/0/foods?name=${payload.search}`]);
+    const res = yield call(apiFetchData, [`api/store/0/foods?name=${payload.search}&type=${payload.type}`]);
     if (res.status == 200) {
       yield put(fetchListFoodSuccess(res.data.data));
     } else {

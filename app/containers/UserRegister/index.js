@@ -154,6 +154,7 @@ export function UserRegister(props) {
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
   const [open, setOpen] = useState(false);
+  const [openAlertOTP, setOpenAlertOTP] = useState(false);
   const [verifyPhone, setVerifyPhone] = useState(true);
   const [checkVerifyPhone, setCheckVerifyPhone] = useState(false);
 
@@ -293,7 +294,9 @@ export function UserRegister(props) {
 
   useEffect(() => {
     if (props.userRegister.messageOTP != '') {
+      setOpenAlertOTP(true);
       if (props.userRegister.messageOTP == "WE ALREADY SEND VERIFICATION CODE TO YOUR PHONE") {
+
         setCheckVerifyPhone(true);
         setTimeout(() => {
           dispatch(reset());
@@ -305,6 +308,10 @@ export function UserRegister(props) {
           dispatch(reset());
         }, 2000);
       }
+
+      setTimeout(() => {
+        dispatch(reset());
+      }, 2000);
     }
   }, [props.userRegister.messageOTP])
 
@@ -323,6 +330,10 @@ export function UserRegister(props) {
 
   const handleCloseAlert = event => {
     setOpen(false);
+  };
+
+  const handleCloseAlertOTP = event => {
+    setOpenAlertOTP(false);
   };
 
   // verify phone
@@ -721,6 +732,21 @@ export function UserRegister(props) {
             sx={{ width: '100%' }}
           >
             {props.userRegister.message}
+          </Alert>
+        </Snackbar>
+
+        <Snackbar
+          open={openAlertOTP}
+          autoHideDuration={2000}
+          anchorOrigin={{ vertical, horizontal }}
+          onClose={handleCloseAlertOTP}
+        >
+          <Alert
+            severity="success"
+            onClose={handleCloseAlertOTP}
+            sx={{ width: '100%' }}
+          >
+            {props.userRegister.messageOTP}
           </Alert>
         </Snackbar>
       </div>

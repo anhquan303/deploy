@@ -373,7 +373,8 @@ export function Cart(props) {
                         </Grid>
                         <Grid item md={2} sm={3} xs={6} className={classes.smallGrid} >
                           <IconButton
-                            style={{ color: '#FF9900' }}
+                            disabled={checkedList.includes(item1)}
+                            style={{ color: '#EA5E5E' }}
                             onClick={() => subQuantity(item1.food.id)}
                           >
                             <IndeterminateCheckBoxIcon />
@@ -382,7 +383,8 @@ export function Cart(props) {
                             {item1.quantity}
                           </span>
                           <IconButton
-                            style={{ color: '#FF9900' }}
+                            disabled={checkedList.includes(item1)}
+                            style={{ color: '#EA5E5E' }}
                             onClick={() => addQuantity(item1.food.id)}
                           >
                             <AddBoxIcon />
@@ -473,7 +475,7 @@ export function Cart(props) {
               <span className={classes.text} onClick={handleDeleteAll}>Xoá Tất Cả</span>
             </Grid>
             <Grid item md={3} sm={2} xs={12} className={classes.smallGrid}>
-              <span className={classes.text}>Tổng thanh toán ( Sản phẩm):</span>
+              {/* <span className={classes.text}>Tổng thanh toán ( Sản phẩm):</span> */}
             </Grid>
             <Grid item md={3} sm={3} xs={12} className={classes.smallGrid} fixed >
               <Button onClick={() => handlePayment()} variant="contained">Mua Hàng</Button>
