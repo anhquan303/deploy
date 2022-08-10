@@ -37,6 +37,11 @@ import { getUser } from '../../utils/common';
 import { Footerr } from '../Footerr';
 import { CardItemFood } from '../CardItemFood';
 import moment from 'moment';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import RiceBowlIcon from '@mui/icons-material/RiceBowl';
+import RamenDiningIcon from '@mui/icons-material/RamenDining';
+import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
 
 let HEIGHT = window.screen.height;
 
@@ -215,6 +220,8 @@ export function StoreProfile(props) {
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [value, setValue] = useState(0);
+  const [foodType, setFoodType] = useState(0);
+  const [type, setType] = useState('');
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(false);
   let dollarUSLocale = Intl.NumberFormat('en-US');
@@ -310,7 +317,8 @@ export function StoreProfile(props) {
 
   useEffect(() => {
     const data = {
-      id: props.location.state.id
+      id: props.location.state.id,
+      type: type
     }
     dispatch(getStoreById(data));
     dispatch(getFoodByStoreId(data));
@@ -328,10 +336,53 @@ export function StoreProfile(props) {
     dispatch(addVoucherByUserId(data));
   }
 
-  console.log(formErrors)
+  const handleChangeFoodType = (event, newValue) => {
+    setFoodType(newValue);
+  };
+
+  useEffect(() => {
+    console.log(foodType)
+    if (foodType == 0) {
+      setType("")
+    }
+    if (foodType == 1) {
+      setType("BANHMI")
+    }
+    if (foodType == 2) {
+      setType("COM")
+    }
+    if (foodType == 3) {
+      setType("BUN")
+    }
+    if (foodType == 4) {
+      setType("PHO")
+    }
+    if (foodType == 5) {
+      setType("MIEN")
+    }
+    if (foodType == 6) {
+      setType("MY")
+    }
+    if (foodType == 7) {
+      setType("OTHER")
+    }
+    // const data = {
+    //   sid: store,
+    //   search: searched,
+    //   type: type
+    // };
+    // dispatch(fetchListFood(data));
+  }, [foodType]);
 
 
-  console.log(evidence)
+  useEffect(() => {
+    const data = {
+      id: props.location.state.id,
+      type: type
+    }
+    dispatch(getFoodByStoreId(data));
+  }, [type]);
+
   return (
     <div style={{ backgroundColor: "#F3F7F8" }}>
       <Headerr />
@@ -399,51 +450,30 @@ export function StoreProfile(props) {
         {value == 0 ?
           <div>
             <Grid container spacing={0}>
-              <Grid item xs={12} sm={12} md={3} style={{ padding: '10px' }}>
-                <List
-                  component="nav"
-                  aria-label="secondary mailbox folder"
-                  className={classes.foodType}
-                >
-                  <ListItemButton
-                    selected={selectedIndex === 2}
-                    onClick={event => handleListItemClick(event, 2)}
-                  >
-                    <ListItemText primary="Bán chạy" />
-                  </ListItemButton>
-                  <ListItemButton
-                    selected={selectedIndex === 3}
-                    onClick={event => handleListItemClick(event, 2)}
-                  >
-                    <ListItemText primary="Món mới" />
-                  </ListItemButton>
-                  <ListItemButton
-                    selected={selectedIndex === 4}
-                    onClick={event => handleListItemClick(event, 3)}
-                  >
-                    <ListItemText primary="Cơm suất" />
-                  </ListItemButton>
-                  <ListItemButton
-                    selected={selectedIndex === 5}
-                    onClick={event => handleListItemClick(event, 4)}
-                  >
-                    <ListItemText primary="Phở" />
-                  </ListItemButton>
-                  <ListItemButton
-                    selected={selectedIndex === 6}
-                    onClick={event => handleListItemClick(event, 5)}
-                  >
-                    <ListItemText primary="Bún" />
-                  </ListItemButton>
-                  <ListItemButton
-                    selected={selectedIndex === 7}
-                    onClick={event => handleListItemClick(event, 6)}
-                  >
-                    <ListItemText primary="Đồ ăn vặt" />
-                  </ListItemButton>
-                </List>
+              <Grid item xs={12} sm={12} md={12} style={{ padding: '10px' }}>
+                <div style={{ textAlign: 'center', margin: "30px auto" }}>
+                  <Box sx={{ maxWidth: { xs: 320, sm: 480, md: 560 }, bgcolor: 'background.paper', margin: "0 auto" }}>
+                    <Tabs
+                      value={foodType}
+                      onChange={handleChangeFoodType}
+                      variant="scrollable"
+                      scrollButtons
+                      allowScrollButtonsMobile
+                      aria-label="scrollable force tabs example"
+                    >
+                      <Tab icon={<FastfoodIcon />} label="Tất cả" />
+                      <Tab icon={<BreakfastDiningIcon />} label="Bánh mì" />
+                      <Tab icon={<RiceBowlIcon />} label="Cơm" />
+                      <Tab icon={<RamenDiningIcon />} label="Bún" />
+                      <Tab icon={<RamenDiningIcon />} label="Phở" />
+                      <Tab icon={<RamenDiningIcon />} label="Miến" />
+                      <Tab icon={<RamenDiningIcon />} label="Mỳ" />
+                      <Tab icon={<RestaurantIcon />} label="Khác" />
+                    </Tabs>
+                  </Box>
+                </div>
               </Grid>
-              <Grid item xs={12} sm={12} md={9} style={{ padding: '10px' }}>
+              <Grid item xs={12} sm={12} md={12} style={{ padding: '10px' }}>
                 <Grid container spacing={0}>
                   {props.storeProfile.food.map((item) => {
                     return (

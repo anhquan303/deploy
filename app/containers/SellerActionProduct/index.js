@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "20px",
     borderRadius: "10px"
   },
-   btn: {
+  btn: {
     position: "relative",
     width: "100%",
     borderRadius: "10px",
@@ -333,16 +333,12 @@ export function SellerActionProduct(props) {
                         onChange={handleChangeType}
                       >
                         <MenuItem value="BANHMI">Bánh mì</MenuItem>
-                        <MenuItem value="COMRANG">Cơm rang</MenuItem>
-                        <MenuItem value="COMTAM">Cơm tấm</MenuItem>
-                        <MenuItem value="COMXUAT">Cơm xuất</MenuItem>
-                        <MenuItem value="BUNGIOHEO">Bún giò heo</MenuItem>
-                        <MenuItem value="BUNTRA">Bún chả</MenuItem>
-                        <MenuItem value="BUNDAU">Bún đậu</MenuItem>
+                        <MenuItem value="COM">Cơm</MenuItem>
+                        <MenuItem value="BUN">Bún</MenuItem>
                         <MenuItem value="PHO">Phở</MenuItem>
                         <MenuItem value="MIEN">Miến</MenuItem>
                         <MenuItem value="MI">Mỳ</MenuItem>
-                        <MenuItem value="NEMNUONG">Nem nướng</MenuItem>
+                        <MenuItem value="OTHER">Khác</MenuItem>
                       </Select>
                     </FormControl>
                   </Box>

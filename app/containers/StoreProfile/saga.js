@@ -18,7 +18,7 @@ export function* getStoreById({ payload }) {
 
 export function* getFoodByStoreId({ payload }) {
   try {
-    const res = yield call(apiFetchData, [`api/store/${payload.id}/foods`]);
+    const res = yield call(apiFetchData, [`api/store/${payload.id}/foods?type=${payload.type}`]);
     if (res.status == 200) {
       yield put(getFoodByStoreIdSuccess(res.data.data))
     } else {

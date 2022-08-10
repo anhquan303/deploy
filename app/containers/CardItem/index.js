@@ -41,7 +41,7 @@ export function CardItem({ foodName, storeName, address, img, price }) {
   useInjectReducer({ key: 'cardItem', reducer });
   useInjectSaga({ key: 'cardItem', saga });
   const classes = useStyles();
-
+  let dollarUSLocale = Intl.NumberFormat('en-US');
 
   return (
     <div>
@@ -101,11 +101,11 @@ export function CardItem({ foodName, storeName, address, img, price }) {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
           }}>
-             {storeName}
+            {foodName}
           </Typography>
-          {/* <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary">
             {storeName}
-          </Typography> */}
+          </Typography>
           <Typography variant="body2" color="text.secondary" style={{
             whiteSpace: 'nowrap',
             width: '100%',
@@ -117,6 +117,9 @@ export function CardItem({ foodName, storeName, address, img, price }) {
               <span> {address.dormName} - {address.room_number}</span>
             }
 
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            <span style={{ fontWeight: "600", fontSize: "20px", color: "#EA5E5E" }}>{dollarUSLocale.format(price)} VND</span>
           </Typography>
 
         </CardContent>
