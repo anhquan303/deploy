@@ -1,6 +1,6 @@
 import axios from "axios";
 //const baseApiUrl = 'http://localhost:3990/';
-const baseApiUrl = 'https://ofo-backend-project.herokuapp.com/';
+const baseApiUrl = 'Ofoapp-env.eba-rsgvdcbq.us-east-1.elasticbeanstalk.com/';
 // const baseApiUrl = 'https://reqres.in//';
 
 const baseInstance = axios.create({
