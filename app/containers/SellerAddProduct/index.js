@@ -150,7 +150,7 @@ export function SellerAddProduct(props) {
   }, [formErrors]);
 
   useEffect(() => {
-    if (props.sellerAddProduct.message === 'ADD SUCCESSFUL') {
+    if (props.sellerAddProduct.message === 'Thêm sản phẩm thành công') {
       setOpen(true);
       setTimeout(() => {
         props.history.push('/my-store/manager-product');
@@ -235,7 +235,7 @@ export function SellerAddProduct(props) {
                         <MenuItem value="BUN">Bún</MenuItem>
                         <MenuItem value="PHO">Phở</MenuItem>
                         <MenuItem value="MIEN">Miến</MenuItem>
-                        <MenuItem value="MI">Mỳ</MenuItem>
+                        <MenuItem value="MY">Mỳ</MenuItem>
                         <MenuItem value="OTHER">Khác</MenuItem>
                       </Select>
                     </FormControl>
@@ -364,10 +364,20 @@ export function SellerAddProduct(props) {
             message={props.sellerAddProduct.message}
             autoHideDuration={5000}
           /> */}
-          <Snackbar open={open} autoHideDuration={1000} anchorOrigin={{ vertical, horizontal }} onClose={handleCloseAlert}>
-            <Alert severity="success" onClose={handleCloseAlert} sx={{ width: '100%' }}>
-              {props.sellerAddProduct.message}
-            </Alert>
+          <Snackbar open={open} autoHideDuration={2000} anchorOrigin={{ vertical, horizontal }} onClose={handleCloseAlert}>
+            {props.sellerAddProduct.message && props.sellerAddProduct.message.includes("500") || props.sellerAddProduct.message && props.sellerAddProduct.message.toLowerCase().includes("error") ?
+              <Alert
+                severity="error"
+                onClose={handleCloseAlert}
+                sx={{ width: '100%' }}
+              >
+                {props.sellerAddProduct.message}
+              </Alert>
+              :
+              <Alert severity="success" onClose={handleCloseAlert} sx={{ width: '100%' }}>
+                {props.sellerAddProduct.message}
+              </Alert>
+            }
           </Snackbar>
         </div>
       </div>

@@ -106,15 +106,16 @@ export function UserRatingComment(props) {
       food_id: props.location.state.fid,
       user_id: user.id,
       description: comment,
+      star: star
     };
     dispatch(userAddCommentFood(data));
 
-    const data1 = {
-      food_id: props.location.state.fid,
-      user_id: user.id,
-      star: star
-    };
-    dispatch(userRatingFood(data1));
+    // const data1 = {
+    //   food_id: props.location.state.fid,
+    //   user_id: user.id,
+    //   star: star
+    // };
+    // dispatch(userRatingFood(data1));
   };
 
   const handleSubmitStore = () => {
@@ -122,15 +123,16 @@ export function UserRatingComment(props) {
       store_id: props.userRatingComment.food ? props.userRatingComment.food.foodStore.id : null,
       user_id: user.id,
       description: commentStore,
+      star: starStore
     };
     dispatch(userAddCommentStore(data));
 
-    const data1 = {
-      store_id: props.userRatingComment.food ? props.userRatingComment.food.foodStore.id : null,
-      user_id: user.id,
-      star: starStore
-    };
-    dispatch(userRatingStore(data1));
+    // const data1 = {
+    //   store_id: props.userRatingComment.food ? props.userRatingComment.food.foodStore.id : null,
+    //   user_id: user.id,
+    //   star: starStore
+    // };
+    // dispatch(userRatingStore(data1));
   };
 
 
@@ -185,7 +187,6 @@ export function UserRatingComment(props) {
     history.push(location);
   }
 
-  console.log(props.userRatingComment.food)
 
   return (
     <div>

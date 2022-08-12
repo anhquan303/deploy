@@ -17,7 +17,7 @@ export function* createOrder({ payload }) {
       yield put(createOrderFailed("Đặt hàng không thành công"));
     }
   } catch (error) {
-    yield put(createOrderFailed(error.message));
+    yield put(createOrderFailed("Không thể sử dụng voucher"));
   }
 }
 

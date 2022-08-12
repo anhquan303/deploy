@@ -67,13 +67,19 @@ export function UserOrderHistory(props) {
   const history = useHistory();
   let dollarUSLocale = Intl.NumberFormat('en-US');
   const [value, setValue] = useState(0);
+  const [data, setData] = useState(props.userOrderHistory.orderList);
 
   const requestSearch = searchedVal => {
-    // const filteredRows = props.dashboardStore.listStore.filter((row) => {
-    //   return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-    // });
-    // setData(filteredRows);
+    const filteredRows = props.userOrderHistory.orderList.filter((row) => {
+      return row.code.toLowerCase().includes(searchedVal.toLowerCase());
+    });
+    setData(filteredRows);
   };
+
+
+  useEffect(() => {
+    setData(props.userOrderHistory.orderList);
+  }, [props.userOrderHistory.orderList])
 
   const cancelSearch = () => {
     setSearched('');
@@ -184,8 +190,6 @@ export function UserOrderHistory(props) {
     }
   }, [value])
 
-  console.log(props.userOrderHistory.orderList)
-
   return (
     <>
       <div>
@@ -209,7 +213,7 @@ export function UserOrderHistory(props) {
             value={searched}
             onChange={searchVal => requestSearch(searchVal)}
             onCancelSearch={() => cancelSearch()}
-            placeholder="Tìm kiếm theo tên shop hoặc tên sản phẩm"
+            placeholder="Tìm kiếm theo mã đơn hàng"
           />
         </Grid>
 
@@ -226,7 +230,7 @@ export function UserOrderHistory(props) {
           </Tabs>
         </div>
 
-        {props.userOrderHistory.orderList.slice(0).reverse().map((item, index) => (
+        {data.slice(0).reverse().map((item, index) => (
           <div
             key={index}
             style={{
@@ -274,7 +278,8 @@ export function UserOrderHistory(props) {
                   fontSize: '20px',
                 }}
               >
-                {item.status == "CANCEL" ? <span style={{ color: "#fe0000" }}>{item.status}</span> : <span style={{ color: "#20D167" }}>{item.status}</span>}
+
+                {item.status == "CANCEL" ? <span style={{ color: "#fe0000" }}> <span style={{ color: '#1168EB' }}>#{item.code} </span> {item.status}</span> : <span style={{ color: "#20D167" }}> <span style={{ color: '#1168EB' }}>#{item.code} </span>{item.status}</span>}
               </Grid>
             </Grid>
             <hr />

@@ -69,7 +69,6 @@ export function UserDetailReport(props) {
   }, [])
 
 
-  console.log(props.userDetailReport.report)
   return (
     <div>
       <Grid container spacing={0} >

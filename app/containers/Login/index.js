@@ -19,7 +19,7 @@ import makeSelectLogin from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
+import Logo from '../../images/logoNone.png';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 //import Button from '@mui/material/Button';
@@ -32,9 +32,11 @@ import { login, reset } from './actions';
 import { getToken, getUser, removeUserSession } from '../../utils/common';
 import Snackbar from '@mui/material/Snackbar';
 import BackGround from '../../images/dhfpt.png';
-import { Grid, LinearProgress } from '@mui/material';
+import { Grid, LinearProgress, Modal, Typography } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -85,22 +87,41 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   btnSubmit: {
-    position: "relative",
-    width: "60%",
-    borderRadius: "10px",
-    backgroundColor: "#ff9900",
-    marginTop: "10px",
-    "&:hover": {
-      backgroundColor: "orange",
-      fontWeight: "bold",
-      color: "#000",
-    }
+    position: 'relative',
+    width: '60%',
+    borderRadius: '10px',
+    backgroundColor: '#FD4444',
+    color: "#fff",
+    marginTop: '10px',
+    '&:hover': {
+      backgroundColor: '#FF1C1C',
+      fontWeight: 'bold',
+      color: '#fff',
+    },
   },
   google: {
     margin: "10px 0",
     textAlign: "center",
-  }
-
+  },
+  modal: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 650,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    backgroundColor: '#fff',
+    textAlign: 'center',
+    borderRadius: '20px',
+    padding: "20px"
+  },
+  center: {
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    display: 'flex',
+  },
 }));
 
 
@@ -122,22 +143,19 @@ export function Login(props) {
   const [vertical, setVertical] = useState("top");
   const [horizontal, setHorizontal] = useState("right");
   const [isSubmit, setIsSubmit] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
 
   //validate
   const HandleLogin = event => {
     event.preventDefault();
-    console.log(formValues.userName)
     setFormErrors(validate(formValues));
     setIsSubmit(true);
-    console.log(isSubmit)
 
   }
 
   //login
   useEffect(() => {
-    console.log(formErrors)
-    console.log(isSubmit)
     if (isSubmit) {
       const data = {
         username: formValues.userName,
@@ -154,13 +172,16 @@ export function Login(props) {
   //redirect follow role
   useEffect(() => {
     if (user != null) {
-
-      if (user.authorities[0].authority != "ADMIN") {
-        //props.history.push("/");
-        setTimeout(() => props.history.push("/"), 1000);
+      if (user.status == "Approved") {
+        if (user.authorities[0].authority != "ADMIN") {
+          //props.history.push("/");
+          setTimeout(() => props.history.push("/"), 1000);
+        } else {
+          //props.history.push("/dashboard");
+          setTimeout(() => props.history.push("/dashboard"), 1000);
+        }
       } else {
-        //props.history.push("/dashboard");
-        setTimeout(() => props.history.push("/dashboard"), 1000);
+        setOpenModal(true);
       }
     }
   }, [props.login.message, user]);
@@ -168,15 +189,11 @@ export function Login(props) {
 
   //set value for input
   const handleChange = (e) => {
-    console.log('abc')
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   }
 
-  console.log(formValues.userName)
   const validate = (values) => {
-    console.log('123')
-    console.log(values.userName)
     const errors = {};
     if (!values.userName || values.userName.trim() === "") {
       errors.userName = "username is required!";
@@ -210,6 +227,10 @@ export function Login(props) {
       setTimeout(() => dispatch(reset()), 1000);
       setOpen(true);
     }
+    if (props.login.message == "ACCOUNT HAS NOT BEEN ACTIVATED") {
+      setOpenModal(true);
+      setTimeout(() => dispatch(reset()), 1000);
+    }
 
   }, [props.login.message]);
 
@@ -221,7 +242,6 @@ export function Login(props) {
 
   useEffect(() => {
     const keyDownHandler = event => {
-      console.log('User pressed: ', event.key);
 
       if (event.key === 'Enter') {
         event.preventDefault();
@@ -237,6 +257,11 @@ export function Login(props) {
       document.removeEventListener('keydown', keyDownHandler);
     };
   }, []);
+
+  const closeModal = () => {
+    dispatch(reset());
+    setOpenModal(false);
+  };
   return (
     <div className={classes.body}>
       <div className={classes.container}>
@@ -244,7 +269,7 @@ export function Login(props) {
         <div className={classes.top}>
           <div className={classes.topLogo}>
             <img src={Logo} alt="logo" className={classes.logo} />
-            <h2>No <span>Nê</span></h2>
+            <h2 style={{ color: "#FD4444" }}>No <span>Nê</span></h2>
           </div>
         </div>
         <h3 className={classes.registerTag}>Đăng nhập</h3>
@@ -317,13 +342,13 @@ export function Login(props) {
           </div> */}
 
           <div style={{ textAlign: "center" }}>
-            <Button className={classes.btnSubmit} type="submit" variant="contained" component="span"  onClick={HandleLogin}>
+            <Button className={classes.btnSubmit} type="submit" variant="contained" component="span" onClick={HandleLogin}>
               ĐĂNG NHẬP
             </Button>
           </div>
         </form>
 
-        <div className={classes.google} >
+        {/* <div className={classes.google} >
           <GoogleLogin
             clientId="525769427042-2vrp9m5sfv6g8fb03fdl2dm1ddv1q03r.apps.googleusercontent.com"
             buttonText="Đăng nhập với gmail"
@@ -333,7 +358,7 @@ export function Login(props) {
             //isSignedIn={true}
             style={{ width: "100%" }}
           />
-        </div>
+        </div> */}
         <br />
         <div style={{ textAlign: "center" }}>
           <div><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
@@ -369,6 +394,35 @@ export function Login(props) {
         </Snackbar>
 
       </div>
+
+      <Modal
+        open={openModal}
+        // onClose={() => setOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className={classes.modal}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            <CancelIcon
+              style={{ width: '20%', height: '20%', color: '#fe0000' }}
+            />
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <p style={{ fontFamily: 'sans-serif', fontSize: '40px' }}>
+              Tài khoản của bạn tạm thời đã bị khóa, xin vui lòng liện hệ ...
+            </p>
+          </Typography>
+          <Button
+            className={classes.btnAccept}
+            style={{ width: '50%' }}
+            variant="contained"
+            component="span"
+            onClick={closeModal}
+          >
+            XÁC NHẬN
+          </Button>
+        </Box>
+      </Modal>
     </div >
   );
 }

@@ -32,7 +32,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import BackGround from '../../images/dhfpt.png';
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
+import Logo from '../../images/logoNone.png';
 import { reset, resetPassword } from './actions';
 
 const useStyles = makeStyles(theme => ({
@@ -201,7 +201,7 @@ export function UserResetPassword(props) {
           <div className={classes.top}>
             <div className={classes.topLogo}>
               <img src={Logo} alt="logo" className={classes.logo} />
-              <h2>
+              <h2 style={{ color: "#FD4444" }}>
                 No <span>Nê</span>
               </h2>
             </div>

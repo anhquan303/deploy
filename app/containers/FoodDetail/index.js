@@ -186,7 +186,6 @@ export function FoodDetail(props) {
     }
   };
 
-  //console.log(props.location.state.item.id)
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -227,8 +226,6 @@ export function FoodDetail(props) {
       dispatch(getListCommentStore(data));
     }
   }, [props.foodDetail.food]);
-
-  console.log(props.foodDetail.food)
 
   return (
     <div style={{ backgroundColor: "#F3F7F8" }}>
@@ -364,9 +361,9 @@ export function FoodDetail(props) {
                 {/* <Grid item xs={4} md={4}>
                   Người theo dõi <span>12</span>
                 </Grid> */}
-                <Grid item xs={4} md={4}>
+                {/* <Grid item xs={4} md={4}>
                   Yêu thích <span>12</span>
-                </Grid>
+                </Grid> */}
               </Grid>
             </Grid>
           </Grid>
@@ -501,7 +498,7 @@ export function FoodDetail(props) {
                               <div>
                                 <Rating
                                   name="half-rating-read"
-                                  value={5}
+                                  value={item.star}
                                   precision={0.5}
                                   readOnly
                                 />

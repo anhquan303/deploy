@@ -215,7 +215,6 @@ export function UserHomePage(props) {
     requestSearch(searched);
   };
 
-  console.log(props.userHomePage.foodList)
 
   // get list food
   useEffect(() => {
@@ -229,7 +228,6 @@ export function UserHomePage(props) {
 
 
   useEffect(() => {
-    console.log(value)
     if (value == 0) {
       setType("")
     }
@@ -264,12 +262,10 @@ export function UserHomePage(props) {
 
 
   const handleChange = (event, newValue) => {
-    console.log(newValue)
     setValue(newValue);
 
   };
 
-  console.log(type)
   return (
     <>
       <div style={{ backgroundColor: "#F3F7F8", paddingBottom: "20px" }}>

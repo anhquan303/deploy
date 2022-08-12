@@ -40,3 +40,24 @@ export function reset(payload) {
     payload,
   };
 }
+
+export function verifyEmail(payload) {
+  return {
+    type: types.VERIFY_EMAIL,
+    payload,
+  };
+}
+
+export function verifyEmailSuccess(payload) {
+  return {
+    type: types.VERIFY_EMAIL_SUCCESS,
+    payload,
+  };
+}
+
+export function verifyEmailFailed(payload) {
+  return {
+    type: types.VERIFY_EMAIL_FAILED,
+    payload,
+  };
+}

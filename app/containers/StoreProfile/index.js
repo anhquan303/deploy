@@ -148,7 +148,7 @@ const useStyles = makeStyles(theme => ({
   couponCode: {
     border: "1px dashed #fff",
     padding: "10px 20px",
-    borderRight: "0"
+    //borderRight: "0"
   },
   couponBtn: {
     border: "1px solid #fff",
@@ -238,7 +238,6 @@ export function StoreProfile(props) {
 
   // anh bang chung
   const handleUploadEvidence = async e => {
-    console.log('here')
     const file = e.target.files;
     const data = new FormData();
     data.append(file, file[0]);
@@ -280,10 +279,7 @@ export function StoreProfile(props) {
 
   // sendReport
   useEffect(() => {
-    console.log(isSubmit)
-    console.log(formErrors)
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log('api')
       const data = {
         userId: user.id,
         storeId: props.location.state.id,
@@ -341,7 +337,6 @@ export function StoreProfile(props) {
   };
 
   useEffect(() => {
-    console.log(foodType)
     if (foodType == 0) {
       setType("")
     }
@@ -382,6 +377,7 @@ export function StoreProfile(props) {
     }
     dispatch(getFoodByStoreId(data));
   }, [type]);
+
 
   return (
     <div style={{ backgroundColor: "#F3F7F8" }}>
@@ -501,7 +497,7 @@ export function StoreProfile(props) {
           : value == 1 ?
             <div>
               <Grid container spacing={0}>
-                {props.storeProfile.listVoucher && props.storeProfile.listVoucher.length != 0 ? props.storeProfile.listVoucher.map((item) => {
+                {props.storeProfile.listVoucher && props.storeProfile.listVoucher.length != 0 ? props.storeProfile.listVoucher.filter(voucher => voucher.active == true).map((item) => {
                   return (
                     <Grid key={item.id} item xs={12} sm={12} md={4} style={{ padding: '10px' }}>
                       <div className={classes.couponCard}>
@@ -510,10 +506,10 @@ export function StoreProfile(props) {
                         <div className={classes.couponRow}>
                           <span className={classes.couponCode}>{item.code}</span>
                           {/* <span className={classes.couponBtn}><CopyToClipBoard text="STEALDEAL20"> LƯU MÃ</CopyToClipBoard></span> */}
-                          <CopyToClipboard text={item.code}
+                          {/* <CopyToClipboard text={item.code}
                             onCopy={() => setCopied(true)}>
                             <span className={classes.couponBtn} onClick={() => handleSaveVoucher(item.id)}>LƯU MÃ</span>
-                          </CopyToClipboard>
+                          </CopyToClipboard> */}
                         </div>
                         <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
                         {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
@@ -560,7 +556,7 @@ export function StoreProfile(props) {
                             <div>
                               <Rating
                                 name="half-rating-read"
-                                value={5}
+                                value={item.star}
                                 precision={0.5}
                                 readOnly
                               />

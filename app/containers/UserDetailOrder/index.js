@@ -97,8 +97,6 @@ export function UserDetailOrder(props) {
     dispatch(cancelOrder(data));
   };
 
-  console.log(props.userDetailOrder.voucher)
-  console.log(props.userDetailOrder.order)
 
   const singleVal = [];
   const [money, setMoney] = useState([]);
@@ -130,15 +128,12 @@ export function UserDetailOrder(props) {
   useEffect(() => {
     if (props.userDetailOrder.voucher) {
       let percent1 = parseFloat(parseFloat(props.userDetailOrder.voucher.percent) / 100);
-      console.log(percent1)
-      console.log(beforeUseVoucher)
       setDiscountMoney(parseFloat(beforeUseVoucher) * percent1);
     } else {
       setDiscountMoney(0);
     }
   }, [props.userDetailOrder.voucher, beforeUseVoucher]);
 
-  console.log(discountMoney)
 
   const toStoreProfile = (id) => {
     const location = {
