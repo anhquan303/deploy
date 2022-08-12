@@ -175,7 +175,6 @@ export function SellerSetting(props) {
     }
   }, [props.sellerSetting.user]);
 
-  console.log(props.sellerSetting.user)
 
   // set value for input
   const handleChange = e => {

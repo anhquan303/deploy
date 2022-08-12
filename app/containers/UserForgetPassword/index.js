@@ -38,8 +38,10 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import BackGround from '../../images/dhfpt.png';
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
-import { forgetPassword, reset } from './actions';
+import Logo from '../../images/logoNone.png';
+import { forgetPassword, reset, verifyEmail } from './actions';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 const useStyles = makeStyles(theme => ({
   body: {
@@ -57,7 +59,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     backgroundColor: '#fff',
-    padding: '40px 10px',
+    padding: '40px 50px',
     margin: '20px',
     borderRadius: '30px',
   },
@@ -136,6 +138,9 @@ export function UserForgetPassword(props) {
   const [isSubmit, setIsSubmit] = useState(false);
   const [open, setOpen] = useState(false);
   const history = useHistory();
+  const [openAlert, setOpenAlert] = useState(false);
+  const [vertical, setVertical] = useState('top');
+  const [horizontal, setHorizontal] = useState('right');
 
   // set value for input
   const handleChange = e => {
@@ -143,25 +148,37 @@ export function UserForgetPassword(props) {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  useEffect(() => {
-    loadCaptchaEnginge(6);
-  }, []);
+  // useEffect(() => {
+  //   loadCaptchaEnginge(6);
+  // }, []);
 
   const validate = values => {
     const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
+    const regexPhone = /^[0-9]{10}$/;
     const errors = {};
     if (!values.email) {
       errors.email = 'required!';
     }
-    if (regexEmail.test(values.email) == false) {
-      errors.email1 = 'ex: abc@smt.com';
+    // if (regexEmail.test(values.email) == false) {
+    //   errors.email1 = 'ex: abc@smt.com';
+    // } else if (regexPhone.test(values.email) == false) {
+    //   errors.email1 = '10 số';
+    // }
+    if (isNaN(values.email) == true) {
+      if (regexEmail.test(values.email) == false) {
+        errors.email1 = 'ex: abc@smt.com';
+      }
+    } else {
+      if (regexPhone.test(values.email) == false) {
+        errors.email1 = '10 số';
+      }
     }
-    if (!values.captcha) {
-      errors.captcha = 'captcha is required!';
-    }
-    if (validateCaptcha(values.captcha) == false) {
-      errors.captcha1 = 'captcha does not match!';
-    }
+    // if (!values.captcha) {
+    //   errors.captcha = 'captcha is required!';
+    // }
+    // if (validateCaptcha(values.captcha) == false) {
+    //   errors.captcha1 = 'captcha does not match!';
+    // }
 
     return errors;
   };
@@ -176,10 +193,21 @@ export function UserForgetPassword(props) {
   // submit
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      const data = {
-        email: formValues.email,
-      };
-      dispatch(forgetPassword(data));
+      if (isNaN(formValues.email) == true) {
+        const data = {
+          email: formValues.email,
+        };
+        dispatch(verifyEmail(data));
+        //dispatch(forgetPassword(data));
+      } else {
+        let newPhone = formValues.email.substring(1);
+        newPhone = "+84".concat(newPhone);
+        const data = {
+          inputProvider: newPhone,
+        };
+        dispatch(forgetPassword(data));
+      }
+
       // setOpen(true);
     }
   }, [formErrors]);
@@ -196,6 +224,35 @@ export function UserForgetPassword(props) {
     }
   }, [props.userForgetPassword.message]);
 
+  useEffect(() => {
+    if (props.userForgetPassword.checkEmail != "") {
+      setOpenAlert(true);
+      if (props.userForgetPassword.checkEmail != 'Không tìm thấy địa chỉ email') {
+        const data = {
+          inputProvider: formValues.email,
+        };
+        dispatch(forgetPassword(data));
+
+        setTimeout(() => {
+          dispatch(reset());
+        }, 2000);
+      }
+    }
+
+  }, [props.userForgetPassword.checkEmail]);
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleCloseAlert = event => {
+    setOpenAlert(false);
+  };
+
+  useEffect(() => {
+    dispatch(reset())
+  }, [])
+
   return (
     <div className={classes.body}>
       <div className={classes.container}>
@@ -203,7 +260,7 @@ export function UserForgetPassword(props) {
           <div className={classes.top}>
             <div className={classes.topLogo}>
               <img src={Logo} alt="logo" className={classes.logo} />
-              <h2>
+              <h2 style={{ color: "#FD4444" }}>
                 No <span>Nê</span>
               </h2>
             </div>
@@ -223,15 +280,15 @@ export function UserForgetPassword(props) {
                 <Box
                   component="form"
                   sx={{
-                    '& .MuiTextField-root': { m: 0, width: '70%' },
+                    '& .MuiTextField-root': { m: 0, width: '100%' },
                   }}
                   noValidate
                   autoComplete="off"
                 >
                   <TextField
                     id="outlined-textarea1"
-                    label="Email"
-                    placeholder="Email"
+                    label="Email/Số điện thoại"
+                    placeholder="Email/Số điện thoại"
                     multiline
                     name="email"
                     value={formValues.email}
@@ -252,10 +309,10 @@ export function UserForgetPassword(props) {
                 </Box>
               </Grid>
 
-              <Grid item sm={12} xs={12} style={{ textAlign: 'center' }}>
+              {/* <Grid item sm={12} xs={12} style={{ textAlign: 'center' }}>
                 <LoadCanvasTemplate />
-              </Grid>
-              <Grid item sm={12} xs={12}>
+              </Grid> */}
+              {/* <Grid item sm={12} xs={12}>
                 <Box
                   component="form"
                   sx={{
@@ -287,7 +344,7 @@ export function UserForgetPassword(props) {
                     }
                   />
                 </Box>
-              </Grid>
+              </Grid> */}
             </Grid>
           </div>
           <div style={{ textAlign: 'center' }}>
@@ -302,6 +359,7 @@ export function UserForgetPassword(props) {
             </Button>
           </div>
         </form>
+
         <Modal
           open={open}
           // onClose={() => setOpen(false)}
@@ -330,6 +388,51 @@ export function UserForgetPassword(props) {
             </Button>
           </Box>
         </Modal>
+
+        {/* <Modal
+          open={open}
+          // onClose={() => setOpen(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className={classes.modal}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              <CheckCircleIcon
+                style={{ width: '20%', height: '20%', color: '#32C670' }}
+              />
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <p style={{ fontFamily: 'sans-serif', fontSize: '40px' }}>
+                {props.userForgetPassword.message}
+              </p>
+            </Typography>
+            <Button
+              className={classes.btnAccept}
+              style={{ width: '50%' }}
+              variant="contained"
+              component="span"
+              onClick={closeModal}
+            >
+              XÁC NHẬN
+            </Button>
+          </Box>
+        </Modal> */}
+
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical, horizontal }}
+          onClose={handleCloseAlert}
+        >
+          {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
+          <Alert
+            severity="success"
+            onClose={handleCloseAlert}
+            sx={{ width: '100%' }}
+          >
+            {props.userForgetPassword.checkEmail}
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );

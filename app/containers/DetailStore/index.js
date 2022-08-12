@@ -400,7 +400,6 @@ export function DetailStore(props) {
     }
   }, [data])
 
-  console.log(props.detailStore.store)
   return (
     <div style={{ paddingRight: "15px" }}>
       {props.detailStore.store ?

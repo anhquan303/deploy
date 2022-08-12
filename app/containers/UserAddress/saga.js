@@ -39,9 +39,9 @@ export function* addLocation({ payload }) {
   try {
     const res = yield call(apiPost, [`api/location/insert/location`], payload);
     if (res.status == 200) {
-      yield put(addLocationSuccess("ADD SUCCESS"));
+      yield put(addLocationSuccess("Thêm địa chỉ thành công"));
     } else {
-      yield put(addLocationFailed("ADD FAILED"));
+      yield put(addLocationFailed("Thêm địa chỉ thất bại"));
     }
   } catch (error) {
     yield put(addLocationFailed(error.message));
@@ -69,9 +69,9 @@ export function* updateLocation({ payload }) {
     }
     const res = yield call(apiPost, [`api/location/updateLocation?locationId=${payload.id}`], body);
     if (res.status == 200) {
-      yield put(updateLocationSuccess("UPDATE SUCCESS"));
+      yield put(updateLocationSuccess("Thay đổi địa chỉ thành công"));
     } else {
-      yield put(updateLocationFailed("UPDATE FAILED"));
+      yield put(updateLocationFailed("Thay đổi địa chỉ thất bại"));
     }
   } catch (error) {
     yield put(updateLocationFailed(error.message));
@@ -82,7 +82,7 @@ export function* deleteLocation({ payload }) {
   try {
     const res = yield call(apiDelete, [`api/location/deleteLocation/${payload.id}`]);
     if (res.status == 200) {
-      yield put(deleteLocationSuccess("DELETE SUCCESS"));
+      yield put(deleteLocationSuccess(res.data.body.message));
     } else {
       yield put(deleteLocationFailed("DELETE FAILED"));
     }
@@ -108,7 +108,7 @@ export function* changeDefaultLocation({ payload }) {
   try {
     const res = yield call(apiPost, [`api/location/changeDefaultLocation/${payload.id}`]);
     if (res.status == 200) {
-      yield put(changeDefaultLocationSuccess("SUCCESS"));
+      yield put(changeDefaultLocationSuccess("Địa chỉ mặc định đã được thay đổi"));
     } else {
       yield put(changeDefaultLocationFailed("FAILED"));
     }

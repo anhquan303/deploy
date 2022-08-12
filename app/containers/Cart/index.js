@@ -488,14 +488,23 @@ export function Cart(props) {
           anchorOrigin={{ vertical, horizontal }}
           onClose={handleCloseAlert}
         >
-          {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
-          <Alert
-            severity="success"
-            onClose={handleCloseAlert}
-            sx={{ width: '100%' }}
-          >
-            {props.cart.message}
-          </Alert>
+          {props.cart.message && props.cart.message.includes("500") || props.cart.message && props.cart.message.toLowerCase().includes("error") ?
+            <Alert
+              severity="error"
+              onClose={handleCloseAlert}
+              sx={{ width: '100%' }}
+            >
+              {props.cart.message}
+            </Alert>
+            :
+            <Alert
+              severity="success"
+              onClose={handleCloseAlert}
+              sx={{ width: '100%' }}
+            >
+              {props.cart.message}
+            </Alert>
+          }
         </Snackbar>
         <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

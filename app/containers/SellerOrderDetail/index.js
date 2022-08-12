@@ -255,7 +255,6 @@ export function SellerOrderDetail(props) {
     setOpenAlert(false);
   };
 
-  console.log(props.sellerOrderDetail.orderDetail)
 
   return (
     <div style={{ padding: '10px' }}>

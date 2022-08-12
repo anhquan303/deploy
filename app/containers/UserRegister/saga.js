@@ -20,7 +20,6 @@ export function* signUp({ payload }) {
       otp: payload.otp
     }
     const res = yield call(apiSignup, ['auth/adduser'], data);
-    console.log(res)
     if (res.status == 200) {
       yield put(signUpSuccess(res.data.message))
     } else {
@@ -49,7 +48,6 @@ export function* sendSMS({ payload }) {
 export function* sendOTP({ payload }) {
   try {
     const res = yield call(apiSignup, ['auth/sendOTP'], payload);
-    console.log(res)
     if (res.status == 200) {
       yield put(sendOTPSuccess(res.data.body.message))
     } else {
@@ -64,7 +62,6 @@ export function* sendOTP({ payload }) {
 export function* verifyPhone({ payload }) {
   try {
     const res = yield call(apiSignup, ['auth/verifyOTP'], payload);
-    console.log(res)
     if (res.status == 200) {
       yield put(verifyPhoneSuccess(res.data.body.message))
     } else {
@@ -79,7 +76,6 @@ export function* verifyPhone({ payload }) {
 export function* verifyEmail({ payload }) {
   try {
     const res = yield call(apiFetchData, [`https://emailvalidation.abstractapi.com/v1/?api_key=1ca5175122ab443aaa6b300a9a9e94e0&email=${payload.email}`]);
-    console.log(res)
     if (res.status == 200) {
       if (res.data.deliverability == "DELIVERABLE") {
         yield put(verifyEmailSuccess(res.data.deliverability));

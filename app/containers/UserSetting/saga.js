@@ -38,7 +38,7 @@ export function* getUserById({ payload }) {
   try {
     const res = yield call(apiFetchData, [`api/user/getById?id=${payload.id}`]);
     if (res.status == 200) {
-      yield put(getUserByIdSuccess(res.data.data));
+      yield put(getUserByIdSuccess(res.data.data[0]));
     } else {
       yield put(getUserByIdFailed('Failed'));
     }

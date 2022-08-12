@@ -43,13 +43,13 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     width: 'fit-content',
     borderRadius: '10px',
-    backgroundColor: '#fff',
+    backgroundColor: '#FD4444',
     margin: '10px 5px',
-    color: "#7158fe",
+    color: "#fff",
     '&:hover': {
-      backgroundColor: '#fff',
+      backgroundColor: '#FF1C1C',
       fontWeight: 'bold',
-      color: '#7158fe',
+      color: '#fff',
       boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
     },
   },
@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
   couponCode: {
     border: "1px dashed #fff",
     padding: "10px 20px",
-    borderRight: "0"
+    //borderRight: "0"
   },
   couponBtn: {
     border: "1px solid #fff",
@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme => ({
     color: "#7158fe"
   },
   circle1: {
-    background: "#f0fff3",
+    background: "#fafafa",
     width: "50px",
     height: "50px",
     borderRadius: "50%",
@@ -96,7 +96,7 @@ const useStyles = makeStyles(theme => ({
     left: "-25px"
   },
   circle2: {
-    background: "#f0fff3",
+    background: "#fafafa",
     width: "50px",
     height: "50px",
     borderRadius: "50%",
@@ -116,7 +116,7 @@ const useStyles = makeStyles(theme => ({
     p: 4,
     backgroundColor: '#fff',
     textAlign: 'center',
-    borderRadius: '20px',
+    borderRadius: '5px',
     padding: '10px',
     [theme.breakpoints.down("sm")]: {
       width: 250,
@@ -253,6 +253,7 @@ export function SellerVoucher(props) {
         }
         dispatch(getVoucherByStoreId(data));
         dispatch(reset());
+        setOpenUpdate(false);
       }
     }
   }, [props.sellerVoucher.message]);
@@ -321,6 +322,7 @@ export function SellerVoucher(props) {
   //   setOpen(true);
   //   setOpenUpdate(false);
   // }
+
   return (
     <div>
       <Grid container spacing={0}>
@@ -348,10 +350,10 @@ export function SellerVoucher(props) {
                   <div className={classes.couponRow}>
                     <span className={classes.couponCode}>{item.code}</span>
 
-                    <CopyToClipboard text={item.code}
+                    {/* <CopyToClipboard text={item.code}
                       onCopy={() => setCopied(true)}>
                       <span className={classes.couponBtn}>LƯU MÃ</span>
-                    </CopyToClipboard>
+                    </CopyToClipboard> */}
                   </div>
                   <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
                   {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
@@ -522,7 +524,7 @@ export function SellerVoucher(props) {
                 </Box>
               </Grid>
 
-              <Grid item sm="auto" xs="auto" style={{ width: '100%', margin: '10px 0' }}>
+              {/* <Grid item sm="auto" xs="auto" style={{ width: '100%', margin: '10px 0' }}>
                 <Box
                   component="form"
                   sx={{
@@ -541,7 +543,7 @@ export function SellerVoucher(props) {
                     value={formValues.quantity}
                   />
                 </Box>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Typography>
           <Button
@@ -700,7 +702,7 @@ export function SellerVoucher(props) {
                 </Box>
               </Grid>
 
-              <Grid item sm="auto" xs="auto" style={{ width: '100%', margin: '10px 0' }}>
+              {/* <Grid item sm="auto" xs="auto" style={{ width: '100%', margin: '10px 0' }}>
                 <Box
                   component="form"
                   sx={{
@@ -719,7 +721,7 @@ export function SellerVoucher(props) {
                     value={formValues.quantityUpdate}
                   />
                 </Box>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Typography>
           <Button

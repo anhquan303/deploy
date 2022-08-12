@@ -23,9 +23,9 @@ export function* addProduct({ payload }) {
 
     const res = yield call(uploadImage, [`api/store/${payload.storeId}/foods`], formData);
     if (res.status == 200) {
-      yield put(addProductSuccess("ADD SUCCESSFUL"));
+      yield put(addProductSuccess("Thêm sản phẩm thành công"));
     } else {
-      yield put(addProductFailed("ADD FAILED"));
+      yield put(addProductFailed("Thêm sản phẩm thất bại"));
     }
   } catch (error) {
     yield put(addProductFailed(error.message));

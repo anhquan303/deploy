@@ -47,7 +47,6 @@ export function Footerr(props) {
   const user = getUser();
 
   const handleSellerRegister = () => {
-    console.log('here')
     if (user) {
       history.push('/sellerRegister');
     } else {

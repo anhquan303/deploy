@@ -129,7 +129,7 @@ export function SellerHomePage(props) {
         <Grid item xs={12} md={4} className={classes.avatar}>
           <Avatar
             alt="avatar"
-            src={props.sellerHomePage.user != undefined ? props.sellerHomePage.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
+            src={user.avatar != null ? user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"}
             sx={{ width: 56, height: 56 }}
           />
         </Grid>
@@ -163,7 +163,7 @@ export function SellerHomePage(props) {
                   <ListItemText primary="Hồ sơ" />
                 </ListItemButton>
               </NavLink>
-              <NavLink to="/user/address" className={classes.link} onClick={handleDrawerToggle}> 
+              <NavLink to="/user/address" className={classes.link} onClick={handleDrawerToggle}>
                 <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <HomeIcon />
@@ -189,14 +189,14 @@ export function SellerHomePage(props) {
               <ListItemText primary="Lịch sử mua hàng" />
             </ListItemButton>
           </NavLink>
-          <NavLink to="/user/voucher" className={classes.link} onClick={handleDrawerToggle}>
+          {/* <NavLink to="/user/voucher" className={classes.link} onClick={handleDrawerToggle}>
             <ListItemButton>
               <ListItemIcon>
                 <ConfirmationNumberIcon />
               </ListItemIcon>
               <ListItemText primary="Voucher của tôi" />
             </ListItemButton>
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/user/report" className={classes.link} onClick={handleDrawerToggle}>
             <ListItemButton>
               <ListItemIcon>

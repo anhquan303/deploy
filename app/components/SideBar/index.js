@@ -27,7 +27,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 // } from '@mui/icons-material';
 
 
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
+import Logo from '../../images/logoNone.png';
 //import './index.css';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { makeStyles, Container, Typography } from '@material-ui/core';

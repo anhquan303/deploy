@@ -172,7 +172,6 @@ export function Payment(props) {
   let count = 0;
   let [listTest, setListTest] = useState([]);
 
-  console.log(props.location.state.item)
   if (props.location.state.item.length == 2) {
     if (props.location.state.item[0].food.foodStore.name == props.location.state.item[1].food.foodStore.name) {
       payment[count] = { storeId: props.location.state.item[0].food.foodStore, listFood: [props.location.state.item[0], props.location.state.item[1]] };
@@ -186,7 +185,6 @@ export function Payment(props) {
       payment[count] = { storeId: props.location.state.item[0].food.foodStore, listFood: [props.location.state.item[0]] };
     } else {
       for (var i = 0; i < props.location.state.item.length - 1; ++i) {
-        console.log('i', i)
         if (i != 0) {
           payment[count + 1] = { storeId: props.location.state.item[i + 1].food.foodStore, listFood: [props.location.state.item[i + 1]] };
         }
@@ -260,11 +258,9 @@ export function Payment(props) {
         setPaymentList(listTest);
       }
     } else {
-      console.log('here')
     }
   };
 
-  console.log(paymentList)
 
   const handlePayment = () => {
 
@@ -362,9 +358,16 @@ export function Payment(props) {
       setOpenAlert(true);
       setTimeout(() => dispatch(reset()), 3000);
     }
+    if (props.payment.message.includes("Không thể sử dụng voucher")) {
+      // const data = {
+      //   id: user.id
+      // }
+      // dispatch(getListLocationByUserId(data));
+      setOpenAlert(true);
+      setTimeout(() => dispatch(reset()), 3000);
+    }
   }, [props.payment.message])
 
-  console.log(props.payment.defaultLocation)
 
   //get id of order
   // useEffect(() => {
@@ -427,7 +430,7 @@ export function Payment(props) {
       }
     }
 
-  }, [props.payment.listLocation])
+  }, [props.payment.listLocation, props.payment.defaultLocation])
 
   const handleChangeLocation = (name, village, id) => {
     setNameAddress(name);
@@ -463,8 +466,7 @@ export function Payment(props) {
     setOpenModalAddAddress(false);
   }
 
-  console.log(props.payment.listLocation);
-  console.log(props.payment.message);
+  console.log(props.payment.listVoucher)
   return (
     <>
       <div style={{ backgroundColor: "#F3F7F8", paddingBottom: "20px", height: "100%" }}>
@@ -639,7 +641,7 @@ export function Payment(props) {
                           onChange={handleChangeVoucher}
                         >
                           <MenuItem value="0">Không sử dụng voucher</MenuItem>
-                          {props.payment.listVoucher != [] ? props.payment.listVoucher.filter(voucher => voucher.store.id == item.storeId.id).map(nestItem =>
+                          {props.payment.listVoucher != [] ? props.payment.listVoucher.filter(voucher => voucher.store.id == item.storeId.id && voucher.active == true).map(nestItem =>
                           (
                             <MenuItem key={nestItem.id} value={nestItem}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
                           )
@@ -1058,18 +1060,27 @@ export function Payment(props) {
 
         <Snackbar
           open={openAlert}
-          autoHideDuration={6000}
+          autoHideDuration={3000}
           anchorOrigin={{ vertical, horizontal }}
           onClose={handleCloseAlert}
         >
-          {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
-          <Alert
-            severity="success"
-            onClose={handleCloseAlert}
-            sx={{ width: '100%' }}
-          >
-            {props.payment.message}
-          </Alert>
+          {props.payment.message && props.payment.message.includes("500") || props.payment.message && props.payment.message.toLowerCase().includes("error") ?
+            <Alert
+              severity="error"
+              onClose={handleCloseAlert}
+              sx={{ width: '100%' }}
+            >
+              {props.payment.message}
+            </Alert>
+            :
+            <Alert
+              severity="success"
+              onClose={handleCloseAlert}
+              sx={{ width: '100%' }}
+            >
+              {props.payment.message}
+            </Alert>
+          }
         </Snackbar>
 
         <Backdrop

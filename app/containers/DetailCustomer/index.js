@@ -21,7 +21,7 @@ import messages from './messages';
 import moment from 'moment';
 import {
   Box, Grid, Container, Avatar, Typography, Tab, Tabs, Menu, TableCell, TableBody, IconButton,
-  MenuItem, Backdrop, TableContainer, Paper, Table, TableHead, TableRow, Collapse
+  MenuItem, Backdrop, TableContainer, Paper, Table, TableHead, TableRow, Collapse, TablePagination
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import SearchBar from "material-ui-search-bar";
@@ -79,6 +79,13 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #000",
     borderRadius: "10px",
     margin: "10px 0"
+  },
+  information: {
+    padding: "10px",
+    textAlign: "center",
+    borderRadius: "10px",
+    backgroundColor: "#fff",
+    boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
   }
 }));
 
@@ -96,6 +103,8 @@ export function DetailCustomer(props) {
   const open = Boolean(anchorEl);
   let dollarUSLocale = Intl.NumberFormat('en-US');
   const [data, setData] = useState(props.detailCustomer.listOrder);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
 
   useEffect(() => {
@@ -127,26 +136,6 @@ export function DetailCustomer(props) {
     setSearched("");
     requestSearch(searched);
   };
-
-  const columns = [
-    { title: "Order ID", field: "id" },
-    { title: "Order At", field: "name" },
-    { title: "Food", field: "owner" },
-    { title: "Quantity", field: "totalOrder" },
-    { title: "Price", field: "status" },
-    { title: "Status", field: "contact" },
-  ]
-
-  const columns1 = [
-    { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
-    { id: 'code', label: 'Mã đơn hàng', minWidth: 100, align: 'center' },
-    { id: 'createAt', label: 'Thời gian', minWidth: 100, align: 'center' },
-    { id: 'slogan', label: 'Slogan', minWidth: 100, align: 'center' },
-    { id: 'status', label: 'Trạng thái', minWidth: 100, align: 'center' },
-
-  ];
-
-  const order = [];
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -186,12 +175,10 @@ export function DetailCustomer(props) {
     }
   }, [props.detailCustomer.message]);
 
-  console.log(props.detailCustomer.listOrder);
   let result = 0;
 
   const singleVal = Array.from(props.detailCustomer.listOrder ? props.detailCustomer.listOrder.map(item => item.total_price) : null);
 
-  console.log(singleVal)
 
   for (var i = 0; i < singleVal.length; i++) {
     result += parseInt(singleVal[i]);
@@ -208,10 +195,9 @@ export function DetailCustomer(props) {
     };
   }
 
-  console.log(props.detailCustomer.listLocation)
 
   function Row({ row }) {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     return (
       <React.Fragment>
@@ -238,7 +224,7 @@ export function DetailCustomer(props) {
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <Typography variant="h6" gutterBottom component="div">
-                  History
+                  Danh sách món ăn
                 </Typography>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
@@ -297,7 +283,15 @@ export function DetailCustomer(props) {
       return (item.name + ", " + item.village);
     }) : null);
   }
-  console.log(props.detailCustomer.user)
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <div style={{ padding: "15px" }}>
@@ -311,10 +305,9 @@ export function DetailCustomer(props) {
 
             </Grid>
           </Grid>
-          <p className={classes.title} >User</p>
           <Grid container spacing={0} >
             <Grid item xs={12} md={4} style={{ padding: "10px" }}>
-              <div style={{ padding: "10px", border: "1px solid #000", textAlign: "center", borderRadius: "10px" }}>
+              <div className={classes.information}>
                 <Avatar sx={{ width: 150, height: 150, margin: "5px auto" }} component="span" src={props.detailCustomer.user.avatar} />
                 <p className={classes.font} style={{ fontWeight: "700", fontSize: "30px" }}>{props.detailCustomer.user.firstname} {props.detailCustomer.user.lastname}</p>
                 <p className={classes.text} style={{ color: "#949494" }}>{props.detailCustomer.user.email}</p>
@@ -343,8 +336,8 @@ export function DetailCustomer(props) {
             </Grid>
 
             <Grid item xs={12} md={4} style={{ padding: "10px" }}>
-              <div style={{ padding: "10px", border: "1px solid #000", borderRadius: "10px" }}>
-                <p className={classes.title}>Contact</p>
+              <div className={classes.information} style={{ height: "100%", textAlign: "left" }}>
+                <p className={classes.title}>Liên hệ</p>
                 <hr />
                 <div className={classes.contact}>
                   <Grid container spacing={0} >
@@ -384,8 +377,8 @@ export function DetailCustomer(props) {
                       </Avatar>
                     </Grid>
                     <Grid item xs={8} md={10} style={{ padding: "10px" }}>
-                      <p className={classes.text}>Order gần nhất</p>
-                      <p className={classes.text}>07/05/2022</p>
+                      <p className={classes.text}>Đơn hàng gần nhất</p>
+                      <p className={classes.text}>{moment.utc(props.detailCustomer.listOrder[props.detailCustomer.listOrder.length - 1].createdAt).format('DD/MM/YYYY, HH:mm:ss')}</p>
                     </Grid>
                   </Grid>
                 </div>
@@ -396,17 +389,17 @@ export function DetailCustomer(props) {
             <Grid item xs={12} md={4}>
               <Grid container spacing={0} >
                 <Grid item xs={12} md={12} style={{ padding: "10px" }}>
-                  <div style={{ padding: "10px", border: "1px solid #000", borderRadius: "10px" }}>
-                    <p className={classes.title}>Order</p>
+                  <div className={classes.information} style={{ textAlign: "left" }}>
+                    <p className={classes.title}>Đơn hàng</p>
                     <hr />
                     <div>
-                      <p className={classes.font} style={{ fontWeight: "200", fontSize: "30px" }}>{props.detailCustomer.listOrder ? props.detailCustomer.listOrder.length : 0} &#40;total&#41;</p>
+                      <p className={classes.font} style={{ fontWeight: "200", fontSize: "30px" }}>{props.detailCustomer.listOrder ? props.detailCustomer.listOrder.length : 0} &#40;tổng&#41;</p>
                     </div>
                   </div>
                 </Grid>
                 <Grid item xs={12} md={12} style={{ padding: "10px" }}>
-                  <div style={{ padding: "10px", border: "1px solid #000", borderRadius: "10px" }}>
-                    <p className={classes.title}>Order Cost</p>
+                  <div className={classes.information} style={{ textAlign: "left" }}>
+                    <p className={classes.title}>Số tiền đã mua</p>
                     <hr />
                     <div>
                       <p className={classes.font} style={{ fontWeight: "200", fontSize: "30px" }}> {dollarUSLocale.format(result)} VND</p>
@@ -416,7 +409,7 @@ export function DetailCustomer(props) {
               </Grid>
             </Grid>
           </Grid>
-          <div>
+          <div style={{ margin: "10px 0" }}>
             <Tabs style={{ margin: "0 auto" }} value={value} onChange={handleChangeTab} textColor="primary" indicatorColor="primary" centered>
               <Tab label="Tất cả đơn" />
               <Tab label="Đơn đã nhận" />
@@ -440,12 +433,21 @@ export function DetailCustomer(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
+                  {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                     <Row key={row.name} row={row} />
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={data.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
           </div>
         </> : null}
       {/* <Helmet>

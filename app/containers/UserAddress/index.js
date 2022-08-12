@@ -198,7 +198,7 @@ export function UserAddress(props) {
       setOpenAlert(true);
       dispatch(getLocationByUserId(data));
       //dispatch(getAllLocation());
-      setTimeout(() => dispatch(reset()), 6000);
+      setTimeout(() => dispatch(reset()), 3000);
     }
   }, [props.userAddress.message]);
 
@@ -254,7 +254,6 @@ export function UserAddress(props) {
     dispatch(changeDefaultLocation(data));
   }
 
-  console.log(props.userAddress.locationUser)
 
   return (
     <div>
@@ -766,18 +765,27 @@ export function UserAddress(props) {
 
       <Snackbar
         open={openAlert}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         anchorOrigin={{ vertical, horizontal }}
         onClose={handleCloseAlert}
       >
-        {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
-        <Alert
-          severity="success"
-          onClose={handleCloseAlert}
-          sx={{ width: '100%' }}
-        >
-          {props.userAddress.message}
-        </Alert>
+        {props.userAddress.message && props.userAddress.message.includes("500") || props.userAddress.message && props.userAddress.message.toLowerCase().includes("error") ?
+          <Alert
+            severity="error"
+            onClose={handleCloseAlert}
+            sx={{ width: '100%' }}
+          >
+            {props.userAddress.message}
+          </Alert>
+          :
+          <Alert
+            severity="success"
+            onClose={handleCloseAlert}
+            sx={{ width: '100%' }}
+          >
+            {props.userAddress.message}
+          </Alert>
+        }
       </Snackbar>
 
       <Dialog

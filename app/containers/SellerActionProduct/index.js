@@ -250,8 +250,16 @@ export function SellerActionProduct(props) {
     setImage(file1[0]);
   };
 
-  console.log(props.sellerActionProduct.food)
-  console.log(type)
+  const handleCloseAlert = (event) => {
+    setOpen(false);
+  };
+
+  const Alert = React.forwardRef(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   return (
     <div style={{ paddingRight: "15px" }}>
@@ -337,7 +345,7 @@ export function SellerActionProduct(props) {
                         <MenuItem value="BUN">Bún</MenuItem>
                         <MenuItem value="PHO">Phở</MenuItem>
                         <MenuItem value="MIEN">Miến</MenuItem>
-                        <MenuItem value="MI">Mỳ</MenuItem>
+                        <MenuItem value="MY">Mỳ</MenuItem>
                         <MenuItem value="OTHER">Khác</MenuItem>
                       </Select>
                     </FormControl>
@@ -430,13 +438,21 @@ export function SellerActionProduct(props) {
               </Grid>
             </Grid>
           </form>
-          <Snackbar
-            anchorOrigin={{ vertical, horizontal }}
-            open={open}
-            onClose={handleCloseToast}
-            message={props.sellerActionProduct.message}
-            autoHideDuration={5000}
-          />
+          <Snackbar open={open} autoHideDuration={1000} anchorOrigin={{ vertical, horizontal }} onClose={handleCloseAlert}>
+            {props.sellerActionProduct.message && props.sellerActionProduct.message.includes("500") || props.sellerActionProduct.message && props.sellerActionProduct.message.toLowerCase().includes("error") ?
+              <Alert
+                severity="error"
+                onClose={handleCloseAlert}
+                sx={{ width: '100%' }}
+              >
+                {props.sellerActionProduct.message}
+              </Alert>
+              :
+              <Alert severity="success" onClose={handleCloseAlert} sx={{ width: '100%' }}>
+                {props.sellerActionProduct.message}
+              </Alert>
+            }
+          </Snackbar>
           <Dialog
             open={openDialog}
             onClose={() => setOpenDialog(false)}

@@ -38,7 +38,6 @@ export function* getListWards({ payload }) {
 
 export function* updateStore({ payload }) {
   try {
-    console.log(payload.location)
     const formData = new FormData();
     if (payload.avatar == null) {
       formData.append('name', payload.name);
@@ -66,7 +65,6 @@ export function* updateStore({ payload }) {
       formData.append('location', payload.location);
     }
     const res = yield call(apiPost, [`api/store/${payload.id}/update`], formData);
-    console.log(res)
     if (res.status == 200) {
       yield put(updateStoreSuccess('cập nhật thành công'));
     } else {

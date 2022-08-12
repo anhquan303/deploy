@@ -43,7 +43,7 @@ import saga from './saga';
 import messages from './messages';
 
 import BackGround from '../../images/dhfpt.png';
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
+import Logo from '../../images/logoNone.png';
 import { reset, sendOTP, sendSMS, signUp, verifyEmail, verifyPhoneee } from './actions';
 import Loading from '../../components/Loading';
 
@@ -113,14 +113,14 @@ const useStyles = makeStyles(theme => ({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: "50%",
+    width: "40%",
     height: 300,
     bgcolor: 'background.paper',
-    boxShadow: 24,
     p: 4,
     backgroundColor: '#fff',
     textAlign: 'center',
-    borderRadius: '20px',
+    borderRadius: '5px',
+    boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
     padding: '10px',
     [theme.breakpoints.down("sm")]: {
       width: "90%",
@@ -251,7 +251,6 @@ export function UserRegister(props) {
 
   useEffect(() => {
     if (props.userRegister.checkEmail != '') {
-      console.log(props.userRegister.checkEmail);
       if (props.userRegister.checkEmail == "DELIVERABLE") {
         const data = {
           userName: formValues.userName,
@@ -741,6 +740,7 @@ export function UserRegister(props) {
           anchorOrigin={{ vertical, horizontal }}
           onClose={handleCloseAlertOTP}
         >
+
           <Alert
             severity="success"
             onClose={handleCloseAlertOTP}
@@ -762,7 +762,7 @@ export function UserRegister(props) {
             id="modal-modal-title"
             variant="h6"
             component="h2"
-            style={{ marginTop: '10px' }}
+            style={{ marginTop: '10px', fontSize: "35px" }}
           >
             Xác thực số điện thoại
           </Typography>
@@ -845,7 +845,7 @@ export function UserRegister(props) {
           {checkVerifyPhone == false ?
             <>
               <Button
-                className={classes.btn}
+                className={classes.btnSubmit}
                 style={{ width: '50%' }}
                 variant="contained"
                 component="span"
@@ -853,12 +853,12 @@ export function UserRegister(props) {
               >
                 Lấy mã
               </Button>
-              <div><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
+              <div style={{ padding: "20px" }}><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
             </>
             :
             <>
               <Button
-                className={classes.btn}
+                className={classes.btnSubmit}
                 style={{ width: '50%' }}
                 variant="contained"
                 component="span"
@@ -866,7 +866,7 @@ export function UserRegister(props) {
               >
                 Xác thực số điện thoại
               </Button>
-              <div><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
+              <div style={{ padding: "20px" }}><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
             </>
           }
         </Box>

@@ -5,7 +5,6 @@ import * as types from './constants';
 export function* addToCart({ payload }) {
   try {
     const res = yield call(apiPost, [`api/cart/${payload.uid}/add/${payload.fid}`]);
-    console.log(res)
     if (res.status == 200) {
       yield put(addToCartSuccess('ADD SUCCESS'));
     } else {

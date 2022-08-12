@@ -24,7 +24,7 @@ import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { AppBar, IconButton, Toolbar, Drawer, Box } from '@mui/material';
 import { makeStyles, Container, Typography } from '@material-ui/core';
 import { fontWeight } from '@mui/system';
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
+import Logo from '../../images/logoNone.png';
 import messages from './messages';
 import DashboardHeader from '../DashboardHeader';
 import { getStore, getUser, removeUserSession } from '../../utils/common';
