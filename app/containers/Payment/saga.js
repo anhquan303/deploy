@@ -103,8 +103,13 @@ export function* getListVoucher({ payload }) {
 export function* getDefaultLocation({ payload }) {
   try {
     const res = yield call(apiFetchData, [`api/location/getDefaultLocation`]);
+    console.log(res)
     if (res.status == 200) {
-      yield put(getDefaultLocationSuccess(res.data.data.body.data));
+      if (res.data.data.body.success == true) {
+        yield put(getDefaultLocationSuccess(res.data.data.body.data));
+      } else {
+        yield put(getDefaultLocationSuccess(undefined));
+      }
     } else {
       yield put(getDefaultLocationFailed("FAILED"));
     }

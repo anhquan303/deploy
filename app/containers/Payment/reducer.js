@@ -15,7 +15,7 @@ export const initialState = {
   qrcode: "",
   listOrder: [],
   listVoucher: [],
-  defaultLocation: undefined
+  defaultLocationn: undefined
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -111,7 +111,7 @@ const paymentReducer = (state = initialState, action) =>
         break;
       case types.GET_DEFAULT_LOCATION_SUCCESS:
         draft.loading = false;
-        draft.defaultLocation = action.payload;
+        draft.defaultLocationn = action.payload;
         break;
       case types.GET_DEFAULT_LOCATION_FAILED:
         draft.loading = false;

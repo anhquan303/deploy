@@ -18,4 +18,9 @@ export const GET_USER_BY_ID = 'app/Headerr/GET_USER_BY_ID';
 export const GET_USER_BY_ID_SUCCESS = 'app/Headerr/GET_USER_BY_ID_SUCCESS';
 export const GET_USER_BY_ID_FAILED = 'app/Headerr/GET_USER_BY_ID_FAILED';
 
+export const GET_STORE_BY_ID = 'app/Headerr/GET_STORE_BY_ID';
+export const GET_STORE_BY_ID_SUCCESS = 'app/Headerr/GET_STORE_BY_ID_SUCCESS';
+export const GET_STORE_BY_ID_FAILED = 'app/Headerr/GET_STORE_BY_ID_FAILED';
+
+
 export const RESET = 'app/Headerr/RESET';

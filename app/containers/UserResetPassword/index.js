@@ -299,7 +299,6 @@ export function UserResetPassword(props) {
                     id="outlined-textarea1"
                     label="Mã"
                     placeholder="Mã"
-                    multiline
                     name="token"
                     value={formValues.token}
                     onChange={handleChange}

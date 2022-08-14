@@ -297,7 +297,6 @@ export function Login(props) {
                   id="outlined-textarea"
                   label="Tài khoản"
                   placeholder="Tài khoản"
-                  multiline
                   type="text"
                   name="userName"
                   value={formValues.userName}

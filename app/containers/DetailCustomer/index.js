@@ -378,7 +378,7 @@ export function DetailCustomer(props) {
                     </Grid>
                     <Grid item xs={8} md={10} style={{ padding: "10px" }}>
                       <p className={classes.text}>Đơn hàng gần nhất</p>
-                      <p className={classes.text}>{moment.utc(props.detailCustomer.listOrder[props.detailCustomer.listOrder.length - 1].createdAt).format('DD/MM/YYYY, HH:mm:ss')}</p>
+                      <p className={classes.text}>{props.detailCustomer.listOrder && props.detailCustomer.listOrder.length != 0 ? moment.utc(props.detailCustomer.listOrder[props.detailCustomer.listOrder.length - 1].createdAt).format('DD/MM/YYYY, HH:mm:ss') : <span>Khách hàng chưa có đơn hàng nào</span>}</p>
                     </Grid>
                   </Grid>
                 </div>

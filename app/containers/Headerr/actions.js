@@ -82,3 +82,27 @@ export function reset(payload) {
     payload,
   };
 }
+
+export function getStoreById(payload) {
+  return {
+    type: types.GET_STORE_BY_ID,
+    payload,
+  };
+}
+
+export function getStoreByIdSuccess(payload) {
+  return {
+    type: types.GET_STORE_BY_ID_SUCCESS,
+    payload,
+  };
+}
+
+export function getStoreByIdFailed(payload) {
+  return {
+    type: types.GET_STORE_BY_ID_FAILED,
+    payload,
+  };
+}
+
+
+

@@ -114,7 +114,7 @@ const useStyles = makeStyles(theme => ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: "40%",
-    height: 300,
+    height: "fit-content",
     bgcolor: 'background.paper',
     p: 4,
     backgroundColor: '#fff',
@@ -157,6 +157,8 @@ export function UserRegister(props) {
   const [openAlertOTP, setOpenAlertOTP] = useState(false);
   const [verifyPhone, setVerifyPhone] = useState(true);
   const [checkVerifyPhone, setCheckVerifyPhone] = useState(false);
+
+
 
   // set value for input
   const handleChange = e => {
@@ -429,7 +431,6 @@ export function UserRegister(props) {
                     id="outlined-textarea1"
                     label="Họ"
                     placeholder="Họ"
-                    multiline
                     name="firstName"
                     onChange={handleChange}
                     helperText={
@@ -457,7 +458,6 @@ export function UserRegister(props) {
                     id="outlined-textareaaa"
                     label="Tên"
                     placeholder="Tên"
-                    multiline
                     name="lastName"
                     onChange={handleChange}
                     helperText={
@@ -485,7 +485,6 @@ export function UserRegister(props) {
                     id="outlined-textarea2"
                     label="Email"
                     placeholder="Email"
-                    multiline
                     name="email"
                     onChange={handleChange}
                     helperText={
@@ -550,7 +549,6 @@ export function UserRegister(props) {
                     id="outlined-textarea3"
                     label="Tên tài khoản"
                     placeholder="Tên tài khoản"
-                    multiline
                     name="userName"
                     onChange={handleChange}
                     helperText={

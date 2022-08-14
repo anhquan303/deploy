@@ -311,7 +311,6 @@ export function SellerSetting(props) {
                   id="outlined-textarea"
                   label="Tên cửa hàng"
                   placeholder="Tên cửa hàng"
-                  multiline
                   name="name"
                   value={formValues.name}
                   onChange={handleChange}
@@ -339,7 +338,6 @@ export function SellerSetting(props) {
                   id="outlined-textarea"
                   label="Số điện thoại"
                   placeholder="Số điện thoại"
-                  multiline
                   name="phone"
                   value={formValues.phone}
                 //onChange={handleChange}
@@ -364,7 +362,6 @@ export function SellerSetting(props) {
                   id="outlined-textarea"
                   label="Email"
                   placeholder="Email"
-                  multiline
                   name="email"
                   value={formValues.email}
                 // onChange={handleChange}
@@ -431,7 +428,6 @@ export function SellerSetting(props) {
                   id="outlined-textarea"
                   label="Slogan"
                   placeholder="Slogan"
-                  multiline
                   name="slogan"
                   value={formValues.slogan}
                   onChange={handleChange}
@@ -523,7 +519,6 @@ export function SellerSetting(props) {
                     id="outlined-textarea"
                     label="Huyện"
                     placeholder="Huyện"
-                    multiline
                     name="district"
                     value={formValues.district}
                     onChange={handleChange}
@@ -581,7 +576,6 @@ export function SellerSetting(props) {
                     id="outlined-textarea"
                     label="Thôn"
                     placeholder="Thôn"
-                    multiline
                     name="town"
                     value={formValues.town}
                     onChange={handleChange}
@@ -612,7 +606,6 @@ export function SellerSetting(props) {
                     id="outlined-textarea"
                     label="Địa chỉ"
                     placeholder="Địa chỉ"
-                    multiline
                     name="address"
                     value={formValues.address}
                     onChange={handleChange}
@@ -640,7 +633,6 @@ export function SellerSetting(props) {
                       id="outlined-textarea"
                       label="Dorm"
                       placeholder="Dorm"
-                      multiline
                       onChange={handleChange}
                       name="dorm"
                       value={formValues.dorm}
@@ -669,7 +661,6 @@ export function SellerSetting(props) {
                       id="outlined-textarea"
                       label="Phòng"
                       placeholder="Phòng"
-                      multiline
                       onChange={handleChange}
                       name="room"
                       value={formValues.room}

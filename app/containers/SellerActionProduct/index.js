@@ -320,7 +320,6 @@ export function SellerActionProduct(props) {
                     id="outlined-textarea"
                     label="Tên món ăn"
                     placeholder="Tên món ăn"
-                    multiline
                     name="name"
                     value={formValues.name}
                     onChange={handleChange}
@@ -365,7 +364,6 @@ export function SellerActionProduct(props) {
                       id="outlined-textarea"
                       label="Giá tiền"
                       placeholder="Giá tiền"
-                      multiline
                       name="price"
                       value={formValues.price}
                       onChange={handleChange}
@@ -391,7 +389,6 @@ export function SellerActionProduct(props) {
                       id="outlined-textarea"
                       label="Mô tả"
                       placeholder="Mô tả"
-                      multiline
                       name="description"
                       value={formValues.description}
                       onChange={handleChange}

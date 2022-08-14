@@ -171,6 +171,18 @@ export function Payment(props) {
   let payment2 = [];
   let count = 0;
   let [listTest, setListTest] = useState([]);
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
 
   if (props.location.state.item.length == 2) {
     if (props.location.state.item[0].food.foodStore.name == props.location.state.item[1].food.foodStore.name) {
@@ -413,9 +425,32 @@ export function Payment(props) {
   };
 
   useEffect(() => {
-    if (props.payment.listLocation) {
-      if (props.payment.defaultLocation == undefined) {
+    // if (props.payment.listLocation) {
+    //   if (props.payment.defaultLocation == undefined) {
+    //     if (props.payment.listLocation.length != 0 && props.payment.listLocation != null) {
+    //       setNameAddress(props.payment.listLocation[0].name);
+    //       setAddress(props.payment.listLocation[0].village);
+    //       setLocationId(props.payment.listLocation[0].id);
+    //     } else {
+    //       setNameAddress("");
+    //       setAddress("");
+    //     }
+    //   } else {
+    //     setNameAddress(props.payment.defaultLocation.name);
+    //     setAddress(props.payment.defaultLocation.village);
+    //     setLocationId(props.payment.defaultLocation.id);
+    //   }
+    // }
+
+    if (props.payment.defaultLocationn != undefined) {
+      setNameAddress(props.payment.defaultLocationn.name);
+      setAddress(props.payment.defaultLocationn.village);
+      setLocationId(props.payment.defaultLocationn.id);
+    } else {
+      if (props.payment.listLocation) {
+        console.log('here')
         if (props.payment.listLocation.length != 0 && props.payment.listLocation != null) {
+          console.log('here1')
           setNameAddress(props.payment.listLocation[0].name);
           setAddress(props.payment.listLocation[0].village);
           setLocationId(props.payment.listLocation[0].id);
@@ -424,13 +459,17 @@ export function Payment(props) {
           setAddress("");
         }
       } else {
-        setNameAddress(props.payment.defaultLocation.name);
-        setAddress(props.payment.defaultLocation.village);
-        setLocationId(props.payment.defaultLocation.id);
+        setNameAddress("");
+        setAddress("");
       }
     }
 
-  }, [props.payment.listLocation, props.payment.defaultLocation])
+  }, [props.payment.listLocation, props.payment.defaultLocationn])
+
+  console.log(props.payment.defaultLocationn)
+  console.log(props.payment.listLocation)
+  console.log(nameAddress)
+  console.log(address)
 
   const handleChangeLocation = (name, village, id) => {
     setNameAddress(name);
@@ -495,7 +534,7 @@ export function Payment(props) {
                   Địa chỉ nhận hàng
                 </p>
               </Grid>
-              {props.payment.defaultLocation == undefined ?
+              {props.payment.defaultLocationn == undefined ?
                 <>
                   {props.payment.listLocation != null ?
                     <Grid container spacing={0}>
@@ -652,7 +691,7 @@ export function Payment(props) {
                     <hr />
                   </>
                 )
-              }) : <span>khong co</span>}
+              }) : <span>Không có</span>}
               {/* {props.location.state.item.map((item, index) =>
               <div key={index}>
                 <Grid item sm={12} xs={12} md={12}>
@@ -792,7 +831,6 @@ export function Payment(props) {
                       id="outlined-textarea"
                       label="Huyện"
                       placeholder="Huyện"
-                      multiline
                       onChange={handleChange}
                       name="district"
                       value={formValues.district}
@@ -832,6 +870,7 @@ export function Payment(props) {
                           value={type}
                           label="Xã"
                           onChange={handleChangeType}
+                          MenuProps={MenuProps}
                         >
                           {props.payment.listWard.map((item, index) => (
                             <MenuItem key={index} value={item.name}>
@@ -862,7 +901,6 @@ export function Payment(props) {
                       id="outlined-textarea"
                       label="Thôn"
                       placeholder="Thôn"
-                      multiline
                       onChange={handleChange}
                       name="town"
                       value={formValues.town}
@@ -894,7 +932,6 @@ export function Payment(props) {
                       id="outlined-textarea"
                       label="Địa chỉ"
                       placeholder="Địa chỉ"
-                      multiline
                       onChange={handleChange}
                       name="address"
                       value={formValues.address}
@@ -935,7 +972,7 @@ export function Payment(props) {
               id="modal-modal-title"
               variant="h6"
               component="h2"
-              style={{ marginTop: '10px' }}
+              style={{ marginTop: '10px', fontSize: "20px", fontWeight: "600" }}
             >
               Thay đổi địa chỉ
             </Typography>

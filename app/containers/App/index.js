@@ -232,11 +232,11 @@ export default function App() {
                 <Headerr />
                 <Container fixed>
                   <Grid container spacing={0} style={{ marginTop: '15px' }}>
-                    <Grid item sm={12} xs={12} md={3} style={{ padding: '10px' }}>
+                    <Grid item sm={12} xs={12} md={3} style={{ padding: '0 10px' }}>
                       <SellerHomePage />
                     </Grid>
 
-                    <Grid item sm={12} xs={12} md={9} style={{ padding: '10px', backgroundColor: '#fff' }}>
+                    <Grid item sm={12} xs={12} md={9} style={{ padding: '10px', backgroundColor: '#fff', marginTop: "15px" }}>
                       <Switch>
                         <Route path="/user/setting" component={UserSetting} />
                         <Route exact path="/user/order-history" component={UserOrderHistory} />

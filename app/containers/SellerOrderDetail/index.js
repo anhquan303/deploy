@@ -214,6 +214,8 @@ export function SellerOrderDetail(props) {
     dispatch(changeStatusToOrder(data));
   };
 
+  console.log(props.location.state.id)
+
   const changeStatusDelivery = () => {
     const data = {
       id: props.location.state.id,

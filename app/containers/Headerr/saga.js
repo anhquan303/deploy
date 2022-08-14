@@ -1,5 +1,5 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { getCartFailed, getCartSuccess, getUserByIdFailed, getUserByIdSuccess, logOutFailed } from './actions';
+import { getCartFailed, getCartSuccess, getStoreByIdFailed, getStoreByIdSuccess, getUserByIdFailed, getUserByIdSuccess, logOutFailed } from './actions';
 import { apiFetchData, apiSignup } from './api';
 import * as types from './constants';
 
@@ -37,10 +37,24 @@ export function* getUserById({ payload }) {
   }
 }
 
+export function* getStoreById({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/store/detail?id=${payload.id}`]);
+    if (res.status == 200) {
+      yield put(getStoreByIdSuccess(res.data));
+    } else {
+      yield put(getStoreByIdFailed('FAILED'));
+    }
+  } catch (error) {
+    yield put(getStoreByIdFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* headerrSaga() {
   // See example in containers/HomePage/saga.js
   yield takeEvery(types.LOG_OUT, logOut);
   yield takeEvery(types.GET_CART, getCart);
   yield takeEvery(types.GET_USER_BY_ID, getUserById);
+  yield takeEvery(types.GET_STORE_BY_ID, getStoreById);
 }
