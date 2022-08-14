@@ -26,8 +26,8 @@ import makeSelectHeaderr from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getUser, removeUserSession } from '../../utils/common';
-import { getCart, getUserById, logOut, reset } from './actions';
+import { getStore, getUser, removeUserSession } from '../../utils/common';
+import { getCart, getStoreById, getUserById, logOut, reset } from './actions';
 import Logo from '../../images/logoNone.png';
 import Avatar1 from '../../images/quan.jpg';
 import StoreIcon from '@mui/icons-material/Store';
@@ -176,6 +176,7 @@ export function Headerr(props) {
   const classes = useStyles();
   const [searched, setSearched] = useState('');
   const user = getUser();
+  const store = getStore();
   const history = useHistory();
   const [check, setCheck] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -224,6 +225,13 @@ export function Headerr(props) {
       dispatch(getCart(data));
       dispatch(getUserById(data));
     }
+
+    if (store != null) {
+      const data = {
+        id: store
+      }
+      dispatch(getStoreById(data));
+    }
   }, []);
 
 
@@ -247,6 +255,7 @@ export function Headerr(props) {
     result += parseInt(singleVal[i].length);
   }
 
+  console.log(props.headerr.store)
 
   return (
     <div style={{ backgroundColor: '#fff', padding: "15px", boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)', }}>
@@ -385,8 +394,7 @@ export function Headerr(props) {
                 <Button onClick={handleSellerRegister}>
                   <FormattedMessage {...messages.becomeSeller} />
                 </Button>
-              ) : null}
-              {user && user.authorities[0].authority == 'SELLER' ? (
+              ) : user && user.authorities[0].authority == 'SELLER' && props.headerr.store && props.headerr.store.status != "declined" ? (
                 <>
                   {/* <span className={classes.myStore}><Button startIcon={<StoreIcon />} href="/my-store/manager-order" ><span ><FormattedMessage {...messages.myStore} /></span> </Button></span> */}
                   <div className={classes.center}>
@@ -398,7 +406,20 @@ export function Headerr(props) {
                     </NavLink>
                   </div>
                 </>
-              ) : null}
+              ) : <Typography className={classes.text}><span style={{ color: "#fe0000" }}>Cửa hàng của bạn tạm thời đang bị khóa</span></Typography>}
+
+              {/* {user && user.authorities[0].authority == 'SELLER' && props.headerr.store && props.headerr.store.status != "declined" ? (
+                <>
+                  <div className={classes.center}>
+                    <NavLink to="/my-store/manager-order" className={classes.link}>
+                      <div className={classes.item}>
+                        <StoreIcon className={classes.icon} />
+                        <Typography className={classes.text}><FormattedMessage {...messages.myStore} /></Typography>
+                      </div>
+                    </NavLink>
+                  </div>
+                </>
+              ) : <Typography className={classes.text}><span style={{ color: "#fe0000" }}>Cửa hàng của bạn tạm thời đang bị khóa</span></Typography>} */}
             </div>
           </Grid>
 

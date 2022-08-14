@@ -411,7 +411,6 @@ export function SellerVoucher(props) {
                     id="outlined-textarea"
                     label="Tên voucher"
                     placeholder="Tên voucher"
-                    multiline
                     onChange={handleChange}
                     name="name"
                     value={formValues.name}
@@ -432,7 +431,6 @@ export function SellerVoucher(props) {
                     id="outlined-textarea"
                     label="Giá trị tối thiểu"
                     placeholder="Giá trị tối thiểu"
-                    multiline
                     InputProps={{
                       endAdornment: <InputAdornment position="start">VND</InputAdornment>,
                     }}
@@ -457,7 +455,6 @@ export function SellerVoucher(props) {
                     id="outlined-textarea"
                     label="Phần trăm giảm"
                     placeholder="Phần trăm giảm"
-                    multiline
                     InputProps={{
                       endAdornment: <InputAdornment position="start">%</InputAdornment>,
                     }}
@@ -484,7 +481,6 @@ export function SellerVoucher(props) {
                     id="outlined-textarea"
                     label="Ngày bắt đầu"
                     placeholder="Ngày bắt đầu"
-                    multiline
                     onChange={handleChange}
                     name="startDate"
                     value={formValues.startDate}
@@ -589,7 +585,6 @@ export function SellerVoucher(props) {
                     id="outlined-textarea"
                     label="Tên voucher"
                     placeholder="Tên voucher"
-                    multiline
                     onChange={handleChange}
                     name="nameUpdate"
                     value={formValues.nameUpdate}
@@ -610,7 +605,6 @@ export function SellerVoucher(props) {
                     id="outlined-textarea"
                     label="Giá trị tối thiểu"
                     placeholder="Giá trị tối thiểu"
-                    multiline
                     InputProps={{
                       endAdornment: <InputAdornment position="start">VND</InputAdornment>,
                     }}
@@ -635,7 +629,6 @@ export function SellerVoucher(props) {
                     id="outlined-textarea"
                     label="Phần trăm giảm"
                     placeholder="Phần trăm giảm"
-                    multiline
                     InputProps={{
                       endAdornment: <InputAdornment position="start">%</InputAdornment>,
                     }}

@@ -289,7 +289,6 @@ export function UserForgetPassword(props) {
                     id="outlined-textarea1"
                     label="Email/Số điện thoại"
                     placeholder="Email/Số điện thoại"
-                    multiline
                     name="email"
                     value={formValues.email}
                     onChange={handleChange}
@@ -325,7 +324,6 @@ export function UserForgetPassword(props) {
                     id="outlined-textarea7"
                     label="Captcha"
                     placeholder="Captcha"
-                    multiline
                     name="captcha"
                     onChange={handleChange}
                     value={formValues.captcha}

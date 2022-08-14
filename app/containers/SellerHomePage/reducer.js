@@ -10,7 +10,7 @@ import * as types from './constants';
 export const initialState = {
   loading: false,
   message: "",
-  user: undefined
+  userr: undefined
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -24,7 +24,7 @@ const sellerHomePageReducer = (state = initialState, action) =>
         break;
       case types.GET_USER_BY_ID_SUCCESS:
         draft.loading = false;
-        draft.user = action.payload;
+        draft.userr = action.payload;
         break;
       case types.GET_USER_BY_ID_FAILED:
         draft.loading = false;

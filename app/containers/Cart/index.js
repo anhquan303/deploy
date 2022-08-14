@@ -514,7 +514,7 @@ export function Cart(props) {
         </Backdrop>
 
       </div>
-      <Footerr />s
+      <Footerr />
     </>
   );
 }

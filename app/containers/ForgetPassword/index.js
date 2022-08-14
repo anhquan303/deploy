@@ -126,7 +126,6 @@ export function ForgetPassword() {
                     id="outlined-textarea2"
                     label="Email"
                     placeholder="Email"
-                    multiline
                     name="email"
                   // onChange={handleChange}
                   // helperText={formErrors.email && formValues.email.length == "" ? formErrors.email : formErrors.email1 ? formErrors.email1 : null}
@@ -158,7 +157,6 @@ export function ForgetPassword() {
                     id="outlined-textarea7"
                     label="Captcha"
                     placeholder="Captcha"
-                    multiline
                     name="captcha"
                   // onChange={handleChange}
                   // helperText={formErrors.captcha && formValues.captcha.length == "" ? formErrors.captcha : formErrors.captcha1 ? formErrors.captcha1 : null}

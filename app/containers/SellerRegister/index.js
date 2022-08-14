@@ -29,13 +29,14 @@ import makeSelectSellerRegister from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import Logo from '../../images/Happy_Delivery_Man_logo_cartoon_art_illustration.jpg';
+import Logo from '../../images/logoNone.png';
 import BackGround from '../../images/dhfpt.png';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { getUser } from '../../utils/common';
 import { getListBank, getListWards, reset, sellerSignUp, verifyBankAccount } from './actions';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const useStyles = makeStyles(theme => ({
   body: {
@@ -102,7 +103,7 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       // backgroundColor: "#FFA500",
       fontWeight: 'bold',
-      color: '#FFA500',
+      color: '#FD4444',
       boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
     },
   },
@@ -174,10 +175,22 @@ export function SellerRegister(props) {
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
   const [open, setOpen] = useState(false);
+  const [openAlertFalse, setOpenAlertFalse] = useState(false);
   const [next, setNext] = useState(false);
   const [type, setType] = useState('');
   const [bank, setBank] = useState('');
   const classes = useStyles();
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
 
   const handleChangeTab = (event, newValue) => {
     event.preventDefault();
@@ -391,6 +404,11 @@ export function SellerRegister(props) {
     props.history.push('/');
   };
 
+  const closeModalAlertFailed = () => {
+    dispatch(reset());
+    setOpenAlertFalse(false);
+  }
+
   // get list wards and bank
   useEffect(() => {
     dispatch(getListWards());
@@ -410,7 +428,12 @@ export function SellerRegister(props) {
 
   useEffect(() => {
     if (props.sellerRegister.message != '') {
-      setOpen(true);
+      if (props.sellerRegister.message.includes("500") || props.sellerRegister.message.includes("400")) {
+        setOpenAlertFalse(true);
+      } else {
+        setOpen(true);
+      }
+
     }
   }, [props.sellerRegister.message]);
 
@@ -428,7 +451,7 @@ export function SellerRegister(props) {
           <div className={classes.top}>
             <div className={classes.topLogo}>
               <img src={Logo} alt="logo" className={classes.logo} />
-              <h2>
+              <h2 style={{ color: "#FD4444" }}>
                 No <span>Nê</span>
               </h2>
             </div>
@@ -881,9 +904,11 @@ export function SellerRegister(props) {
                             value={bank}
                             label="Ngân hàng"
                             onChange={handleChangeBank}
+                            MenuProps={MenuProps}
+
                           >
                             {props.sellerRegister.listBank.map((item) => (
-                              <MenuItem key={item.id} value={item.bin}>
+                              <MenuItem key={item.id} value={item.bin} >
                                 <img src={item.logo} style={{ width: "90px", height: "50px" }} />
                                 {item.shortName} - {item.name}
                               </MenuItem>
@@ -893,7 +918,9 @@ export function SellerRegister(props) {
 
                       </Box>
                     </div>
-                    {props.sellerRegister.bankAccountName != null ? <span style={{ margin: "10px 0" }}>{props.sellerRegister.bankAccountName}</span> : <span style={{ margin: "10px 0" }}>Không tìm thấy số tài khoản</span>}
+                    <Grid item sm={12} xs={12}>
+                      {props.sellerRegister.bankAccountName != null ? <span style={{ margin: "10px 0" }}>{props.sellerRegister.bankAccountName}</span> : <span style={{ margin: "10px 0" }}>Không tìm thấy số tài khoản</span>}
+                    </Grid>
                     <div style={{ margin: "0 auto" }}>
                       <Button
                         style={{ width: 'fit-content', margin: "10px 0" }}
@@ -1247,6 +1274,35 @@ export function SellerRegister(props) {
               variant="contained"
               component="span"
               onClick={closeModal}
+            >
+              XÁC NHẬN
+            </Button>
+          </Box>
+        </Modal>
+
+        <Modal
+          open={openAlertFalse}
+          // onClose={() => setOpen(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className={classes.modal}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              <CancelIcon
+                style={{ width: '20%', height: '20%', color: '#fe0000' }}
+              />
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <p style={{ fontFamily: 'sans-serif', fontSize: '40px' }}>
+                {props.sellerRegister.message}
+              </p>
+            </Typography>
+            <Button
+              className={classes.btnAccept}
+              style={{ width: '50%' }}
+              variant="contained"
+              component="span"
+              onClick={closeModalAlertFailed}
             >
               XÁC NHẬN
             </Button>

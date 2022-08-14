@@ -144,6 +144,17 @@ export function UserAddress(props) {
   const [openDialog, setOpenDialog] = useState(false);
   const [idDelete, setIdDelete] = useState('');
 
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
   // get all location
   useEffect(() => {
     const data = {
@@ -457,7 +468,6 @@ export function UserAddress(props) {
                     id="outlined-textarea"
                     label="Huyện"
                     placeholder="Huyện"
-                    multiline
                     onChange={handleChange}
                     name="district"
                     value={formValues.district}
@@ -527,7 +537,6 @@ export function UserAddress(props) {
                     id="outlined-textarea"
                     label="Thôn"
                     placeholder="Thôn"
-                    multiline
                     onChange={handleChange}
                     name="town"
                     value={formValues.town}
@@ -559,7 +568,6 @@ export function UserAddress(props) {
                     id="outlined-textarea"
                     label="Địa chỉ"
                     placeholder="Địa chỉ"
-                    multiline
                     onChange={handleChange}
                     name="address"
                     value={formValues.address}
@@ -624,7 +632,6 @@ export function UserAddress(props) {
                     id="outlined-textarea"
                     label="Huyện"
                     placeholder="Huyện"
-                    multiline
                     onChange={handleChange}
                     name="district"
                     value={formValues.district}
@@ -664,6 +671,7 @@ export function UserAddress(props) {
                         value={typeUpdate}
                         label="Xã"
                         onChange={handleChangeTypeUpdate}
+                        MenuProps={MenuProps}
                       >
                         {props.userAddress.listWard.map((item, index) => (
                           <MenuItem key={index} value={item.name}>
@@ -694,7 +702,6 @@ export function UserAddress(props) {
                     id="outlined-textarea"
                     label="Thôn"
                     placeholder="Thôn"
-                    multiline
                     onChange={handleChange}
                     name="townUpdate"
                     value={formValues.townUpdate}
@@ -730,7 +737,6 @@ export function UserAddress(props) {
                     id="outlined-textarea"
                     label="Địa chỉ"
                     placeholder="Địa chỉ"
-                    multiline
                     onChange={handleChange}
                     name="addressUpdate"
                     value={formValues.addressUpdate}

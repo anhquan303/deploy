@@ -34,11 +34,25 @@ import { Backdrop } from '@mui/material';
 import Loading from '../../components/Loading';
 
 
+const useStyles = makeStyles(theme => ({
+  chart: {
+
+    [theme.breakpoints.up("md")]: {
+      width: "30%", margin: "0 auto",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "60%", margin: "0 auto",
+    }
+  }
+
+}));
+
 export function Dashboard(props) {
   const { dispatch } = props;
   useInjectReducer({ key: 'dashboard', reducer });
   useInjectSaga({ key: 'dashboard', saga });
 
+  const classes = useStyles();
 
   useEffect(() => {
     dispatch(getAllStore());
@@ -74,7 +88,7 @@ export function Dashboard(props) {
                   <div className="number"><p>81%</p></div>
                 </div> */}
                 </div>
-               
+
               </div>
             </div>
           </Grid>
@@ -94,7 +108,7 @@ export function Dashboard(props) {
                   <div className="number"><p>81%</p></div>
                 </div> */}
                 </div>
-                
+
               </div>
             </div>
           </Grid>
@@ -114,12 +128,12 @@ export function Dashboard(props) {
                   <div className="number"><p>81%</p></div>
                 </div> */}
                 </div>
-                
+
               </div>
             </div>
           </Grid>
           <Grid item sm={12} xs={12}>
-            <div style={{ width: "30%", margin: "0 auto" }}>
+            <div className={classes.chart}>
               <h3>Đồ thị</h3>
               <Pie
                 data={{

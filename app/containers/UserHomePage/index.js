@@ -266,6 +266,7 @@ export function UserHomePage(props) {
 
   };
 
+  console.log(props.userHomePage.foodList)
   return (
     <>
       <div style={{ backgroundColor: "#F3F7F8", paddingBottom: "20px" }}>
@@ -341,7 +342,7 @@ export function UserHomePage(props) {
         </Grid> */}
 
             <Grid container spacing={2} style={{ marignTop: '10px' }}>
-              {props.userHomePage.foodList.map((item, index) => (
+              {props.userHomePage.foodList.filter(store => store.foodStore.status != "declined").map((item, index) => (
                 <Grid item sm={4} xs={6} md={3} key={index} style={{ width: '100%' }}>
                   <Link
                     to={{ pathname: `/food/${item.id}`, state: { item } }}

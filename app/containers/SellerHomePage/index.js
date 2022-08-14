@@ -30,7 +30,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import SaveIcon from '@mui/icons-material/Save';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Headerr } from '../Headerr';
 import Avatar1 from '../../images/quan.jpg';
 import messages from './messages';
@@ -108,12 +108,16 @@ export function SellerHomePage(props) {
   const user = getUser();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
+  const location = useLocation();
+
+  console.log(location)
+
+  const getUserrr = () => {
     const data = {
       id: user.id,
     }
     dispatch(getUserById(data));
-  }, []);
+  };
 
   const handleClick = () => {
     setOpen(!open);
@@ -121,7 +125,13 @@ export function SellerHomePage(props) {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+    const data = {
+      id: user.id,
+    }
+    dispatch(getUserById(data));
   };
+
+  console.log(props.sellerHomePage.userr)
 
   const drawer = (
     <div style={{ marginTop: "15px", padding: "10px", backgroundColor: "#fff" }}>
