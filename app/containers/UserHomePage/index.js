@@ -41,6 +41,7 @@ import Loading from '../../components/Loading';
 import { Footerr } from '../Footerr';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -192,6 +193,7 @@ export function UserHomePage(props) {
   const [value, setValue] = useState(0);
   const user = getUser();
   const [type, setType] = useState("");
+  const [limit, setLimit] = useState(20);
 
   const handleSellerRegister = () => {
     if (user) {
@@ -266,7 +268,10 @@ export function UserHomePage(props) {
 
   };
 
-  console.log(props.userHomePage.foodList)
+  const showMoreDocuments = () => {
+    setLimit(limit + 20);
+  };
+
   return (
     <>
       <div style={{ backgroundColor: "#F3F7F8", paddingBottom: "20px" }}>
@@ -342,8 +347,8 @@ export function UserHomePage(props) {
         </Grid> */}
 
             <Grid container spacing={2} style={{ marignTop: '10px' }}>
-              {props.userHomePage.foodList.filter(store => store.foodStore.status != "declined").map((item, index) => (
-                <Grid item sm={4} xs={6} md={3} key={index} style={{ width: '100%' }}>
+              {props.userHomePage.foodList.filter(store => store.foodStore.status != "declined" && store.actived == true).slice(0, limit).map((item) => (
+                <Grid item sm={4} xs={6} md={3} key={item.id} style={{ width: '100%' }}>
                   <Link
                     to={{ pathname: `/food/${item.id}`, state: { item } }}
                     style={{ textDecoration: 'none' }}
@@ -359,6 +364,17 @@ export function UserHomePage(props) {
                 </Grid>
               ))}
             </Grid>
+
+            <div style={{ textAlign: "center" }}>
+              <Button
+                className={classes.btn}
+                endIcon={<ArrowDropDownIcon />}
+                onClick={showMoreDocuments}
+              >
+                xem thêm
+              </Button>
+            </div>
+
             <Backdrop
               sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
               open={props.userHomePage.loading}

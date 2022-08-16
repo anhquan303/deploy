@@ -110,7 +110,6 @@ export function SellerHomePage(props) {
 
   const location = useLocation();
 
-  console.log(location)
 
   const getUserrr = () => {
     const data = {
@@ -130,8 +129,6 @@ export function SellerHomePage(props) {
     }
     dispatch(getUserById(data));
   };
-
-  console.log(props.sellerHomePage.userr)
 
   const drawer = (
     <div style={{ marginTop: "15px", padding: "10px", backgroundColor: "#fff" }}>
@@ -199,14 +196,14 @@ export function SellerHomePage(props) {
               <ListItemText primary="Lịch sử mua hàng" />
             </ListItemButton>
           </NavLink>
-          {/* <NavLink to="/user/voucher" className={classes.link} onClick={handleDrawerToggle}>
+          <NavLink to="/user/voucher" className={classes.link} onClick={handleDrawerToggle}>
             <ListItemButton>
               <ListItemIcon>
                 <ConfirmationNumberIcon />
               </ListItemIcon>
               <ListItemText primary="Voucher của tôi" />
             </ListItemButton>
-          </NavLink> */}
+          </NavLink>
           <NavLink to="/user/report" className={classes.link} onClick={handleDrawerToggle}>
             <ListItemButton>
               <ListItemIcon>

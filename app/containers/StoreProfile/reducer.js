@@ -15,6 +15,7 @@ export const initialState = {
   storeRating: undefined,
   listVoucher: [],
   storeComment: [],
+  order: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -101,6 +102,17 @@ const storeProfileReducer = (state = initialState, action) =>
         draft.storeComment = action.payload;
         break;
       case types.GET_STORE_COMMENT_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.GET_ALL_ORDER_STORE_ID:
+        draft.loading = true;
+        break;
+      case types.GET_ALL_ORDER_STORE_ID_SUCCESS:
+        draft.loading = false;
+        draft.order = action.payload;
+        break;
+      case types.GET_ALL_ORDER_STORE_ID_FAILED:
         draft.loading = false;
         draft.message = action.payload;
         break;

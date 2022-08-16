@@ -156,7 +156,6 @@ export function UserDetailOrder(props) {
       }
     }
   }, [props.userDetailOrder.message]);
-  
 
   return (
     <div>
@@ -273,7 +272,7 @@ export function UserDetailOrder(props) {
                           {item.food.name} <br />x{item.quantity}
                         </Grid>
                         {props.userDetailOrder.order != undefined
-                          ? props.userDetailOrder.order.status != "CANCEL" ?
+                          ? props.userDetailOrder.order.status != "CANCEL" && props.userDetailOrder.order.status == "PAID" ?
                             <Grid item xs={12} md={12} sm={12}>
                               <Button
                                 className={classes.btn}
@@ -428,7 +427,7 @@ export function UserDetailOrder(props) {
           </Grid>
           <Grid item xs={6} md={6} sm={12} className={classes.center}>
             <span style={{ fontSize: '20px', fontWeight: '700' }}>
-              Thanh toán khi nhận hàng
+              {props.userDetailOrder.order && props.userDetailOrder.order.qr == true ? <span>Chuyển khoản</span> : <span>Thanh toán khi nhận hàng</span>}
             </span>
           </Grid>
         </Grid>

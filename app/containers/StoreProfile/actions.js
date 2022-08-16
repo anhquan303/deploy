@@ -166,3 +166,24 @@ export function getStoreCommentFailed(payload) {
     payload
   };
 }
+
+export function getAllOrderByStoreId(payload) {
+  return {
+    type: types.GET_ALL_ORDER_STORE_ID,
+    payload
+  };
+}
+
+export function getAllOrderByStoreIdSuccess(payload) {
+  return {
+    type: types.GET_ALL_ORDER_STORE_ID_SUCCESS,
+    payload
+  };
+}
+
+export function getAllOrderByStoreIdFailed(payload) {
+  return {
+    type: types.GET_ALL_ORDER_STORE_ID_FAILED,
+    payload
+  };
+}

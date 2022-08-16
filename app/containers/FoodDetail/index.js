@@ -519,7 +519,7 @@ export function FoodDetail(props) {
                               fontSize: '13px',
                             }}
                           >
-                            {moment(item.create_at).format('DD/MM/YYYY')}
+                            {moment.utc(item.create_at).format('DD/MM/YYYY')}
                           </p>
                         </Grid>
                       </Grid>

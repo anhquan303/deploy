@@ -159,16 +159,20 @@ export function SellerSetting(props) {
       formValues.owner_name = props.sellerSetting.user.owner_name;
       formValues.phone = props.sellerSetting.user.phone;
       formValues.email = props.sellerSetting.user.email;
-      // formValues.open_time = props.sellerSetting.user.open_time;
-      // formValues.close_time = props.sellerSetting.user.close_time;
       formValues.slogan = props.sellerSetting.user.slogan;
       formValues.description = props.sellerSetting.user.description;
       setIsInCampus(props.sellerSetting.user.inCampus);
       setCoverImage(props.sellerSetting.user.storeImage.cover_image);
-      formValues.district = props.sellerSetting.user.otherLocation.town;
-      setWard(props.sellerSetting.user.otherLocation.village);
-      formValues.town = props.sellerSetting.user.otherLocation.name;
-      // const str = props.sellerSetting.user.location.split(",");
+      if (props.sellerSetting.user.inCampus != true) {
+        
+        formValues.district = props.sellerSetting.user.otherLocation.town;
+        setWard(props.sellerSetting.user.otherLocation.village);
+        formValues.town = props.sellerSetting.user.otherLocation.name;
+      } else {
+        formValues.dorm = props.sellerSetting.user.dormLocation.dormName;
+        formValues.room = props.sellerSetting.user.dormLocation.room_number;
+      }
+
       setAvatarPreview(props.sellerSetting.user.storeImage.avatar);
       setStartTime(`"Sun Dec 31 1899" ${props.sellerSetting.user.open_time} "GMT+0706 (Indochina Time)`);
       setEndTime(`"Sun Dec 31 1899" ${props.sellerSetting.user.close_time} "GMT+0706 (Indochina Time)`);
@@ -520,7 +524,7 @@ export function SellerSetting(props) {
                     label="Huyện"
                     placeholder="Huyện"
                     name="district"
-                    value={formValues.district}
+                    value="Thạch thất"
                     onChange={handleChange}
                     helperText={
                       formErrors.district && formValues.district.length == ''

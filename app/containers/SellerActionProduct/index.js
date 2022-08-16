@@ -121,6 +121,7 @@ export function SellerActionProduct(props) {
   const [checked, setChecked] = useState(true);
   const [foodImage, setFoodImage] = useState('');
   const [image, setImage] = useState('');
+  const [checkChangeActive, setCheckChangeActive] = useState(false);
 
 
   //set value for input
@@ -216,27 +217,31 @@ export function SellerActionProduct(props) {
       formValues.description = props.sellerActionProduct.food.description;
       formValues.image = props.sellerActionProduct.food.image;
       setFoodImage(props.sellerActionProduct.food.image);
+      setChecked(props.sellerActionProduct.active == "ACTIVE" ? true : false);
     }
   }, [props.sellerActionProduct.food]);
 
 
   const handleChangeActive = (event) => {
     setChecked(event.target.checked);
+    setCheckChangeActive(true)
   };
 
   useEffect(() => {
-    if (checked == true) {
-      const data = {
-        sid: storeId,
-        fid: props.location.state.id
+    if (checkChangeActive == true) {
+      if (checked == true) {
+        const data = {
+          sid: storeId,
+          fid: props.location.state.id
+        }
+        dispatch(activeProduct(data));
+      } else {
+        const data = {
+          sid: storeId,
+          fid: props.location.state.id
+        }
+        dispatch(deactiveProduct(data));
       }
-      dispatch(activeProduct(data));
-    } else {
-      const data = {
-        sid: storeId,
-        fid: props.location.state.id
-      }
-      dispatch(deactiveProduct(data));
     }
   }, [checked])
 

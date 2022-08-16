@@ -269,7 +269,7 @@ export function SellerTurnover(props) {
           data={{
             // labels: props.sellerTurnover.saleData.map((data) => data.day),
             labels: props.sellerTurnover.saleData.map(data =>
-              moment(data.day).format('DD/MM/YYYY'),
+              moment.utc(data.day).format('DD/MM/YYYY'),
             ),
 
             datasets: [

@@ -214,8 +214,6 @@ export function SellerOrderDetail(props) {
     dispatch(changeStatusToOrder(data));
   };
 
-  console.log(props.location.state.id)
-
   const changeStatusDelivery = () => {
     const data = {
       id: props.location.state.id,
@@ -346,7 +344,9 @@ export function SellerOrderDetail(props) {
                   className={classes.text}
                   style={{ textAlign: 'right', fontSize: '20px' }}
                 >
-                  Thanh toán khi nhận hàng
+
+                  {props.sellerOrderDetail.orderDetail && props.sellerOrderDetail.orderDetail.qr == true ? <span>Chuyển khoản</span>
+                    : <span>Thanh toán khi nhận hàng</span>}
                 </p>
               </Grid>
             </Grid>

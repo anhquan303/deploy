@@ -11,6 +11,8 @@ export const initialState = {
   loading: false,
   message: '',
   user: undefined,
+  messageUpdate: '',
+  checkEmail: ''
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -44,6 +46,74 @@ const userSettingReducer = (state = initialState, action) =>
       case types.RESET:
         draft.loading = false;
         draft.message = '';
+        draft.messageUpdate = '';
+        draft.checkEmail = '';
+        break;
+      case types.SEND_OTP:
+        draft.loading = true;
+        break;
+      case types.SEND_OTP_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.SEND_OTP_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.VERIFY_PHONE:
+        draft.loading = true;
+        break;
+      case types.VERIFY_PHONE_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.VERIFY_PHONE_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.UPDATE_PHONE_EMAIL:
+        draft.loading = true;
+        break;
+      case types.UPDATE_PHONE_EMAIL_SUCCESS:
+        draft.loading = false;
+        draft.messageUpdate = action.payload;
+        break;
+      case types.UPDATE_PHONE_EMAIL_FAILED:
+        draft.loading = false;
+        draft.messageUpdate = action.payload;
+        break;
+      case types.VERIFY_EMAIL:
+        draft.loading = true;
+        break;
+      case types.VERIFY_EMAIL_SUCCESS:
+        draft.loading = false;
+        draft.checkEmail = action.payload;
+        break;
+      case types.VERIFY_EMAIL_FAILED:
+        draft.loading = false;
+        draft.checkEmail = action.payload;
+        break;
+      case types.SEND_OTP_EMAIL:
+        draft.loading = true;
+        break;
+      case types.SEND_OTP_EMAIL_SUCCESS:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.SEND_OTP_EMAIL_FAILED:
+        draft.loading = false;
+        draft.message = action.payload;
+        break;
+      case types.UPDATE_EMAIL:
+        draft.loading = true;
+        break;
+      case types.UPDATE_EMAIL_SUCCESS:
+        draft.loading = false;
+        draft.messageUpdate = action.payload;
+        break;
+      case types.UPDATE_EMAIL_FAILED:
+        draft.loading = false;
+        draft.messageUpdate = action.payload;
         break;
     }
   });

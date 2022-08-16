@@ -73,7 +73,7 @@ const useStyles = makeStyles(theme => ({
   couponCode: {
     border: "1px dashed #fff",
     padding: "10px 20px",
-    borderRight: "0"
+    //borderRight: "0"
   },
   couponBtn: {
     border: "1px solid #fff",
@@ -153,9 +153,8 @@ export function UserVoucher(props) {
       <Grid container spacing={0}>
         {props.userVoucher.listVoucher.length != 0 ? props.userVoucher.listVoucher.map((item) => {
           return (
-            <Grid key={item.id} item xs={12} md={5} sm={12} lg={4} style={{ margin: "10px 10px" }}>
-              <div className={classes.couponCard}>
-
+            <Grid key={item.id} item xs={12} md={6} sm={12} lg={4} style={{ margin: "10px 0", padding: "0 10px" }}>
+              <div className={classes.couponCard} style={{height: "100%"}}>
                 <div onClick={() => getVoucherByIdd(item.id)}>
                   <img className={classes.imgCoupon} src="https://www.mssdefence.com/wp-content/uploads/2016/11/Discount-Action-Mss-Defence.png" />
                   <h3 style={{ fontSize: "20px", fontWeight: "400" }}>{item.name}</h3>
@@ -163,12 +162,13 @@ export function UserVoucher(props) {
                     <span className={classes.couponCode}>{item.code}</span>
                     {/* <CopyToClipboard text={item.code}
                       onCopy={() => setCopied(true)}> */}
-                    <span className={classes.couponBtn}>LƯU MÃ</span>
+                    {/* <span className={classes.couponBtn}>LƯU MÃ</span> */}
                     {/* </CopyToClipboard> */}
                   </div>
                   <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
                   {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
                   {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
+                  {item.quantity != "-1" ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Số lượng : {item.quantity}</p> : null}
                   <div className={classes.circle1}></div>
                   <div className={classes.circle2}></div>
                 </div>

@@ -432,7 +432,8 @@ export function DetailStore(props) {
 
                       <div className={classes.intro}>
                         <p className={classes.text}>{props.detailStore.store.name}</p>
-                        <p className={classes.text}>{props.detailStore.store.otherLocation != null ?
+
+                        <p className={classes.text}>{props.detailStore.store.inCampus != true ?
                           <>
                             <span>{props.detailStore.store.otherLocation.name}, </span>
                             <span>{props.detailStore.store.otherLocation.village}, </span>

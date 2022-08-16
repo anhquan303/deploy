@@ -255,116 +255,9 @@ export function Headerr(props) {
     result += parseInt(singleVal[i].length);
   }
 
-  console.log(props.headerr.store)
 
   return (
     <div style={{ backgroundColor: '#fff', padding: "15px", boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)', }}>
-      {/* <Container fixed style={{ padding: '10px' }}>
-        <Grid container spacing={0}>
-          <Grid item xs={12} sm={12} md={3} className={classes.zero}>
-            <div style={{ textAlign: 'center' }}>
-              {(user && user.authorities[0].authority == 'USER') ||
-                user == null ? (
-                <Button onClick={handleSellerRegister}>
-                  <FormattedMessage {...messages.becomeSeller} />
-                </Button>
-              ) : null}
-              {user && user.authorities[0].authority == 'SELLER' ? (
-                <>
-                  <div className={classes.center}>
-                    <NavLink to="/my-store/manager-order" className={classes.link}>
-                      <div className={classes.item}>
-                        <StoreIcon className={classes.icon} />
-                        <Typography className={classes.text}><FormattedMessage {...messages.myStore} /></Typography>
-                      </div>
-                    </NavLink>
-                  </div>
-                </>
-              ) : null}
-            </div>
-          </Grid>
-
-          <Grid item xs={12} md={6} sm={12} className={classes.one}>
-            <p className={classes.title}>
-              No <span style={{ color: '#1168EB' }}>Nê</span>
-            </p>
-          </Grid>
-
-          <Grid item xs={12} md={3} sm={12} className={classes.two}>
-            <div style={{ textAlign: 'center' }}>
-         
-              {user == null ? (
-                <>
-                  <Button href="/userRegister"><FormattedMessage {...messages.signup} /></Button>|
-                  <Button href="/login"><FormattedMessage {...messages.login} /> </Button>
-                </>
-              ) : (
-                <>
-                  <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title={`${props.headerr.user ? props.headerr.user.firstname : null} ${props.headerr.user ? props.headerr.user.lastname : null}`}>
-                      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="avatar" src={props.headerr.user != undefined ? props.headerr.user.avatar : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"} />
-                      </IconButton>
-                    </Tooltip>
-                    <Menu
-                      sx={{ mt: '45px' }}
-                      id="menu-appbar"
-                      anchorEl={anchorElUser}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      open={Boolean(anchorElUser)}
-                      onClose={handleCloseUserMenu}
-                    >
-
-                      <MenuItem onClick={handleCloseUserMenu}>
-                        <Typography onClick={() => history.push('/user/setting')} textAlign="center"><FormattedMessage {...messages.myAccount} /></Typography>
-                      </MenuItem>
-                      <MenuItem onClick={handleCloseUserMenu}>
-                        <Typography onClick={handleLogout} textAlign="center"><FormattedMessage {...messages.logout} /></Typography>
-                      </MenuItem>
-
-                    </Menu>
-                  </Box>
-                </>
-              )}
-            </div>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={3} md={3}>
-            <div style={{ width: '60px', height: '60px', margin: '0 auto' }}>
-              <img
-                src={Logo}
-                alt="logo"
-                style={{ width: '100%', height: '100%', borderRadius: '20px' }}
-                onClick={() => history.push('/')}
-              />
-            </div>
-          </Grid>
-          <Grid item xs={6} md={6} style={{ marginTop: '5px' }}>
-            <SearchBar
-              value={searched}
-              onChange={searchVal => requestSearch(searchVal)}
-              onCancelSearch={() => cancelSearch()}
-              placeholder="Bạn muốn ăn gì hôm nay?"
-            />
-          </Grid>
-          <Grid item xs={3} md={3}>
-            <div style={{ textAlign: 'center', marginTop: '15px' }}>
-              <Badge badgeContent={result} color="primary" onClick={() => history.push("/cart")}>
-                <AddShoppingCartIcon color="action" />
-              </Badge>
-            </div>
-          </Grid>
-        </Grid>
-      </Container> */}
 
       <Container fixed>
         <Grid container spacing={0}>
@@ -389,14 +282,13 @@ export function Headerr(props) {
 
           <Grid item xs={12} sm={12} md={4} className={classes.partner}>
             <div style={{ textAlign: 'center' }}>
-              {(user && user.authorities[0].authority == 'USER') ||
+              {/* {(user && user.authorities[0].authority == 'USER') && props.headerr.user && props.headerr.user.store == [] ||
                 user == null ? (
                 <Button onClick={handleSellerRegister}>
                   <FormattedMessage {...messages.becomeSeller} />
                 </Button>
-              ) : user && user.authorities[0].authority == 'SELLER' && props.headerr.store && props.headerr.store.status != "declined" ? (
+              ) : user && user.authorities[0].authority == 'SELLER' && props.headerr.user && props.headerr.user.store != [] && props.headerr.user.store[0].status != "declined" ? (
                 <>
-                  {/* <span className={classes.myStore}><Button startIcon={<StoreIcon />} href="/my-store/manager-order" ><span ><FormattedMessage {...messages.myStore} /></span> </Button></span> */}
                   <div className={classes.center}>
                     <NavLink to="/my-store/manager-order" className={classes.link}>
                       <div className={classes.item}>
@@ -406,20 +298,29 @@ export function Headerr(props) {
                     </NavLink>
                   </div>
                 </>
-              ) : <Typography className={classes.text}><span style={{ color: "#fe0000" }}>Cửa hàng của bạn tạm thời đang bị khóa</span></Typography>}
+              ) : user && user.authorities[0].authority == 'USER' && props.headerr.user && props.headerr.user.store != [] && props.headerr.user.store[0].status != "pending" ? <Typography className={classes.text}><span style={{ color: "#fe0000" }}>Cửa hàng của bạn tạm thời đang bị khóa</span></Typography> 
+              : <Typography className={classes.text}><span style={{ color: "#fe0000" }}>Cửa hàng đang chờ duyệt</span></Typography>} */}
 
-              {/* {user && user.authorities[0].authority == 'SELLER' && props.headerr.store && props.headerr.store.status != "declined" ? (
-                <>
-                  <div className={classes.center}>
-                    <NavLink to="/my-store/manager-order" className={classes.link}>
-                      <div className={classes.item}>
-                        <StoreIcon className={classes.icon} />
-                        <Typography className={classes.text}><FormattedMessage {...messages.myStore} /></Typography>
+              {
+                (user && user.authorities[0].authority == 'USER') && (props.headerr.user && props.headerr.user.stores.length == 0) || user == null ?
+                  <Button onClick={handleSellerRegister}>
+                    <FormattedMessage {...messages.becomeSeller} />
+                  </Button>
+                  :
+                  user && user.authorities[0].authority == 'USER' && (props.headerr.user != undefined && props.headerr.user.stores.length != 0 && props.headerr.user.stores[0].status == "pending") ?
+                    <Typography className={classes.text}><span >Cửa hàng đang chờ duyệt</span></Typography>
+                    : user && user.authorities[0].authority == 'SELLER' && props.headerr.user && props.headerr.user.stores.length != 0 && props.headerr.user.stores[0].status != "declined" ?
+                      <div className={classes.center}>
+                        <NavLink to="/my-store/manager-order" className={classes.link}>
+                          <div className={classes.item}>
+                            <StoreIcon className={classes.icon} />
+                            <Typography className={classes.text}><FormattedMessage {...messages.myStore} /></Typography>
+                          </div>
+                        </NavLink>
                       </div>
-                    </NavLink>
-                  </div>
-                </>
-              ) : <Typography className={classes.text}><span style={{ color: "#fe0000" }}>Cửa hàng của bạn tạm thời đang bị khóa</span></Typography>} */}
+                      :
+                      <Typography className={classes.text}><span style={{ color: "#fe0000" }}>Cửa hàng của bạn tạm thời đang bị khóa</span></Typography>
+              }
             </div>
           </Grid>
 
