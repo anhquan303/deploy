@@ -15,24 +15,20 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import {
-  Box,
   Grid,
-  Container,
   Avatar,
-  Typography,
   TextField,
   FormControlLabel,
   Radio,
   RadioGroup,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Collapse,
   OutlinedInput,
-  Select,
-  MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
-import { makeStyles, Button, Fab, CardContent, Backdrop } from '@material-ui/core';
+import { makeStyles, Button, CardContent, Backdrop } from '@material-ui/core';
 
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import SaveIcon from '@mui/icons-material/Save';
@@ -43,7 +39,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { getUserById, reset, updateUser } from './actions';
+import { getUserById, reset, sendOTP, sendOTPEmail, updateEmail, updatePhoneEmail, updateUser, verifyEmail, verifyPhoneee } from './actions';
 import { getUser, getStore } from '../../utils/common';
 import Avatar1 from '../../images/quan.jpg';
 import { Headerr } from '../Headerr';
@@ -138,7 +134,7 @@ export function UserSetting(props) {
   const [open, setOpen] = useState(true);
   const [gender, setGender] = useState('');
   const [dob, setDOB] = useState(new Date());
-  const initialValues = { firstname: '', lastname: '' };
+  const initialValues = { firstname: '', lastname: '', newPhone: '', otp: '', newEmail: '' };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -147,6 +143,14 @@ export function UserSetting(props) {
   const [horizontal, setHorizontal] = useState('right');
   const [avatar, setAvatar] = useState('');
   const [avatarPreview, setAvatarPreview] = useState('');
+  const [openChange, setOpenChange] = useState(false);
+  const [isSubmitPhone, setIsSubmitPhone] = useState(false);
+  const [formErrorsPhone, setFormErrorsPhone] = useState({});
+  const [checkVerifyPhone, setCheckVerifyPhone] = useState(false);
+  const [checkVerifyEmail, setCheckVerifyEmail] = useState(false);
+  const [openChangeEmail, setOpenChangeEmail] = useState(false);
+  const [isSubmitEmail, setIsSubmitEmail] = useState(false);
+  const [formErrorsEmail, setFormErrorsEmail] = useState({});
 
   const handleClick = () => {
     setOpen(!open);
@@ -173,6 +177,30 @@ export function UserSetting(props) {
     }
     if (!values.lastname) {
       errors.lastname = 'lastname is required!';
+    }
+    return errors;
+  };
+
+  const validatePhone = values => {
+    const errors = {};
+    const regexPhone = /^[0-9]{10}$/;
+    if (!values.newPhone) {
+      errors.newPhone = 'required !';
+    }
+    if (regexPhone.test(values.newPhone) == false) {
+      errors.newPhone1 = '10 số';
+    }
+    return errors;
+  };
+
+  const validateEmail = values => {
+    const errors = {};
+    const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
+    if (!values.newEmail) {
+      errors.newEmail = 'required !';
+    }
+    if (regexEmail.test(values.newEmail) == false) {
+      errors.newEmail1 = 'ex: abc@gmail.com';
     }
     return errors;
   };
@@ -212,15 +240,69 @@ export function UserSetting(props) {
         id: user.id,
       };
       dispatch(getUserById(data));
-      setTimeout(() => dispatch(reset()), 6000);
+      setTimeout(() => dispatch(reset()), 3000);
+    }
+    if (props.userSetting.message == 'WE ALREADY SEND VERIFICATION CODE TO YOUR PHONE') {
+      setCheckVerifyPhone(true);
+      setTimeout(() => {
+        dispatch(reset());
+      }, 3000);
+    }
+    if (props.userSetting.message == "SUCCESSFUL") {
+      setOpenAlert(false);
+      const data = {
+        phone: formValues.newPhone,
+        email: null,
+        doesPhoneNumber: true
+      }
+      dispatch(updatePhoneEmail(data));
+      setTimeout(() => {
+        dispatch(reset());
+      }, 3000);
+    } else {
+      setOpenAlert(true);
+      setTimeout(() => {
+        dispatch(reset());
+      }, 3000);
+    }
+
+    if (props.userSetting.message == 'WE ALREADY SENT OTP TO YOUR EMAIL ! !') {
+      setCheckVerifyEmail(true);
+      setTimeout(() => {
+        dispatch(reset());
+      }, 3000);
     }
   }, [props.userSetting.message]);
+
+
+  useEffect(() => {
+    if (props.userSetting.messageUpdate == 'UPDATE PHONE SUCCESSFUL !') {
+      setOpenAlert(true);
+      setOpenChange(false);
+      const data = {
+        id: user.id,
+      };
+      dispatch(getUserById(data));
+      setTimeout(() => dispatch(reset()), 3000);
+    }
+    if (props.userSetting.messageUpdate == 'UPDATE EMAIL SUCCESSFUL !') {
+      setOpenAlert(true);
+      setOpenChangeEmail(false);
+      const data = {
+        id: user.id,
+      };
+      dispatch(getUserById(data));
+      setTimeout(() => dispatch(reset()), 3000);
+    }
+  }, [props.userSetting.messageUpdate]);
 
   useEffect(() => {
     const data = {
       id: user.id,
     };
     dispatch(getUserById(data));
+    dispatch(reset());
+    setOpenAlert(false);
   }, []);
 
   useEffect(() => {
@@ -240,6 +322,91 @@ export function UserSetting(props) {
   const handleCloseAlert = e => {
     setOpenAlert(false);
   };
+
+  const handleChangePhoneNumber = () => {
+    setOpenChange(true);
+  }
+
+  const handleChangeEmail = () => {
+    setOpenChangeEmail(true);
+  }
+
+  const handleClose = () => {
+    setOpenChange(false);
+  };
+
+  const handleCloseChangeEmail = () => {
+    setOpenChangeEmail(false);
+  };
+
+  const handleChangePhone = (e) => {
+    // check validate
+    e.preventDefault();
+    setFormErrorsPhone(validatePhone(formValues));
+    setIsSubmitPhone(true);
+  }
+
+  const handleChangeEmaill = (e) => {
+    // check validate
+    e.preventDefault();
+    setFormErrorsEmail(validateEmail(formValues));
+    setIsSubmitEmail(true);
+  }
+
+  useEffect(() => {
+    if (Object.keys(formErrorsPhone).length === 0 && isSubmitPhone) {
+      let newPhonee = formValues.newPhone.substring(1);
+      newPhonee = "+84".concat(newPhonee);
+      const data = {
+        phoneNumber: newPhonee,
+        message: "NO NÊ SUPPORT KÍNH CHÁO QUÝ KHÁCH HÀNG. ĐÂY LÀ MÃ XÁC NHẬN CỦA QUÝ KHÁCH: "
+      }
+      dispatch(sendOTP(data));
+
+    }
+  }, [formErrorsPhone]);
+
+  useEffect(() => {
+    if (Object.keys(formErrorsEmail).length === 0 && isSubmitEmail) {
+      const data = {
+        email: formValues.newEmail,
+      }
+      dispatch(verifyEmail(data));
+    }
+  }, [formErrorsEmail]);
+
+
+  const handleVerifyPhone = () => {
+    const data = {
+      phone: formValues.newPhone,
+      otp: formValues.otp
+    }
+    dispatch(verifyPhoneee(data));
+  }
+
+  const handleChangeEmaillll = () => {
+    const data = {
+      email: formValues.newEmail,
+      otp: formValues.otp
+    }
+    dispatch(updateEmail(data));
+  }
+
+  useEffect(() => {
+    if (props.userSetting.checkEmail != "") {
+      setOpenAlert(true);
+      if (props.userSetting.checkEmail != 'Không tìm thấy địa chỉ email') {
+        const data = {
+          email: formValues.newEmail,
+        };
+        dispatch(sendOTPEmail(data));
+
+        setTimeout(() => {
+          dispatch(reset());
+        }, 2000);
+      }
+    }
+  }, [props.userSetting.checkEmail]);
 
   return (
     <div >
@@ -368,7 +535,7 @@ export function UserSetting(props) {
                 </Grid>
                 <Grid item xs={12} md={2} className={classes.text}>
                   <span style={{ fontSize: '13px' }}>
-                    <a href="#">thay đổi</a>
+                    <a onClick={handleChangePhoneNumber} href="#">thay đổi</a>
                   </span>
                 </Grid>
               </Grid>
@@ -392,7 +559,7 @@ export function UserSetting(props) {
                 </Grid>
                 <Grid item xs={12} md={2} className={classes.text}>
                   <span style={{ fontSize: '13px' }}>
-                    <a href="#">thay đổi</a>
+                    <a onClick={handleChangeEmail} href="#">thay đổi</a>
                   </span>
                 </Grid>
               </Grid>
@@ -461,20 +628,157 @@ export function UserSetting(props) {
         </Button>
       </div>
 
+      {/* change Phone */}
+      <Dialog open={openChange}>
+        <DialogTitle>Thay đổi số điện thoại</DialogTitle>
+        <DialogContent>
+
+          <TextField
+            disabled={checkVerifyPhone == true}
+            autoFocus
+            margin="dense"
+            id="title"
+            label="Số điện thoại mới"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={handleChange}
+            name="newPhone"
+            helperText={
+              formErrorsPhone.newPhone && formValues.newPhone.length == ''
+                ? formErrorsPhone.newPhone
+                : formErrorsPhone.newPhone1
+                  ? formErrorsPhone.newPhone1
+                  : null
+            }
+            error={
+              formErrorsPhone.newPhone != null && formValues.newPhone.length == ''
+                ? true
+                : formErrorsPhone.newPhone1 != null
+            }
+          />
+
+          {checkVerifyPhone == true ?
+            <TextField
+              autoFocus
+              margin="dense"
+              id="title"
+              label="OTP"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={handleChange}
+              name="otp"
+
+            />
+            : null}
+
+        </DialogContent>
+        {checkVerifyPhone == false ?
+          <DialogActions>
+            <Button onClick={handleClose}>Trở lại</Button>
+            <Button onClick={handleChangePhone}>Lấy mã</Button>
+          </DialogActions>
+          :
+          <DialogActions>
+            <Button onClick={handleClose}>Trở lại</Button>
+            <Button onClick={handleVerifyPhone}>Xác thực</Button>
+          </DialogActions>
+        }
+
+      </Dialog>
+
+
+      {/* change email */}
+      <Dialog open={openChangeEmail}>
+        <DialogTitle>Thay đổi Email</DialogTitle>
+        <DialogContent>
+
+          <TextField
+            disabled={checkVerifyEmail == true}
+            autoFocus
+            margin="dense"
+            id="title"
+            label="Email mới"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={handleChange}
+            name="newEmail"
+            helperText={
+              formErrorsEmail.newEmail && formValues.newEmail.length == ''
+                ? formErrorsEmail.newEmail
+                : formErrorsEmail.newEmail1
+                  ? formErrorsEmail.newEmail1
+                  : null
+            }
+            error={
+              formErrorsEmail.newEmail != null && formValues.newEmail.length == ''
+                ? true
+                : formErrorsEmail.newEmail1 != null
+            }
+          />
+
+          {checkVerifyEmail == true ?
+            <TextField
+              autoFocus
+              margin="dense"
+              id="title"
+              label="OTP"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={handleChange}
+              name="otp"
+
+            />
+            : null}
+
+        </DialogContent>
+        {checkVerifyEmail == false ?
+          <DialogActions>
+            <Button onClick={handleCloseChangeEmail}>Trở lại</Button>
+            <Button onClick={handleChangeEmaill}>Lấy mã</Button>
+          </DialogActions>
+          :
+          <DialogActions>
+            <Button onClick={handleCloseChangeEmail}>Trở lại</Button>
+            <Button onClick={handleChangeEmaillll}>Xác thực</Button>
+          </DialogActions>
+        }
+
+      </Dialog>
+
+
+
+      {/* notification */}
       <Snackbar
         open={openAlert}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         anchorOrigin={{ vertical, horizontal }}
         onClose={handleCloseAlert}
       >
-        {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
-        <Alert
-          severity="success"
-          onClose={handleCloseAlert}
-          sx={{ width: '100%' }}
-        >
-          {props.userSetting.message}
-        </Alert>
+        {props.userSetting.message && props.userSetting.message.includes("500") || props.userSetting.message && props.userSetting.message.toLowerCase().includes("error")
+          || props.userSetting.messageUpdate && props.userSetting.messageUpdate.includes("500") || props.userSetting.messageUpdate && props.userSetting.messageUpdate.toLowerCase().includes("error")
+          || props.userSetting.checkEmail && props.userSetting.checkEmail.includes("500") || props.userSetting.checkEmail && props.userSetting.checkEmail.toLowerCase().includes("error")
+          ?
+          <Alert
+            severity="error"
+            onClose={handleCloseAlert}
+            sx={{ width: '100%' }}
+          >
+            {props.userSetting.message != '' ? props.userSetting.message : props.userSetting.messageUpdate != '' ? props.userSetting.messageUpdate : props.userSetting.checkEmail}
+          </Alert>
+          :
+          <Alert
+            severity="success"
+            onClose={handleCloseAlert}
+            sx={{ width: '100%' }}
+          >
+            {props.userSetting.message != '' ? props.userSetting.message : props.userSetting.messageUpdate != '' ? props.userSetting.messageUpdate : props.userSetting.checkEmail}
+          </Alert>
+        }
+
       </Snackbar>
 
       <Backdrop

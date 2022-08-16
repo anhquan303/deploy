@@ -128,7 +128,7 @@ export function DetailReport(props) {
           </Button>
         </Grid>
         <Grid item xs={12} md={6} sm={12} style={{ padding: "10px", justifyContent: "right" }} className={classes.center}>
-          <p className={classes.font} style={{ fontWeight: "400", fontSize: "24px" }}>{moment(props.detailReport.report ? props.detailReport.report.createdAt : null).format('DD/MM/YYYY,  h:mm:ss a')}</p>
+          <p className={classes.font} style={{ fontWeight: "400", fontSize: "24px" }}>{moment.utc(props.detailReport.report ? props.detailReport.report.createdAt : null).format('DD/MM/YYYY,  h:mm:ss a')}</p>
         </Grid>
       </Grid>
 

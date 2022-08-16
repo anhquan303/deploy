@@ -34,6 +34,10 @@ export const GET_STORE_COMMENT = 'app/StoreProfile/GET_STORE_COMMENT';
 export const GET_STORE_COMMENT_SUCCESS = 'app/StoreProfile/GET_STORE_COMMENT_SUCCESS';
 export const GET_STORE_COMMENT_FAILED = 'app/StoreProfile/GET_STORE_COMMENT_FAILED';
 
+export const GET_ALL_ORDER_STORE_ID = 'app/StoreProfile/GET_ALL_ORDER_STORE_ID';
+export const GET_ALL_ORDER_STORE_ID_SUCCESS = 'app/StoreProfile/GET_ALL_ORDER_STORE_ID_SUCCESS';
+export const GET_ALL_ORDER_STORE_ID_FAILED = 'app/StoreProfile/GET_ALL_ORDER_STORE_ID_FAILED';
+
 
 export const RESET = 'app/StoreProfile/RESET';
 

@@ -323,6 +323,7 @@ export function SellerVoucher(props) {
   //   setOpenUpdate(false);
   // }
 
+
   return (
     <div>
       <Grid container spacing={0}>
@@ -335,7 +336,7 @@ export function SellerVoucher(props) {
         {props.sellerVoucher.listVoucher && props.sellerVoucher.listVoucher.length != 0 ? props.sellerVoucher.listVoucher.map((item) => {
           return (
             <Grid key={item.id} item xs={12} sm={12} md={4} style={{ padding: '10px' }} >
-              <div className={classes.couponCard}>
+              <div className={classes.couponCard} style={{ height: "100%" }}>
                 <div>
                   {item.active == true ? <span style={{ color: "#20D167", fontWeight: "700" }}>ACTIVE</span> : <span style={{ color: "#FE0000", fontWeight: "700" }}>INACTIVE</span>}
                   <Switch
@@ -358,6 +359,7 @@ export function SellerVoucher(props) {
                   <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
                   {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
                   {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
+                  {item.quantity != "-1" ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Số lượng còn lại : {item.quantity}</p> : null}
                   <div className={classes.circle1}></div>
                   <div className={classes.circle2}></div>
                 </div>
@@ -520,7 +522,7 @@ export function SellerVoucher(props) {
                 </Box>
               </Grid>
 
-              {/* <Grid item sm="auto" xs="auto" style={{ width: '100%', margin: '10px 0' }}>
+              <Grid item sm="auto" xs="auto" style={{ width: '100%', margin: '10px 0' }}>
                 <Box
                   component="form"
                   sx={{
@@ -539,7 +541,7 @@ export function SellerVoucher(props) {
                     value={formValues.quantity}
                   />
                 </Box>
-              </Grid> */}
+              </Grid>
             </Grid>
           </Typography>
           <Button
@@ -695,7 +697,7 @@ export function SellerVoucher(props) {
                 </Box>
               </Grid>
 
-              {/* <Grid item sm="auto" xs="auto" style={{ width: '100%', margin: '10px 0' }}>
+              <Grid item sm="auto" xs="auto" style={{ width: '100%', margin: '10px 0' }}>
                 <Box
                   component="form"
                   sx={{
@@ -714,7 +716,7 @@ export function SellerVoucher(props) {
                     value={formValues.quantityUpdate}
                   />
                 </Box>
-              </Grid> */}
+              </Grid>
             </Grid>
           </Typography>
           <Button

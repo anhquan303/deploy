@@ -1,5 +1,5 @@
 import { take, call, put, select, takeEvery } from 'redux-saga/effects';
-import { addVoucherByUserIdFailed, addVoucherByUserIdSuccess, getFoodByStoreIdFailed, getFoodByStoreIdSuccess, getStoreByIdFailed, getStoreByIdSuccess, getStoreCommentFailed, getStoreCommentSuccess, getStoreRatingFailed, getStoreRatingSuccess, getVoucherByStoreIdFailed, getVoucherByStoreIdSuccess, userAddReportFailed, userAddReportSuccess } from './actions';
+import { addVoucherByUserIdFailed, addVoucherByUserIdSuccess, getAllOrderByStoreIdFailed, getAllOrderByStoreIdSuccess, getFoodByStoreIdFailed, getFoodByStoreIdSuccess, getStoreByIdFailed, getStoreByIdSuccess, getStoreCommentFailed, getStoreCommentSuccess, getStoreRatingFailed, getStoreRatingSuccess, getVoucherByStoreIdFailed, getVoucherByStoreIdSuccess, userAddReportFailed, userAddReportSuccess } from './actions';
 import { apiFetchData, apiPost, uploadImage } from './api';
 import * as types from './constants';
 
@@ -64,7 +64,7 @@ export function* addVoucherByUserId({ payload }) {
       yield put(addVoucherByUserIdFailed("thêm thất bại"));
     }
   } catch (error) {
-    yield put(addVoucherByUserIdFailed(error.message));
+    yield put(addVoucherByUserIdFailed("Bạn đã thêm voucher này rồi!"));
   }
 }
 
@@ -104,6 +104,19 @@ export function* getStoreComment({ payload }) {
   }
 }
 
+export function* getAllOrderByStoreId({ payload }) {
+  try {
+    const res = yield call(apiFetchData, [`api/order?storeId=${payload.id}&pageSize=10000`]);
+    if (res.status == 200) {
+      yield put(getAllOrderByStoreIdSuccess(res.data.data))
+    } else {
+      yield put(getAllOrderByStoreIdFailed("thất bại"))
+    }
+  } catch (error) {
+    yield put(getAllOrderByStoreIdFailed(error.message));
+  }
+}
+
 // Individual exports for testing
 export default function* storeProfileSaga() {
   // See example in containers/HomePage/saga.js
@@ -114,4 +127,5 @@ export default function* storeProfileSaga() {
   yield takeEvery(types.ADD_VOUCHER_BY_USER_ID, addVoucherByUserId);
   yield takeEvery(types.USER_ADD_REPORT, userAddReport);
   yield takeEvery(types.GET_STORE_COMMENT, getStoreComment);
+  yield takeEvery(types.GET_ALL_ORDER_STORE_ID, getAllOrderByStoreId);
 }

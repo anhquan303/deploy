@@ -190,6 +190,7 @@ export function UserOrderHistory(props) {
     }
   }, [value])
 
+
   return (
     <>
       <div>
@@ -264,7 +265,7 @@ export function UserOrderHistory(props) {
                 className={classes.center}
                 style={{ justifyContent: 'center' }}
               >
-                {moment(item.createdAt).format('DD/MM/YYYY')}
+                {moment.utc(item.createdAt).format('DD/MM/YYYY')}
               </Grid>
               <Grid
                 item
@@ -303,7 +304,7 @@ export function UserOrderHistory(props) {
                       >
                         {item1.food.name} <br />x{item1.quantity}
                       </Grid>
-                      {item.status != "CANCEL" ?
+                      {item.status != "CANCEL" && item.status == "PAID" ?
                         <Grid item xs={12} md={12} sm={12}>
                           <Button
                             onClick={() => handleComment(item1, item)}
@@ -325,7 +326,8 @@ export function UserOrderHistory(props) {
 
             <Grid container spacing={0} style={{ padding: '10px' }}>
               <Grid item xs={12} md={6} sm={12}>
-                <img src={item.qr_code} alt="qrcode" style={{ width: "60%" }} />
+                {item.qr == true ? <img src={item.qr_code} alt="qrcode" style={{ width: "60%" }} /> : null}
+
               </Grid>
               <Grid item xs={12} md={6} sm={12} className={classes.center}>
                 Tổng số tiền: {dollarUSLocale.format(item.total_price)} VND

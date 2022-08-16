@@ -131,7 +131,7 @@ export function SellerManagerProduct(props) {
             index + 1,
             item.name,
             dollarUSLocale.format(item.price),
-            moment(item.createdAt).format('DD/MM/YYYY,  h:mm:ss a'),
+            moment.utc(item.createdAt).format('DD/MM/YYYY,  h:mm:ss a'),
             item.type,
             item.actived,
           ),

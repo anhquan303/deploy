@@ -158,6 +158,11 @@ export function SellerAddProduct(props) {
       setTimeout(() => {
         dispatch(reset());
       }, 2000);
+    } else {
+      setOpen(true);
+      setTimeout(() => {
+        dispatch(reset());
+      }, 2000);
     }
   }, [props.sellerAddProduct.message]);
 

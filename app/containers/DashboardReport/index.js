@@ -76,7 +76,7 @@ export function DashboardReport(props) {
   useEffect(() => {
     if (data) {
       setRows(data.map((item, index) =>
-        createData(item.id, index + 1, item.createdBy, item.title, moment(item.createdAt).format('DD/MM/YYYY,  h:mm:ss a'), item.status)
+        createData(item.id, index + 1, item.createdBy, item.title, moment.utc(item.createdAt).format('DD/MM/YYYY,  h:mm:ss a'), item.status)
       ))
     }
   }, [data])

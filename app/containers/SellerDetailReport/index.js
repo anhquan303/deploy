@@ -129,7 +129,7 @@ export function SellerDetailReport(props) {
             </div>
           </Grid>
           <Grid item xs={12} md={6} className={classes.center} style={{ padding: "10px", justifyContent: "right" }} >
-            <span style={{ fontWeight: "400", fontSize: "24px" }}>{moment(props.sellerDetailReport.report.reportResult.createdAt).format('DD/MM/YYYY,  h:mm:ss a')}</span>
+            <span style={{ fontWeight: "400", fontSize: "24px" }}>{moment.utc(props.sellerDetailReport.report.reportResult.createdAt).format('DD/MM/YYYY,  h:mm:ss a')}</span>
           </Grid>
           <Grid container spacing={0}>
             <Grid item xs={12} md={12} style={{ padding: "10px" }}>

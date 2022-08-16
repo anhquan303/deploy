@@ -232,8 +232,9 @@ export function Payment(props) {
   //console.log('list', payment2)
   const handleChangeVoucher = (event) => {
     const { name } = event.target;
-    setVoucher(event.target.value);
+
     if (event.target.value != 0) {
+      setVoucher(event.target.value);
       const checkExist = listTest.some(element => {
         if (element.storeId.id == name) {
           return true;
@@ -270,9 +271,19 @@ export function Payment(props) {
         setPaymentList(listTest);
       }
     } else {
+      // const checkExist = paymentList.some(element => {
+      //   if (element.storeId.id == name) {
+      //     return true;
+      //   }
+      //   return false;
+
+      // })
+      paymentList.filter(item => item.storeId.id == name).map(voucher => delete voucher.voucher)
+      const newList = [];
+      paymentList.map(item => newList.push(item));
+      setPaymentList(newList)
     }
   };
-
 
   const handlePayment = () => {
 
@@ -299,7 +310,9 @@ export function Payment(props) {
                 voucherId: item.voucher == null ? null : item.voucher.id
               }
             )
-          })
+          }
+          ),
+        qr: paymentType
       }
     }
     dispatch(createOrder(data));
@@ -343,7 +356,7 @@ export function Payment(props) {
       id: user.id
     }
     dispatch(getListLocationByUserId(data));
-    dispatch(getListVoucher());
+    dispatch(getListVoucher(data));
     dispatch(reset());
     dispatch(getDefaultLocation());
   }, []);
@@ -370,7 +383,7 @@ export function Payment(props) {
       setOpenAlert(true);
       setTimeout(() => dispatch(reset()), 3000);
     }
-    if (props.payment.message.includes("Không thể sử dụng voucher")) {
+    if (props.payment.message.includes("không đủ điều kiện sử dụng hoặc chưa chọn phương thức")) {
       // const data = {
       //   id: user.id
       // }
@@ -448,9 +461,7 @@ export function Payment(props) {
       setLocationId(props.payment.defaultLocationn.id);
     } else {
       if (props.payment.listLocation) {
-        console.log('here')
         if (props.payment.listLocation.length != 0 && props.payment.listLocation != null) {
-          console.log('here1')
           setNameAddress(props.payment.listLocation[0].name);
           setAddress(props.payment.listLocation[0].village);
           setLocationId(props.payment.listLocation[0].id);
@@ -466,10 +477,6 @@ export function Payment(props) {
 
   }, [props.payment.listLocation, props.payment.defaultLocationn])
 
-  console.log(props.payment.defaultLocationn)
-  console.log(props.payment.listLocation)
-  console.log(nameAddress)
-  console.log(address)
 
   const handleChangeLocation = (name, village, id) => {
     setNameAddress(name);
@@ -505,7 +512,6 @@ export function Payment(props) {
     setOpenModalAddAddress(false);
   }
 
-  console.log(props.payment.listVoucher)
   return (
     <>
       <div style={{ backgroundColor: "#F3F7F8", paddingBottom: "20px", height: "100%" }}>
@@ -717,38 +723,38 @@ export function Payment(props) {
 
             </div>
 
-            {/* <div>
-            <Grid container spacing={0}>
-              <Grid item sm={12} xs={12} md={4} className={classes.center}>
-                <p className={classes.infor_text}>
-                  Phương thức thanh toán
-                </p>
+            <div>
+              <Grid container spacing={0}>
+                <Grid item sm={12} xs={12} md={4} className={classes.center}>
+                  <p className={classes.infor_text}>
+                    Phương thức thanh toán
+                  </p>
+                </Grid>
+                <Grid item sm={12} xs={12} md={5}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      Lựa chọn phương thức thanh toán
+                    </InputLabel>
+                    <Select
+                      disabled={props.payment.qrcode != ""}
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={paymentType}
+                      label="Phương thức thanh toán"
+                      onChange={handleChangePaymentType}
+                    >
+                      <MenuItem value="true">
+                        Chuyển khoản
+                      </MenuItem>
+                      <MenuItem value="false">
+                        Thanh toán khi nhận hàng
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
               </Grid>
-              <Grid item sm={12} xs={12} md={5}>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Lựa chọn phương thức thanh toán
-                  </InputLabel>
-                  <Select
-                    disabled={props.payment.qrcode != ""}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={paymentType}
-                    label="Phương thức thanh toán"
-                    onChange={handleChangePaymentType}
-                  >
-                    <MenuItem value="transfer">
-                      Chuyển khoản
-                    </MenuItem>
-                    <MenuItem value="cash">
-                      Thanh toán khi nhận hàng
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
-            <hr />
-          </div> */}
+              <hr />
+            </div>
 
             {/* <Grid container spacing={0}>
             <Grid item xs={12} md={6} sm={12}>

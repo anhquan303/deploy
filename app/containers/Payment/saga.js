@@ -17,7 +17,7 @@ export function* createOrder({ payload }) {
       yield put(createOrderFailed("Đặt hàng không thành công"));
     }
   } catch (error) {
-    yield put(createOrderFailed("Không thể sử dụng voucher"));
+    yield put(createOrderFailed("Voucher không đủ điều kiện sử dụng hoặc chưa chọn phương thức thanh toán"));
   }
 }
 
@@ -89,7 +89,8 @@ export function* getListOrderByUserId({ payload }) {
 
 export function* getListVoucher({ payload }) {
   try {
-    const res = yield call(apiFetchData, [`api/voucher`]);
+    //const res = yield call(apiFetchData, [`api/voucher`]);
+    const res = yield call(apiFetchData, [`api/voucher?userId=${payload.id}`]);
     if (res.status == 200) {
       yield put(getListVoucherSuccess(res.data.data));
     } else {
@@ -103,7 +104,6 @@ export function* getListVoucher({ payload }) {
 export function* getDefaultLocation({ payload }) {
   try {
     const res = yield call(apiFetchData, [`api/location/getDefaultLocation`]);
-    console.log(res)
     if (res.status == 200) {
       if (res.data.data.body.success == true) {
         yield put(getDefaultLocationSuccess(res.data.data.body.data));

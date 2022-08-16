@@ -272,7 +272,7 @@ export function DetailCustomer(props) {
   useEffect(() => {
     if (data) {
       setRows(data.map((item, index) =>
-        createData(index + 1, item.code, moment(item.createdAt).format('DD/MM/YYYY'), dollarUSLocale.format(item.total_price), item.voucherId, item.orderItem_foods)
+        createData(index + 1, item.code, moment.utc(item.createdAt).format('DD/MM/YYYY'), dollarUSLocale.format(item.total_price), item.voucherId, item.orderItem_foods)
       ))
     }
   }, [data]);

@@ -21,7 +21,7 @@ import messages from './messages';
 import Headerr from '../Headerr';
 import {
   Box, Grid, IconButton, Container, Avatar, Rating, Card, CardMedia, Typography, CardContent,
-  List, ListItemButton, ListItemText, TextField, Tabs, Tab, Chip, Modal, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
+  List, ListItemButton, ListItemText, TextField, Tabs, Tab, Chip, Modal, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Backdrop
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
@@ -29,7 +29,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { CardItem } from '../CardItem';
-import { addVoucherByUserId, getFoodByStoreId, getStoreById, getStoreComment, getStoreRating, getVoucherByStoreId, reset, userAddReport } from './actions';
+import { addVoucherByUserId, getAllOrderByStoreId, getFoodByStoreId, getStoreById, getStoreComment, getStoreRating, getVoucherByStoreId, reset, userAddReport } from './actions';
 import { Link } from 'react-router-dom';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -42,6 +42,9 @@ import RestaurantIcon from '@mui/icons-material/Restaurant';
 import RiceBowlIcon from '@mui/icons-material/RiceBowl';
 import RamenDiningIcon from '@mui/icons-material/RamenDining';
 import BreakfastDiningIcon from '@mui/icons-material/BreakfastDining';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Loading from '../../components/Loading';
 
 let HEIGHT = window.screen.height;
 
@@ -231,6 +234,9 @@ export function StoreProfile(props) {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [evidence, setEvidence] = useState('');
+  const [openAlert, setOpenAlert] = useState(false);
+  const [vertical, setVertical] = useState('top');
+  const [horizontal, setHorizontal] = useState('right');
 
   const handleClose = () => {
     setOpen(false);
@@ -270,6 +276,15 @@ export function StoreProfile(props) {
     return errors;
   };
 
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleCloseAlert = event => {
+    setOpenAlert(false);
+  };
+
   // check validate
   const handleAddReport = e => {
     e.preventDefault();
@@ -295,8 +310,18 @@ export function StoreProfile(props) {
   useEffect(() => {
     if (props.storeProfile.message != "") {
       if (props.storeProfile.message.includes("thành công")) {
+        setOpenAlert(true)
         setOpen(false);
-        dispatch(reset());
+        setTimeout(() => {
+          dispatch(reset());
+        }, 3000);
+      }
+      if (props.storeProfile.message == "Bạn đã thêm voucher này rồi!") {
+        setOpenAlert(true)
+        setTimeout(() => {
+          dispatch(reset());
+        }, 3000);
+
       }
     }
   }, [props.storeProfile.message])
@@ -311,6 +336,7 @@ export function StoreProfile(props) {
     setSelectedIndex(index);
   };
 
+
   useEffect(() => {
     const data = {
       id: props.location.state.id,
@@ -321,6 +347,7 @@ export function StoreProfile(props) {
     dispatch(getStoreRating(data));
     dispatch(getVoucherByStoreId(data));
     dispatch(getStoreComment(data));
+    dispatch(getAllOrderByStoreId(data))
   }, []);
 
 
@@ -369,7 +396,6 @@ export function StoreProfile(props) {
     // dispatch(fetchListFood(data));
   }, [foodType]);
 
-
   useEffect(() => {
     const data = {
       id: props.location.state.id,
@@ -377,6 +403,8 @@ export function StoreProfile(props) {
     }
     dispatch(getFoodByStoreId(data));
   }, [type]);
+
+  const checkUserOrder = props.storeProfile.order.filter(item => item.user.id == user.id);
 
 
   return (
@@ -409,6 +437,19 @@ export function StoreProfile(props) {
                 <p style={{ fontFamily: "circular std book,sans-serif", margin: "0", fontWeight: "700", fontSize: "30px" }}>{props.storeProfile.store ? props.storeProfile.store.name : null}</p>
                 <Chip icon={<AccessTimeIcon />} label={`${props.storeProfile.store ? props.storeProfile.store.open_time : null} - ${props.storeProfile.store ? props.storeProfile.store.close_time : null}`} variant="outlined" />
                 <p style={{ fontFamily: "circular std book,sans-serif", margin: "10px 0 ", fontWeight: "400", fontSize: "13px", color: "#858796", textAlign: "left" }}>{props.storeProfile.store ? props.storeProfile.store.description : null}</p>
+                {/* <p style={{ fontFamily: "circular std book,sans-serif", margin: "10px 0 ", fontWeight: "400", fontSize: "13px", color: "#858796", textAlign: "left" }}>{props.storeProfile.store && props.storeProfile.store.ortherLocation !== null ? <span>{props.storeProfile.store.otherLocation.name}, {props.storeProfile.store.otherLocation.village}, {props.storeProfile.store.otherLocation.town}</span> : <span>{props.storeProfile.store.dormLocation.dormName}, {props.storeProfile.store.dormLocation.room_number}</span>}</p> */}
+                <p style={{ fontFamily: "circular std book,sans-serif", margin: "10px 0 ", fontWeight: "400", fontSize: "13px", color: "#858796", textAlign: "left" }}>{props.storeProfile.store != undefined && props.storeProfile.store.inCampus != true ?
+                  <>
+                    <span>{props.storeProfile.store.otherLocation.name}, </span>
+                    <span>{props.storeProfile.store.otherLocation.village}, </span>
+                    <span>{props.storeProfile.store.otherLocation.town}</span>
+                  </>
+                  :
+                  <>
+                    <span>{props.storeProfile.store ? props.storeProfile.store.dormLocation.dormName : null}, </span>
+                    <span>{props.storeProfile.store ? props.storeProfile.store.dormLocation.room_number : null}</span>
+                  </>}
+                </p>
                 <div style={{ display: "flex", margin: "10px 0 " }}>
                   <div>
                     <Rating
@@ -422,10 +463,7 @@ export function StoreProfile(props) {
                   <div style={{ margin: "3px" }}> {props.storeProfile.storeRating ? props.storeProfile.storeRating : 0} - {props.storeProfile.storeComment ? props.storeProfile.storeComment.length : 0} Ratings</div>
                 </div>
                 <div>
-                  {/* <Button className={classes.btn} variant="outlined" onClick={() => history.goBack()}>
-                    Yêu thích
-                  </Button> */}
-                  <Button className={classes.btn} variant="outlined" onClick={handleClickOpen}>
+                  <Button disabled={checkUserOrder.length == 0} className={classes.btn} variant="outlined" onClick={handleClickOpen}>
                     Báo cáo
                   </Button>
                 </div>
@@ -500,20 +538,22 @@ export function StoreProfile(props) {
                 {props.storeProfile.listVoucher && props.storeProfile.listVoucher.length != 0 ? props.storeProfile.listVoucher.filter(voucher => voucher.active == true).map((item) => {
                   return (
                     <Grid key={item.id} item xs={12} sm={12} md={4} style={{ padding: '10px' }}>
-                      <div className={classes.couponCard}>
+                      <div className={classes.couponCard} style={{ height: "100%" }}>
                         <img className={classes.imgCoupon} src="https://www.mssdefence.com/wp-content/uploads/2016/11/Discount-Action-Mss-Defence.png" />
                         <h3 style={{ fontSize: "20px", fontWeight: "400" }}>{item.name}</h3>
                         <div className={classes.couponRow}>
                           <span className={classes.couponCode}>{item.code}</span>
                           {/* <span className={classes.couponBtn}><CopyToClipBoard text="STEALDEAL20"> LƯU MÃ</CopyToClipBoard></span> */}
-                          {/* <CopyToClipboard text={item.code}
+                          {item.quantity != -1 ? <CopyToClipboard text={item.code}
                             onCopy={() => setCopied(true)}>
                             <span className={classes.couponBtn} onClick={() => handleSaveVoucher(item.id)}>LƯU MÃ</span>
-                          </CopyToClipboard> */}
+                          </CopyToClipboard> : null}
+
                         </div>
                         <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
                         {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
                         {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
+                        {item.quantity != -1 ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Số lượng còn lại : {item.quantity}</p> : null}
                         <div className={classes.circle1}></div>
                         <div className={classes.circle2}></div>
                       </div>
@@ -626,6 +666,28 @@ export function StoreProfile(props) {
             <Button onClick={handleAddReport}>Gửi</Button>
           </DialogActions>
         </Dialog>
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={2000}
+          anchorOrigin={{ vertical, horizontal }}
+          onClose={handleCloseAlert}
+        >
+          {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
+          <Alert
+            severity="success"
+            onClose={handleCloseAlert}
+            sx={{ width: '100%' }}
+          >
+            {props.storeProfile.message}
+          </Alert>
+        </Snackbar>
+
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={props.storeProfile.loading}
+        >
+          <Loading />
+        </Backdrop>
       </Container>
       <Footerr />
     </div >
