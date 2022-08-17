@@ -36,13 +36,14 @@ export function* updateUser({ payload }) {
       formData.append('dateOfBirth', payload.dateOfBirth);
     }
     const res = yield call(uploadImage, ['api/user/update'], formData);
+
     if (res.status == 200) {
       yield put(updateUserSuccess('UPDATE SUCCESS'));
     } else {
       yield put(updateUserFailed('UPDATE FAILED'));
     }
   } catch (error) {
-    yield put(updateUserFailed(error.message));
+    yield put(updateUserFailed(error.response.data.error));
   }
 }
 

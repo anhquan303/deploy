@@ -30,6 +30,7 @@ export function* searchFood({ payload }) {
     //   call += `endPrice=${payload.endPrice}&`;
     // }
 
+    const url1 = `api/store/${payload.id}/foods?startPrice=${payload.startPrice}&endPrice=${payload.endPrice}&name=${payload.name}&type=${payload.type}`
 
     var url = `api/store/${payload.id}/foods`;
     if (payload.name != "" && payload.startPrice == "" && payload.endPrice == "") {
@@ -45,16 +46,16 @@ export function* searchFood({ payload }) {
       url = `api/store/${payload.id}/foods?name=` + `${payload.name}` + '&&endPrice=' + `${payload.endPrice}`;
     }
     if (payload.endPrice != "" && payload.name == "" && payload.startPrice != "") {
-      url = `api/store/${payload.id}?startPrice=` + `${payload.startPrice}` + '&&endPrice=' + `${payload.endPrice}`;
+      url = `api/store/${payload.id}/foods?startPrice=` + `${payload.startPrice}` + '&&endPrice=' + `${payload.endPrice}`;
     }
     if (payload.endPrice == "" && payload.name != "" && payload.startPrice != "") {
-      url = `api/store/${payload.id}?name=` + `${payload.name}` + '&&startPrice=' + `${payload.startPrice}`;
+      url = `api/store/${payload.id}/foods?name=` + `${payload.name}` + '&&startPrice=' + `${payload.startPrice}`;
     }
     if (payload.endPrice != "" && payload.name != "" && payload.startPrice != "") {
-      url = `api/store/${payload.id}?name=` + `${payload.name}` + '&&startPrice=' + `${payload.startPrice}` + '&&endPrice=' + `${payload.endPrice}`;
+      url = `api/store/${payload.id}/foods?name=` + `${payload.name}` + '&&startPrice=' + `${payload.startPrice}` + '&&endPrice=' + `${payload.endPrice}`;
     }
 
-    const res = yield call(apiFetchData, [`${url}`]);
+    const res = yield call(apiFetchData, [`${url1}`]);
     if (res.status == 200) {
       yield put(searchFoodSuccess(res.data.data));
     } else {

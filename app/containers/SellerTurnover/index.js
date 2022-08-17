@@ -52,12 +52,13 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     width: 'fit-content',
     borderRadius: '10px',
-    backgroundColor: '#ff9900',
-    margin: '10px 5px',
+    backgroundColor: '#FD4444',
+    color: '#fff',
+    marginTop: '10px',
     '&:hover': {
-      backgroundColor: '#FFA500',
+      backgroundColor: '#FF1C1C',
       fontWeight: 'bold',
-      color: '#000',
+      color: '#fff',
       boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
     },
   },
@@ -143,7 +144,7 @@ export function SellerTurnover(props) {
                 </Grid>
                 <Grid item md={6} sm={12} xs={12} style={{ textAlign: 'center' }}>
                   <MonetizationOnRoundedIcon
-                    sx={{ width: 50, height: 50, color: '#FFAC30' }}
+                    sx={{ width: 50, height: 50, color: '#FD4444' }}
                   />
                 </Grid>
               </Grid>
@@ -166,7 +167,7 @@ export function SellerTurnover(props) {
                 </Grid>
                 <Grid item md={6} sm={12} xs={12} style={{ textAlign: 'center' }}>
                   <AssignmentRoundedIcon
-                    sx={{ width: 50, height: 50, color: '#FFAC30' }}
+                    sx={{ width: 50, height: 50, color: '#FD4444' }}
                   />
                 </Grid>
               </Grid>
@@ -217,7 +218,7 @@ export function SellerTurnover(props) {
                 </Grid>
                 <Grid item md={6} sm={12} xs={12} style={{ textAlign: 'center' }}>
                   <MonetizationOnRoundedIcon
-                    sx={{ width: 50, height: 50, color: '#FFAC30' }}
+                    sx={{ width: 50, height: 50, color: '#FD4444' }}
                   />
                 </Grid>
               </Grid>

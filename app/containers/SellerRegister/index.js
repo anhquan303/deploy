@@ -179,6 +179,7 @@ export function SellerRegister(props) {
   const [next, setNext] = useState(false);
   const [type, setType] = useState('');
   const [bank, setBank] = useState('');
+  const [dorm, setDorm] = useState('');
   const classes = useStyles();
 
   const ITEM_HEIGHT = 48;
@@ -294,33 +295,36 @@ export function SellerRegister(props) {
     const regexPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
     const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
     if (!values.name) {
-      errors.name = 'name is required!';
+      errors.name = 'tên không được bỏ trống!';
     }
     if (!values.phone) {
-      errors.phone = 'phone is required!';
+      errors.phone = 'số điện thoại không được bỏ trống!';
     }
     if (regexPhone.test(values.phone) == false) {
-      errors.phone1 = 'match 10 digits';
+      errors.phone1 = 'format: 10 số';
     }
     if (!values.email) {
-      errors.email = 'email is required!';
+      errors.email = 'email không được bỏ trống!';
     }
     if (regexEmail.test(values.email) == false) {
-      errors.email1 = 'ex: abc@gmail.com';
+      errors.email1 = 'format: abc@gmail.com';
     }
     if (isInCampus == false) {
       if (!values.village) {
-        errors.village = 'village is required!';
+        errors.village = 'thôn không được bỏ trống!';
       }
       if (!values.district) {
-        errors.district = 'address is required!';
+        errors.district = 'địa chỉ không được bỏ trống!';
       }
     } else {
-      if (!values.dorm) {
-        errors.dorm = 'dorm is required!';
+      // if (!values.dorm) {
+      //   errors.dorm = 'dorm is required!';
+      // }
+      if (!dorm) {
+        errors.dorm = 'dorm không được bỏ trống!';
       }
       if (!values.room) {
-        errors.room = 'room is required!';
+        errors.room = 'phòng không được bỏ trống!';
       }
     }
     return errors;
@@ -330,13 +334,13 @@ export function SellerRegister(props) {
   const validate2 = values => {
     const errors = {};
     if (!identityCardBack) {
-      errors.identity_card_back = 'identity_card_back is required!';
+      errors.identity_card_back = 'cccd không được bỏ trống';
     }
     if (!identityCardFront) {
-      errors.identity_card_front = 'identity_card_front is required!';
+      errors.identity_card_front = 'cccd không được bỏ trống';
     }
     if (!values.bankAccount) {
-      errors.bankAccount = 'bank account is required!';
+      errors.bankAccount = 'số tài khoản không được bỏ trống';
     }
     return errors;
   };
@@ -345,10 +349,13 @@ export function SellerRegister(props) {
   const validate3 = values => {
     const errors = {};
     if (!values.description) {
-      errors.description = 'description is required!';
+      errors.description = 'mô tả không được bỏ trống';
     }
     if (!menu) {
-      errors.menu = 'menu is required!';
+      errors.menu = 'menu không được bỏ trống';
+    }
+    if (moment(endTime).diff(startTime, 'minutes').toString().includes("-")) {
+      errors.time = 'thời gian đóng cửa sai';
     }
     return errors;
   };
@@ -381,7 +388,7 @@ export function SellerRegister(props) {
         },
         isInCampus: isInCampus,
         owner_name: formValues.owner_name,
-        location: isInCampus == false ? `[other_location]|${formValues.village}|${type}|${formValues.district}` : `[dorm_location]|${formValues.dorm}|${formValues.room}`,
+        location: isInCampus == false ? `[other_location]|${formValues.village}|${type}|${formValues.district}` : `[dorm_location]|${dorm}|${formValues.room}`,
         bin: bank,
         account_number: formValues.bankAccount,
       };
@@ -443,6 +450,10 @@ export function SellerRegister(props) {
       accountNumber: formValues.bankAccount
     }
     dispatch(verifyBankAccount(data));
+  }
+
+  const handleChangeDorm = (e) => {
+    setDorm(e.target.value);
   }
   return (
     <div className={classes.body}>
@@ -525,6 +536,7 @@ export function SellerRegister(props) {
                       autoComplete="off"
                     >
                       <TextField
+                        disabled
                         required
                         id="outlined-textarea"
                         label="Email"
@@ -561,6 +573,7 @@ export function SellerRegister(props) {
                     autoComplete="off"
                   >
                     <TextField
+                      disabled
                       required
                       id="outlined-textarea"
                       label="Số điện thoại liên hệ"
@@ -706,7 +719,7 @@ export function SellerRegister(props) {
                   :
                   <>
                     <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
-                      <Box
+                      {/* <Box
                         component="form"
                         sx={{
                           '& .MuiTextField-root': { m: 1, width: '100%' },
@@ -731,7 +744,43 @@ export function SellerRegister(props) {
                             formValues.dorm.length == ''
                           }
                         />
-                      </Box>
+                      </Box> */}
+
+                      <div style={{ marginLeft: '8px', width: '100%' }}>
+                        <Box
+                          component="form"
+                          sx={{
+                            '& .MuiTextField-root': { m: 1, width: '100%', marginLeft: "10px" },
+                          }}
+                          noValidate
+                          autoComplete="off"
+                        >
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                              Dorm
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={dorm}
+                              label="Dorm"
+                              onChange={handleChangeDorm}
+                              MenuProps={MenuProps}
+
+                            >
+                              <MenuItem value="Dorm A" >Dorm A</MenuItem>
+                              <MenuItem value="Dorm B" >Dorm B</MenuItem>
+                              <MenuItem value="Dorm C" >Dorm C</MenuItem>
+                              <MenuItem value="Dorm D" >Dorm D</MenuItem>
+                              <MenuItem value="Dorm E" >Dorm E</MenuItem>
+                              <MenuItem value="Dorm F" >Dorm F</MenuItem>
+                              <MenuItem value="Dorm G" >Dorm G</MenuItem>
+                              <MenuItem value="Dorm H" >Dorm H</MenuItem>
+                            </Select>
+                          </FormControl>
+
+                        </Box>
+                      </div>
                     </Grid>
                     <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
                       <Box
@@ -919,7 +968,7 @@ export function SellerRegister(props) {
                       </Box>
                     </div>
                     <Grid item sm={12} xs={12}>
-                      {props.sellerRegister.bankAccountName != null ? <span style={{ margin: "10px 0" }}>{props.sellerRegister.bankAccountName}</span> : <span style={{ margin: "10px 0" }}>Không tìm thấy số tài khoản</span>}
+                      {props.sellerRegister.bankAccountName != null ? <span style={{ margin: "10px 0", color: "#1168EB" }}>{props.sellerRegister.bankAccountName}</span> : <span style={{ margin: "10px 0", color: "#fe0000" }}>Không tìm thấy số tài khoản</span>}
                     </Grid>
                     <div style={{ margin: "0 auto" }}>
                       <Button
@@ -1072,7 +1121,15 @@ export function SellerRegister(props) {
                             label="Thời gian đóng cửa"
                             value={endTime}
                             onChange={handleChangeEndTime}
-                            renderInput={(params) => <TextField {...params} />}
+                            // renderInput={(params) => <TextField {...params} />}
+
+                            renderInput={(params) => (
+                              <TextField
+                                sx={{ width: '100%' }}
+                                {...params}
+                                helperText={formErrors.time ? formErrors.time : null}
+                                error={formErrors.time != null}
+                              />)}
                           />
                         </LocalizationProvider>
                         {/* <p style={{ fontFamily: 'san-serif', fontSize: '20px' }}>

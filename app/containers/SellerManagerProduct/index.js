@@ -88,15 +88,19 @@ export function SellerManagerProduct(props) {
   const store = getStore();
   const classes = useStyles();
   let dollarUSLocale = Intl.NumberFormat('en-US');
+  const [type, setType] = useState("");
 
   const validate = (values) => {
     const errors = {};
     const numberOnly = /^[0-9]*$/;
     if (numberOnly.test(values.priceFrom) == false) {
-      errors.priceFrom = 'number only';
+      errors.priceFrom = 'chỉ nhập số';
     }
     if (numberOnly.test(values.priceTo) == false) {
-      errors.priceTo = 'number only';
+      errors.priceTo = 'chỉ nhập số';
+    }
+    if ((parseInt(values.priceTo) - parseInt(values.priceFrom)) < 0) {
+      errors.priceTo1 = 'giá đến nhỏ hơn giá từ';
     }
     return errors;
   }
@@ -140,7 +144,7 @@ export function SellerManagerProduct(props) {
     }
   }, [props.sellerManagerProduct.foodList]);
 
-  const [type, setType] = useState();
+
 
   useEffect(() => {
     const data = {
@@ -174,15 +178,18 @@ export function SellerManagerProduct(props) {
         startPrice: formValues.priceFrom,
         endPrice: formValues.priceTo,
         id: store,
+        type: type
       };
       dispatch(searchFood(data));
     }
   }, [formErrors]);
 
-  const reset = () => {
+  const reset = (e) => {
+    e.preventDefault();
     setNameSearch('');
-    setFormValues({ ...formValues, ['priceFrom']: "" });
-    setFormValues({ ...formValues, ['priceTo']: "" });
+    setType("");
+    setFormValues({ ['priceFrom']: "", ['priceTo']: "" });
+    //setFormValues({ ['priceTo']: "" });
   };
 
   return (
@@ -222,17 +229,14 @@ export function SellerManagerProduct(props) {
                       label="Type"
                       onChange={handleChangeType}
                     >
+                      <MenuItem value=""></MenuItem>
                       <MenuItem value="BANHMI">Bánh mì</MenuItem>
-                      <MenuItem value="COMRANG">Cơm rang</MenuItem>
-                      <MenuItem value="COMTAM">Cơm tấm</MenuItem>
-                      <MenuItem value="COMXUAT">Cơm xuất</MenuItem>
-                      <MenuItem value="BUNGIOHEO">Bún giò heo</MenuItem>
-                      <MenuItem value="BUNTRA">Bún chả</MenuItem>
-                      <MenuItem value="BUNDAU">Bún đậu</MenuItem>
+                      <MenuItem value="COM">Cơm</MenuItem>
+                      <MenuItem value="BUN">Bún</MenuItem>
                       <MenuItem value="PHO">Phở</MenuItem>
                       <MenuItem value="MIEN">Miến</MenuItem>
-                      <MenuItem value="MI">Mỳ</MenuItem>
-                      <MenuItem value="NEMNUONG">Nem nướng</MenuItem>
+                      <MenuItem value="MY">Mỳ</MenuItem>
+                      <MenuItem value="OTHER">Khác</MenuItem>
                     </Select>
                   </FormControl>
                 </Box>
@@ -289,8 +293,18 @@ export function SellerManagerProduct(props) {
                         name="priceTo"
                         value={formValues.priceTo}
                         onChange={handleChange}
-                        helperText={formErrors.priceTo != null ? formErrors.priceTo : null}
-                        error={formErrors.priceTo != null ? true : null}
+                        helperText={
+                          formErrors.priceTo != null
+                            ? formErrors.priceTo
+                            : formErrors.priceTo1 != null
+                              ? formErrors.priceTo1
+                              : null
+                        }
+                        error={
+                          formErrors.priceTo != null
+                            ? true
+                            : formErrors.priceTo1 != null
+                        }
                       />
                     </Grid>
                   </Grid>

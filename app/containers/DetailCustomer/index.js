@@ -312,15 +312,22 @@ export function DetailCustomer(props) {
                 <p className={classes.font} style={{ fontWeight: "700", fontSize: "30px" }}>{props.detailCustomer.user.firstname} {props.detailCustomer.user.lastname}</p>
                 <p className={classes.text} style={{ color: "#949494" }}>{props.detailCustomer.user.email}</p>
                 <p className={classes.text} >{props.detailCustomer.user.phoneNumber}</p>
-                <p className={classes.text}>{props.detailCustomer.user ? props.detailCustomer.user.status : null}</p>
+                <p className={classes.text}>{props.detailCustomer.user && props.detailCustomer.user.status == "Approved" ? <span style={{textTransform: "uppercase", color: "#20D167"}}>{props.detailCustomer.user.status}</span>: <span style={{textTransform: "uppercase", color: "#fe0000"}}>{props.detailCustomer.user.status}</span>}</p>
                 <hr />
                 {/* <Button className={classes.btn} variant="outlined" startIcon={<SendRoundedIcon />}>
                   Gửi email
                 </Button> */}
-                <Button className={classes.btn} variant="outlined" startIcon={<AutorenewIcon />} onClick={handleClick}>
-                  Đổi trạng thái
-                </Button>
-                <Menu
+                {props.detailCustomer.user && props.detailCustomer.user.status == "Approved" ?
+                  <Button className={classes.btn} variant="outlined" startIcon={<AutorenewIcon />} onClick={declineStore}>
+                    Đổi trạng thái ngưng hoạt động
+                  </Button>
+                  :
+                  <Button className={classes.btn} variant="outlined" startIcon={<AutorenewIcon />} onClick={approveStore}>
+                    Đổi trạng thái hoạt động
+                  </Button>
+
+                }
+                {/* <Menu
                   id="basic-menu"
                   anchorEl={anchorEl}
                   open={open}
@@ -331,7 +338,7 @@ export function DetailCustomer(props) {
                 >
                   <MenuItem onClick={approveStore}>Approve</MenuItem>
                   <MenuItem onClick={declineStore}>Decline</MenuItem>
-                </Menu>
+                </Menu> */}
               </div>
             </Grid>
 
@@ -342,7 +349,7 @@ export function DetailCustomer(props) {
                 <div className={classes.contact}>
                   <Grid container spacing={0} >
                     <Grid item xs={2} md={2} style={{ padding: "10px" }} className={classes.center}>
-                      <Avatar style={{ backgroundColor: "#FF9900", color: "#000" }}>
+                      <Avatar style={{ backgroundColor: "#FD4444", color: "#fff" }}>
                         <LocalPhoneRoundedIcon />
                       </Avatar>
                     </Grid>
@@ -357,7 +364,7 @@ export function DetailCustomer(props) {
                 <div className={classes.contact}>
                   <Grid container spacing={0} >
                     <Grid item xs={2} md={2} style={{ padding: "10px" }} className={classes.center}>
-                      <Avatar style={{ backgroundColor: "#FF9900", color: "#000" }}>
+                      <Avatar style={{ backgroundColor: "#FD4444", color: "#fff" }}>
                         <HomeRoundedIcon />
                       </Avatar>
                     </Grid>
@@ -372,7 +379,7 @@ export function DetailCustomer(props) {
                 <div className={classes.contact}>
                   <Grid container spacing={0} >
                     <Grid item xs={2} md={2} style={{ padding: "10px" }} className={classes.center}>
-                      <Avatar style={{ backgroundColor: "#FF9900", color: "#000" }}>
+                      <Avatar style={{ backgroundColor: "#FD4444", color: "#fff" }}>
                         <AssignmentRoundedIcon />
                       </Avatar>
                     </Grid>

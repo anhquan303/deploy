@@ -152,16 +152,16 @@ export function SellerActionProduct(props) {
     const errors = {};
     const regexPrice = /^[0-9]*$/;
     if (!values.name) {
-      errors.name = "name is required!";
+      errors.name = "tên món ăn không được để trống!";
     }
     if (!values.price) {
-      errors.price = "price is required!";
+      errors.price = "giá không được để trống!";
     }
     if (!values.description) {
-      errors.description = "description is required!";
+      errors.description = "mô tả không được để trống!";
     }
     if (regexPrice.test(values.price) == false) {
-      errors.price1 = "number only!";
+      errors.price1 = "chỉ nhập số!";
     }
     return errors;
   }
