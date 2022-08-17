@@ -134,6 +134,18 @@ export function SellerSetting(props) {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const store = getStore();
+  const [dorm, setDorm] = useState('');
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
 
   const handleUploadClick = e => {
     const file1 = e.target.files[0];
@@ -164,12 +176,13 @@ export function SellerSetting(props) {
       setIsInCampus(props.sellerSetting.user.inCampus);
       setCoverImage(props.sellerSetting.user.storeImage.cover_image);
       if (props.sellerSetting.user.inCampus != true) {
-        
+
         formValues.district = props.sellerSetting.user.otherLocation.town;
         setWard(props.sellerSetting.user.otherLocation.village);
         formValues.town = props.sellerSetting.user.otherLocation.name;
       } else {
-        formValues.dorm = props.sellerSetting.user.dormLocation.dormName;
+        //formValues.dorm = props.sellerSetting.user.dormLocation.dormName;
+        setDorm(props.sellerSetting.user.dormLocation.dormName)
         formValues.room = props.sellerSetting.user.dormLocation.room_number;
       }
 
@@ -241,7 +254,7 @@ export function SellerSetting(props) {
         cover_image: null,
         avatar: avatar != "" ? avatar : null,
         isInCampus: isInCampus,
-        location: isInCampus == false ? `[other_location]|${formValues.town}|${ward}|${formValues.district}` : `[dorm_location]|${formValues.dorm}|${formValues.room}`,
+        location: isInCampus == false ? `[other_location]|${formValues.town}|${ward}|${formValues.district}` : `[dorm_location]|${dorm}|${formValues.room}`,
       };
       dispatch(updateStore(data));
     }
@@ -264,6 +277,10 @@ export function SellerSetting(props) {
     setOpenAlert(false);
   };
 
+
+  const handleChangeDorm = (e) => {
+    setDorm(e.target.value);
+  }
   return (
     <div style={{ paddingRight: '15px' }}>
       <div style={{ textAlign: 'center' }}>
@@ -625,7 +642,7 @@ export function SellerSetting(props) {
               <>
 
                 <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
-                  <Box
+                  {/* <Box
                     component="form"
                     sx={{
                       '& .MuiTextField-root': { m: 1, width: '100%' },
@@ -650,7 +667,43 @@ export function SellerSetting(props) {
                         formValues.dorm.length == ''
                       }
                     />
-                  </Box>
+                  </Box> */}
+
+                  <div style={{ marginLeft: '8px', width: '100%' }}>
+                    <Box
+                      component="form"
+                      sx={{
+                        '& .MuiTextField-root': { m: 1, width: '100%', marginLeft: "10px" },
+                      }}
+                      noValidate
+                      autoComplete="off"
+                    >
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">
+                          Dorm
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={dorm}
+                          label="Dorm"
+                          onChange={handleChangeDorm}
+                          MenuProps={MenuProps}
+
+                        >
+                          <MenuItem value="Dorm A" >Dorm A</MenuItem>
+                          <MenuItem value="Dorm B" >Dorm B</MenuItem>
+                          <MenuItem value="Dorm C" >Dorm C</MenuItem>
+                          <MenuItem value="Dorm D" >Dorm D</MenuItem>
+                          <MenuItem value="Dorm E" >Dorm E</MenuItem>
+                          <MenuItem value="Dorm F" >Dorm F</MenuItem>
+                          <MenuItem value="Dorm G" >Dorm G</MenuItem>
+                          <MenuItem value="Dorm H" >Dorm H</MenuItem>
+                        </Select>
+                      </FormControl>
+
+                    </Box>
+                  </div>
                 </Grid>
                 <Grid item sm="auto" xs="auto" style={{ width: '100%' }}>
                   <Box

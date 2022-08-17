@@ -1103,7 +1103,7 @@ export function Payment(props) {
 
         <Snackbar
           open={openAlert}
-          autoHideDuration={3000}
+          autoHideDuration={2000}
           anchorOrigin={{ vertical, horizontal }}
           onClose={handleCloseAlert}
         >

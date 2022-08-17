@@ -63,7 +63,7 @@ export function Footerr(props) {
             <div>
               <h1>No Nê</h1>
               <h4>Team SWP_G20</h4>
-              <h4><a onClick={handleSellerRegister} style={{ textDecoration: "none", color: "#369DFC" }}><span>Đăng ký quán</span></a></h4>
+              {/* <h4><a onClick={handleSellerRegister} style={{ textDecoration: "none", color: "#369DFC" }}><span>Đăng ký quán</span></a></h4> */}
             </div>
           </Grid>
           <Grid item md={4} sm={4} xs={12} className={classes.center}>

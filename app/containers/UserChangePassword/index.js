@@ -89,17 +89,21 @@ export function UserChangePassword(props) {
 
   const validate = values => {
     const errors = {};
+    const regexPassword = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,15})$/;
     if (!values.newPassword) {
-      errors.newPassword = 'required!';
+      errors.newPassword = 'mật khẩu mới không được bỏ trống!';
+    }
+    if (regexPassword.test(values.newPassword) == false) {
+      errors.newPassword1 = 'mật khẩu yêu cầu mẫu có ít nhất một chữ số, một chữ hoa, một chữ thường và một ký hiệu đặc biệt';
     }
     if (!values.oldPassword) {
-      errors.oldPassword = 'required!';
+      errors.oldPassword = 'mật khẩu cũ không được bỏ trống!';
     }
     if (!values.verifyPassword) {
-      errors.verifyPassword = 'required!';
+      errors.verifyPassword = 'xác nhận mật khẩu mới không được bỏ trống!';
     }
     if (values.verifyPassword != values.newPassword) {
-      errors.verifyPassword1 = 'password does not match';
+      errors.verifyPassword1 = 'mật khẩu không giống!';
     }
     return errors;
   };
@@ -203,10 +207,6 @@ export function UserChangePassword(props) {
               autoComplete="off"
             >
               <TextField
-                error={
-                  formErrors.newPassword != null &&
-                  formValues.newPassword.length == ''
-                }
                 id="outlined-password-input2"
                 label="Mật khẩu mới"
                 type="password"
@@ -215,9 +215,18 @@ export function UserChangePassword(props) {
                 value={formValues.newPassword}
                 onChange={handleChange}
                 helperText={
-                  formErrors.newPassword && formValues.newPassword.length == ''
+                  formErrors.newPassword &&
+                    formValues.newPassword.length == ''
                     ? formErrors.newPassword
-                    : null
+                    : formErrors.newPassword1
+                      ? formErrors.newPassword1
+                      : null
+                }
+                error={
+                  formErrors.newPassword != null &&
+                    formValues.newPassword.length == ''
+                    ? true
+                    : formErrors.newPassword1 != null
                 }
               />
             </Box>
@@ -241,7 +250,7 @@ export function UserChangePassword(props) {
                 onChange={handleChange}
                 helperText={
                   formErrors.verifyPassword &&
-                  formValues.verifyPassword.length == ''
+                    formValues.verifyPassword.length == ''
                     ? formErrors.verifyPassword
                     : formErrors.verifyPassword1
                       ? formErrors.verifyPassword1
@@ -249,7 +258,7 @@ export function UserChangePassword(props) {
                 }
                 error={
                   formErrors.verifyPassword != null &&
-                  formValues.verifyPassword.length == ''
+                    formValues.verifyPassword.length == ''
                     ? true
                     : formErrors.verifyPassword1 != null
                 }

@@ -365,15 +365,18 @@ export function UserHomePage(props) {
               ))}
             </Grid>
 
-            <div style={{ textAlign: "center" }}>
-              <Button
-                className={classes.btn}
-                endIcon={<ArrowDropDownIcon />}
-                onClick={showMoreDocuments}
-              >
-                xem thêm
-              </Button>
-            </div>
+            {props.userHomePage.foodList.length > 20 || limit < props.userHomePage.foodList.length ?
+              <div style={{ textAlign: "center" }}>
+                <Button
+                  className={classes.btn}
+                  endIcon={<ArrowDropDownIcon />}
+                  onClick={showMoreDocuments}
+                >
+                  xem thêm
+                </Button>
+              </div>
+              :
+              null}
 
             <Backdrop
               sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

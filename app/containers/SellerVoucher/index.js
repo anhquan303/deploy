@@ -323,7 +323,6 @@ export function SellerVoucher(props) {
   //   setOpenUpdate(false);
   // }
 
-
   return (
     <div>
       <Grid container spacing={0}>
@@ -360,6 +359,7 @@ export function SellerVoucher(props) {
                   {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
                   {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
                   {item.quantity != "-1" ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Số lượng còn lại : {item.quantity}</p> : null}
+                  {item.quantity == 0 || item.quantity == -1 ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Voucher đã hết lượt sử dụng</p> : null}
                   <div className={classes.circle1}></div>
                   <div className={classes.circle2}></div>
                 </div>

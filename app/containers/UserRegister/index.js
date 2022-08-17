@@ -173,41 +173,41 @@ export function UserRegister(props) {
     const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
     const regexPassword = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,15})$/;
     if (!values.userName) {
-      errors.userName = 'username is required!';
+      errors.userName = 'tài khoản không được để trống!';
     }
     if (!values.password) {
-      errors.password = 'password is required!';
+      errors.password = 'mật khẩu không được để trống!';
     }
 
     if (!values.firstName) {
-      errors.firstName = 'firstName is required!';
+      errors.firstName = 'họ không được để trống!';
     }
     if (!values.lastName) {
-      errors.lastName = 'lastName is required!';
+      errors.lastName = 'tên không được để trống!';
     }
     if (!values.phone) {
-      errors.phone = 'phone is required!';
+      errors.phone = 'số điện thoại không được để trống!';
     }
     if (!values.email) {
-      errors.email = 'email is required!';
+      errors.email = 'email không được để trống!';
     }
     if (!values.passwordVerify) {
-      errors.passwordVerify = 'passwordVerify is required!';
+      errors.passwordVerify = 'xác nhận mật khẩu không được để trống!';
     }
     if (values.passwordVerify != values.password) {
-      errors.passwordVerify1 = 'password does not match';
+      errors.passwordVerify1 = 'mật khẩu không giống';
     }
     // if (!values.address) {
     //   errors.address = "address is required!";
     // }
     if (regexEmail.test(values.email) == false) {
-      errors.email1 = 'ex: abc@smt.com';
+      errors.email1 = 'format: abc@smt.com';
     }
     if (regexPhone.test(values.phone) == false) {
-      errors.phone1 = 'match 10 digits';
+      errors.phone1 = 'format: 10 số';
     }
     if (regexPassword.test(values.password) == false) {
-      errors.password1 = 'Password required pattern with at least one digit, one upper case letter, one lower case letter and one special symbol';
+      errors.password1 = 'mật khẩu yêu cầu mẫu có ít nhất một chữ số, một chữ hoa, một chữ thường và một ký hiệu đặc biệt';
     }
     // if (!values.captcha) {
     //   errors.captcha = 'captcha is required!';

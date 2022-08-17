@@ -255,7 +255,13 @@ export function Headerr(props) {
     result += parseInt(singleVal[i].length);
   }
 
-
+  const toCart = () => {
+    if (user != null) {
+      history.push("/cart");
+    } else {
+      history.push("/login");
+    }
+  }
   return (
     <div style={{ backgroundColor: '#fff', padding: "15px", boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)', }}>
 
@@ -318,15 +324,16 @@ export function Headerr(props) {
                           </div>
                         </NavLink>
                       </div>
-                      :
-                      <Typography className={classes.text}><span style={{ color: "#fe0000" }}>Cửa hàng của bạn tạm thời đang bị khóa</span></Typography>
+                      : user && user.authorities[0].authority == 'USER' && props.headerr.user && props.headerr.user.stores.length != 0 && props.headerr.user.stores[0].status == "approved" ?
+                        <Typography className={classes.text}><span style={{ color: "#20D167" }}>Quý khách vui lòng đăng nhập lại</span></Typography>
+                        : <Typography className={classes.text}><span style={{ color: "#fe0000" }}>Cửa hàng của quý khách tạm thời đang bị khóa</span></Typography>
               }
             </div>
           </Grid>
 
           <Grid item xs={12} sm={12} md={2} className={classes.cartIcon}>
             <div style={{ textAlign: 'center', cursor: "pointer" }}>
-              <Badge badgeContent={result} color="primary" onClick={() => history.push("/cart")}>
+              <Badge badgeContent={result} color="primary" onClick={toCart}>
                 <AddShoppingCartIcon color="action" />
               </Badge>
             </div>

@@ -157,6 +157,7 @@ export function UserDetailOrder(props) {
     }
   }, [props.userDetailOrder.message]);
 
+
   return (
     <div>
       <Grid container spacing={0} style={{ padding: '10px' }}>
@@ -265,7 +266,7 @@ export function UserDetailOrder(props) {
                         <Grid item xs={12} md={4} sm={12}>
                           <Avatar
                             variant="square"
-                            src="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg"
+                            src={item.food.image}
                           />
                         </Grid>
                         <Grid item xs={12} md={8} sm={12}>

@@ -173,13 +173,23 @@ export function UserSetting(props) {
   const validate = values => {
     const errors = {};
     if (!values.firstname) {
-      errors.firstname = 'firstname is required!';
+      errors.firstname = 'họ không được bỏ trống!';
     }
     if (!values.lastname) {
-      errors.lastname = 'lastname is required!';
+      errors.lastname = 'tên không được bỏ trống!';
+    }
+    if (!gender) {
+      errors.gender = 'vui lòng chọn giới tính!';
+    }
+    if (!dob) {
+      errors.dob = 'vui lòng chọn ngày tháng năm sinh!';
+    }
+    if (moment.utc().diff(dob, 'minutes').toString().includes("-")) {
+      errors.dob1 = 'ngày sinh không đúng!';
     }
     return errors;
   };
+
 
   const validatePhone = values => {
     const errors = {};
@@ -268,6 +278,13 @@ export function UserSetting(props) {
 
     if (props.userSetting.message == 'WE ALREADY SENT OTP TO YOUR EMAIL ! !') {
       setCheckVerifyEmail(true);
+      setTimeout(() => {
+        dispatch(reset());
+      }, 3000);
+    }
+
+    if (props.userSetting.message == 'File có dung lượng lớn hơn 600kB, vui lòng chọn file khác.') {
+      setOpenAlert(true);
       setTimeout(() => {
         dispatch(reset());
       }, 3000);
@@ -403,7 +420,7 @@ export function UserSetting(props) {
 
         setTimeout(() => {
           dispatch(reset());
-        }, 2000);
+        }, 3000);
       }
     }
   }, [props.userSetting.checkEmail]);
@@ -576,7 +593,13 @@ export function UserSetting(props) {
                       onChange={newValue => {
                         setDOB(newValue);
                       }}
-                      renderInput={params => <TextField {...params} />}
+                      renderInput={(params) => (
+                        <TextField
+                          sx={{ width: '100%' }}
+                          {...params}
+                          helperText={formErrors.dob ? formErrors.dob : formErrors.dob1 ? formErrors.dob1 : null}
+                          error={formErrors.dob ? formErrors.dob : formErrors.dob1 ? formErrors.dob1 : null}
+                        />)}
                     />
                   </LocalizationProvider>
                 </Grid>
@@ -604,13 +627,15 @@ export function UserSetting(props) {
                       control={<Radio />}
                       label="Nữ"
                     />
-                    <FormControlLabel
+                    {/* <FormControlLabel
                       value="diff"
                       control={<Radio />}
                       label="Khác"
-                    />
+                    /> */}
                   </RadioGroup>
                 </Grid>
+                {formErrors.gender != "" ?
+                  <small id="passwordHelpBlock" class="form-text text-muted" style={{ fontSize: "15px", display: "block", color: "#fe0000" }}>{formErrors.gender}</small> : null}
               </Grid>
             </Grid>
           </div>
@@ -754,13 +779,13 @@ export function UserSetting(props) {
       {/* notification */}
       <Snackbar
         open={openAlert}
-        autoHideDuration={3000}
+        autoHideDuration={2000}
         anchorOrigin={{ vertical, horizontal }}
         onClose={handleCloseAlert}
       >
-        {props.userSetting.message && props.userSetting.message.includes("500") || props.userSetting.message && props.userSetting.message.toLowerCase().includes("error")
+        {props.userSetting.message != '' && props.userSetting.message.includes("500") || props.userSetting.message && props.userSetting.message.toLowerCase().includes("error")
           || props.userSetting.messageUpdate && props.userSetting.messageUpdate.includes("500") || props.userSetting.messageUpdate && props.userSetting.messageUpdate.toLowerCase().includes("error")
-          || props.userSetting.checkEmail && props.userSetting.checkEmail.includes("500") || props.userSetting.checkEmail && props.userSetting.checkEmail.toLowerCase().includes("error")
+          || props.userSetting.checkEmail && props.userSetting.checkEmail.includes("500") || props.userSetting.checkEmail && props.userSetting.checkEmail.toLowerCase().includes("error") || props.userSetting.message && props.userSetting.message.includes("600kB")
           ?
           <Alert
             severity="error"

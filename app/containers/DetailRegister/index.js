@@ -68,21 +68,17 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "uppercase"
   },
   btnChangeStatus: {
-    // "& .MuiButton-root": {
-    //   borderRadius: "90px",
-    //   color: "#000",
-    // },
-    position: "relative",
-    width: "100%",
-    borderRadius: "10px",
-    backgroundColor: "#ff9900",
-    color: "#fff",
-    margin: "0 auto",
-    "&:hover": {
-      backgroundColor: "#FFA500",
-      fontWeight: "bold",
-      color: "#000",
-      boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
+    position: 'relative',
+    width: '100%',
+    borderRadius: '10px',
+    backgroundColor: '#FD4444',
+    color: '#fff',
+    marginTop: '10px',
+    '&:hover': {
+      backgroundColor: '#FF1C1C',
+      fontWeight: 'bold',
+      color: '#fff',
+      boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
     },
     [theme.breakpoints.up("xl")]: {
       height: "100px",
@@ -292,7 +288,7 @@ export function DetailRegister(props) {
                     </Grid>
                     <Grid item sm={4} xs={12} className={classes.zero}>
                       <div className={classes.divCheckIcon} >
-                        <PendingIcon style={{ width: "100%", height: "100%", color: "#FFD04D" }} />
+                        <PendingIcon style={{ width: "100%", height: "100%", color: "#FD4444" }} />
                       </div>
 
                     </Grid>

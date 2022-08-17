@@ -265,14 +265,14 @@ export function StoreProfile(props) {
   const validate = values => {
     const errors = {};
     if (!values.title) {
-      errors.title = 'title is required!';
+      errors.title = 'tiêu đề không được bỏ trống!';
     }
     if (!values.content) {
-      errors.content = 'content is required!';
+      errors.content = 'nội dung không được bỏ trống!';
     }
-    // if (!evidence) {
-    //   errors.evidence = 'evidence is required!';
-    // }
+    if (!evidence) {
+      errors.evidence = 'ảnh bằng chứng không được bỏ trống!';
+    }
     return errors;
   };
 
@@ -404,7 +404,13 @@ export function StoreProfile(props) {
     dispatch(getFoodByStoreId(data));
   }, [type]);
 
-  const checkUserOrder = props.storeProfile.order.filter(item => item.user.id == user.id);
+  let checkUserOrder = [];
+  useEffect(() => {
+    if (user != null) {
+      checkUserOrder = props.storeProfile.order.filter(item => item.user.id == user.id);
+    }
+  }, []);
+
 
 
   return (
@@ -544,7 +550,7 @@ export function StoreProfile(props) {
                         <div className={classes.couponRow}>
                           <span className={classes.couponCode}>{item.code}</span>
                           {/* <span className={classes.couponBtn}><CopyToClipBoard text="STEALDEAL20"> LƯU MÃ</CopyToClipBoard></span> */}
-                          {item.quantity != -1 ? <CopyToClipboard text={item.code}
+                          {item.quantity != -1 && item.quantity != 0 ? <CopyToClipboard text={item.code}
                             onCopy={() => setCopied(true)}>
                             <span className={classes.couponBtn} onClick={() => handleSaveVoucher(item.id)}>LƯU MÃ</span>
                           </CopyToClipboard> : null}
@@ -554,6 +560,7 @@ export function StoreProfile(props) {
                         {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
                         {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
                         {item.quantity != -1 ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Số lượng còn lại : {item.quantity}</p> : null}
+                        {item.quantity == 0 || item.quantity == -1 ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Voucher đã hết lượt sử dụng</p> : null}
                         <div className={classes.circle1}></div>
                         <div className={classes.circle2}></div>
                       </div>
@@ -653,13 +660,18 @@ export function StoreProfile(props) {
               label="Nội dung"
               type="text"
               fullWidth
+              multiline
               variant="standard"
               onChange={handleChange}
               name="content"
               helperText={formErrors.content && formValues.content.length == '' ? formErrors.content : null}
               error={formErrors.content != null && formValues.content.length == ''}
             />
-            <input type="file" name="myImage" onChange={handleUploadEvidence} />
+            <div>
+              <input type="file" name="myImage" onChange={handleUploadEvidence} />
+            </div>
+            {formErrors.evidence != "" ?
+              <small id="passwordHelpBlock" class="form-text text-muted" style={{ fontSize: "15px", display: "block", color: "#fe0000" }}>{formErrors.evidence}</small> : null}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Hủy Bỏ</Button>
