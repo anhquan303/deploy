@@ -227,6 +227,8 @@ export function FoodDetail(props) {
     }
   }, [props.foodDetail.food]);
 
+  console.log(props.foodDetail.food)
+
   return (
     <div style={{ backgroundColor: "#F3F7F8" }}>
       <Headerr />
@@ -304,14 +306,26 @@ export function FoodDetail(props) {
             <div>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={12} >
-                  <Button
-                    className={classes.btn}
-                    variant="outlined"
-                    onClick={handleAddToCart}
-                    style={{ width: "100%", marginTop: "15px", borderRadius: "5px" }}
-                  >
-                    Thêm vào giỏ hàng
-                  </Button>
+                  {props.foodDetail.food && props.foodDetail.food.foodStore.actived == true ?
+                    <Button
+                      className={classes.btn}
+                      variant="outlined"
+                      onClick={handleAddToCart}
+                      style={{ width: "100%", marginTop: "15px", borderRadius: "5px" }}
+                    >
+                      Thêm vào giỏ hàng
+                    </Button>
+                    :
+                    <Button
+                      disabled
+                      className={classes.btn}
+                      variant="outlined"
+                      onClick={handleAddToCart}
+                      style={{ width: "100%", marginTop: "15px", borderRadius: "5px" }}
+                    >
+                      Thêm vào giỏ hàng (Cửa hàng đang đóng cửa)
+                    </Button>
+                  }
                 </Grid>
               </Grid>
             </div>
