@@ -999,6 +999,7 @@ export function SellerRegister(props) {
                         </div>
                         <div className={classes.upload}>
                           <input
+                            accept="image/*"
                             type="file"
                             name="identity_card_front"
                             placeholder="upload an image"
@@ -1021,6 +1022,7 @@ export function SellerRegister(props) {
                         </div>
                         <div className={classes.upload}>
                           <input
+                            accept="image/*"
                             type="file"
                             name="identity_card_back"
                             placeholder="upload an image"
@@ -1181,6 +1183,7 @@ export function SellerRegister(props) {
                           </div>
                           <div className={classes.upload}>
                             <input
+                              accept="image/*"
                               type="file"
                               name="front"
                               placeholder="upload an image"
@@ -1203,6 +1206,7 @@ export function SellerRegister(props) {
                           </div>
                           <div className={classes.upload}>
                             <input
+                              accept="image/*"
                               type="file"
                               name="front"
                               placeholder="upload an image"
@@ -1225,6 +1229,7 @@ export function SellerRegister(props) {
                           </div>
                           <div className={classes.upload}>
                             <input
+                              accept="image/*"
                               type="file"
                               name="back"
                               placeholder="upload an image"
@@ -1247,6 +1252,7 @@ export function SellerRegister(props) {
                           </div>
                           <div className={classes.upload}>
                             <input
+                              accept="image/*"
                               type="file"
                               name="menu"
                               placeholder="upload an image"

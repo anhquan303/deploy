@@ -28,6 +28,7 @@ import {
   CardContent,
   Avatar,
   Backdrop,
+  Switch,
 
 } from '@mui/material';
 import { makeStyles, Button } from '@material-ui/core';
@@ -126,6 +127,8 @@ export function SellerSetting(props) {
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
   const [openAlert, setOpenAlert] = useState(false);
+  const [checked, setChecked] = useState(true);
+  const [checkChangeActive, setCheckChangeActive] = useState(false);
 
   const initialValues = {
     name: '', phone: '', email: '', open_time: '', close_time: '', slogan: '', description: '', cover_image: '',
@@ -146,6 +149,30 @@ export function SellerSetting(props) {
       },
     },
   };
+
+  const handleChangeActive = (event) => {
+    setChecked(event.target.checked);
+    //setCheckChangeActive(true)
+  };
+
+
+  useEffect(() => {
+    if (checkChangeActive == true) {
+      // if (checked == true) {
+      //   const data = {
+      //     sid: storeId,
+      //     fid: props.location.state.id
+      //   }
+      //   dispatch(activeProduct(data));
+      // } else {
+      //   const data = {
+      //     sid: storeId,
+      //     fid: props.location.state.id
+      //   }
+      //   dispatch(deactiveProduct(data));
+      // }
+    }
+  }, [checked])
 
   const handleUploadClick = e => {
     const file1 = e.target.files[0];
@@ -189,6 +216,7 @@ export function SellerSetting(props) {
       setAvatarPreview(props.sellerSetting.user.storeImage.avatar);
       setStartTime(`"Sun Dec 31 1899" ${props.sellerSetting.user.open_time} "GMT+0706 (Indochina Time)`);
       setEndTime(`"Sun Dec 31 1899" ${props.sellerSetting.user.close_time} "GMT+0706 (Indochina Time)`);
+      setChecked(props.sellerSetting.user.actived);
     }
   }, [props.sellerSetting.user]);
 
@@ -255,6 +283,7 @@ export function SellerSetting(props) {
         avatar: avatar != "" ? avatar : null,
         isInCampus: isInCampus,
         location: isInCampus == false ? `[other_location]|${formValues.town}|${ward}|${formValues.district}` : `[dorm_location]|${dorm}|${formValues.room}`,
+        isActived: checked
       };
       dispatch(updateStore(data));
     }
@@ -281,11 +310,22 @@ export function SellerSetting(props) {
   const handleChangeDorm = (e) => {
     setDorm(e.target.value);
   }
+
   return (
     <div style={{ paddingRight: '15px' }}>
       <div style={{ textAlign: 'center' }}>
         <p className={classes.font}>Thay đổi thông tin cửa hàng</p>
         <div className={classes.inside}>
+          <div style={{ textAlign: "right" }}>
+            {checked == true ?
+              <span style={{ color: "#20D167", fontWeight: "700" }}>ACTIVE</span>
+              : <span style={{ color: "#FE0000", fontWeight: "700" }}>INACTIVE</span>}
+            <Switch
+              checked={checked}
+              onChange={handleChangeActive}
+              inputProps={{ 'aria-label': 'controlled' }}
+            />
+          </div>
           <Grid container spacing={0}>
             <Grid item sm={12} xs={12} md={12}>
               <div
@@ -609,7 +649,7 @@ export function SellerSetting(props) {
                 </Box>
               </Grid>
 
-              <Grid item sm={12} xs={12} md={12} className={classes.marginBot}>
+              {/* <Grid item sm={12} xs={12} md={12} className={classes.marginBot}>
                 <Box
                   component="form"
                   sx={{
@@ -637,7 +677,7 @@ export function SellerSetting(props) {
                     }
                   />
                 </Box>
-              </Grid>
+              </Grid> */}
             </> :
               <>
 

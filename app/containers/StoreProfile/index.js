@@ -404,13 +404,12 @@ export function StoreProfile(props) {
     dispatch(getFoodByStoreId(data));
   }, [type]);
 
-  let checkUserOrder = [];
+  const [checkUserOrder, setCheckUserOrder] = useState([]);
   useEffect(() => {
     if (user != null) {
-      checkUserOrder = props.storeProfile.order.filter(item => item.user.id == user.id);
+      setCheckUserOrder(props.storeProfile.order.filter(item => item.user.id == user.id));
     }
-  }, []);
-
+  }, [props.storeProfile.order]);
 
 
   return (
@@ -442,6 +441,7 @@ export function StoreProfile(props) {
               <Grid item lg={10} md={9} sm={8} style={{ paddingLeft: "15px" }}>
                 <p style={{ fontFamily: "circular std book,sans-serif", margin: "0", fontWeight: "700", fontSize: "30px" }}>{props.storeProfile.store ? props.storeProfile.store.name : null}</p>
                 <Chip icon={<AccessTimeIcon />} label={`${props.storeProfile.store ? props.storeProfile.store.open_time : null} - ${props.storeProfile.store ? props.storeProfile.store.close_time : null}`} variant="outlined" />
+                <p style={{ fontFamily: "circular std book,sans-serif", margin: "10px 0 ", fontWeight: "400", fontSize: "13px", color: "#858796", textAlign: "left" }}>{props.storeProfile.store && props.storeProfile.store.actived == true ? <span style={{ color: "#20D167", fontSize: "16px" }}>Quán đang mở cửa</span> : <span style={{ color: "#fe0000", fontSize: "16px" }}>Quán đang đóng cửa</span>}</p>
                 <p style={{ fontFamily: "circular std book,sans-serif", margin: "10px 0 ", fontWeight: "400", fontSize: "13px", color: "#858796", textAlign: "left" }}>{props.storeProfile.store ? props.storeProfile.store.description : null}</p>
                 {/* <p style={{ fontFamily: "circular std book,sans-serif", margin: "10px 0 ", fontWeight: "400", fontSize: "13px", color: "#858796", textAlign: "left" }}>{props.storeProfile.store && props.storeProfile.store.ortherLocation !== null ? <span>{props.storeProfile.store.otherLocation.name}, {props.storeProfile.store.otherLocation.village}, {props.storeProfile.store.otherLocation.town}</span> : <span>{props.storeProfile.store.dormLocation.dormName}, {props.storeProfile.store.dormLocation.room_number}</span>}</p> */}
                 <p style={{ fontFamily: "circular std book,sans-serif", margin: "10px 0 ", fontWeight: "400", fontSize: "13px", color: "#858796", textAlign: "left" }}>{props.storeProfile.store != undefined && props.storeProfile.store.inCampus != true ?

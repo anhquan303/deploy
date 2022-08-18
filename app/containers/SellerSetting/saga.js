@@ -50,6 +50,7 @@ export function* updateStore({ payload }) {
       formData.append('slogan', payload.slogan);
       formData.append('description', payload.description);
       formData.append('location', payload.location);
+      formData.append('isActived', payload.isActived);
     } else {
       formData.append('name', payload.name);
       formData.append('owner_name', payload.owner_name);
@@ -63,6 +64,7 @@ export function* updateStore({ payload }) {
       //formData.append('cover_image', payload.cover_image);
       formData.append('avatar', payload.avatar);
       formData.append('location', payload.location);
+      formData.append('isActived', payload.isActived);
     }
     const res = yield call(apiPost, [`api/store/${payload.id}/update`], formData);
     if (res.status == 200) {

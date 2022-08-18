@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   firstText: {
-    color: "#7e7e7e",
+    color: "#fff",
     fontWeight: "700",
     fontSize: "18px",
     [theme.breakpoints.down("xs")]: {
@@ -117,7 +117,7 @@ function DashboardHeader({ text, user }) {
             <div><span className={classes.firstText}>Hello,</span> <span className={classes.secondText}>{user.username}</span></div>
             <div><span className={classes.secondLine}>{user.authorities[0].authority}</span></div>
           </div>
-          <div><Avatar alt="Quan Nguyen" src={Avatar1} /></div>
+          <div><Avatar alt="Quan Nguyen" src={user.avatar} /></div>
         </div>
       </Grid>
     </Grid>

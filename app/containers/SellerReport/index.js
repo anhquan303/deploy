@@ -231,7 +231,7 @@ export function SellerReport(props) {
             helperText={formErrors.content && formValues.content.length == '' ? formErrors.content : null}
             error={formErrors.content != null && formValues.content.length == ''}
           />
-          <input type="file" name="myImage" onChange={handleUploadEvidence} />
+          <input type="file" name="myImage" accept="image/*" onChange={handleUploadEvidence} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Hủy Bỏ</Button>

@@ -333,6 +333,7 @@ export function SellerAddProduct(props) {
                   </div>
                   <div className={classes.upload}>
                     <input
+                      accept="image/*"
                       type="file"
                       name="foodImage"
                       placeholder="upload an image"
