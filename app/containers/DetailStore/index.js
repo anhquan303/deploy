@@ -452,7 +452,7 @@ export function DetailStore(props) {
                     <Grid item md={5} sm={8} xs={12} className={classes.two}>
 
                       <div className={classes.approved}>
-                        {props.detailStore.store.status.includes("approved") ? <p style={{ color: "#20D167" }}>Đang hoạt động</p> : <p style={{ color: "#FE0000" }}>Ngừng hoạt động</p>}
+                        {props.detailStore.store.status.includes("APPROVED") ? <p style={{ color: "#20D167" }}>Đang hoạt động</p> : <p style={{ color: "#FE0000" }}>Ngừng hoạt động</p>}
 
                       </div>
 
@@ -460,7 +460,7 @@ export function DetailStore(props) {
                     <Grid item md={7} sm={4} xs={12} className={classes.three}>
 
                       <div className={classes.verify}>
-                        {props.detailStore.store.status.includes("approved") ?
+                        {props.detailStore.store.status.includes("APPROVED") ?
                           <Button variant="contained" component="span" className={classes.btnChangeStatus} style={{ width: "fit-content" }} onClick={declineStore}>
                             Chuyển trạng thái thành dừng hoạt động
                           </Button>
@@ -513,7 +513,7 @@ export function DetailStore(props) {
               <Grid item md={3} sm={12} xs={12}>
                 <span><h2>Đơn hàng</h2></span>
               </Grid>
-              <Grid item md={9} sm={12} xs={12}  >
+              {/* <Grid item md={9} sm={12} xs={12}  >
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <Grid container spacing={2}>
                     <Grid item md={4} sm={3} xs={12}>
@@ -563,7 +563,7 @@ export function DetailStore(props) {
                   </Grid>
                 </LocalizationProvider>
 
-              </Grid>
+              </Grid> */}
               <Grid item md={12} sm={12} xs={12}>
                 <CustomTableResponsive columns={columns1} data={data} detailPage="store" rows={rows} />
               </Grid>

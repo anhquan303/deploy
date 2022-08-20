@@ -194,7 +194,7 @@ export function SellerAddProduct(props) {
   return (
     <div style={{ paddingRight: '15px' }}>
       <div style={{ textAlign: 'center' }}>
-        <p>Thêm sản phảm mới</p>
+        <p style={{ fontFamily: "sans-serif", fontSize: "40px" }}>Thêm sản phảm mới</p>
         <div className={classes.inside}>
           <form>
             <Grid container spacing={0}>

@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
   },
   btn: {
     position: "relative",
-    width: "100%",
+    width: "fit-content",
     borderRadius: "10px",
     backgroundColor: "#FD4444",
     color: "#fff",

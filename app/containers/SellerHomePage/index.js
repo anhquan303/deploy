@@ -110,13 +110,12 @@ export function SellerHomePage(props) {
 
   const location = useLocation();
 
-
-  const getUserrr = () => {
+  useEffect(() => {
     const data = {
       id: user.id,
     }
     dispatch(getUserById(data));
-  };
+  }, [location.pathname])
 
   const handleClick = () => {
     setOpen(!open);

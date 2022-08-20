@@ -30,6 +30,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { getStore } from '../../utils/common';
 import { activeVoucherById, addVoucher, deleteVoucher, getVoucherById, getVoucherByStoreId, inActiveVoucherById, reset, updateVoucherById } from './actions';
 import Loading from '../../components/Loading';
+import moment from 'moment';
 
 
 const useStyles = makeStyles(theme => ({
@@ -167,10 +168,10 @@ export function SellerVoucher(props) {
   const validate = values => {
     const errors = {};
     if (!values.name) {
-      errors.name = 'required!';
+      errors.name = 'tên không được bỏ trống!';
     }
     if (!values.percent) {
-      errors.percent = 'required!';
+      errors.percent = 'phần trăm không được bỏ trống!';
     }
     return errors;
   };
@@ -178,10 +179,10 @@ export function SellerVoucher(props) {
   const validateUpdate = values => {
     const errors = {};
     if (!values.nameUpdate) {
-      errors.nameUpdate = 'required!';
+      errors.nameUpdate = 'tên không được bỏ trống!';
     }
     if (!values.percentUpdate) {
-      errors.percentUpdate = 'required!';
+      errors.percentUpdate = 'phần trăm không được bỏ trống!';
     }
     return errors;
   };
@@ -356,10 +357,11 @@ export function SellerVoucher(props) {
                     </CopyToClipboard> */}
                   </div>
                   <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
-                  {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
-                  {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
+                  {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {moment(item.startDate).format('DD/MM/YYYY')}</p> : null}
+                  {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {moment(item.endDate).format('DD/MM/YYYY')}</p> : null}
                   {item.quantity != "-1" ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Số lượng còn lại : {item.quantity}</p> : null}
-                  {item.quantity == 0 || item.quantity == -1 ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Voucher đã hết lượt sử dụng</p> : null}
+                  {item.quantity == 0 ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Voucher đã hết lượt sử dụng</p> : null}
+
                   <div className={classes.circle1}></div>
                   <div className={classes.circle2}></div>
                 </div>

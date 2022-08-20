@@ -28,7 +28,7 @@ export function* addProduct({ payload }) {
       yield put(addProductFailed("Thêm sản phẩm thất bại"));
     }
   } catch (error) {
-    yield put(addProductFailed(error.message));
+    yield put(addProductFailed(error.response.data.message));
   }
 }
 

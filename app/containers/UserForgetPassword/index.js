@@ -157,7 +157,7 @@ export function UserForgetPassword(props) {
     const regexPhone = /^[0-9]{10}$/;
     const errors = {};
     if (!values.email) {
-      errors.email = 'required!';
+      errors.email = 'không được bỏ trống!';
     }
     // if (regexEmail.test(values.email) == false) {
     //   errors.email1 = 'ex: abc@smt.com';
@@ -166,11 +166,11 @@ export function UserForgetPassword(props) {
     // }
     if (isNaN(values.email) == true) {
       if (regexEmail.test(values.email) == false) {
-        errors.email1 = 'ex: abc@smt.com';
+        errors.email1 = 'format: abc@smt.com';
       }
     } else {
       if (regexPhone.test(values.email) == false) {
-        errors.email1 = '10 số';
+        errors.email1 = 'format: 10 số';
       }
     }
     // if (!values.captcha) {
@@ -220,7 +220,15 @@ export function UserForgetPassword(props) {
 
   useEffect(() => {
     if (props.userForgetPassword.message != '') {
-      setOpen(true);
+      if (props.userForgetPassword.message == "INVALID") {
+        setOpenAlert(true);
+        setTimeout(() => {
+          dispatch(reset());
+        }, 3000);
+      } else {
+        setOpen(true);
+      }
+      //setOpen(true);
     }
   }, [props.userForgetPassword.message]);
 
@@ -235,7 +243,7 @@ export function UserForgetPassword(props) {
 
         setTimeout(() => {
           dispatch(reset());
-        }, 2000);
+        }, 3000);
       }
     }
 
@@ -428,7 +436,7 @@ export function UserForgetPassword(props) {
             onClose={handleCloseAlert}
             sx={{ width: '100%' }}
           >
-            {props.userForgetPassword.checkEmail}
+            {props.userForgetPassword.checkEmail != '' ? props.userForgetPassword.checkEmail : props.userForgetPassword.message}
           </Alert>
         </Snackbar>
       </div>
