@@ -70,7 +70,7 @@ export function* sellerSignUp({ payload }) {
     if (res.status == 200) {
       yield put(
         sellerSignUpSuccess(
-          'Bạn đã đăng ký thành công, vui lòng chờ để dược duyệt, kết quả sẽ được trả về email',
+          'Bạn đã đăng ký thành công, vui lòng chờ để dược duyệt, kết quả sẽ được trả qua tin nhắn',
         ),
       );
     } else {

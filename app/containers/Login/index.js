@@ -408,7 +408,7 @@ export function Login(props) {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <p style={{ fontFamily: 'sans-serif', fontSize: '40px' }}>
-              Tài khoản của bạn tạm thời đã bị khóa, xin vui lòng liện hệ ...
+              Tài khoản của bạn tạm thời đã bị khóa
             </p>
           </Typography>
           <Button

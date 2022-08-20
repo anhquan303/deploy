@@ -262,6 +262,7 @@ export function Headerr(props) {
       history.push("/login");
     }
   }
+
   return (
     <div style={{ backgroundColor: '#fff', padding: "15px", boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)', }}>
 
@@ -313,9 +314,9 @@ export function Headerr(props) {
                     <FormattedMessage {...messages.becomeSeller} />
                   </Button>
                   :
-                  user && user.authorities[0].authority == 'USER' && (props.headerr.user != undefined && props.headerr.user.stores.length != 0 && props.headerr.user.stores[0].status == "pending") ?
+                  user && user.authorities[0].authority == 'USER' && (props.headerr.user != undefined && props.headerr.user.stores.length != 0 && props.headerr.user.stores[0].status == "PENDING") ?
                     <Typography className={classes.text}><span >Cửa hàng đang chờ duyệt</span></Typography>
-                    : user && user.authorities[0].authority == 'SELLER' && props.headerr.user && props.headerr.user.stores.length != 0 && props.headerr.user.stores[0].status != "declined" ?
+                    : user && user.authorities[0].authority == 'SELLER' && props.headerr.user && props.headerr.user.stores.length != 0 && props.headerr.user.stores[0].status != "DECLINED" ?
                       <div className={classes.center}>
                         <NavLink to="/my-store/manager-order" className={classes.link}>
                           <div className={classes.item}>
@@ -324,7 +325,7 @@ export function Headerr(props) {
                           </div>
                         </NavLink>
                       </div>
-                      : user && user.authorities[0].authority == 'USER' && props.headerr.user && props.headerr.user.stores.length != 0 && props.headerr.user.stores[0].status == "approved" ?
+                      : user && user.authorities[0].authority == 'USER' && props.headerr.user && props.headerr.user.stores.length != 0 && props.headerr.user.stores[0].status == "APPROVED" ?
                         <Typography className={classes.text}><span style={{ color: "#20D167" }}>Quý khách vui lòng đăng nhập lại</span></Typography>
                         : <Typography className={classes.text}><span style={{ color: "#fe0000" }}>Cửa hàng của quý khách tạm thời đang bị khóa</span></Typography>
               }

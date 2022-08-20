@@ -25,6 +25,7 @@ import { makeStyles, Button } from '@material-ui/core';
 import { getUser } from '../../utils/common';
 import { getListVoucherByUserId, reset, userDeleteVoucherById } from './actions';
 import Loading from '../../components/Loading';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -154,7 +155,7 @@ export function UserVoucher(props) {
         {props.userVoucher.listVoucher.length != 0 ? props.userVoucher.listVoucher.map((item) => {
           return (
             <Grid key={item.id} item xs={12} md={6} sm={12} lg={4} style={{ margin: "10px 0", padding: "0 10px" }}>
-              <div className={classes.couponCard} style={{height: "100%"}}>
+              <div className={classes.couponCard} style={{ height: "100%" }}>
                 <div onClick={() => getVoucherByIdd(item.id)}>
                   <img className={classes.imgCoupon} src="https://www.mssdefence.com/wp-content/uploads/2016/11/Discount-Action-Mss-Defence.png" />
                   <h3 style={{ fontSize: "20px", fontWeight: "400" }}>{item.name}</h3>
@@ -166,8 +167,8 @@ export function UserVoucher(props) {
                     {/* </CopyToClipboard> */}
                   </div>
                   <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
-                  {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
-                  {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
+                  {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {moment(item.startDate).format('DD/MM/YYYY')}</p> : null}
+                  {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {moment(item.endDate).format('DD/MM/YYYY')}</p> : null}
                   {item.quantity != "-1" ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Số lượng : {item.quantity}</p> : null}
                   <div className={classes.circle1}></div>
                   <div className={classes.circle2}></div>

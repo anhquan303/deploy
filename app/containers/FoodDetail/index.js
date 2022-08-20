@@ -227,7 +227,6 @@ export function FoodDetail(props) {
     }
   }, [props.foodDetail.food]);
 
-  console.log(props.foodDetail.food)
 
   return (
     <div style={{ backgroundColor: "#F3F7F8" }}>
@@ -311,7 +310,7 @@ export function FoodDetail(props) {
                       className={classes.btn}
                       variant="outlined"
                       onClick={handleAddToCart}
-                      style={{ width: "100%", marginTop: "15px", borderRadius: "5px" }}
+                      style={{ width: "100%", marginTop: "15px", borderRadius: "5px", color: "#fff" }}
                     >
                       Thêm vào giỏ hàng
                     </Button>
@@ -321,7 +320,7 @@ export function FoodDetail(props) {
                       className={classes.btn}
                       variant="outlined"
                       onClick={handleAddToCart}
-                      style={{ width: "100%", marginTop: "15px", borderRadius: "5px" }}
+                      style={{ width: "100%", marginTop: "15px", borderRadius: "5px", color: "#fff" }}
                     >
                       Thêm vào giỏ hàng (Cửa hàng đang đóng cửa)
                     </Button>

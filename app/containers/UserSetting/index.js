@@ -234,7 +234,7 @@ export function UserSetting(props) {
         firstname: formValues.firstname,
         lastname: formValues.lastname,
         gender,
-        dateOfBirth: moment(dob).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'),
+        dateOfBirth: moment.utc(dob).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'),
         avatarFile: avatar != "" ? avatar : null,
       };
       dispatch(updateUser(data));

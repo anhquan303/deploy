@@ -34,6 +34,8 @@ import messages from './messages';
 import BackGround from '../../images/dhfpt.png';
 import Logo from '../../images/logoNone.png';
 import { reset, resetPassword } from './actions';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 const useStyles = makeStyles(theme => ({
   body: {
@@ -131,6 +133,9 @@ export function UserResetPassword(props) {
   const [isSubmit, setIsSubmit] = useState(false);
   const [open, setOpen] = useState(false);
   const history = useHistory();
+  const [openAlert, setOpenAlert] = useState(false);
+  const [vertical, setVertical] = useState('top');
+  const [horizontal, setHorizontal] = useState('right');
 
   // set value for input
   const handleChange = e => {
@@ -142,16 +147,16 @@ export function UserResetPassword(props) {
     const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
     const errors = {};
     if (!values.newPassword) {
-      errors.newPassword = 'required!';
+      errors.newPassword = 'không được bỏ trống!';
     }
     if (!values.verifyPassword) {
-      errors.verifyPassword = 'required!';
+      errors.verifyPassword = 'không được bỏ trống!';
     }
     if (values.verifyPassword != values.newPassword) {
-      errors.verifyPassword1 = 'password does not match';
+      errors.verifyPassword1 = 'mật khẩu không trùng';
     }
     if (!values.token) {
-      errors.token = 'required!';
+      errors.token = 'không được bỏ trống!';
     }
     // if (!values.captcha) {
     //   errors.captcha = "captcha is required!";
@@ -190,9 +195,25 @@ export function UserResetPassword(props) {
 
   useEffect(() => {
     if (props.userResetPassword.message != '') {
-      setOpen(true);
+      //setOpen(true);
+      if (props.userResetPassword.message == "INVALID") {
+        setOpenAlert(true);
+        setTimeout(() => {
+          dispatch(reset())
+        }, 3000);
+      } else {
+        setOpen(true);
+      }
     }
   }, [props.userResetPassword.message]);
+
+  const handleCloseAlert = event => {
+    setOpenAlert(false);
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   return (
     <div className={classes.body}>
@@ -354,6 +375,22 @@ export function UserResetPassword(props) {
             </Button>
           </Box>
         </Modal>
+
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical, horizontal }}
+          onClose={handleCloseAlert}
+        >
+          {/* {props.userAddress.message.includes("FAILED") == false || props.userAddress.message.includes("Failed") == false || props.userAddress.message != "Network Error" ? */}
+          <Alert
+            severity="success"
+            onClose={handleCloseAlert}
+            sx={{ width: '100%' }}
+          >
+            {props.userResetPassword.message}
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );

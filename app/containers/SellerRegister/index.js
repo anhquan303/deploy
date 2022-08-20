@@ -968,7 +968,7 @@ export function SellerRegister(props) {
                       </Box>
                     </div>
                     <Grid item sm={12} xs={12}>
-                      {props.sellerRegister.bankAccountName != null ? <span style={{ margin: "10px 0", color: "#1168EB" }}>{props.sellerRegister.bankAccountName}</span> : <span style={{ margin: "10px 0", color: "#fe0000" }}>Không tìm thấy số tài khoản</span>}
+                      {props.sellerRegister.bankAccountName == "Account number Invalid - Số tài khoản không hợp lệ" ? <span style={{ margin: "10px 0", color: "#fe0000" }}>{props.sellerRegister.bankAccountName}</span> : <span style={{ margin: "10px 0", color: "#1168EB" }}>{props.sellerRegister.bankAccountName}</span>}
                     </Grid>
                     <div style={{ margin: "0 auto" }}>
                       <Button

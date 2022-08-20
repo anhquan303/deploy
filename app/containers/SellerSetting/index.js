@@ -275,8 +275,8 @@ export function SellerSetting(props) {
         owner_name: formValues.owner_name,
         description: formValues.description,
         slogan: 'ok',
-        phone: formValues.phone,
-        email: formValues.email,
+        // phone: formValues.phone,
+        // email: formValues.email,
         open_time: moment(startTime).format('HH:mm:ss'),
         close_time: moment(endTime).format('HH:mm:ss'),
         cover_image: null,
@@ -384,7 +384,7 @@ export function SellerSetting(props) {
               </Box>
             </Grid>
 
-            <Grid item sm={12} xs={12} md={6} className={classes.marginBot}>
+            {/* <Grid item sm={12} xs={12} md={6} className={classes.marginBot}>
               <Box
                 component="form"
                 sx={{
@@ -401,14 +401,11 @@ export function SellerSetting(props) {
                   placeholder="Số điện thoại"
                   name="phone"
                   value={formValues.phone}
-                //onChange={handleChange}
-                // helperText={formErrors.phone && formValues.phone.length == '' ? formErrors.phone : null}
-                // error={formErrors.phone != null && formValues.phone.length == ''}
                 />
               </Box>
-            </Grid>
+            </Grid> */}
 
-            <Grid item sm={12} xs={12} md={6} className={classes.marginBot}>
+            {/* <Grid item sm={12} xs={12} md={6} className={classes.marginBot}>
               <Box
                 component="form"
                 sx={{
@@ -425,12 +422,9 @@ export function SellerSetting(props) {
                   placeholder="Email"
                   name="email"
                   value={formValues.email}
-                // onChange={handleChange}
-                // helperText={formErrors.email && formValues.email.length == ''? formErrors.email: null}
-                // error={formErrors.email != null && formValues.email.length == ''}
                 />
               </Box>
-            </Grid>
+            </Grid> */}
 
             <Grid item sm={12} xs={12} md={6} className={classes.marginBot}>
               <Box

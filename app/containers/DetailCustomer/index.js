@@ -419,9 +419,9 @@ export function DetailCustomer(props) {
           <div style={{ margin: "10px 0" }}>
             <Tabs style={{ margin: "0 auto" }} value={value} onChange={handleChangeTab} textColor="primary" indicatorColor="primary" centered>
               <Tab label="Tất cả đơn" />
-              <Tab label="Đơn đã nhận" />
+              {/* <Tab label="Đơn đã nhận" />
               <Tab label="Đơn chờ xác nhận" />
-              <Tab label="Đơn đã hủy" />
+              <Tab label="Đơn đã hủy" /> */}
             </Tabs>
           </div>
           <div>

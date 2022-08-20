@@ -106,10 +106,10 @@ const useStyles = makeStyles(theme => ({
       bottom: "30%",
     },
     [theme.breakpoints.down("xs")]: {
-      bottom: "60%",
+      bottom: "65%",
     },
     [theme.breakpoints.up("md")]: {
-      bottom: "25%",
+      bottom: "35%",
     },
   },
   profileInfoContainer: {
@@ -557,10 +557,10 @@ export function StoreProfile(props) {
 
                         </div>
                         <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Giảm {item.percent}% cho đơn hàng tối thiểu {dollarUSLocale.format(item.minPrice)}VND</p>
-                        {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {item.startDate}</p> : null}
-                        {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {item.endDate}</p> : null}
+                        {item.startDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng từ : {moment(item.startDate).format('DD/MM/YYYY')}</p> : null}
+                        {item.endDate ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Có giá trị sử dụng đến : {moment(item.endDate).format('DD/MM/YYYY')}</p> : null}
                         {item.quantity != -1 ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Số lượng còn lại : {item.quantity}</p> : null}
-                        {item.quantity == 0 || item.quantity == -1 ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Voucher đã hết lượt sử dụng</p> : null}
+                        {item.quantity == 0 ? <p style={{ fontSize: "15px", fontFamily: "sans-serif" }}>Voucher đã hết lượt sử dụng</p> : null}
                         <div className={classes.circle1}></div>
                         <div className={classes.circle2}></div>
                       </div>
