@@ -31,19 +31,19 @@ export function* signUp({ payload }) {
   }
 }
 
-export function* sendSMS({ payload }) {
-  try {
-    const res = yield call(apiSignup, ['api/user/sendSms'], payload);
-    if (res.status == 200) {
-      yield put(sendSMSSuccess("Hệ thống đã gửi tin nhắn về số điện thoại của quý khách"))
-    } else {
-      yield put(sendSMSFailed("FAILED"))
-    }
+// export function* sendSMS({ payload }) {
+//   try {
+//     const res = yield call(apiSignup, ['api/user/sendSms'], payload);
+//     if (res.status == 200) {
+//       yield put(sendSMSSuccess("Hệ thống đã gửi tin nhắn về số điện thoại của quý khách"))
+//     } else {
+//       yield put(sendSMSFailed("FAILED"))
+//     }
 
-  } catch (error) {
-    yield put(sendSMSFailed(error.message));
-  }
-}
+//   } catch (error) {
+//     yield put(sendSMSFailed(error.message));
+//   }
+// }
 
 export function* sendOTP({ payload }) {
   try {
@@ -75,7 +75,7 @@ export function* verifyPhone({ payload }) {
 
 export function* verifyEmail({ payload }) {
   try {
-    const res = yield call(apiFetchData, [`https://emailvalidation.abstractapi.com/v1/?api_key=1ca5175122ab443aaa6b300a9a9e94e0&email=${payload.email}`]);
+    const res = yield call(apiFetchData, [`https://emailvalidation.abstractapi.com/v1/?api_key=5391a2514e424affa11dc8059c9a94c60&email=${payload.email}`]);
     if (res.status == 200) {
       if (res.data.deliverability == "DELIVERABLE") {
         yield put(verifyEmailSuccess(res.data.deliverability));
@@ -97,7 +97,7 @@ export function* verifyEmail({ payload }) {
 export default function* userRegisterSaga() {
   // See example in containers/HomePage/saga.js
   yield takeEvery(types.SIGN_UP, signUp);
-  yield takeEvery(types.SEND_SMS, sendSMS);
+  // yield takeEvery(types.SEND_SMS, sendSMS);
   yield takeEvery(types.SEND_OTP, sendOTP);
   yield takeEvery(types.VERIFY_PHONE, verifyPhone);
   yield takeEvery(types.VERIFY_EMAIL, verifyEmail);
