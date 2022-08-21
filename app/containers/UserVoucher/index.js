@@ -173,7 +173,7 @@ export function UserVoucher(props) {
                   <div className={classes.circle1}></div>
                   <div className={classes.circle2}></div>
                 </div>
-                <div>
+                {/* <div>
                   <Button
                     className={classes.btn}
                     style={{ width: '100%' }}
@@ -183,7 +183,7 @@ export function UserVoucher(props) {
                   >
                     Xóa voucher
                   </Button>
-                </div>
+                </div> */}
               </div>
             </Grid>
           )

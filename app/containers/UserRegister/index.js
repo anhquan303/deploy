@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100vh',
-    backgroundImage: `url(${BackGround})`,
+    backgroundImage: `url('https://cafefcdn.com/2020/3/25/db4c1279-1585103343848695628731.jpg')`,
     backgroundSize: 'cover',
   },
   container: {
