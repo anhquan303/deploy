@@ -240,7 +240,9 @@ export function UserRatingComment(props) {
               <Grid item xs={12} md={2} sm={12}>
                 <Avatar
                   variant="square"
-                  src="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg"
+                  src={props.userRatingComment.food
+                    ? props.userRatingComment.food.image
+                    : null}
                 />
               </Grid>
               <Grid
