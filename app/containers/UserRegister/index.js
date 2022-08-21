@@ -44,7 +44,7 @@ import messages from './messages';
 
 import BackGround from '../../images/dhfpt.png';
 import Logo from '../../images/logoNone.png';
-import { reset, sendOTP, sendSMS, signUp, verifyEmail, verifyPhoneee } from './actions';
+import { reset, sendOTP, signUp, verifyEmail, verifyPhoneee } from './actions';
 import Loading from '../../components/Loading';
 
 const useStyles = makeStyles(theme => ({

@@ -48,7 +48,7 @@ import {
   getRatingFoodById,
   reset,
 } from './actions';
-import { getUser } from '../../utils/common';
+import { getUser, getStore } from '../../utils/common';
 import Avatar1 from '../../images/quan.jpg';
 import Headerr from '../Headerr';
 import messages from './messages';
@@ -127,6 +127,7 @@ export function FoodDetail(props) {
   const [searched, setSearched] = useState('');
   const [star, setStar] = useState(0);
   const user = getUser();
+  const store = getStore();
   const [openAlert, setOpenAlert] = useState(false);
   const [vertical, setVertical] = useState('top');
   const [horizontal, setHorizontal] = useState('right');
@@ -227,7 +228,7 @@ export function FoodDetail(props) {
     }
   }, [props.foodDetail.food]);
 
-
+  console.log(props.foodDetail.listComment)
   return (
     <div style={{ backgroundColor: "#F3F7F8" }}>
       <Headerr />
@@ -507,6 +508,7 @@ export function FoodDetail(props) {
                             <Grid item xs={6} md={6}>
                               <p style={{ margin: '0', fontSize: "22px", fontWeight: "600", fontFamily: "Montserrat, sans-serif" }}>{item.user.username}
                                 <span>{props.foodDetail.food != undefined && item.user.stores.length != 0 && item.user.stores[0].id == 1 ? <span> (Chủ quán)</span> : null}</span></p>
+
                             </Grid>
                             <Grid item xs={6} md={6}>
                               <div>
