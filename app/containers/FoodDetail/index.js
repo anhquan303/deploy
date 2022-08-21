@@ -505,7 +505,8 @@ export function FoodDetail(props) {
                         <Grid item xs={9} md={10}>
                           <Grid container spacing={0} >
                             <Grid item xs={6} md={6}>
-                              <p style={{ margin: '0', fontSize: "22px", fontWeight: "600", fontFamily: "Montserrat, sans-serif" }}>{item.user.username}</p>
+                              <p style={{ margin: '0', fontSize: "22px", fontWeight: "600", fontFamily: "Montserrat, sans-serif" }}>{item.user.username}
+                                <span>{props.foodDetail.food != undefined && item.user.stores.length != 0 && item.user.stores[0].id == 1 ? <span> (Chủ quán)</span> : null}</span></p>
                             </Grid>
                             <Grid item xs={6} md={6}>
                               <div>
