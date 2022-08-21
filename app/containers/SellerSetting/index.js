@@ -476,21 +476,13 @@ export function SellerSetting(props) {
                 autoComplete="off"
               >
                 <TextField
-                  error={
-                    formErrors.slogan != null && formValues.slogan.length == ''
-                  }
+                  disabled
                   required
                   id="outlined-textarea"
-                  label="Slogan"
-                  placeholder="Slogan"
-                  name="slogan"
-                  value={formValues.slogan}
-                  onChange={handleChange}
-                  helperText={
-                    formErrors.slogan && formValues.slogan.length == ''
-                      ? formErrors.slogan
-                      : null
-                  }
+                  label="Số điện thoại"
+                  placeholder="Số điện thoại"
+                  name="phone"
+                  value={formValues.phone}
                 />
               </Box>
             </Grid>

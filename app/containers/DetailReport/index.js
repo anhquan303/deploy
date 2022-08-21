@@ -31,12 +31,13 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     width: "fit-content",
     borderRadius: "10px",
-    backgroundColor: "#ff9900",
+    backgroundColor: "#FD4444",
+    color: "#fff",
     margin: "10px 5px",
     "&:hover": {
-      backgroundColor: "#FFA500",
+      backgroundColor: "#FF1C1C",
       fontWeight: "bold",
-      color: "#000",
+      color: "#fff",
       boxShadow: "2rem 2rem 3rem rgba(132, 139, 200, 0.18)",
     }
   },
