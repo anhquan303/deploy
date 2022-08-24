@@ -242,6 +242,7 @@ export function UserSetting(props) {
     }
   }, [formErrors]);
 
+  console.log(props.userSetting.user)
   // get user by id
   useEffect(() => {
     if (props.userSetting.message == 'UPDATE SUCCESS') {
@@ -323,12 +324,23 @@ export function UserSetting(props) {
   }, []);
 
   useEffect(() => {
-    if (props.userSetting.user) {
+    if (props.userSetting.user != undefined) {
       setGender(props.userSetting.user.gender);
       setDOB(props.userSetting.user.dateOfBirth);
       formValues.firstname = props.userSetting.user.firstname;
       formValues.lastname = props.userSetting.user.lastname;
       setAvatarPreview(props.userSetting.user.avatar);
+
+      var currentUser = JSON.parse(sessionStorage.getItem("user"));
+      //currentUser.abc = props.userSetting.user.firstname;
+      //console.log(JSON.parse(currentUser))
+      const updateStorage = {
+        ...currentUser,
+        "firstname": props.userSetting.user.firstname,
+        "lastname": props.userSetting.user.lastname,
+        "avatar": props.userSetting.user.avatar,
+      }
+      sessionStorage.setItem("user", JSON.stringify(updateStorage))
     }
   }, [props.userSetting.user]);
 

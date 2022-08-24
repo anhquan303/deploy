@@ -179,14 +179,14 @@ export function SellerReport(props) {
           <p className={classes.font} style={{ fontWeight: "400", fontSize: "30px" }}>{currentDate}</p>
         </Grid>
 
-        <Grid item xs={6} md={6} style={{ padding: "10px", }}>
+        {/* <Grid item xs={6} md={6} style={{ padding: "10px", }}>
           <SearchBar
             value={searched}
             onChange={(searchVal) => requestSearch(searchVal)}
             onCancelSearch={() => cancelSearch()}
             placeholder="Tìm kiếm báo cáo theo tên"
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={12} style={{ padding: "10px", }}>
           <div className={classes.center} style={{ justifyContent: "right" }}>
             <Button className={classes.btn} variant="outlined" onClick={handleClickOpen}>

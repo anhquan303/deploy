@@ -244,7 +244,7 @@ export function SellerManagerProduct(props) {
             </Grid>
           </Grid>
           <Grid container spacing={0}>
-            <Grid item md={6} sm={12} xs={12} className={classes.search}>
+            {/* <Grid item md={6} sm={12} xs={12} className={classes.search}>
               <div className={classes.center}>
                 <Box
                   component="form"
@@ -261,7 +261,7 @@ export function SellerManagerProduct(props) {
                   />
                 </Box>
               </div>
-            </Grid>
+            </Grid> */}
             <Grid item md={6} sm={12} xs={12} className={classes.priceFrom}>
               <div className={classes.center}>
                 <Box

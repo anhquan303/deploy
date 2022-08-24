@@ -228,7 +228,6 @@ export function FoodDetail(props) {
     }
   }, [props.foodDetail.food]);
 
-  console.log(props.foodDetail.listComment)
   return (
     <div style={{ backgroundColor: "#F3F7F8" }}>
       <Headerr />
@@ -306,16 +305,8 @@ export function FoodDetail(props) {
             <div>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={12} >
-                  {props.foodDetail.food && props.foodDetail.food.foodStore.actived == true ?
-                    <Button
-                      className={classes.btn}
-                      variant="outlined"
-                      onClick={handleAddToCart}
-                      style={{ width: "100%", marginTop: "15px", borderRadius: "5px", color: "#fff" }}
-                    >
-                      Thêm vào giỏ hàng
-                    </Button>
-                    :
+
+                  {props.foodDetail.food && store != null && props.foodDetail.food.foodStore.id === store ?
                     <Button
                       disabled
                       className={classes.btn}
@@ -323,8 +314,29 @@ export function FoodDetail(props) {
                       onClick={handleAddToCart}
                       style={{ width: "100%", marginTop: "15px", borderRadius: "5px", color: "#fff" }}
                     >
-                      Thêm vào giỏ hàng (Cửa hàng đang đóng cửa)
+                      Chủ quán không thể mua hàng
                     </Button>
+
+                    :
+                    props.foodDetail.food && props.foodDetail.food.foodStore.actived == true ?
+                      <Button
+                        className={classes.btn}
+                        variant="outlined"
+                        onClick={handleAddToCart}
+                        style={{ width: "100%", marginTop: "15px", borderRadius: "5px", color: "#fff" }}
+                      >
+                        Thêm vào giỏ hàng
+                      </Button>
+                      :
+                      <Button
+                        disabled
+                        className={classes.btn}
+                        variant="outlined"
+                        onClick={handleAddToCart}
+                        style={{ width: "100%", marginTop: "15px", borderRadius: "5px", color: "#fff" }}
+                      >
+                        Thêm vào giỏ hàng (Cửa hàng đang đóng cửa)
+                      </Button>
                   }
                 </Grid>
               </Grid>
@@ -562,7 +574,7 @@ export function FoodDetail(props) {
             {props.foodDetail.message}
           </Alert>
         </Snackbar>
-      </Container>
+      </Container >
       <Footerr />
     </div >
   );
