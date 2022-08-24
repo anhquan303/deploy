@@ -14,8 +14,8 @@ baseInstance.interceptors.request.use(
             config.headers.Authorization = `Bearer ${token}`;
         }
         config.headers['Content-Type'] = 'application/json';
-        config.headers['x-client-id'] = '4617d689-9bf1-4e09-a90d-d3482bb88f91';
-        config.headers['x-api-key'] = 'c9965d93-e374-4559-aeb1-ab365aa20bae';
+        config.headers['x-client-id'] = '7dbd8f18-019c-4716-b588-2b10211601db';
+        config.headers['x-api-key'] = 'e8711bb8-4117-40ba-a7a8-9da3e8d71516';
         return config;
     },
     error => Promise.reject(error),
