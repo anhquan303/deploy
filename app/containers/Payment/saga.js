@@ -17,7 +17,7 @@ export function* createOrder({ payload }) {
       yield put(createOrderFailed("Đặt hàng không thành công"));
     }
   } catch (error) {
-    yield put(createOrderFailed("Voucher không đủ điều kiện sử dụng hoặc chưa chọn phương thức thanh toán"));
+    yield put(createOrderFailed("Chưa thêm địa chỉ giao hàng, phương thức thanh toán hoặc voucher không đủ điều kiện sử dụng"));
   }
 }
 

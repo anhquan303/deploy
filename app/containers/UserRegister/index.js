@@ -893,7 +893,7 @@ export function UserRegister(props) {
         aria-describedby="modal-modal-description"
 
       >
-        <Box className={classes.modal} style={{ overflowY: "auto", height: "80%", alignContent: "center" }}>
+        <Box className={classes.modal} style={{ overflowY: "auto", height: "80%", alignContent: "center", padding: "15px" }}>
           <Typography
             id="modal-modal-title"
             variant="h6"
@@ -989,6 +989,7 @@ export function UserRegister(props) {
               dịch vụ như thuế, phí đóng gói, phí vận chuyển và các chi phí phát sinh khác thì giá này được hiểu là đã bao gồm mọi
               chi phí liên quan nói trên.
             </p>
+            
           </Typography>
 
         </Box>
@@ -1001,7 +1002,7 @@ export function UserRegister(props) {
         aria-describedby="modal-modal-description"
 
       >
-        <Box className={classes.modal} style={{ overflowY: "auto", height: "80%", alignContent: "center" }}>
+        <Box className={classes.modal} style={{ overflowY: "auto", height: "80%", alignContent: "center", padding: "15px" }}>
           <Typography
             id="modal-modal-title"
             variant="h6"
