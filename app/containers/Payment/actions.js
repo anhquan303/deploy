@@ -188,3 +188,24 @@ export function getDefaultLocationFailed(payload) {
     payload
   };
 }
+
+export function getListVoucherByStoreId(payload) {
+  return {
+    type: types.GET_LIST_VOUCHER_BY_STORE_ID,
+    payload
+  }
+}
+
+export function getListVoucherByStoreIdSuccess(payload) {
+  return {
+    type: types.GET_LIST_VOUCHER_BY_STORE_ID_SUCCESS,
+    payload
+  }
+}
+
+export function getListVoucherByStoreIdFailed(payload) {
+  return {
+    type: types.GET_LIST_VOUCHER_BY_STORE_ID_FAILED,
+    payload
+  }
+}

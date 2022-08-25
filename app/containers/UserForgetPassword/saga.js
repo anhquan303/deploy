@@ -18,7 +18,7 @@ export function* forgetPassword({ payload }) {
 
 export function* verifyEmail({ payload }) {
   try {
-    const res = yield call(apiFetchData, [`https://emailvalidation.abstractapi.com/v1/?api_key=5391a2514e424affa11dc8059c9a94c6&email=${payload.email}`]);
+    const res = yield call(apiFetchData, [`https://emailvalidation.abstractapi.com/v1/?api_key=8018df0b48e445d8b68fb199802e8884&email=${payload.email}`]);
     if (res.status == 200) {
       if (res.data.deliverability == "DELIVERABLE") {
         yield put(verifyEmailSuccess(res.data.deliverability));

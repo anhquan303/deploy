@@ -500,7 +500,7 @@ export function SellerRegister(props) {
             <Tabs
               style={{ margin: '0 auto' }}
               value={value}
-              onChange={handleChangeTab}
+              //onChange={handleChangeTab}
               textColor="primary"
               indicatorColor="primary"
               scrollButtons
@@ -844,6 +844,8 @@ export function SellerRegister(props) {
                 >
                   Lưu và tiếp tục
                 </Button>
+
+                <div style={{ padding: "20px" }}><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
               </div>
             </>
           ) : // page 2
@@ -1047,6 +1049,7 @@ export function SellerRegister(props) {
                             type="file"
                             name="identity_card_back"
                             placeholder="upload an image"
+                            //value={identityCardBack != '' ? identityCardBack.name : null}
                             onChange={handleUploadFile1}
                           />
                         </div>
@@ -1095,6 +1098,11 @@ export function SellerRegister(props) {
                           Lưu và tiếp tục
                         </Button>
                       </Box>
+
+
+                    </Grid>
+                    <Grid item sm={12} xs={12}>
+                      <div style={{ padding: "20px" }}><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
                     </Grid>
                   </Grid>
                 </div>
@@ -1321,9 +1329,31 @@ export function SellerRegister(props) {
                             Tôi đồng ý với <a className={classes.link} onClick={() => setOpenDKDV(true)}>điều khoản dịch vụ</a> và <a className={classes.link} onClick={() => setOpenCSBM(true)}>chính sách bảo mật</a>
                           </label>
                         </label>
+
+
                       </Box>
                     </Grid>
-                    <Grid item sm={12} xs={12}>
+                    <Grid item sm={6} xs={12}>
+                      <Box
+                        component="form"
+                        sx={{
+                          '& .MuiTextField-root': { m: 1, width: '100%' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        <Button
+                          style={{ width: '50%' }}
+                          className={classes.btnBack}
+                          variant="contained"
+                          component="span"
+                          onClick={() => setValue(1)}
+                        >
+                          Quay lại
+                        </Button>
+                      </Box>
+                    </Grid>
+                    <Grid item sm={6} xs={12}>
                       <Box
                         component="form"
                         sx={{
@@ -1344,7 +1374,9 @@ export function SellerRegister(props) {
                           ĐĂNG KÝ
                         </Button>
                       </Box>
+
                     </Grid>
+                    <div style={{ padding: "20px" }}><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
                   </Grid>
                 </div>
               </>

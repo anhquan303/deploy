@@ -137,13 +137,12 @@ export function SellerManagerProduct(props) {
             dollarUSLocale.format(item.price),
             moment.utc(item.createdAt).format('DD/MM/YYYY,  h:mm:ss a'),
             item.type,
-            item.actived,
+            item.actived == true ? "Hoạt động" : "Không hoạt động",
           ),
         ),
       );
     }
   }, [props.sellerManagerProduct.foodList]);
-
 
 
   useEffect(() => {
