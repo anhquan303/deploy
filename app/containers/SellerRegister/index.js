@@ -190,6 +190,7 @@ export function SellerRegister(props) {
   const classes = useStyles();
   const [openDKDV, setOpenDKDV] = useState(false);
   const [openCSBM, setOpenCSBM] = useState(false);
+  const [newMessage, setNewMessage] = useState("");
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -423,6 +424,7 @@ export function SellerRegister(props) {
   const closeModalAlertFailed = () => {
     dispatch(reset());
     setOpenAlertFalse(false);
+    setNewMessage("");
   }
 
   // get list wards and bank
@@ -444,11 +446,21 @@ export function SellerRegister(props) {
 
   useEffect(() => {
     if (props.sellerRegister.message != '') {
-      if (props.sellerRegister.message.includes("500") || props.sellerRegister.message.includes("400") || props.sellerRegister.message.includes("Network Error")) {
+      if (props.sellerRegister.message.includes("Network Error") || props.sellerRegister.message.includes("400")) {
+        setNewMessage("Size ảnh quá 600kb");
+        // setTimeout(() => {
+        //   setNewMessage("")
+        // });
         setOpenAlertFalse(true);
       } else {
-        setOpen(true);
+        if (props.sellerRegister.message.includes("500")) {
+          //setNewMessage("Size ảnh quá 600kb");
+          setOpenAlertFalse(true);
+        } else {
+          setOpen(true);
+        }
       }
+
 
     }
   }, [props.sellerRegister.message]);
@@ -1382,7 +1394,7 @@ export function SellerRegister(props) {
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               <p style={{ fontFamily: 'sans-serif', fontSize: '40px' }}>
-                {props.sellerRegister.message}
+                {props.sellerRegister.message.includes("400") || props.sellerRegister.message.includes("Network") ? newMessage : props.sellerRegister.message}
               </p>
             </Typography>
             <Button
