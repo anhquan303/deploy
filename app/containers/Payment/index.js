@@ -24,7 +24,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import Headerr from '../Headerr';
-import { addLocation, createOrder, createQR, getDefaultLocation, getListLocationByUserId, getListOrderByUserId, getListVoucher, getListWards, reset } from './actions';
+import { addLocation, createOrder, createQR, getDefaultLocation, getListLocationByUserId, getListOrderByUserId, getListVoucher, getListVoucherByStoreId, getListWards, reset } from './actions';
 import { getUser } from '../../utils/common';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -359,6 +359,7 @@ export function Payment(props) {
     dispatch(getListVoucher(data));
     dispatch(reset());
     dispatch(getDefaultLocation());
+    dispatch(getListVoucherByStoreId());
   }, []);
 
 
@@ -438,23 +439,6 @@ export function Payment(props) {
   };
 
   useEffect(() => {
-    // if (props.payment.listLocation) {
-    //   if (props.payment.defaultLocation == undefined) {
-    //     if (props.payment.listLocation.length != 0 && props.payment.listLocation != null) {
-    //       setNameAddress(props.payment.listLocation[0].name);
-    //       setAddress(props.payment.listLocation[0].village);
-    //       setLocationId(props.payment.listLocation[0].id);
-    //     } else {
-    //       setNameAddress("");
-    //       setAddress("");
-    //     }
-    //   } else {
-    //     setNameAddress(props.payment.defaultLocation.name);
-    //     setAddress(props.payment.defaultLocation.village);
-    //     setLocationId(props.payment.defaultLocation.id);
-    //   }
-    // }
-
     if (props.payment.defaultLocationn != undefined) {
       setNameAddress(props.payment.defaultLocationn.name);
       setAddress(props.payment.defaultLocationn.village);
@@ -691,6 +675,10 @@ export function Payment(props) {
                             <MenuItem key={nestItem.id} value={nestItem}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
                           )
                           ) : <span>Không có voucher</span>}
+                          {props.payment.listAllVoucher != [] ? props.payment.listAllVoucher.filter(voucher => voucher.store.id == item.storeId.id && voucher.active == true && voucher.quantity == -1).map(nestItem =>
+                          (
+                            <MenuItem key={nestItem.id} value={nestItem}>Giảm {nestItem.percent}% tối thiểu {dollarUSLocale.format(nestItem.minPrice)}</MenuItem>
+                          )) : null}
                         </Select>
                       </FormControl>
                     </Grid>

@@ -193,7 +193,7 @@ export function UserHomePage(props) {
   const [value, setValue] = useState(0);
   const user = getUser();
   const [type, setType] = useState("");
-  const [limit, setLimit] = useState(20);
+  const [limit, setLimit] = useState(12);
 
   const handleSellerRegister = () => {
     if (user) {
@@ -269,7 +269,7 @@ export function UserHomePage(props) {
   };
 
   const showMoreDocuments = () => {
-    setLimit(limit + 20);
+    setLimit(limit + 12);
   };
 
   return (
@@ -356,7 +356,7 @@ export function UserHomePage(props) {
                     <CardItem
                       foodName={item.name}
                       storeName={item.foodStore.name}
-                      address={item.foodStore.dormLocation == null ? item.foodStore.otherLocation : item.foodStore.dormLocation}
+                      address={item.foodStore.inCampus == false ? item.foodStore.otherLocation : item.foodStore.dormLocation}
                       img={item.image}
                       price={item.price}
                     />

@@ -55,6 +55,11 @@ const useStyles = makeStyles(theme => ({
   link: {
     textDecoration: 'none',
   },
+  toDetail: {
+    "&:hover": {
+      cursor: "pointer"
+    }
+  }
 }));
 export function UserOrderHistory(props) {
   const { dispatch } = props;
@@ -300,6 +305,7 @@ export function UserOrderHistory(props) {
                         xs={12}
                         md={10}
                         sm={12}
+                        className={classes.toDetail}
                         onClick={() => orderDetail(item.id)}
                       >
                         {item1.food.name} <br />x{item1.quantity}

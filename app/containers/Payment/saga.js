@@ -3,7 +3,7 @@ import {
   addLocationFailed,
   addLocationSuccess,
   createOrderFailed, createOrderSuccess, createQRFailed, createQRSuccess, getDefaultLocationFailed, getDefaultLocationSuccess, getListLocationByUserIdFailed,
-  getListLocationByUserIdSuccess, getListOrderByUserIdFailed, getListOrderByUserIdSuccess, getListVoucherFailed, getListVoucherSuccess, getListWardsFailed, getListWardsSuccess
+  getListLocationByUserIdSuccess, getListOrderByUserIdFailed, getListOrderByUserIdSuccess, getListVoucherByStoreIdFailed, getListVoucherByStoreIdSuccess, getListVoucherFailed, getListVoucherSuccess, getListWardsFailed, getListWardsSuccess
 } from './actions';
 import { apiFetchData, apiGetListWards, apiPost } from './api';
 import * as types from './constants';
@@ -101,6 +101,20 @@ export function* getListVoucher({ payload }) {
   }
 }
 
+export function* getListAllVoucher({ payload }) {
+  try {
+    //const res = yield call(apiFetchData, [`api/voucher`]);
+    const res = yield call(apiFetchData, [`api/voucher`]);
+    if (res.status == 200) {
+      yield put(getListVoucherByStoreIdSuccess(res.data.data));
+    } else {
+      yield put(getListVoucherByStoreIdFailed("FAILED"));
+    }
+  } catch (error) {
+    yield put(getListVoucherByStoreIdFailed(error.message));
+  }
+}
+
 export function* getDefaultLocation({ payload }) {
   try {
     const res = yield call(apiFetchData, [`api/location/getDefaultLocation`]);
@@ -130,4 +144,5 @@ export default function* paymentSaga() {
   yield takeEvery(types.GET_LIST_ORDER_BY_USER_ID, getListOrderByUserId);
   yield takeEvery(types.GET_LIST_VOUCHER, getListVoucher);
   yield takeEvery(types.GET_DEFAULT_LOCATION, getDefaultLocation);
+  yield takeEvery(types.GET_LIST_VOUCHER_BY_STORE_ID, getListAllVoucher);
 }
