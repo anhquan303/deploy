@@ -143,6 +143,13 @@ const useStyles = makeStyles(theme => ({
       boxShadow: '2rem 2rem 3rem rgba(132, 139, 200, 0.18)',
     },
   },
+  link: {
+    textDecoration: "none",
+    color: "#FD4444",
+    '&:hover': {
+      cursor: "pointer",
+    },
+  }
 }));
 
 export function SellerRegister(props) {
@@ -181,6 +188,8 @@ export function SellerRegister(props) {
   const [bank, setBank] = useState('');
   const [dorm, setDorm] = useState('');
   const classes = useStyles();
+  const [openDKDV, setOpenDKDV] = useState(false);
+  const [openCSBM, setOpenCSBM] = useState(false);
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -435,7 +444,7 @@ export function SellerRegister(props) {
 
   useEffect(() => {
     if (props.sellerRegister.message != '') {
-      if (props.sellerRegister.message.includes("500") || props.sellerRegister.message.includes("400")) {
+      if (props.sellerRegister.message.includes("500") || props.sellerRegister.message.includes("400") || props.sellerRegister.message.includes("Network Error")) {
         setOpenAlertFalse(true);
       } else {
         setOpen(true);
@@ -1275,7 +1284,7 @@ export function SellerRegister(props) {
                         noValidate
                         autoComplete="off"
                       >
-                        <label style={{ textAlign: 'center', width: '100%' }}>
+                        {/* <label style={{ textAlign: 'center', width: '100%' }}>
                           <FormGroup style={{ margin: '0 auto', width: '65%' }}>
                             <FormControlLabel
                               control={
@@ -1284,6 +1293,21 @@ export function SellerRegister(props) {
                               label="Tôi đồng ý với điều khoản dịch vụ và chính sách bảo mật"
                             />
                           </FormGroup>
+                        </label> */}
+                        <label>
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="123"
+                            onChange={() => setAccept(!accept)}
+                            style={{ marginLeft: '10px' }}
+                          />
+                          <label
+                            className="custom-control-label"
+                            style={{ fontFamily: "sans-serif", marginLeft: "15px", fontSize: "20px" }}
+                          >
+                            Tôi đồng ý với <a className={classes.link} onClick={() => setOpenDKDV(true)}>điều khoản dịch vụ</a> và <a className={classes.link} onClick={() => setOpenCSBM(true)}>chính sách bảo mật</a>
+                          </label>
                         </label>
                       </Box>
                     </Grid>
@@ -1314,6 +1338,7 @@ export function SellerRegister(props) {
               </>
             )}
         </form>
+
         <Modal
           open={open}
           // onClose={() => setOpen(false)}
@@ -1369,6 +1394,241 @@ export function SellerRegister(props) {
             >
               XÁC NHẬN
             </Button>
+          </Box>
+        </Modal>
+
+        <Modal
+          open={openDKDV}
+          onClose={() => setOpenDKDV(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+
+        >
+          <Box className={classes.modal} style={{ overflowY: "auto", height: "80%", alignContent: "center", padding: "15px" }}>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              style={{ marginTop: '10px', fontSize: "35px", textTransform: "uppercase" }}
+            >
+              Điều khoản dịch vụ
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <h3 style={{ color: "#FD4444" }}>GIỚI THIỆU</h3>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Chào mừng bạn đến với hệ thống mua bán đồ ăn No Nê. Trước khi sử dụng hệ thống No Nê hoặc tạo tài khoản No Nê,
+                vui lòng đọc kỹ các Điều Khoản Dịch Vụ dưới đây và Quy Chế Hoạt Động hệ thống mua bán đồ ăn No Nê để hiểu rõ quyền lợi và nghĩa
+                vụ hợp pháp của mình.
+              </p>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Dịch Vụ bao gồm dịch vụ sàn giao dịch trực tuyến kết nối người tiêu dùng với nhau nhằm mang đến cơ hội kinh doanh giữa người mua
+                (“Người Mua”) và người bán (“Người Bán”). Hợp đồng mua bán thật sự là trực tiếp
+                giữa Người Mua và Người Bán. Các Bên liên quan đến giao dịch đó sẽ chịu trách nhiệm đối với hợp đồng mua bán giữa họ, việc đăng bán hàng
+                hóa và tương tự. No Nê không can thiệp vào giao dịch giữa các Người Sử Dụng. No Nê có thể hoặc không sàng lọc trước
+                Người Sử Dụng hoặc Nội Dung hoặc thông tin cung cấp bởi Người Sử Dụng. No Nê bảo lưu quyền loại bỏ bất cứ Nội Dung hoặc thông tin nào không phù hợp hoặc sai tiêu chí.
+                No Nê không bảo đảm cho việc các Người Sử Dụng sẽ thực tế hoàn thành giao dịch. Lưu ý, No Nê sẽ là bên
+                trung gian quản lý tình trạng hàng hóa và mua bán giữa Người Mua và Người Bán, trừ khi Người Mua và Người Bán
+                thể hiện mong muốn tự giao dịch với nhau một cách rõ ràng.
+              </p>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                No Nê bảo lưu quyền từ chối yêu cầu mở Tài Khoản hoặc các truy cập của bạn tới Trang Shopee hoặc Dịch Vụ theo quy định pháp luật và Điều khoản dịch vụ.
+              </p>
+
+              <h3 style={{ color: "#FD4444" }}>QUYỀN RIÊNG TƯ</h3>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Cho phép No Nê thu thập, sử dụng, công bố và/hoặc xử lý các Nội Dung, dữ liệu cá nhân của bạn và Thông Tin Người Sử Dụng như được quy định trong Chính Sách Bảo Mật.
+              </p>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Không tiết lộ các Thông Tin Người Sử Dụng cho bất kỳ bên thứ ba nào, hoặc bằng bất kỳ phương thức nào cho phép bất kỳ bên thứ ba nào
+                được truy cập hoặc sử dụng Thông Tin Người Dùng.
+              </p>
+
+              <h3 style={{ color: "#FD4444" }}>ĐIỀU KHOẢN SỬ DỤNG</h3>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Người Sử Dụng không được phép:
+              </p>
+              <ul>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    tải lên, đăng, truyền tải hoặc bằng cách khác công khai bất cứ Nội Dung nào trái pháp luật, có hại, đe dọa, lạm dụng, quấy rối, gây hoang mang,
+                    lo lắng, xuyên tạc, phỉ báng, xúc phạm, khiêu dâm, bôi nhọ, xâm phạm quyền riêng tư của người khác, gây căm phẫn, hoặc phân biệt chủng tộc, dân tộc
+                    hoặc bất kỳ nội dung không đúng đắn nào khác
+                  </p>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    đăng tải, truyền tin, hoặc bằng bất kỳ hình thức nào khác hiển thị bất kỳ Nội dung nào có sự xuất hiện của người chưa thành niên hoặc sử dụng Dịch vụ
+                    gây tổn hại cho người chưa thành niên dưới bất kỳ hình thức nào
+                  </p>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    khai thác hoặc thu thập bất kỳ thông tin nào liên quan đến Tài Khoản của Người  Sử Dụng khác, bao gồm bất kỳ thông tin hoặc dữ liệu cá nhân nào
+                  </p>
+                </li>
+              </ul>
+
+              <h3 style={{ color: "#FD4444" }}>VI PHẠM ĐIỀU KHOẢN DỊCH VỤ</h3>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}> Việc vi phạm chính sách này có thể dẫn tới một số hành động, bao gồm bất kỳ hoặc tất cả các hành động sau:</p>
+              <ul>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    Xóa danh mục sản phẩm
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    Chấm dứt Tài Khoản
+                  </p>
+                </li>
+              </ul>
+
+              <h3 style={{ color: "#FD4444" }}>HỦY ĐƠN HÀNG, TRẢ HÀNG VÀ HOÀN TIỀN</h3>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Người Mua chỉ có thể hủy đơn hàng trước khi cửa hàng xác nhận đơn hàng.
+              </p>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                No Nê không quản lý việc hủy đơn hàng, hoàn tiền của các đơn hàng tự giao dịch giữa Người Bán và Người Mua.
+              </p>
+
+              <h3 style={{ color: "#FD4444" }}>TRÁCH NHIỆM CỦA NGƯỜI BÁN</h3>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Người Bán phải quản lý và đảm bảo độ chính xác và đầy đủ của các thông tin chẳng hạn liên quan đến giá cả và
+                chi tiết sản phẩm, số lượng sản phẩm và không được phép đăng tải các thông tin không chính xác hoặc gây nhầm lẫn.
+              </p>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Giá sản phẩm được Người Bán toàn quyền quyết định. Giá
+                sản phẩm nên bao gồm toàn bộ số tiền mà Người Mua cần thanh toán (ví dụ: các loại thuế, phí, v.v.) và Người Bán sẽ
+                không yêu cầu Người Mua thanh toán thêm hoặc riêng bất kỳ khoản tiền nào khác. Nếu thông tin giá hàng hóa hoặc dịch
+                vụ niêm yết không thể hiện rõ giá đó đã bao gồm hay chưa bao gồm những chi phí liên quan đến việc mua hàng hóa hoặc
+                dịch vụ như thuế, phí đóng gói, phí vận chuyển và các chi phí phát sinh khác thì giá này được hiểu là đã bao gồm mọi
+                chi phí liên quan nói trên.
+              </p>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Người bán cần thanh toán 5% doanh thu / tháng cho hệ thống No Nê.
+              </p>
+            </Typography>
+
+          </Box>
+        </Modal>
+
+        <Modal
+          open={openCSBM}
+          onClose={() => setOpenCSBM(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+
+        >
+          <Box className={classes.modal} style={{ overflowY: "auto", height: "80%", alignContent: "center", padding: "15px" }}>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              style={{ marginTop: '10px', fontSize: "35px", textTransform: "uppercase" }}
+            >
+              Chính sách bảo mật
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <h3 style={{ color: "#FD4444" }}>KHI NÀO NO NÊ SẼ THU THẬP DỮ LIỆU CÁ NHÂN</h3>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Chúng tôi sẽ/có thể thu thập dữ liệu cá nhân về bạn:
+              </p>
+              <ul>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    khi bạn đăng ký và/hoặc sử dụng Các Dịch Vụ hoặc Nền tảng của chúng tôi, hoặc mở một tài khoản với chúng tôi
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    khi bạn thực hiện các giao dịch thông qua Dịch vụ của chúng tôi
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    khi bạn cung cấp ý kiến phản hồi hoặc gửi khiếu nại cho chúng tôi
+                  </p>
+                </li>
+              </ul>
+
+              <h3 style={{ color: "#FD4444" }}>NO NÊ SẼ THU THẬP NHỮNG DỮ LIỆU GÌ</h3>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Dữ liệu cá nhân mà No Nê có thể thu thập bao gồm:
+              </p>
+              <ul>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    họ tên
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    địa chỉ email
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    ngày sinh
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    tài khoản ngân hàng
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    địa chỉ giao nhận hàng hóa
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    số điện thoại
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    giới tính
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    thông tin sử dụng và giao dịch, bao gồm chi tiết về lịch sử tìm kiếm, giao dịch, quảng cáo và nội dung hiển thị mà tương tác với Nền Tảng, cũng như các sản phẩm và dịch vụ có liên quan của bạn
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    dữ liệu tổng hợp về nội dung người dùng sử dụng.
+                  </p>
+                </li>
+              </ul>
+
+              <h3 style={{ color: "#FD4444" }}>CHÚNG TÔI SỬ DỤNG THÔNG TIN BẠN CUNG CẤP CHO CHÚNG TÔI NHƯ THẾ NÀO</h3>
+              <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                Chúng tôi có thể thu thập, sử dụng, tiết lộ và/hoặc xử lý dữ liệu cá nhân của bạn cho các mục đích sau đây:
+              </p>
+              <ul>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    để xem xét và/hoặc xử lý đơn đăng ký/giao dịch của bạn với chúng tôi hoặc giao dịch hay báo cáo của bạn
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    để thực thi các Điều Khoản Dịch Vụ của chúng tôi hoặc bất kỳ thỏa thuận giấy phép người dùng cuối nào áp dụng
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    để phục vụ mục đích nhận dạng, xác minh, đánh giá pháp lý hoặc để nhận biết khách hàng
+                  </p>
+                </li>
+                <li>
+                  <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
+                    để lập số liệu thống kê và nghiên cứu đáp ứng yêu cầu báo cáo
+                  </p>
+                </li>
+              </ul>
+
+
+            </Typography>
+
           </Box>
         </Modal>
       </div>
