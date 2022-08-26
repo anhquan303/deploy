@@ -63,7 +63,7 @@ export function DashboardStore(props) {
     { id: 'stt', label: 'STT', minWidth: 10, align: 'center' },
     { id: 'name', label: 'Tên quán ăn', minWidth: 100, align: 'center' },
     { id: 'email', label: 'Email', minWidth: 100, align: 'center' },
-    { id: 'slogan', label: 'Slogan', minWidth: 100, align: 'center' },
+    { id: 'phone', label: 'Số điện thoại', minWidth: 100, align: 'center' },
     { id: 'status', label: 'Trạng thái', minWidth: 100, align: 'center' },
     // {
     //   id: 'population',
@@ -88,16 +88,16 @@ export function DashboardStore(props) {
     // },
   ];
 
-  function createData(id, stt, name, email, slogan, status) {
+  function createData(id, stt, name, email, phone, status) {
     //const density = population / size;
-    return { id, stt, name, email, slogan, status };
+    return { id, stt, name, email, phone, status };
   }
 
   const [rows, setRows] = useState([]);
   useEffect(() => {
     if (data) {
       setRows(data.map((item, index) =>
-        createData(item.id, index + 1, item.name, item.email, item.slogan, item.status)
+        createData(item.id, index + 1, item.name, item.email, item.phone, item.status)
       ))
     }
   }, [data])

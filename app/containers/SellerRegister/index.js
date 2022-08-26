@@ -1376,7 +1376,9 @@ export function SellerRegister(props) {
                       </Box>
 
                     </Grid>
-                    <div style={{ padding: "20px" }}><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
+                    <Grid item sm={12} xs={12}>
+                      <div style={{ padding: "20px" }}><a href="/" style={{ textDecoration: "none" }}>Trở về trang chủ</a></div>
+                    </Grid>
                   </Grid>
                 </div>
               </>
