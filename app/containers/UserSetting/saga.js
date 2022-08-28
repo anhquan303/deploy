@@ -43,7 +43,6 @@ export function* updateUser({ payload }) {
       yield put(updateUserFailed('UPDATE FAILED'));
     }
   } catch (error) {
-    console.log(error)
     yield put(updateUserFailed(error.response.data.error));
   }
 }

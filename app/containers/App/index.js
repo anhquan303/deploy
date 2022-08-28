@@ -6,7 +6,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Switch, Route, useLocation, useParams } from 'react-router-dom';
@@ -119,6 +119,11 @@ export default function App() {
   const location = useLocation();
   // let { storeId } = useParams();
   const classes = useStyles();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   const user = getUser();
   return (
@@ -135,11 +140,11 @@ export default function App() {
         {/* {location.pathname != "/login" && location.pathname != "/userRegister" && location.pathname != "/sellerRegister" && location.pathname != "/" && location.pathname != "/myStore"
            && location.pathname != "/managerProduct" && location.pathname != "/managerProduct/addProduct" && user.authorities[0].authority == 'ADMIN' ? */}
         {user != null && user.authorities[0].authority == 'ADMIN' ? (
-          <Grid container spacing={2}>
-            <Grid item sm={12} xs={12} md={2}>
+          <Grid container spacing={0}>
+            <Grid item sm={12} xs={12} md={2} >
               <SideBar />
             </Grid>
-            <div className={classes.down}>
+            <div className={classes.down} >
               <Grid item sm={12} xs={12} md={12}>
                 {/* <DashboardHeader /> */}
                 <Switch>

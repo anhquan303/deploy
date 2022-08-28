@@ -1547,7 +1547,7 @@ export function SellerRegister(props) {
                 chi phí liên quan nói trên.
               </p>
               <p style={{ fontFamily: "sans-serif", textAlign: "left" }}>
-                Người bán cần thanh toán 5% doanh thu / tháng cho hệ thống No Nê.
+                Người bán cần thanh toán 150.000 VND/tháng cho hệ thống No Nê.
               </p>
             </Typography>
 

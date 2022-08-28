@@ -6,7 +6,7 @@ import * as types from './constants';
 
 export function* declineStore({ payload }) {
   try {
-    const res = yield call(apiChangeStatus, [`api/store/${payload.id}/status/declined`]);
+    const res = yield call(apiChangeStatus, [`api/store/${payload.id}/status/locked`], payload.body);
     if (res.status == 200) {
       yield put(declinedStoreSuccess("DECLINED SUCCESS"));
     } else {
@@ -19,7 +19,7 @@ export function* declineStore({ payload }) {
 
 export function* approveStore({ payload }) {
   try {
-    const res = yield call(apiChangeStatus, [`api/store/${payload.id}/status/approved`]);
+    const res = yield call(apiChangeStatus, [`api/store/${payload.id}/status/approved`], payload.body);
     if (res.status == 200) {
       yield put(approvedStoreSuccess("APPROVED SUCCESS"));
     } else {

@@ -310,6 +310,11 @@ export function StoreProfile(props) {
   useEffect(() => {
     if (props.storeProfile.message != "") {
       if (props.storeProfile.message.includes("thành công")) {
+        const data = {
+          id: props.location.state.id,
+          type: type
+        }
+        dispatch(getVoucherByStoreId(data));
         setOpenAlert(true)
         setOpen(false);
         setTimeout(() => {
@@ -597,7 +602,7 @@ export function StoreProfile(props) {
                       <Grid item xs={9} md={10}>
                         <Grid container spacing={0} >
                           <Grid item xs={6} md={6}>
-                            <p style={{ margin: '0', fontSize: "22px", fontWeight: "600", fontFamily: "Montserrat, sans-serif" }}>{item.user.username}</p>
+                            <p style={{ margin: '0', fontSize: "22px", fontWeight: "600", fontFamily: "Montserrat, sans-serif" }}>{item.user.firstname} {item.user.lastname}</p>
                           </Grid>
                           <Grid item xs={6} md={6}>
                             <div>

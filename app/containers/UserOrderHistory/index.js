@@ -236,112 +236,114 @@ export function UserOrderHistory(props) {
           </Tabs>
         </div>
 
-        {data.slice(0).reverse().map((item, index) => (
-          <div
-            key={index}
-            style={{
-              padding: '10px',
-              margin: '10px 0',
-              backgroundColor: "#fff",
-              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
-            }}
-          >
-            <Grid container spacing={0} style={{ padding: '10px' }}>
-              <Grid item xs={12} md={6} sm={12}>
-                <span
+        <div style={{ height: "100vh", overflowY: "scroll" }}>
+          {data.slice(0).reverse().map((item, index) => (
+            <div
+              key={index}
+              style={{
+                padding: '10px',
+                margin: '10px 0',
+                backgroundColor: "#fff",
+                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'
+              }}
+            >
+              <Grid container spacing={0} style={{ padding: '10px' }}>
+                <Grid item xs={12} md={6} sm={12}>
+                  <span
+                    style={{
+                      marginRight: ' 10px',
+                      fontWeight: '400',
+                      fontSize: '20px',
+                    }}
+                  >
+                    <span style={{ cursor: "pointer", color: "#000" }} onClick={() => toStoreProfile(item.store.id)}>{item.store.name}</span>
+
+                  </span>
+                  {/* <Button className={classes.btn} variant="outlined">
+                  Xem Store
+                </Button> */}
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={2}
+                  sm={12}
+                  className={classes.center}
+                  style={{ justifyContent: 'center' }}
+                >
+                  {moment.utc(item.createdAt).format('DD/MM/YYYY')}
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  sm={12}
+                  className={classes.center}
                   style={{
-                    marginRight: ' 10px',
+                    color: '#20D167',
                     fontWeight: '400',
                     fontSize: '20px',
                   }}
                 >
-                  <span style={{ cursor: "pointer", color: "#000" }} onClick={() => toStoreProfile(item.store.id)}>{item.store.name}</span>
 
-                </span>
-                {/* <Button className={classes.btn} variant="outlined">
-                  Xem Store
-                </Button> */}
+                  {item.status == "CANCEL" ? <span style={{ color: "#fe0000" }}> <span style={{ color: '#1168EB' }}>#{item.code} </span> {item.status}</span> : <span style={{ color: "#20D167" }}> <span style={{ color: '#1168EB' }}>#{item.code} </span>{item.status}</span>}
+                </Grid>
               </Grid>
-              <Grid
-                item
-                xs={12}
-                md={2}
-                sm={12}
-                className={classes.center}
-                style={{ justifyContent: 'center' }}
-              >
-                {moment.utc(item.createdAt).format('DD/MM/YYYY')}
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={4}
-                sm={12}
-                className={classes.center}
-                style={{
-                  color: '#20D167',
-                  fontWeight: '400',
-                  fontSize: '20px',
-                }}
-              >
-
-                {item.status == "CANCEL" ? <span style={{ color: "#fe0000" }}> <span style={{ color: '#1168EB' }}>#{item.code} </span> {item.status}</span> : <span style={{ color: "#20D167" }}> <span style={{ color: '#1168EB' }}>#{item.code} </span>{item.status}</span>}
-              </Grid>
-            </Grid>
-            <hr />
-            {item.orderItem_foods.map((item1, index1) => (
-              <div key={index1}>
-                <Grid container spacing={0} style={{ padding: '10px' }}>
-                  <Grid item xs={12} md={6} sm={12}>
-                    <Grid container spacing={0} style={{ padding: '10px' }}>
-                      <Grid item xs={12} md={2} sm={12}>
-                        <Avatar
-                          variant="square"
-                          src={item1.food.image}
-                        />
+              <hr />
+              {item.orderItem_foods.map((item1, index1) => (
+                <div key={index1}>
+                  <Grid container spacing={0} style={{ padding: '10px' }}>
+                    <Grid item xs={12} md={6} sm={12}>
+                      <Grid container spacing={0} style={{ padding: '10px' }}>
+                        <Grid item xs={12} md={2} sm={12}>
+                          <Avatar
+                            variant="square"
+                            src={item1.food.image}
+                          />
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          md={10}
+                          sm={12}
+                          className={classes.toDetail}
+                          onClick={() => orderDetail(item.id)}
+                        >
+                          {item1.food.name} <br />x{item1.quantity}
+                        </Grid>
+                        {item.status != "CANCEL" && item.status == "PAID" ?
+                          <Grid item xs={12} md={12} sm={12}>
+                            <Button
+                              onClick={() => handleComment(item1, item)}
+                              className={classes.btn}
+                              variant="outlined"
+                            >
+                              Đánh giá
+                            </Button>
+                          </Grid> : null}
                       </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        md={10}
-                        sm={12}
-                        className={classes.toDetail}
-                        onClick={() => orderDetail(item.id)}
-                      >
-                        {item1.food.name} <br />x{item1.quantity}
-                      </Grid>
-                      {item.status != "CANCEL" && item.status == "PAID" ?
-                        <Grid item xs={12} md={12} sm={12}>
-                          <Button
-                            onClick={() => handleComment(item1, item)}
-                            className={classes.btn}
-                            variant="outlined"
-                          >
-                            Đánh giá
-                          </Button>
-                        </Grid> : null}
+                    </Grid>
+                    <Grid item xs={12} md={6} sm={12} className={classes.center}>
+                      {dollarUSLocale.format(item1.food.price)} VND
                     </Grid>
                   </Grid>
-                  <Grid item xs={12} md={6} sm={12} className={classes.center}>
-                    {dollarUSLocale.format(item1.food.price)} VND
-                  </Grid>
+                  <hr />
+                </div>
+              ))}
+
+              <Grid container spacing={0} style={{ padding: '10px' }}>
+                <Grid item xs={12} md={6} sm={12}>
+                  {item.qr == true ? <img src={item.qr_code} alt="qrcode" style={{ width: "60%" }} /> : null}
+
                 </Grid>
-                <hr />
-              </div>
-            ))}
-
-            <Grid container spacing={0} style={{ padding: '10px' }}>
-              <Grid item xs={12} md={6} sm={12}>
-                {item.qr == true ? <img src={item.qr_code} alt="qrcode" style={{ width: "60%" }} /> : null}
-
+                <Grid item xs={12} md={6} sm={12} className={classes.center}>
+                  Tổng số tiền: {dollarUSLocale.format(item.total_price)} VND
+                </Grid>
               </Grid>
-              <Grid item xs={12} md={6} sm={12} className={classes.center}>
-                Tổng số tiền: {dollarUSLocale.format(item.total_price)} VND
-              </Grid>
-            </Grid>
-            <hr />
-          </div>
-        ))}
+              <hr />
+            </div>
+          ))}
+        </div>
 
         <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
