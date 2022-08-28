@@ -347,7 +347,7 @@ export function UserHomePage(props) {
         </Grid> */}
 
             <Grid container spacing={2} style={{ marignTop: '10px' }}>
-              {props.userHomePage.foodList.filter(store => store.foodStore.status != "DECLINED" && store.actived == true).slice(0, limit).map((item) => (
+              {props.userHomePage.foodList.filter(store => store.foodStore.status != "DECLINED" && store.foodStore.status != "LOCKED" && store.actived == true).slice(0, limit).map((item) => (
                 <Grid item sm={4} xs={6} md={3} key={item.id} style={{ width: '100%' }}>
                   <Link
                     to={{ pathname: `/food/${item.id}`, state: { item } }}

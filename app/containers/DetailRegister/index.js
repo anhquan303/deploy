@@ -18,7 +18,7 @@ import makeSelectDetailRegister from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { Box, TextField } from '@mui/material';
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Menu, MenuItem } from '@mui/material';
 import { makeStyles, Grid, Button } from '@material-ui/core';
@@ -210,6 +210,26 @@ export function DetailRegister(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const initialValues = { reason: '' };
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [openReason, setOpenReason] = useState(false);
+
+
+  // set value for input
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const validate = values => {
+    const errors = {};
+    if (!values.reason) {
+      errors.reason = 'lý do không được để trống!';
+    }
+    return errors;
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -222,21 +242,46 @@ export function DetailRegister(props) {
     e.preventDefault();
     setAnchorEl(null);
     const data = {
-      id: props.location.state.id
+      id: props.location.state.id,
+      body: {
+        reason: ""
+      }
     }
     dispatch(approvedStore(data));
   }
 
   const declineStore = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
-    const data = {
-      id: props.location.state.id
-    }
-    dispatch(declinedStore(data));
-    setAnchorEl(null);
+    // const data = {
+    //   id: props.location.state.id,
+    //   body: {
+    //     reason: ""
+    //   }
+    // }
+    // dispatch(declinedStore(data));
+    // setAnchorEl(null);
+
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmit(true);
   }
 
+
+  // change status declined store
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      const data = {
+        id: props.location.state.id,
+        body: {
+          reason: formValues.reason
+        }
+      }
+      dispatch(declinedStore(data));
+      setOpenReason(false);
+      setAnchorEl(null);
+    }
+  }, [formErrors]);
 
 
   useEffect(() => {
@@ -252,6 +297,10 @@ export function DetailRegister(props) {
     }
     dispatch(getRegisterById(data));
   }, []);
+
+  const handleCloseReason = () => {
+    setOpenReason(false);
+  };
   return (
     <div style={{ paddingRight: "15px" }}>
       {props.detailRegister.register ? <>
@@ -316,7 +365,7 @@ export function DetailRegister(props) {
                         }}
                       >
                         <MenuItem onClick={approveStore}>Phê duyệt</MenuItem>
-                        <MenuItem onClick={declineStore}>Từ chối</MenuItem>
+                        <MenuItem onClick={() => setOpenReason(true)}>Từ chối</MenuItem>
                       </Menu>
 
                     </Grid>
@@ -363,6 +412,31 @@ export function DetailRegister(props) {
           </div>
         </Box>
       </> : null}
+
+      <Dialog open={openReason} onClose={handleCloseReason}>
+        <DialogTitle>Lý do khóa quán</DialogTitle>
+        <DialogContent>
+
+          <TextField
+            autoFocus
+            margin="dense"
+            id="title"
+            label="Lý do"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={handleChange}
+            name="reason"
+            helperText={formErrors.reason && formValues.reason.length == '' ? formErrors.reason : null}
+            error={formErrors.reason != null && formValues.reason.length == ''}
+          />
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Hủy Bỏ</Button>
+          <Button onClick={declineStore}>Từ chối quán</Button>
+        </DialogActions>
+      </Dialog>
     </div >
   );
 }

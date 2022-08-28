@@ -22,7 +22,7 @@ import { useParams } from 'react-router-dom';
 import DashboardHeader from '../../components/DashboardHeader';
 import ShopImage from '../../images/kinh-nghiem-mo-quan-an-nho-2.jpg';
 
-import { Box, TextField, Menu, MenuItem } from '@mui/material';
+import { Box, TextField, Menu, MenuItem, Dialog, DialogTitle, DialogActions, DialogContent } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { makeStyles, Grid, Button } from '@material-ui/core';
 
@@ -31,7 +31,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { approvedStore, declinedStore, getOrderByStoreId, getStoreById, reset } from './actions';
 import CustomTableResponsive from '../../components/CustomTableResponsive';
-
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const useStyles = makeStyles((theme) => ({
   information_image: {
@@ -300,29 +300,66 @@ export function DetailStore(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  let dollarUSLocale = Intl.NumberFormat('en-US');
   const [data, setData] = useState(props.detailStore.listOrder);
+  const initialValues = { reason: '' };
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [openReason, setOpenReason] = useState(false);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  // set value for input
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const validate = values => {
+    const errors = {};
+    if (!values.reason) {
+      errors.reason = 'lý do không được để trống!';
+    }
+    return errors;
   };
+
 
   const declineStore = (e) => {
+    // e.preventDefault();
+    // const data = {
+    //   id: props.location.state.id,
+    //   body: {
+    //     reason: "khoa"
+    //   }
+    // }
+    // dispatch(declinedStore(data));
+
     e.preventDefault();
-    const data = {
-      id: props.location.state.id
-    }
-    dispatch(declinedStore(data));
-    setAnchorEl(null);
+    setFormErrors(validate(formValues));
+    setIsSubmit(true);
   }
+
+  // change status locked store
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      const data = {
+        id: props.location.state.id,
+        body: {
+          reason: formValues.reason
+        }
+      }
+      dispatch(declinedStore(data));
+      setOpenReason(false);
+    }
+  }, [formErrors]);
 
   const approveStore = (e) => {
     e.preventDefault();
     setAnchorEl(null);
     const data = {
-      id: props.location.state.id
+      id: props.location.state.id,
+      body: {
+        reason: ""
+      }
     }
     dispatch(approvedStore(data));
   }
@@ -374,9 +411,9 @@ export function DetailStore(props) {
       {
         id: item.id,
         foodName: item1.food.name,
-        price: item1.price,
+        price: dollarUSLocale.format(item1.price),
         quantity: item1.quantity,
-        totalPrice: parseInt(item1.price) * parseInt(item1.quantity)
+        totalPrice: dollarUSLocale.format(parseInt(item1.price) * parseInt(item1.quantity))
       }
     )
   }
@@ -392,6 +429,10 @@ export function DetailStore(props) {
     }
   }, [data])
 
+  const handleClose = () => {
+    setOpenReason(false);
+  };
+
   return (
     <div style={{ paddingRight: "15px" }}>
       {props.detailStore.store ?
@@ -406,7 +447,7 @@ export function DetailStore(props) {
                   </div>
                   <div className={classes.content}>
                     <div className={classes.details}>
-                      <p className={classes.text}>{props.detailStore.store.name}</p>
+                      <p className={classes.text} style={{ textAlign: "center" }}>{props.detailStore.store.name}</p>
                     </div>
                   </div>
                 </div>
@@ -445,7 +486,9 @@ export function DetailStore(props) {
                     </Grid>
                     <Grid item sm={4} xs={12} className={classes.zero}>
                       <div className={classes.divCheckIcon} >
-                        <CheckCircleIcon style={{ width: "100%", height: "100%", color: "#5890FF" }} />
+                        {/* <CheckCircleIcon style={{ width: "100%", height: "100%", color: "#5890FF" }} /> */}
+                        {props.detailStore.store.status.includes("APPROVED") ? <CheckCircleIcon style={{ width: "100%", height: "100%", color: "#5890FF" }} />
+                          : <CancelIcon style={{ width: "100%", height: "100%", color: "#fe0000" }} />}
                       </div>
 
                     </Grid>
@@ -453,7 +496,7 @@ export function DetailStore(props) {
 
                       <div className={classes.approved}>
                         {props.detailStore.store.status.includes("APPROVED") ? <p style={{ color: "#20D167" }}>Đang hoạt động</p> : <p style={{ color: "#FE0000" }}>Ngừng hoạt động</p>}
-
+                        {props.detailStore.store && props.detailStore.store.status == "LOCKED" || props.detailStore.store && props.detailStore.store.status == "DECLINED" ? <p style={{ color: "#FE0000", fontSize: "20px", fontFamily: "sans-serif" }}>&#40;{props.detailStore.store.rejectedStores[0].reason}&#41;</p> : null}
                       </div>
 
                     </Grid>
@@ -461,7 +504,7 @@ export function DetailStore(props) {
 
                       <div className={classes.verify}>
                         {props.detailStore.store.status.includes("APPROVED") ?
-                          <Button variant="contained" component="span" className={classes.btnChangeStatus} style={{ width: "fit-content" }} onClick={declineStore}>
+                          <Button variant="contained" component="span" className={classes.btnChangeStatus} style={{ width: "fit-content" }} onClick={() => setOpenReason(true)}>
                             Chuyển trạng thái thành dừng hoạt động
                           </Button>
                           :
@@ -570,6 +613,31 @@ export function DetailStore(props) {
             </Grid>
           </div>
         </> : null}
+
+      <Dialog open={openReason} onClose={handleClose}>
+        <DialogTitle>Lý do khóa quán</DialogTitle>
+        <DialogContent>
+
+          <TextField
+            autoFocus
+            margin="dense"
+            id="title"
+            label="Lý do"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={handleChange}
+            name="reason"
+            helperText={formErrors.reason && formValues.reason.length == '' ? formErrors.reason : null}
+            error={formErrors.reason != null && formValues.reason.length == ''}
+          />
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Hủy Bỏ</Button>
+          <Button onClick={declineStore}>Khóa Quán</Button>
+        </DialogActions>
+      </Dialog>
     </div >
   );
 }
