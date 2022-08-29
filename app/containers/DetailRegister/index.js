@@ -328,7 +328,7 @@ export function DetailRegister(props) {
                           :
                           <>
                             <span>{props.detailRegister.register.dormLocation.dormName}</span>
-                            <span>{props.detailRegister.register.dormLocation.room_number}</span>
+                            <span> {props.detailRegister.register.dormLocation.room_number}</span>
                           </>}
                         </p>
                         <p className={classes.text}>{props.detailRegister.register.phone}</p>
@@ -394,17 +394,17 @@ export function DetailRegister(props) {
                 <Grid item md={4} sm={4} xs={12}>
                   <div style={{ textAlign: "center" }}>
                     <p className={classes.titleText}>Căn cước công dân mặt trước</p>
-                    <img src={props.detailRegister.register.storeImage.identity_card_front} alt="menu" className={classes.detailImg} />
+                    <img src={props.detailRegister.register.storeImage.identity_card_front} alt="can cuoc cong dan mat truoc" className={classes.detailImg} />
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <p className={classes.titleText}>Căn cước công dân mặt sau</p>
-                    <img src={props.detailRegister.register.storeImage.identity_card_back} alt="menu" className={classes.detailImg} />
+                    <img src={props.detailRegister.register.storeImage.identity_card_back} alt="can cuoc cong dan mat sau" className={classes.detailImg} />
                   </div>
                 </Grid>
                 <Grid item md={4} sm={4} xs={12}>
                   <div style={{ textAlign: "center" }}>
                     <p className={classes.titleText}>Chứng nhận thực phẩm sạch</p>
-                    <img src={props.detailRegister.register.storeImage.food_quality_certificate} alt="menu" className={classes.detailImg} />
+                    <img src={props.detailRegister.register.storeImage.food_quality_certificate} alt="chung nhan thuc pham sach" className={classes.detailImg} />
                   </div>
                 </Grid>
               </Grid>

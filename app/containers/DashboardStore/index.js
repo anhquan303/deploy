@@ -19,7 +19,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import CustomTable from '../../components/CustomTable';
-import { getAllStore } from './actions';
+import { getAllStore, reset } from './actions';
 import SearchBar from "material-ui-search-bar";
 import DashboardHeader from '../../components/DashboardHeader';
 import Grid from '@mui/material/Grid';
@@ -38,8 +38,10 @@ export function DashboardStore(props) {
   const action = false;
 
 
+
   useEffect(() => {
     dispatch(getAllStore());
+    dispatch(reset());
   }, [])
 
 
@@ -93,10 +95,11 @@ export function DashboardStore(props) {
     return { id, stt, name, email, phone, status };
   }
 
+
   const [rows, setRows] = useState([]);
   useEffect(() => {
     if (data) {
-      setRows(data.map((item, index) =>
+      setRows(data.filter(store => store.status != "PENDING").map((item, index) =>
         createData(item.id, index + 1, item.name, item.email, item.phone, item.status)
       ))
     }

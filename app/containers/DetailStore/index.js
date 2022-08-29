@@ -22,7 +22,7 @@ import { useParams } from 'react-router-dom';
 import DashboardHeader from '../../components/DashboardHeader';
 import ShopImage from '../../images/kinh-nghiem-mo-quan-an-nho-2.jpg';
 
-import { Box, TextField, Menu, MenuItem, Dialog, DialogTitle, DialogActions, DialogContent } from '@mui/material';
+import { Box, TextField, Menu, MenuItem, Dialog, DialogTitle, DialogActions, DialogContent, Modal } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { makeStyles, Grid, Button } from '@material-ui/core';
 
@@ -284,7 +284,29 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     flexDirection: "column",
     textAlign: "center"
-  }
+  },
+  modal: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "fit-content",
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    backgroundColor: '#fff',
+    textAlign: 'center',
+    overflowY: "scroll",
+    height: "500px"
+  },
+  detailImg: {
+    width: "100%",
+    heigth: "100%",
+    [theme.breakpoints.down("sm")]: {
+      width: "80%",
+      heigth: "80%",
+    },
+  },
 }));
 
 export function DetailStore(props) {
@@ -307,6 +329,7 @@ export function DetailStore(props) {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [openReason, setOpenReason] = useState(false);
+  const [openMoreInfo, setOpenMoreInfo] = useState(false);
 
   // set value for input
   const handleChange = e => {
@@ -368,6 +391,7 @@ export function DetailStore(props) {
     const data = {
       id: props.location.state.id
     }
+
     dispatch(getStoreById(data));
     dispatch(getOrderByStoreId(data));
   }, []);
@@ -433,6 +457,7 @@ export function DetailStore(props) {
     setOpenReason(false);
   };
 
+
   return (
     <div style={{ paddingRight: "15px" }}>
       {props.detailStore.store ?
@@ -445,11 +470,11 @@ export function DetailStore(props) {
                   <div className={classes.avatarImage}>
                     <img src={props.detailStore.store.storeImage.avatar} alt="avatar" className={classes.img} />
                   </div>
-                  <div className={classes.content}>
+                  {/* <div className={classes.content}>
                     <div className={classes.details}>
                       <p className={classes.text} style={{ textAlign: "center" }}>{props.detailStore.store.name}</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               {/* <div className={classes.information_image} style={{ backgroundImage: `url(${props.detailStore.store.storeImage.avatar})` }}>
@@ -478,9 +503,10 @@ export function DetailStore(props) {
                             <span>{props.detailStore.store.dormLocation.room_number}</span>
                           </>}
                         </p>
-                        <p className={classes.text}>{props.detailStore.store.phone}</p>
+                        {/* <p className={classes.text}>{props.detailStore.store.phone}</p> */}
                         <span><h2>Chủ sở hữu: {props.detailStore.store.owner_name}</h2></span>
                         <span><h2>Số điện thoại: {props.detailStore.store.user.phoneNumber}</h2></span>
+                        <span><a style={{ cursor: "pointer", color: "#2C46CD" }} onClick={() => setOpenMoreInfo(true)}>Xem thêm thông tin chi tiết</a></span>
                       </div>
 
                     </Grid>
@@ -556,57 +582,7 @@ export function DetailStore(props) {
               <Grid item md={3} sm={12} xs={12}>
                 <span><h2>Đơn hàng</h2></span>
               </Grid>
-              {/* <Grid item md={9} sm={12} xs={12}  >
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <Grid container spacing={2}>
-                    <Grid item md={4} sm={3} xs={12}>
 
-                      <Box
-                        component="form"
-                        sx={{
-                          '& .MuiTextField-root': { m: 0, width: '100%' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                      >
-                        <DatePicker
-                          label="Từ ngày"
-                          value={value}
-                          onChange={(newValue) => {
-                            setValue(newValue);
-                          }}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item md={4} sm={3} xs={12}>
-                      <Box
-                        component="form"
-                        sx={{
-                          '& .MuiTextField-root': { m: 0, width: '100%' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                      >
-                        <DatePicker
-                          label="đến ngày"
-                          value={value}
-                          onChange={(newValue) => {
-                            setValue(newValue);
-                          }}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item md={4} sm={6} xs={12}>
-                      <Button className={classes.btnSearch} variant="contained" component="span" >
-                        Tìm kiếm
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </LocalizationProvider>
-
-              </Grid> */}
               <Grid item md={12} sm={12} xs={12}>
                 <CustomTableResponsive columns={columns1} data={data} detailPage="store" rows={rows} />
               </Grid>
@@ -638,6 +614,31 @@ export function DetailStore(props) {
           <Button onClick={declineStore}>Khóa Quán</Button>
         </DialogActions>
       </Dialog>
+
+      <Modal
+        open={openMoreInfo}
+        onClose={() => setOpenMoreInfo(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className={classes.modal}>
+          <Grid container spacing={0}>
+            <Grid item md={6} sm={12} xs={12} style={{ padding: "10px" }}>
+              <img src={props.detailStore.store ? props.detailStore.store.storeImage.identity_card_front : null} alt="can cuoc cong dan mat truoc" className={classes.detailImg} />
+            </Grid>
+
+            <Grid item md={6} sm={12} xs={12} style={{ padding: "10px" }}>
+              <img src={props.detailStore.store ? props.detailStore.store.storeImage.identity_card_back : null} alt="can cuoc cong dan mat sau" className={classes.detailImg} />
+            </Grid>
+            <Grid item md={6} sm={12} xs={12} style={{ padding: "10px" }}>
+              <img src={props.detailStore.store ? props.detailStore.store.storeImage.food_quality_certificate : null} alt="chung nhan thuc pham sach" className={classes.detailImg} />
+            </Grid>
+            <Grid item md={6} sm={12} xs={12} style={{ padding: "10px" }}>
+              <img src={props.detailStore.store ? props.detailStore.store.storeImage.menu : null} alt="menu" className={classes.detailImg} />
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
     </div >
   );
 }
