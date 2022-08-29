@@ -178,7 +178,7 @@ export function UserRegister(props) {
     const regexPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
     // const regexEmail = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
     const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
-    const regexPassword = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,15})$/;
+    const regexPassword = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&*.]).{6,15})$/;
     if (!values.userName) {
       errors.userName = 'tài khoản không được để trống!';
     }
@@ -282,7 +282,7 @@ export function UserRegister(props) {
   useEffect(() => {
     if (props.userRegister.message != '') {
       setOpen(true);
-      if (props.userRegister.message == "REGISTER SUCCESSFUL !") {
+      if (props.userRegister.message == "Đăng ký thành công") {
         setTimeout(() => {
           props.history.push('/login');
         }, 2000);
@@ -299,14 +299,14 @@ export function UserRegister(props) {
   useEffect(() => {
     if (props.userRegister.messageOTP != '') {
       setOpenAlertOTP(true);
-      if (props.userRegister.messageOTP == "WE ALREADY SEND VERIFICATION CODE TO YOUR PHONE") {
+      if (props.userRegister.messageOTP == "Chúng tôi đã gửi mã OTP về số điện thoại của quý khách") {
 
         setCheckVerifyPhone(true);
         setTimeout(() => {
           dispatch(reset());
         }, 2000);
       }
-      if (props.userRegister.messageOTP == "SUCCESSFUL") {
+      if (props.userRegister.messageOTP == "Xác thực thành công") {
         setVerifyPhone(false);
         setTimeout(() => {
           dispatch(reset());
@@ -989,7 +989,7 @@ export function UserRegister(props) {
               dịch vụ như thuế, phí đóng gói, phí vận chuyển và các chi phí phát sinh khác thì giá này được hiểu là đã bao gồm mọi
               chi phí liên quan nói trên.
             </p>
-            
+
           </Typography>
 
         </Box>

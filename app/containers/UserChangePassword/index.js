@@ -89,7 +89,7 @@ export function UserChangePassword(props) {
 
   const validate = values => {
     const errors = {};
-    const regexPassword = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,15})$/;
+    const regexPassword = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&*.]).{6,15})$/;
     if (!values.newPassword) {
       errors.newPassword = 'mật khẩu mới không được bỏ trống!';
     }
@@ -140,7 +140,7 @@ export function UserChangePassword(props) {
     if (props.userChangePassword.message != '') {
       setOpenAlert(true);
       setTimeout(() => dispatch(reset()), 2000);
-      if (props.userChangePassword.message == 'CHANGE PASSWORD SUCCESSFUL') {
+      if (props.userChangePassword.message == 'Thay đổi mật khẩu thành công!') {
         setTimeout(() => dispatch(logout()), 2000);
         removeUserSession();
         setTimeout(() => props.history.push('/login'), 2000);

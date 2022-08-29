@@ -38,7 +38,7 @@ export function* updateUser({ payload }) {
     const res = yield call(uploadImage, ['api/user/update'], formData);
 
     if (res.status == 200) {
-      yield put(updateUserSuccess('UPDATE SUCCESS'));
+      yield put(updateUserSuccess('Thay đổi thành công!'));
     } else {
       yield put(updateUserFailed('UPDATE FAILED'));
     }
@@ -64,7 +64,7 @@ export function* sendOTP({ payload }) {
   try {
     const res = yield call(apiSignup, ['auth/sendOTP'], payload);
     if (res.status == 200) {
-      yield put(sendOTPSuccess(res.data.body.message))
+      yield put(sendOTPSuccess("Chúng tôi đã gửi mã đến số điện thoại mới!"))
     } else {
       yield put(sendOTPFailed("FAILED"))
     }
@@ -92,7 +92,7 @@ export function* changePhoneEmail({ payload }) {
   try {
     const res = yield call(apiSignup, ['api/user/updateVerifyInfo'], payload);
     if (res.status == 200) {
-      yield put(updatePhoneEmailSuccess(res.data.body.message))
+      yield put(updatePhoneEmailSuccess("Thay đổi số điện thoại thành công!"))
     } else {
       yield put(updatePhoneEmailFailed("FAILED"))
     }
@@ -124,7 +124,7 @@ export function* sendOTPEmail({ payload }) {
   try {
     const res = yield call(apiSignup, ['api/user/sendEmail'], payload);
     if (res.status == 200) {
-      yield put(sendOTPEmailSuccess(res.data.body.message));
+      yield put(sendOTPEmailSuccess("Chúng tôi đã gửi mã tới địa chỉ email mới!"));
     } else {
       yield put(sendOTPEmailFailed('FAILED'));
     }
@@ -137,7 +137,7 @@ export function* updateEmail({ payload }) {
   try {
     const res = yield call(apiSignup, ['api/user/updateEmail'], payload);
     if (res.status == 200) {
-      yield put(updateEmailSuccess(res.data.body.message));
+      yield put(updateEmailSuccess("Thay đổi email thành công!"));
     } else {
       yield put(updateEmailFailed('FAILED'));
     }

@@ -220,7 +220,7 @@ export function UserForgetPassword(props) {
 
   useEffect(() => {
     if (props.userForgetPassword.message != '') {
-      if (props.userForgetPassword.message == "INVALID") {
+      if (props.userForgetPassword.message == "Không tìm thấy số điện thoại!") {
         setOpenAlert(true);
         setTimeout(() => {
           dispatch(reset());
@@ -231,6 +231,7 @@ export function UserForgetPassword(props) {
       //setOpen(true);
     }
   }, [props.userForgetPassword.message]);
+
 
   useEffect(() => {
     if (props.userForgetPassword.checkEmail != "") {

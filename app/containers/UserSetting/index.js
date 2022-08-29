@@ -195,10 +195,10 @@ export function UserSetting(props) {
     const errors = {};
     const regexPhone = /^[0-9]{10}$/;
     if (!values.newPhone) {
-      errors.newPhone = 'required !';
+      errors.newPhone = 'không được bỏ trống!';
     }
     if (regexPhone.test(values.newPhone) == false) {
-      errors.newPhone1 = '10 số';
+      errors.newPhone1 = 'format: 10 số';
     }
     return errors;
   };
@@ -207,10 +207,10 @@ export function UserSetting(props) {
     const errors = {};
     const regexEmail = /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/;
     if (!values.newEmail) {
-      errors.newEmail = 'required !';
+      errors.newEmail = 'không được bỏ trống!';
     }
     if (regexEmail.test(values.newEmail) == false) {
-      errors.newEmail1 = 'ex: abc@gmail.com';
+      errors.newEmail1 = 'format: abc@gmail.com';
     }
     return errors;
   };
@@ -242,10 +242,9 @@ export function UserSetting(props) {
     }
   }, [formErrors]);
 
-  console.log(props.userSetting.user)
   // get user by id
   useEffect(() => {
-    if (props.userSetting.message == 'UPDATE SUCCESS') {
+    if (props.userSetting.message == 'Thay đổi thành công!') {
       setOpenAlert(true);
       const data = {
         id: user.id,
@@ -253,7 +252,7 @@ export function UserSetting(props) {
       dispatch(getUserById(data));
       setTimeout(() => dispatch(reset()), 3000);
     }
-    if (props.userSetting.message == 'WE ALREADY SEND VERIFICATION CODE TO YOUR PHONE') {
+    if (props.userSetting.message == 'Chúng tôi đã gửi mã đến số điện thoại mới!') {
       setCheckVerifyPhone(true);
       setTimeout(() => {
         dispatch(reset());
@@ -267,6 +266,7 @@ export function UserSetting(props) {
         doesPhoneNumber: true
       }
       dispatch(updatePhoneEmail(data));
+
       setTimeout(() => {
         dispatch(reset());
       }, 3000);
@@ -277,7 +277,7 @@ export function UserSetting(props) {
       }, 3000);
     }
 
-    if (props.userSetting.message == 'WE ALREADY SENT OTP TO YOUR EMAIL ! !') {
+    if (props.userSetting.message == 'Chúng tôi đã gửi mã tới địa chỉ email mới!') {
       setCheckVerifyEmail(true);
       setTimeout(() => {
         dispatch(reset());
@@ -294,7 +294,7 @@ export function UserSetting(props) {
 
 
   useEffect(() => {
-    if (props.userSetting.messageUpdate == 'UPDATE PHONE SUCCESSFUL !') {
+    if (props.userSetting.messageUpdate == 'Thay đổi số điện thoại thành công!') {
       setOpenAlert(true);
       setOpenChange(false);
       const data = {
@@ -303,7 +303,7 @@ export function UserSetting(props) {
       dispatch(getUserById(data));
       setTimeout(() => dispatch(reset()), 3000);
     }
-    if (props.userSetting.messageUpdate == 'UPDATE EMAIL SUCCESSFUL !') {
+    if (props.userSetting.messageUpdate == 'Thay đổi email thành công!') {
       setOpenAlert(true);
       setOpenChangeEmail(false);
       const data = {
@@ -339,6 +339,7 @@ export function UserSetting(props) {
         "firstname": props.userSetting.user.firstname,
         "lastname": props.userSetting.user.lastname,
         "avatar": props.userSetting.user.avatar,
+        "phone": props.userSetting.user.phoneNumber,
       }
       sessionStorage.setItem("user", JSON.stringify(updateStorage))
     }
