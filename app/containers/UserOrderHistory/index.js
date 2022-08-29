@@ -237,7 +237,7 @@ export function UserOrderHistory(props) {
         </div>
 
         <div style={{ height: "100vh", overflowY: "scroll" }}>
-          {data.slice(0).reverse().map((item, index) => (
+          {data.map((item, index) => (
             <div
               key={index}
               style={{
