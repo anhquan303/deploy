@@ -59,7 +59,7 @@ export function* addToCart({ payload }) {
   try {
     const res = yield call(apiPost, [`api/cart/${payload.uid}/add/${payload.fid}`]);
     if (res.status == 200) {
-      yield put(addToCartSuccess('ADD SUCCESS'));
+      yield put(addToCartSuccess('Thêm món ăn thành công!'));
     } else {
       yield put(addToCartFailed('Failed'));
     }

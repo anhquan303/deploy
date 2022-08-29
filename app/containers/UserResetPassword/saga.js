@@ -7,7 +7,11 @@ export function* resetPassword({ payload }) {
   try {
     const res = yield call(apiPost, ['api/user/resetPassword'], payload);
     if (res.status == 200) {
-      yield put(resetPasswordSuccess(res.data.message));
+      if (res.data.message == "INVALID") {
+        yield put(resetPasswordSuccess("Mã OTP sai!"));
+      } else {
+        yield put(resetPasswordSuccess("Thay đổi mật khẩu thành công!"));
+      }
     } else {
       yield put(resetPasswordFailed('Failed'));
     }

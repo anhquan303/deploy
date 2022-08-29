@@ -21,7 +21,7 @@ export function* signUp({ payload }) {
     }
     const res = yield call(apiSignup, ['auth/adduser'], data);
     if (res.status == 200) {
-      yield put(signUpSuccess(res.data.message))
+      yield put(signUpSuccess("Đăng ký thành công"))
     } else {
       yield put(signUpFailed(res.data.message))
     }
@@ -49,7 +49,7 @@ export function* sendOTP({ payload }) {
   try {
     const res = yield call(apiSignup, ['auth/sendOTP'], payload);
     if (res.status == 200) {
-      yield put(sendOTPSuccess(res.data.body.message))
+      yield put(sendOTPSuccess("Chúng tôi đã gửi mã OTP về số điện thoại của quý khách"))
     } else {
       yield put(sendOTPFailed("FAILED"))
     }
@@ -63,7 +63,7 @@ export function* verifyPhone({ payload }) {
   try {
     const res = yield call(apiSignup, ['auth/verifyOTP'], payload);
     if (res.status == 200) {
-      yield put(verifyPhoneSuccess(res.data.body.message))
+      yield put(verifyPhoneSuccess("Xác thực thành công"))
     } else {
       yield put(verifyPhoneFailed("FAILED"))
     }

@@ -20,9 +20,9 @@ export function* login({ payload }) {
     if (res.data.success == true) {
     //if (res.status == 200) {
       setUserSession(res.data.accessToken, res.data.user, res.data.store)
-      yield put(loginSuccess("Login success"))
+      yield put(loginSuccess("Đăng nhập thành công"))
     } else {
-      yield put(loginFailed(res.data.msg))
+      yield put(loginFailed("Sai tài khoản hoặc mật khẩu"))
     }
 
 

@@ -196,7 +196,7 @@ export function UserResetPassword(props) {
   useEffect(() => {
     if (props.userResetPassword.message != '') {
       //setOpen(true);
-      if (props.userResetPassword.message == "INVALID") {
+      if (props.userResetPassword.message == "Mã OTP sai!") {
         setOpenAlert(true);
         setTimeout(() => {
           dispatch(reset())

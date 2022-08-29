@@ -17,7 +17,7 @@ export function* changePassword({ payload }) {
     };
     const res = yield call(apiChangePass, ['api/user/changePassword'], data);
     if (res.status == 200) {
-      yield put(changePasswordSuccess(res.data.message));
+      yield put(changePasswordSuccess("Thay đổi mật khẩu thành công!"));
     } else {
       yield put(changePasswordFailed('Failed'));
     }

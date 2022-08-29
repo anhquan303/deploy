@@ -362,7 +362,6 @@ export function Payment(props) {
     dispatch(getListVoucherByStoreId());
   }, []);
 
-
   useEffect(() => {
     if (props.payment.message.includes("Đặt hàng thành công")) {
       // if (paymentType == "transfer") {
@@ -384,7 +383,7 @@ export function Payment(props) {
       setOpenAlert(true);
       setTimeout(() => dispatch(reset()), 3000);
     }
-    if (props.payment.message.includes("không đủ điều kiện sử dụng hoặc chưa chọn phương thức")) {
+    if (props.payment.message.includes("Chưa thêm địa chỉ giao hàng, phương thức thanh toán hoặc voucher không đủ điều kiện sử dụng")) {
       // const data = {
       //   id: user.id
       // }

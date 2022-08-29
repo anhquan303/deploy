@@ -196,10 +196,10 @@ export function Login(props) {
   const validate = (values) => {
     const errors = {};
     if (!values.userName || values.userName.trim() === "") {
-      errors.userName = "username is required!";
+      errors.userName = "tài khoản không được để trống!";
     }
     if (!values.password) {
-      errors.password = "password is required!";
+      errors.password = "mật khẩu không được để trống!";
     }
     return errors;
   }
@@ -381,7 +381,7 @@ export function Login(props) {
           {/* <Alert severity="success" onClose={handleCloseAlert} sx={{ width: '100%' }}>
             {props.login.message}
           </Alert> */}
-          {props.login.message && props.login.message == "USERNAME OR PASSWORD INVALID  " ?
+          {props.login.message && props.login.message == "Sai tài khoản hoặc mật khẩu" ?
             <Alert severity="error" onClose={handleCloseAlert} sx={{ width: '100%' }}>
               {props.login.message}
             </Alert>

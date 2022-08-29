@@ -7,7 +7,12 @@ export function* forgetPassword({ payload }) {
   try {
     const res = yield call(apiPost, ['api/user/forgotPassword'], payload);
     if (res.status == 200) {
-      yield put(forgetPasswordSuccess(res.data.message));
+      //yield put(forgetPasswordSuccess(res.data.message));
+      if (res.data.message == "INVALID") {
+        yield put(forgetPasswordSuccess("Không tìm thấy số điện thoại!"));
+      } else {
+        yield put(forgetPasswordSuccess("Chúng tôi đã gửi mã otp tới quý khách"));
+      }
     } else {
       yield put(forgetPasswordFailed('FAILED'));
     }
