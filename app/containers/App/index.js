@@ -110,9 +110,10 @@ const useStyles = makeStyles(theme => ({
 const AppWrapper = styled.div`
   margin: 0 auto;
   display: flex;
-  min-height: 100%;
+  height: 100%;
   flex-direction: column;
   font-family: sans-serif;
+  overflow-y: hidden;
 `;
 
 export default function App() {
@@ -241,7 +242,7 @@ export default function App() {
                       <SellerHomePage />
                     </Grid>
 
-                    <Grid item sm={12} xs={12} md={9} style={{ padding: '10px', backgroundColor: '#fff', marginTop: "15px" }}>
+                    <Grid item sm={12} xs={12} md={9} style={{ padding: '10px', backgroundColor: '#fff', marginTop: "15px", height: "fit-content" }}>
                       <Switch>
                         <Route path="/user/setting" component={UserSetting} />
                         <Route exact path="/user/order-history" component={UserOrderHistory} />

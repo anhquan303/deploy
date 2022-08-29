@@ -54,7 +54,7 @@ export function DashboardCustomer(props) {
   const classes = useStyles();
   const action = false;
   const [searched, setSearched] = useState("");
-  const [data, setData] = useState(props.dashboardCustomer.userList);
+  const [data, setData] = useState(props.dashboardCustomer.userList.filter(user => user.username != "admin"));
 
   // const columns = [
   //   { title: "STT", field: "id" },
@@ -83,7 +83,7 @@ export function DashboardCustomer(props) {
   };
 
   useEffect(() => {
-    setData(props.dashboardCustomer.userList);
+    setData(props.dashboardCustomer.userList.filter(user => user.username != "admin"));
   }, [props.dashboardCustomer.userList])
 
   const cancelSearch = () => {

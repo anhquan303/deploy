@@ -33,3 +33,10 @@ export function getAllStoreFailed(payload) {
     payload
   };
 }
+
+export function reset(payload) {
+  return {
+    type: types.RESET,
+    payload
+  };
+}

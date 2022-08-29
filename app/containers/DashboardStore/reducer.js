@@ -30,6 +30,10 @@ const dashboardStoreReducer = (state = initialState, action) =>
         draft.loading = false;
         draft.message = action.payload;
         break;
+      case types.RESET:
+        draft.loading = false;
+        draft.message = "";
+        break;
     }
   });
 
