@@ -18,7 +18,7 @@ export function* userAddCommentFood({ payload }) {
   try {
     const res = yield call(apiPost, [`api/store/food/addcomment`], payload);
     if (res.status == 200) {
-      yield put(userAddCommentFoodSuccess('SUCCESS'));
+      yield put(userAddCommentFoodSuccess('Thêm bình luận thành công'));
     } else {
       yield put(userAddCommentFoodFailed('FAILED'));
     }
@@ -31,7 +31,7 @@ export function* userRatingFood({ payload }) {
   try {
     const res = yield call(apiPost, [`api/store/food/addrating`], payload);
     if (res.status == 200) {
-      yield put(userRatingFoodSuccess('SUCCESS'));
+      yield put(userRatingFoodSuccess('Thêm sao thành công'));
     } else {
       yield put(userRatingFoodFailed('FAILED'));
     }
@@ -59,7 +59,7 @@ export function* userAddCommentStore({ payload }) {
   try {
     const res = yield call(apiPost, [`api/store/addcomment`], payload);
     if (res.status == 200) {
-      yield put(userAddCommentStoreSuccess("thành công"));
+      yield put(userAddCommentStoreSuccess("Thêm bình luận cho cửa hàng thành công"));
     } else {
       yield put(userAddCommentStoreFailed('FAILED'));
     }
@@ -72,7 +72,7 @@ export function* userRatingStore({ payload }) {
   try {
     const res = yield call(apiPost, [`api/store/addrating`], payload);
     if (res.status == 200) {
-      yield put(userRatingStoreSuccess("thành công"));
+      yield put(userRatingStoreSuccess("Thành công"));
     } else {
       yield put(userRatingStoreFailed('FAILED'));
     }

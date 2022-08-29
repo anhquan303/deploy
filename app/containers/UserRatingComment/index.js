@@ -138,7 +138,7 @@ export function UserRatingComment(props) {
 
   useEffect(() => {
     if (props.userRatingComment.message != "") {
-      if (props.userRatingComment.message == "thành công") {
+      if (props.userRatingComment.message == "Thêm bình luận cho cửa hàng thành công") {
         setOpenAlert(true);
         setOpenCommentStore(false);
         setTimeout(() => dispatch(reset()), 2000);
